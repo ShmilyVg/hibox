@@ -1,0 +1,6 @@
+<template name="user-time-view">
+        <view class="flex-row" style="justify-content: space-between">
+            <view>今天</view>
+            <view>20：00</view>
+        </view>
+</template>

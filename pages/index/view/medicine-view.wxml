@@ -1,0 +1,12 @@
+<template name="medicine-view">
+    <view class="flex-row" style="justify-content: space-between;width:100%;background-color: antiquewhite">
+        <view class="flex-row">
+            <view>1</view>
+            <view>2</view>
+        </view>
+        <view class="flex-row">
+            <view>3</view>
+            <view>4</view>
+        </view>
+    </view>
+</template>

@@ -1,13 +1,22 @@
 <!--index.wxml-->
-<view class="container">
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
+<import src="./view/add-view.wxml"></import>
+<import src="./view/medicine-view.wxml"></import>
+<import src="./view/user-time-view.wxml"></import>
+
+<view class="top-view flex-row">
+    <view class="flex-row">
+        <view>avatar</view>
+        <view>我的药盒</view>
+    </view>
+    <view>setting</view>
+</view>
+
+<view class="flex-row top-add">
+    <template is="add-view" wx:for="{{4}}"></template>
+</view>
+
+<template is="user-time-view"></template>
+
+<view class="flex-column">
+    <template is="medicine-view" wx:for="{{4}}"></template>
 </view>

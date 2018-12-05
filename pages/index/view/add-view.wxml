@@ -1,0 +1,7 @@
+<template name="add-view">
+    <view class="flex-column" style="box-shadow: 0 0 10px #f00; width: 100rpx;height: 100rpx">
+        <view class="flex-row">1<view>box</view></view>
+        <view style="background-color: green;height: 10rpx;width: 10rpx"></view>
+        <view style="background-color: green;height: 10rpx;width: 10rpx"></view>
+    </view>
+</template>

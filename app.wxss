@@ -7,4 +7,36 @@
   justify-content: space-between;
   padding: 200rpx 0;
   box-sizing: border-box;
-} 
+}
+
+.flex-column{
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+}
+
+.flex-row{
+  display: flex;
+  align-items: center;
+}
+
+.press-style{
+  opacity: 0.5;
+}
+
+.bottom-btn{
+  width: 610rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  background: rgba(233,233,233,1);
+  border-radius: 50rpx;
+  color: #979797;
+  font-size: 32rpx;
+}
+
+.bottom-btn-origin-color{
+  background: rgba(255,95,0,1);
+  color: #ffffff;
+}
+
