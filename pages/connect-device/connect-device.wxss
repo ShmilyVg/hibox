@@ -1,0 +1,40 @@
+/* pages/connect-device/connect-device.wxss */
+
+.background-view {
+    padding-top: 120rpx;
+    align-items: center;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    position: fixed;
+}
+
+.title-first{
+    width:420rpx;
+    height:84rpx;
+    font-size:60rpx;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:84rpx;
+}
+
+.title-second{
+    margin-top: 2rpx;
+    width:300rpx;
+    height:42rpx;
+    font-size:30rpx;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:42rpx;
+}
+
+.text-bottom{
+    width:284rpx;
+    height:28rpx;
+    font-size:20rpx;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:28rpx;
+    margin-top: 70rpx;
+}

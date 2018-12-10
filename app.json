@@ -1,12 +1,13 @@
 {
   "pages":[
-    "pages/index/index",
-    "pages/logs/logs"
+    "pages/connect-device/connect-device",
+    "pages/bind-device/bind-device",
+    "pages/index/index"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "HiBox",
     "navigationBarTextStyle":"black"
   }
 }

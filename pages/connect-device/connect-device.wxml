@@ -1,0 +1,11 @@
+<!--pages/connect-device/connect-device.wxml-->
+<view class="background-view flex-column" style="background-color: {{backgroundColor}}">
+    <view class="title-first">将药盒靠近手机</view>
+    <view class="title-second">正在努力的寻找药盒…</view>
+    <view wx:if="{{false}}" class="flex-column" style="margin-top: 70rpx">
+        <image src="../../images/device-top.gif" style="width: 346rpx;height: 317rpx"></image>
+        <image src="../../images/device-bottom.png" style="width: 346rpx;height: 430rpx"></image>
+    </view>
+    <image wx:else src="../../images/device-whole.png" style="width: 346rpx;height: 746rpx;margin-top: 70rpx"></image>
+    <view class="text-bottom">HiPee Intelligent Medicine Box</view>
+</view>

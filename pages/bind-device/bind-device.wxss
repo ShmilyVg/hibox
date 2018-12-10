@@ -1,0 +1,26 @@
+/* pages/bind-device/bind-device.wxss */
+
+.device-image{
+    width:346rpx;
+    height:746rpx;
+    margin-top: 137rpx;
+}
+
+.device-text{
+    font-size:20rpx;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    margin-top: 40rpx;
+    opacity: 0.4;
+}
+
+.btn{
+    position: fixed;
+    bottom: 82rpx;
+    background-color: #48C0B1;
+    color: white;
+}
+
+page{
+    background-color: #3E3E3E;
+}
