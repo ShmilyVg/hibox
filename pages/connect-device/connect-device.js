@@ -3,7 +3,8 @@ Page({
 
     data: {
         backgroundColor: '#3E3E3E',
-        index: 0,
+        isFlicker: false,
+        index: 1,
         showContent: [
             {
                 title: '将药盒靠近手机',
@@ -24,8 +25,22 @@ Page({
         wx.setNavigationBarColor({
             frontColor: '#ffffff',
             backgroundColor: this.data.showContent[this.data.index].navigationColor,
-        })
+        });
+        this.flickerHandle();
     },
 
+
+    flickerHandle(){
+        let num = 0;
+        let timer = setInterval(() => {
+            this.setData({
+                isFlicker: !this.data.isFlicker
+            });
+            ++num;
+            if (num === 6) {
+                clearTimeout(timer);
+            }
+        }, 1000);
+    }
 
 })

@@ -6,6 +6,8 @@
         <image src="../../images/device-top.gif" style="width: 346rpx;height: 317rpx"></image>
         <image src="../../images/device-bottom.png" style="width: 346rpx;height: 430rpx"></image>
     </view>
-    <image wx:else src="../../images/device-whole.png" style="width: 346rpx;height: 746rpx;margin-top: 70rpx"></image>
+    <image wx:else src="../../images/device-whole.png" style="width: 346rpx;height: 746rpx;margin-top: 70rpx;position: relative;">
+        <image wx:if="{{isFlicker}}" src="../../images/device-flicker.png" class="flicker"></image>
+    </image>
     <view class="text-bottom">HiPee Intelligent Medicine Box</view>
 </view>

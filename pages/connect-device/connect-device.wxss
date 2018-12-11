@@ -28,11 +28,18 @@
 }
 
 .text-bottom{
-    width:284rpx;
     height:28rpx;
     font-size:20rpx;
     font-weight:400;
     color:rgba(255,255,255,1);
     line-height:28rpx;
     margin-top: 70rpx;
+}
+
+.flicker{
+    position: absolute;
+    width: 346rpx;
+    height: 140rpx;
+    top: 0;
+    left: 0;
 }
