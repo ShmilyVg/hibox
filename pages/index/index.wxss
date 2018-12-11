@@ -1,14 +1,29 @@
 /**index.wxss**/
 .top-view{
-  width: 100%;
-  height: 500rpx;
-  background-color: lightblue;
+  height: 310rpx;
+  background-color: #67D5B8;
   justify-content: space-between;
+  padding: 0 30rpx;
 }
 
 .top-add{
   width: 100%;
   justify-content: space-around;
+  position: absolute;
+  top: 218rpx;
+}
+
+.avatar{
+  width:120rpx;
+  height:120rpx;
+  border-radius: 50%;
+  background-color: red;
+}
+
+.set{
+  width:50rpx;
+  height:47rpx;
+  background-color: red;
 }
 
 .windows{

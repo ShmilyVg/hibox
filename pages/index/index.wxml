@@ -5,20 +5,22 @@
 
 <view class="top-view flex-row">
     <view class="flex-row">
-        <view>avatar</view>
-        <view>我的药盒</view>
+        <view class="avatar"></view>
+        <view style="margin-left: 30rpx;color: white;">
+            <view style="font-size: 40rpx">我的药盒</view>
+            <view style="font-size: 30rpx">连接中</view>
+        </view>
     </view>
-    <view>setting</view>
+    <view class="set"></view>
 </view>
 
 <view class="flex-row top-add">
     <template is="add-view" wx:for="{{4}}"></template>
 </view>
 
-<template is="user-time-view"></template>
-
-<view class="flex-column">
+<view class="flex-column" style="position: absolute;top: 576rpx;width: 100%">
+    <template is="user-time-view"></template>
     <template is="medicine-view" wx:for="{{4}}"></template>
 </view>
 
-<view class="windows"></view>
+<!--<view class="windows"></view>-->

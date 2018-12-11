@@ -29,7 +29,6 @@ Page({
         this.flickerHandle();
     },
 
-
     flickerHandle(){
         let num = 0;
         let timer = setInterval(() => {
@@ -42,5 +41,4 @@ Page({
             }
         }, 1000);
     }
-
 })

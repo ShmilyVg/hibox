@@ -1,8 +1,8 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/bind-device/bind-device",
     "pages/connect-device/connect-device",
+    "pages/bind-device/bind-device",
     "pages/connect-err/connect-err"
   ],
   "window":{

@@ -1,7 +1,14 @@
 <template name="add-view">
-    <view class="flex-column" style="box-shadow: 0 0 10px #f00; width: 100rpx;height: 100rpx">
-        <view class="flex-row">1<view>box</view></view>
-        <view style="background-color: green;height: 10rpx;width: 10rpx"></view>
-        <view style="background-color: green;height: 10rpx;width: 10rpx"></view>
+    <view class="flex-column"
+          style="box-shadow:0px 0px 15px 9px rgba(141,232,220,0.3); width: 163rpx;height: 296rpx;background-color: white">
+        <view class="flex-row">
+            <view style="font-size: 80rpx">1</view>
+            <view class="flex-column">
+                <view style="font-size: 20rpx;">box</view>
+                <view style="color: white;height: 50rpx"></view>
+            </view>
+        </view>
+        <view style="background-color: green;height: 90rpx;width: 90rpx"></view>
+        <view style="background-color: palegoldenrod;height: 50rpx;width: 50rpx"></view>
     </view>
 </template>
