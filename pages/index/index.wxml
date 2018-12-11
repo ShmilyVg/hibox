@@ -20,3 +20,5 @@
 <view class="flex-column">
     <template is="medicine-view" wx:for="{{4}}"></template>
 </view>
+
+<view class="windows"></view>

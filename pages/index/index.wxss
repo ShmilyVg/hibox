@@ -10,3 +10,13 @@
   width: 100%;
   justify-content: space-around;
 }
+
+.windows{
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  position: fixed;
+  background-color: black;
+  opacity: 0.7;
+}

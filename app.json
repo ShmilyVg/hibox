@@ -1,8 +1,9 @@
 {
   "pages":[
-    "pages/connect-device/connect-device",
+    "pages/index/index",
     "pages/bind-device/bind-device",
-    "pages/index/index"
+    "pages/connect-device/connect-device",
+    "pages/connect-err/connect-err"
   ],
   "window":{
     "backgroundTextStyle":"light",
