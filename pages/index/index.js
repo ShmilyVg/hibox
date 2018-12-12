@@ -6,8 +6,20 @@ Page({
         boxColor: ['#68D5B8', '#8FC25E', '#9F92D6', '#8CA5DC']
     },
     onLoad: function () {
-        Protocol.medicalRecordList({device_id: '123456'}).then(data => {
-            console.log(data);
+        let that = this;
+        wx.getStorage({
+            key: 'userInfo',
+            success(res) {
+                that.setData({
+                    userInfo: res.data
+                })
+            }
+        });
+
+        Protocol.medicalRemindList({device_id: '123456'}).then(data => {
+            this.setData({
+                list: data.result
+            })
         })
 
     },
