@@ -1,6 +1,9 @@
 /* pages/add-drug/input-drug/input-drug.wxss */
 @import "../title-layout.wxss";
+@import "../choose-color.wxss";
+
 .input-drug-input-style{
+    width: 690rpx;
     align-self: flex-start;
     margin-left: 29rpx;
     font-size:40rpx;
@@ -14,4 +17,15 @@
     font-weight:500;
     color:rgba(196,217,216,1);
     line-height:47rpx;
+}
+
+.input-drug-items{
+    padding: 14rpx 33rpx;
+    border: 1rpx solid #E3F4F4;
+    border-radius: 30rpx;
+    font-size: 32rpx;
+    font-weight: 500;
+    line-height: 47rpx;
+    margin-right: 16rpx;
+    flex-wrap: wrap;
 }
