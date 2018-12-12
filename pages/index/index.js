@@ -1,13 +1,38 @@
 //index.js
+import Protocol from "../../modules/network/protocol";
+
 Page({
     data: {
         boxColor: ['#68D5B8', '#8FC25E', '#9F92D6', '#8CA5DC']
     },
     onLoad: function () {
+        let that = this;
+        wx.getStorage({
+            key: 'userInfo',
+            success(res) {
+                that.setData({
+                    userInfo: res.data
+                })
+            }
+        });
+
+        Protocol.medicalRemindList({device_id: '123456'}).then(data => {
+            this.setData({
+                list: data.result
+            })
+        })
+
     },
-    clickPhoto(e) {
-        let index = e.currentTarget.dataset.index;
+
+    clickTopAdd(e) {
+        let index = this.getIndexNum(e);
         console.log(index);
+    },
+
+    clickPhoto(e) {
+        let index = this.getIndexNum(e);
+        console.log(index);
+        let that = this;
         if (false) {
             wx.chooseImage({
                 count: 1, // 默认9
@@ -35,11 +60,27 @@ Page({
                 itemList: ['查看', '修改'],
                 success(res) {
                     console.log(res.tapIndex)
+                    if(res.tapIndex == 1){
+                        that.reviseContent(index);
+                    }
                 },
                 fail(res) {
                     console.log(res.errMsg)
                 }
             })
         }
+    },
+
+    reviseContent(index){
+        console.log('修改');
+    },
+
+    toSet() {
+        console.log('toSet');
+    },
+
+    getIndexNum(e) {
+        return e.currentTarget.dataset.index
     }
+
 })
