@@ -10,8 +10,8 @@ export default class Protocol {
         return Network.request({url: 'drug/classify'});
     }
 
-    static getDrugItems({name}) {
-        return Network.request({url: 'drug/items', data: {classify: name}});
+    static getDrugItems({type}) {
+        return Network.request({url: 'drug/items', data: {classify: type}});
     }
 
     static medicalRecordList({device_id}) {
