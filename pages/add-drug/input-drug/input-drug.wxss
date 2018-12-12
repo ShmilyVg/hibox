@@ -1,1 +1,2 @@
 /* pages/add-drug/input-drug/input-drug.wxss */
+@import "../title-layout.wxss";
