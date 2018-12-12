@@ -14,8 +14,8 @@ export default class Protocol {
         return Network.request({url: 'drug/items', data: {classify: type}});
     }
 
-    static medicalRecordList({device_id}) {
-        return Network.request({url: 'medical/record/list', data: {device_id: device_id}});
+    static medicalRemindList({device_id}) {
+        return Network.request({url: 'medical/remind/list', data: {device_id: device_id}});
     }
 
 
