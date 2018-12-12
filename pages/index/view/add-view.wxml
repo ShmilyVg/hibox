@@ -5,7 +5,7 @@
             <view style="font-size: 80rpx;line-height: 80rpx">{{index+1}}</view>
             <view style="font-size: 20rpx;">box</view>
         </view>
-        <image wx:if="{{false}}" src="../../images/medicine{{index+1}}.png" style="height: 90rpx;width: 90rpx;margin-top: 16rpx"></image>
+        <image wx:if="{{item}}" src="../../images/medicine{{index+1}}.png" style="height: 90rpx;width: 90rpx;margin-top: 16rpx"></image>
         <view wx:else style="font-size: 40rpx;height: 90rpx;width: 90rpx;margin-top: 16rpx;text-align: center;line-height: 90rpx">空</view>
         <image src="../../images/add-icon.png" style="background-color: {{boxColor[index]}};height: 50rpx;width: 50rpx;border-radius: 50%;margin-top: 17rpx"></image>
     </view>

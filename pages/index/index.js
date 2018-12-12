@@ -18,7 +18,13 @@ Page({
             }
         });
 
-        Protocol.medicalRemindList({device_id: '123456'}).then(data => {
+        Protocol.getMedicalRemindInfo().then(data => {
+            this.setData({
+                box: data.result
+            })
+        });
+
+        Protocol.getMedicalRemindList().then(data => {
             this.setData({
                 list: data.result
             })
