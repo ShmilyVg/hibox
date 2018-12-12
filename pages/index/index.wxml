@@ -22,7 +22,7 @@
 
 <view class="flex-column" style="position: absolute;top: 576rpx;width: 100%">
     <template is="user-time-view"></template>
-    <template is="medicine-view" wx:for="{{4}}"></template>
+    <template is="medicine-view" wx:for="{{4}}" data="{{index}}"></template>
 </view>
 
 <!--<view class="windows"></view>-->
