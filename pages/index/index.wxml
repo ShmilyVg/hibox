@@ -22,12 +22,12 @@
 
 <view style="position: absolute;top: 576rpx;width: 100%">
     <view class="flex-column" wx:if="{{list['now'].length}}">
-        <template is="user-time-view"></template>
+        <template is="user-time-view" data="{{title:'现在',time:list['now'][0].remind_time}}"></template>
         <template is="medicine-view" wx:for="{{list['now']}}" data="{{num:0,index,item,boxColor}}"></template>
     </view>
 
     <view class="flex-column" wx:if="{{list['future'].length}}">
-        <template is="user-time-view"></template>
+        <template is="user-time-view" data="{{title:'今日即将',time:list['future'][0].remind_time}}"></template>
         <template is="medicine-view" wx:for="{{list['future']}}" data="{{num:1,index,item,boxColor}}"></template>
     </view>
 </view>
