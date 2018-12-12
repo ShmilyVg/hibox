@@ -4,6 +4,7 @@ import Protocol from "../../modules/network/protocol";
 Page({
     data: {
         boxColor: ['#68D5B8', '#8FC25E', '#9F92D6', '#8CA5DC'],
+        popupShow: false,
         listText: ['now', 'future']
     },
     onLoad: function () {
@@ -74,7 +75,8 @@ Page({
 
     reviseContent(index) {
         this.setData({
-            choseIndex: index
+            choseIndex: index,
+            popupShow: true,
         });
     },
 

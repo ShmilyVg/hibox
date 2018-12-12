@@ -2,6 +2,7 @@
 <import src="./view/add-view.wxml" xmlns:wx="http://www.w3.org/1999/XSL/Transform"></import>
 <import src="./view/medicine-view.wxml"></import>
 <import src="./view/user-time-view.wxml"></import>
+<import src="./view/popup.wxml"></import>
 
 <view class="top-view">
     <view class="flex-row" style="justify-content: space-between;width: 100%">
@@ -31,5 +32,7 @@
         <template is="medicine-view" wx:for="{{list['future']}}" data="{{num:1,index,item,boxColor}}"></template>
     </view>
 </view>
+
+<template wx:if="{{popupShow}}" is="popup" data="{{item:list[listText[choseIndex[0]]][choseIndex[1]],boxColor}}"></template>
 
 <!--<view class="windows"></view>-->

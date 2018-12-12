@@ -1,13 +1,13 @@
-<template name="index-popup">
+<template name="popup">
     <view class="index-popup">
         <view class="popup-box">
-            <view class="popup-num">
-                <view class="popup-num-text">1</view>
+            <view class="popup-num" style="background: {{boxColor[item.compartment-1]}}">
+                <view class="popup-num-text">{{item.compartment}}</view>
                 <view class="popup-num-unit">box</view>
             </view>
-            <view class="popup-name">克拉霉素缓释150片 冲剂胶囊</view>
-            <button class="popup-btn-revise">修改一下</button>
-            <button class="popup-btn-notake">不在服用</button>
+            <view class="popup-name">{{item.drug_name}}</view>
+            <button class="popup-btn-revise" bindtap="reviseBtnClick">修改一下</button>
+            <button class="popup-btn-notake" bindtap="notakeBtnClick">不在服用</button>
         </view>
     </view>
 </template>
