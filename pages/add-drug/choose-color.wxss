@@ -1,0 +1,18 @@
+.add-drug-item-normal{
+    background-color: #E3F4F4;
+}
+
+.add-drug-item-click{
+    background-color: #68D5B8;
+}
+.add-drug-item-title-color-normal{
+    color:rgba(138,180,178,1);
+}
+
+.add-drug-item-subtitle-color-normal{
+    color:rgba(169,201,199,1);
+}
+
+.add-drug-item-title-color-click{
+    color: #ffffff;
+}

@@ -1,4 +1,11 @@
 <import src="../title-layout.wxml"></import>
 <view class="flex-column" style="width: 100%;">
     <template is="title-layout"></template>
+    <view style="margin-top: 84rpx;"></view>
+    <view wx:for="{{3}}" wx:key="index" bindtap="typeChooseEvent" class="flex-column add-drug-choose-type-item {{item.selected?'add-drug-item-click':'add-drug-item-normal'}}" style="justify-content: center">
+        <text class="add-drug-choose-type-item-title {{item.selected?'add-drug-item-title-color-click':'add-drug-item-title-color-normal'}}">慢性病药品</text>
+        <text class="add-drug-choose-type-item-subtitle {{item.selected?'add-drug-item-title-color-click':'add-drug-item-subtitle-color-normal'}}">高血压、糖尿病等药物</text>
+
+    </view>
+
 </view>
