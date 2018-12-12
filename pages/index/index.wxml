@@ -12,7 +12,7 @@
                 <view style="font-size: 30rpx">连接中</view>
             </view>
         </view>
-        <image src="../../images/set.png" class="set"></image>
+        <image src="../../images/set.png" class="set" bindtap="toSet"></image>
     </view>
 </view>
 
@@ -22,7 +22,7 @@
 
 <view class="flex-column" style="position: absolute;top: 576rpx;width: 100%">
     <template is="user-time-view"></template>
-    <template is="medicine-view" wx:for="{{4}}" data="{{index}}"></template>
+    <template is="medicine-view" wx:for="{{14}}" data="{{index}}"></template>
 </view>
 
 <!--<view class="windows"></view>-->

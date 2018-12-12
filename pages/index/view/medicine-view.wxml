@@ -13,7 +13,7 @@
             <image src="../../images/photo.png" style="width: 70rpx;height: 70rpx;border-radius: 50%;background-color: white"></image>
             <view style="align-items: flex-end;display: flex">
                 <view style="font-size: 40rpx;margin-left: 24rpx">X</view>
-                <view style="font-size: 100rpx;margin-left: 5rpx;line-height: 100rpx">4</view>
+                <view style="font-size: 100rpx;margin-left: 12rpx;line-height: 100rpx">4</view>
             </view>
         </view>
     </view>
