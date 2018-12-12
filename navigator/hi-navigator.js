@@ -19,8 +19,11 @@ export default class HiNavigator {
         wx.redirectTo({url, success, fail, complete})
     }
 
-    static navigateToInputDrugPage({name}) {
-        this.navigateTo({url: '/pages/add-drug/input-drug/input-drug?name=' + name});
+    static navigateToInputDrugPage({type, step, count}) {
+        this.navigateTo({url: `/pages/add-drug/input-drug/input-drug?type=${type}&step=${step}&count=${count}`});
     }
 
+    static navigateToDrugNumberPage({type, name, step, count}) {
+        this.navigateTo({url: `/pages/add-drug/number/number?type=${type}&name=${name}&step=${step}&count=${count}`})
+    }
 }
