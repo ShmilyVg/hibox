@@ -28,13 +28,16 @@ text,div{
 }
 
 .bottom-btn{
+  position: absolute;
+  left: 64rpx;
+  bottom: 78rpx;
   width: 610rpx;
   height: 100rpx;
   line-height: 100rpx;
   text-align: center;
   background: rgba(104,213,184,1);
   border-radius: 50rpx;
-  color: #A9C9C7;
+  color: white;
   font-size: 36rpx;
 }
 
