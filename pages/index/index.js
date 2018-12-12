@@ -32,6 +32,7 @@ Page({
     clickPhoto(e) {
         let index = this.getIndexNum(e);
         console.log(index);
+        let that = this;
         if (false) {
             wx.chooseImage({
                 count: 1, // 默认9
@@ -59,12 +60,19 @@ Page({
                 itemList: ['查看', '修改'],
                 success(res) {
                     console.log(res.tapIndex)
+                    if(res.tapIndex == 1){
+                        that.reviseContent(index);
+                    }
                 },
                 fail(res) {
                     console.log(res.errMsg)
                 }
             })
         }
+    },
+
+    reviseContent(index){
+        console.log('修改');
     },
 
     toSet() {
