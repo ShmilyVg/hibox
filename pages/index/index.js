@@ -3,7 +3,8 @@ import Protocol from "../../modules/network/protocol";
 
 Page({
     data: {
-        boxColor: ['#68D5B8', '#8FC25E', '#9F92D6', '#8CA5DC']
+        boxColor: ['#68D5B8', '#8FC25E', '#9F92D6', '#8CA5DC'],
+        listText: ['now', 'future']
     },
     onLoad: function () {
         let that = this;

@@ -20,9 +20,16 @@
     <template is="add-view" wx:for="{{4}}" data-index="{{index}}" data="{{boxColor,index}}"></template>
 </view>
 
-<view class="flex-column" style="position: absolute;top: 576rpx;width: 100%">
-    <template is="user-time-view"></template>
-    <template is="medicine-view" wx:for="{{list}}" data="{{index,item,boxColor}}"></template>
+<view style="position: absolute;top: 576rpx;width: 100%">
+    <view class="flex-column" wx:if="{{list['now'].length}}">
+        <template is="user-time-view"></template>
+        <template is="medicine-view" wx:for="{{list['now']}}" data="{{num:0,index,item,boxColor}}"></template>
+    </view>
+
+    <view class="flex-column" wx:if="{{list['future'].length}}">
+        <template is="user-time-view"></template>
+        <template is="medicine-view" wx:for="{{list['future']}}" data="{{num:1,index,item,boxColor}}"></template>
+    </view>
 </view>
 
 <!--<view class="windows"></view>-->
