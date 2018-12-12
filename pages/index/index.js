@@ -1,12 +1,24 @@
 //index.js
+import Protocol from "../../modules/network/protocol";
+
 Page({
     data: {
         boxColor: ['#68D5B8', '#8FC25E', '#9F92D6', '#8CA5DC']
     },
     onLoad: function () {
+        Protocol.medicalRecordList({device_id: '123456'}).then(data => {
+            console.log(data);
+        })
+
     },
+
+    clickTopAdd(e) {
+        let index = this.getIndexNum(e);
+        console.log(index);
+    },
+
     clickPhoto(e) {
-        let index = e.currentTarget.dataset.index;
+        let index = this.getIndexNum(e);
         console.log(index);
         if (false) {
             wx.chooseImage({
@@ -41,5 +53,14 @@ Page({
                 }
             })
         }
+    },
+
+    toSet() {
+        console.log('toSet');
+    },
+
+    getIndexNum(e) {
+        return e.currentTarget.dataset.index
     }
+
 })
