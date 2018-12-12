@@ -1,1 +1,21 @@
 @import "../title-layout.wxss";
+@import "../choose-color.wxss";
+
+.add-drug-choose-type-item{
+    width:647rpx;
+    height:165rpx;
+    border-radius:83rpx;
+    margin: 17rpx 0;
+}
+
+.add-drug-choose-type-item-title{
+    font-size:40rpx;
+    font-weight:bold;
+    line-height:47rpx;
+}
+
+.add-drug-choose-type-item-subtitle{
+    font-size:30rpx;
+    font-weight:500;
+    line-height:47rpx;
+}

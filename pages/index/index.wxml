@@ -3,24 +3,26 @@
 <import src="./view/medicine-view.wxml"></import>
 <import src="./view/user-time-view.wxml"></import>
 
-<view class="top-view flex-row">
-    <view class="flex-row">
-        <view class="avatar"></view>
-        <view style="margin-left: 30rpx;color: white;">
-            <view style="font-size: 40rpx">我的药盒</view>
-            <view style="font-size: 30rpx">连接中</view>
+<view class="top-view">
+    <view class="flex-row" style="justify-content: space-between;width: 100%">
+        <view class="flex-row">
+            <view class="avatar"></view>
+            <view style="margin-left: 30rpx;color: white;">
+                <view style="font-size: 40rpx">我的药盒</view>
+                <view style="font-size: 30rpx">连接中</view>
+            </view>
         </view>
+        <image src="../../images/set.png" class="set"></image>
     </view>
-    <view class="set"></view>
 </view>
 
 <view class="flex-row top-add">
-    <template is="add-view" wx:for="{{4}}"></template>
+    <template is="add-view" wx:for="{{4}}" data-index="{{index}}" data="{{boxColor,index}}"></template>
 </view>
 
 <view class="flex-column" style="position: absolute;top: 576rpx;width: 100%">
     <template is="user-time-view"></template>
-    <template is="medicine-view" wx:for="{{4}}"></template>
+    <template is="medicine-view" wx:for="{{4}}" data="{{index}}"></template>
 </view>
 
 <!--<view class="windows"></view>-->
