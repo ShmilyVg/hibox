@@ -1,4 +1,7 @@
 /**app.wxss**/
+text,div{
+  font-family: PingFang-SC-Bold;
+}
 .container {
   height: 100%;
   display: flex;

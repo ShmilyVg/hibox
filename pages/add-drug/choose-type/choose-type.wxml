@@ -1,0 +1,4 @@
+<import src="../title-layout.wxml"></import>
+<view class="flex-column" style="width: 100%;">
+    <template is="title-layout"></template>
+</view>

@@ -1,9 +1,12 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/bind-device/bind-device",
     "pages/connect-device/connect-device",
-    "pages/connect-err/connect-err"
+    "pages/bind-device/bind-device",
+    "pages/connect-err/connect-err",
+    "pages/add-drug/choose-type/choose-type",
+    "pages/add-drug/input-drug/input-drug",
+    "pages/add-drug/number/number"
   ],
   "window":{
     "backgroundTextStyle":"light",
