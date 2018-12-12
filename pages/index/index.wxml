@@ -17,7 +17,7 @@
 </view>
 
 <view class="flex-row top-add">
-    <template is="add-view" wx:for="{{4}}" data="{{boxColor,index}}"></template>
+    <template is="add-view" wx:for="{{4}}" data-index="{{index}}" data="{{boxColor,index}}"></template>
 </view>
 
 <view class="flex-column" style="position: absolute;top: 576rpx;width: 100%">

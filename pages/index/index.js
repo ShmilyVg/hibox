@@ -7,7 +7,7 @@ Page({
     },
     onLoad: function () {
     },
-    clickPhoto() {
+    clickPhoto(e) {
         wx.chooseImage({
             count: 1, // 默认9
             sizeType: ['compressed'],
