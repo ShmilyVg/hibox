@@ -1,3 +1,5 @@
 {
-  "navigationBarTitleText": "药盒"
+  "navigationBarTitleText": "药盒",
+  "navigationBarBackgroundColor": "#67D5B8",
+  "navigationBarTextStyle": "light"
 }
