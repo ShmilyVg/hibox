@@ -1,5 +1,4 @@
 import Protocol from "./protocol";
-import HiNavigator from "../../navigator/hi-navigator";
 
 export default class UserInfo {
     static get() {

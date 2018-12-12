@@ -1,4 +1,4 @@
-const PostUrl = 'https://backend.stage.hipee.cn/hipee-web-hibreath/';
+const PostUrl = 'https://backend.stage.hipee.cn/hipee-web-hibox/';
 export {
     PostUrl,
 };
