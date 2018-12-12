@@ -60,7 +60,7 @@ Page({
                 itemList: ['查看', '修改'],
                 success(res) {
                     console.log(res.tapIndex)
-                    if(res.tapIndex == 1){
+                    if (res.tapIndex == 1) {
                         that.reviseContent(index);
                     }
                 },
@@ -71,8 +71,10 @@ Page({
         }
     },
 
-    reviseContent(index){
-        console.log('修改');
+    reviseContent(index) {
+        this.setData({
+            choseIndex: index
+        });
     },
 
     toSet() {
