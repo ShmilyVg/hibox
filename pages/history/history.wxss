@@ -1,0 +1,18 @@
+/* pages/history/popup.wxss */
+page{
+    background: #67D5B8;
+}
+.history-content{
+    width: 100%;
+    height: 100%;
+}
+.history-hint{
+    width: 100%;
+    height: 79rpx;
+    color: #fff;
+    font-size: 30rpx;
+    line-height: 79rpx;
+    padding-left: 40rpx;
+    background: rgba(0,0,0,0.3);
+}
+

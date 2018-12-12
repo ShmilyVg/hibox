@@ -18,9 +18,10 @@ export default class Network {
                 method: 'POST',
                 success: res => {
                     const {data} = res;
-                    console.log('协议正常', url, data);
                     if (!!data && 1 === data.code) {
+                        console.log('协议正常', url, res);
                         resolve(data);
+                        return;
                     } else if (data.code === 9) {
                         setTimeout(() => {
                             _queue[url] = requestObj;
@@ -28,6 +29,7 @@ export default class Network {
                         }, 2000);
                         return;
                     }
+                    console.log('协议错误', url, res);
                     reject(res);
                 },
                 fail: (res) => {

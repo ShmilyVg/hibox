@@ -1,0 +1,4 @@
+<!--pages/history/popup.wxml-->
+<view class="history-content">
+    <view class="history-hint">记录待同步</view>
+</view>

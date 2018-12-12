@@ -26,11 +26,11 @@ Page({
         this.setData(obj);
     },
 
-    nextSecondStep() {
+    nextStep() {
         const drugTypes = this.data.drugTypes;
         const selectedItem = drugTypes.filter(item => item.selected);
         if (selectedItem.length) {
-            HiNavigator.navigateToInputDrugPage({name: selectedItem[0].name});
+            HiNavigator.navigateToInputDrugPage({type: selectedItem[0].name, step: 2, count: 3});
         } else {
             Toast.warn('请选择种类');
         }

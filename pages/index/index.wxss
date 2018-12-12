@@ -1,4 +1,6 @@
 /**index.wxss**/
+@import "./view/popup.wxss";
+
 .top-view{
   height: 270rpx;
   background-color: #67D5B8;
