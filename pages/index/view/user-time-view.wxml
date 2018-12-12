@@ -1,6 +1,6 @@
 <template name="user-time-view">
     <view class="flex-row" style="justify-content: space-between;width: 690rpx">
         <view style="font-size: 50rpx;color: #698B89;">今天</view>
-        <view style="font-size: 60rpx;color: #698B89;">20：00</view>
+        <view style="font-size: 60rpx;color: #698B89;">20:00</view>
     </view>
 </template>

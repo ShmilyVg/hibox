@@ -1,14 +1,11 @@
 <template name="add-view">
     <view class="flex-column"
-          style="box-shadow:0px 0px 15px 9px rgba(141,232,220,0.3); width: 163rpx;height: 296rpx;background-color: white">
-        <view class="flex-row">
-            <view style="font-size: 80rpx">1</view>
-            <view class="flex-column">
-                <view style="font-size: 20rpx;">box</view>
-                <view style="color: white;height: 50rpx"></view>
-            </view>
+          style="box-shadow:0px 0px 15px 9px rgba(141,232,220,0.3); width: 163rpx;height: 296rpx;background-color: white;border-radius: 32rpx">
+        <view style="align-content: flex-start;display: flex;margin-top: 25rpx;color: {{boxColor[index]}};">
+            <view style="font-size: 80rpx;line-height: 80rpx">{{index+1}}</view>
+            <view style="font-size: 20rpx;">box</view>
         </view>
-        <view style="background-color: green;height: 90rpx;width: 90rpx"></view>
-        <view style="background-color: palegoldenrod;height: 50rpx;width: 50rpx"></view>
+        <image src="../../images/medicine{{index+1}}.png" style="height: 90rpx;width: 90rpx;margin-top: 16rpx"></image>
+        <image src="../../images/add-icon.png" style="background-color: {{boxColor[index]}};height: 50rpx;width: 50rpx;border-radius: 50%;margin-top: 20rpx"></image>
     </view>
 </template>

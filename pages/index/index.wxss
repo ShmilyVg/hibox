@@ -1,9 +1,10 @@
 /**index.wxss**/
 .top-view{
-  height: 310rpx;
+  height: 270rpx;
   background-color: #67D5B8;
-  justify-content: space-between;
-  padding: 0 30rpx;
+  padding: 40rpx 30rpx 0;
+  display: flex;
+  align-items: flex-start;
 }
 
 .top-add{
@@ -23,7 +24,6 @@
 .set{
   width:50rpx;
   height:47rpx;
-  background-color: red;
 }
 
 .windows{
