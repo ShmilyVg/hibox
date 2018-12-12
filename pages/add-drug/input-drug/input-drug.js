@@ -1,64 +1,40 @@
 // pages/add-drug/input-drug/input-drug.js
+import HiNavigator from "../../../navigator/hi-navigator";
+import Toast from "../../../view/toast";
+import Protocol from "../../../modules/network/protocol";
+
 Page({
 
-    /**
-     * 页面的初始数据
-     */
-    data: {},
+    data: {
+        stepStr: '',
+        name: '',
+        drugs: []
+    },
+    onLoad(options) {
+        const {type, step, count} = options;
+        this.setData({
+            type,
+            step,
+            count,
+            stepStr: `${step}/${count}`
+        });
 
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad: function (options) {
-
+        Protocol.getDrugItems({type}).then(data => {
+            const {result: drugs} = data;
+            this.setData({drugs});
+        });
+    },
+    inputDrugNameEvent(e) {
+        console.log(e);
+        const value = e.detail.value.trim();
+        !!value && (this.data.name = value);
     },
 
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload: function () {
-
-    },
-
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function () {
-
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function () {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function () {
-
+    nextStep() {
+        if (!!this.data.name) {
+            HiNavigator.navigateToDrugNumberPage({...this.data});
+        } else {
+            Toast.warn('请输入药名');
+        }
     }
-})
+});

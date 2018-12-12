@@ -1,2 +1,17 @@
 /* pages/add-drug/input-drug/input-drug.wxss */
 @import "../title-layout.wxss";
+.input-drug-input-style{
+    align-self: flex-start;
+    margin-left: 29rpx;
+    font-size:40rpx;
+    font-weight:bold;
+    color:rgba(104,213,184,1);
+    line-height:47rpx;
+}
+
+.input-drug-placeholder-style{
+    font-size:40rpx;
+    font-weight:500;
+    color:rgba(196,217,216,1);
+    line-height:47rpx;
+}
