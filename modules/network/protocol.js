@@ -22,4 +22,8 @@ export default class Protocol {
         return Network.request({url: "medical/remind/info"});
     }
 
+    static getMedicalRemindImage({id, image_url}) {
+        return Network.request({url: 'medical/remind/image', data: {id: id, image_url: image_url}});
+    }
+
 }

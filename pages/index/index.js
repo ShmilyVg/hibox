@@ -1,5 +1,7 @@
 //index.js
 import Protocol from "../../modules/network/protocol";
+import * as config from "../../utils/config";
+import toast from "../../view/toast";
 
 Page({
     data: {
@@ -17,7 +19,10 @@ Page({
                 })
             }
         });
+        this.getBaseInfo();
+    },
 
+    getBaseInfo() {
         Protocol.getMedicalRemindInfo().then(data => {
             this.setData({
                 box: data.result
@@ -29,7 +34,6 @@ Page({
                 list: data.result
             })
         })
-
     },
 
     clickTopAdd(e) {
@@ -41,36 +45,28 @@ Page({
         let index = this.getIndexNum(e);
         console.log(index);
         let that = this;
-        let image = that.data.list[that.data.listText[index[0]]].image_url;
-        if (typeof(image) == "undefined") {
-            wx.chooseImage({
-                count: 1, // 默认9
-                sizeType: ['compressed'],
-                sourceType: ['album', 'camera'],
-                success: function (res) {
-                    // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-                    let tempFilePaths = res.tempFilePaths;
-                    let member = that.data.member;
-                    member.head_url = tempFilePaths;
-                    console.log('当前头像URL:', tempFilePaths[0]);
-                    // 上传图片
-                    // wx.uploadFile({
-                    //     success: function (res) {
-                    //     },
-                    //     fail: function (e) {
-                    //     },
-                    //     complete: function (e) {
-                    //     }
-                    // })
-                }
-            })
+        let item = that.data.list[that.data.listText[index[0]]][index[1]];
+        let image = item.image_url;
+        if (typeof (image) == "undefined") {
+            that.chooseImage(that, item);
         } else {
             wx.showActionSheet({
                 itemList: ['查看', '修改'],
                 success(res) {
                     console.log(res.tapIndex)
-                    if (res.tapIndex == 1) {
-                        that.reviseContent(index);
+                    switch (res.tapIndex) {
+                        case 0:
+                            wx.previewImage({
+                                urls: [image] // 需要预览的图片http链接列表
+                            });
+                            break;
+                        case 1:
+                            that.chooseImage(that, item);
+                            // that.setData({
+                            //     choseIndex: index,
+                            //     popupShow: true,
+                            // });
+                            break;
                     }
                 },
                 fail(res) {
@@ -80,11 +76,36 @@ Page({
         }
     },
 
-    reviseContent(index) {
-        this.setData({
-            choseIndex: index,
-            popupShow: true,
-        });
+    chooseImage(that, item) {
+        wx.chooseImage({
+            count: 1,
+            sizeType: ['compressed'],
+            sourceType: ['album', 'camera'],
+            success: function (res) {
+                toast.showLoading();
+                let path = res.tempFilePaths[0];
+                wx.uploadFile({
+                    url: config.UploadUrl,
+                    filePath: path,
+                    name: path,
+                    success: function (res) {
+                        console.log(res);
+                        let data = res.data;
+                        let image = JSON.parse(data).result.path;
+                        Protocol.getMedicalRemindImage({
+                            id: item.id, image_url: image
+                        }).then(data => {
+                            that.getBaseInfo();
+                            toast.hiddenLoading();
+                        })
+                    },
+                    fail: function (e) {
+                    },
+                    complete: function (e) {
+                    }
+                })
+            }
+        })
     },
 
     toSet() {
