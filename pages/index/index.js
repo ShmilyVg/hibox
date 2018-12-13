@@ -1,6 +1,7 @@
 //index.js
 import Protocol from "../../modules/network/protocol";
 import * as config from "../../utils/config";
+import toast from "../../view/toast";
 
 Page({
     data: {
@@ -21,7 +22,7 @@ Page({
         this.getBaseInfo();
     },
 
-    getBaseInfo(){
+    getBaseInfo() {
         Protocol.getMedicalRemindInfo().then(data => {
             this.setData({
                 box: data.result
@@ -47,33 +48,7 @@ Page({
         let item = that.data.list[that.data.listText[index[0]]][index[1]];
         let image = item.image_url;
         if (typeof (image) == "undefined") {
-            wx.chooseImage({
-                count: 1, // 默认9
-                sizeType: ['compressed'],
-                sourceType: ['album', 'camera'],
-                success: function (res) {
-                    let path = res.tempFilePaths[0];
-                    wx.uploadFile({
-                        url: config.UploadUrl,
-                        filePath: path,
-                        name: path,
-                        success: function (res) {
-                            console.log(res);
-                            let data = res.data;
-                            let image = JSON.parse(data).result.path;
-                            Protocol.getMedicalRemindImage({
-                                id: item.id, image_url: image
-                            }).then(data => {
-                                that.getBaseInfo();
-                            })
-                        },
-                        fail: function (e) {
-                        },
-                        complete: function (e) {
-                        }
-                    })
-                }
-            })
+            that.chooseImage(that, item);
         } else {
             wx.showActionSheet({
                 itemList: ['查看', '修改'],
@@ -86,10 +61,11 @@ Page({
                             });
                             break;
                         case 1:
-                            that.setData({
-                                choseIndex: index,
-                                popupShow: true,
-                            });
+                            that.chooseImage(that, item);
+                            // that.setData({
+                            //     choseIndex: index,
+                            //     popupShow: true,
+                            // });
                             break;
                     }
                 },
@@ -98,6 +74,38 @@ Page({
                 }
             })
         }
+    },
+
+    chooseImage(that, item) {
+        wx.chooseImage({
+            count: 1,
+            sizeType: ['compressed'],
+            sourceType: ['album', 'camera'],
+            success: function (res) {
+                toast.showLoading();
+                let path = res.tempFilePaths[0];
+                wx.uploadFile({
+                    url: config.UploadUrl,
+                    filePath: path,
+                    name: path,
+                    success: function (res) {
+                        console.log(res);
+                        let data = res.data;
+                        let image = JSON.parse(data).result.path;
+                        Protocol.getMedicalRemindImage({
+                            id: item.id, image_url: image
+                        }).then(data => {
+                            that.getBaseInfo();
+                            toast.hiddenLoading();
+                        })
+                    },
+                    fail: function (e) {
+                    },
+                    complete: function (e) {
+                    }
+                })
+            }
+        })
     },
 
     toSet() {
