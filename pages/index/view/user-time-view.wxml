@@ -1,6 +1,6 @@
 <template name="user-time-view">
-    <view class="flex-row" style="justify-content: space-between;width: 690rpx;margin-top: 65rpx;margin-bottom: 20rpx">
-        <view style="font-size: 50rpx;color: #698B89;">{{title}}</view>
-        <view style="font-size: 60rpx;color: #698B89;">{{time}}</view>
+    <view class="flex-row" style="justify-content: space-between;width: 690rpx;margin-top: 65rpx;margin-bottom: 20rpx;color: #698B89;">
+        <view style="font-size: 50rpx">{{title}}</view>
+        <view style="font-size: 60rpx">{{time}}</view>
     </view>
 </template>

@@ -29,7 +29,7 @@
 
     <view class="flex-column" wx:if="{{list['future'].length}}">
         <template is="user-time-view" data="{{title:'今日即将',time:list['future'][0].remind_time}}"></template>
-        <template is="medicine-view" wx:for="{{list['future']}}" data="{{num:1,index,item,boxColor}}"></template>
+        <template is="medicine-view" wx:for="{{list['future']}}" data="{{num:1,index,item,boxColor,backgroundColor:'#E8F4F4'}}"></template>
     </view>
 </view>
 

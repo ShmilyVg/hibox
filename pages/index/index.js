@@ -61,7 +61,6 @@ Page({
             wx.showActionSheet({
                 itemList: ['查看', '修改'],
                 success(res) {
-                    console.log(res.tapIndex)
                     switch (res.tapIndex) {
                         case 0:
                             wx.previewImage({
@@ -93,7 +92,6 @@ Page({
                     filePath: path,
                     name: path,
                     success: function (res) {
-                        console.log(res);
                         let data = res.data;
                         let image = JSON.parse(data).result.path;
                         Protocol.getMedicalRemindImage({
