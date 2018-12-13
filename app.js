@@ -8,5 +8,6 @@ App({
     },
     globalData: {
         userInfo: {nickname: '', headUrl: '', id: 0},
+        addOrEditDrugObj: {deviceId: '', compartment: 1, classify: '', drugName: '', items: []}
     }
 });

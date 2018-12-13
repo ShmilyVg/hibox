@@ -1,3 +1,5 @@
+import DrugRuler from "./drug-ruler";
+
 Page({
 
     data: {
@@ -19,15 +21,21 @@ Page({
         }
     },
     onLoad(options) {
-        let {number, piece} = options;
-        number = parseInt(number) || 1;
-        piece = parseInt(piece) || 1;
+        let number = 3, piece = 1, list;
+        // &number=${drugDayCount}&piece=${drugPiece}&compartment=${compartment}
+        const {items, compartment} = getApp().globalData.addOrEditDrugObj;
+        if (!!items && !!items.length) {
+            number = items.length;
+            piece = items[0].number;
+            list = DrugRuler.convertServerListToLocalList({items});
+        }
         this.setData(
             {
                 ...options,
                 number,
                 piece,
-                list: this.getList({ruler: this.data.ruler, number, piece}),
+                compartment,
+                list: list || DrugRuler.getList({ruler: this.data.ruler, number, piece}),
                 numberArray: this.getArray(9),
                 pieceArray: this.getArray(99)
             }
@@ -36,7 +44,7 @@ Page({
 
     numberAllChooseEvent(e) {
         const number = this.getChooseNumberTypeValue(e);
-        this.setData({list: this.getList({...this.data, number}), number});
+        this.setData({list: DrugRuler.getList({...this.data, number}), number});
     },
 
     timeItemChooseEvent(e) {
@@ -44,13 +52,13 @@ Page({
         const {detail: {value}} = e;
         const data = this.data;
         const obj = {};
-        obj[`list[${data.selectedItemIndex}]`] = {...data.list[data.selectedItemIndex], ...this.getFinalItemExpectPiece(value)};
+        obj[`list[${data.selectedItemIndex}]`] = {...data.list[data.selectedItemIndex], ...DrugRuler.getFinalItemExpectPiece(value)};
         this.setData(obj);
     },
 
     pieceAllChooseEvent(e) {
         const piece = this.getChooseNumberTypeValue(e);
-        this.setData({list: this.getList({...this.data, piece}), piece});
+        this.setData({list: DrugRuler.getList({...this.data, piece}), piece});
     },
 
     pieceItemChooseEvent(e) {
@@ -67,12 +75,6 @@ Page({
         })
     },
 
-    getList({ruler, number, piece}) {
-        return ruler[number].map(item => {
-            return {...this.getFinalItemExpectPiece(item), piece};
-        });
-    },
-
     onUnload() {
 
     },
@@ -81,6 +83,7 @@ Page({
         const {detail: {value}} = e;
         return (parseInt(value) || 0) + 1;
     },
+
     getArray(length) {
         const array = [];
         for (let i = 0; i < length; i++) {
@@ -89,32 +92,11 @@ Page({
         return array;
     },
 
-    getDayPart(hour) {
-        let part = 'night';
-        if (hour < 12) {
-            part = 'morning';
-        } else if (hour < 18) {
-            part = 'afternoon';
-        }
-        return part;
-    },
 
-    getFinalItemExpectPiece(hourAndMinute) {
-        const hour = parseInt(hourAndMinute.slice(0, 2));
-        const minute = parseInt(hourAndMinute.slice(-2));
-        return {timestamp: hour * 3600 + minute * 60, time: hourAndMinute, dayPart: this.getDayPart(hour)};
-    },
     nextStep() {
-        console.log(this.getConvertList());
+        console.log(DrugRuler.getConvertToBLEList({...this.data}));
+        console.log(DrugRuler.getConvertToServerList({...this.data}));
     },
 
-    getConvertList() {
-        const {list: {length}, drugNumber} = this.data;
-        return this.data.list.sort(function (item1, item2) {
-            return item1.timestamp - item2.timestamp;
-        }).map((item, timeIndex) => {
-            return {drugNumber: parseInt(drugNumber) || 1, length, timeIndex, timestamp: item.timestamp,};
-        })
-    }
 });
 

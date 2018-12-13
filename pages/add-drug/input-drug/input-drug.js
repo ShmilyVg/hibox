@@ -7,13 +7,13 @@ Page({
 
     data: {
         drugs: [],
-        name: ''
+        drugName: ''
     },
     onLoad(options) {
-        const {type, step, count, drugNumber} = options;
-        this.setData({type, step, count, drugNumber});
+        const {classify, step, count} = options;
+        this.setData({classify, step, count});
 
-        Protocol.getDrugItems({type}).then(data => {
+        Protocol.getDrugItems({classify}).then(data => {
             const {result: drugs} = data;
             this.setData({drugs});
         });
@@ -23,14 +23,14 @@ Page({
         const {currentTarget: {dataset: {index}}} = e;
         const obj = this.getAfterClearSelectedObj();
         obj[`drugs[${index}].selected`] = true;
-        obj['name'] = this.data.drugs[index].name;
+        obj['drugName'] = this.data.drugs[index].drugName;
         this.setData(obj);
     },
 
     lostFocusEvent(e) {
         console.log(e);
         const value = e.detail.value.trim();
-        !!value && (this.data.name = value);
+        !!value && (this.data.drugName = value);
     },
 
     startInputEvent() {
@@ -44,10 +44,10 @@ Page({
     },
 
     nextStep() {
-        if (!!this.data.name) {
+        if (!!this.data.drugName) {
             HiNavigator.navigateToDrugNumberPage({...this.data});
         } else {
-            this.setData({name: ''});
+            this.setData({drugName: ''});
             Toast.warn('请输入药名');
         }
     }
