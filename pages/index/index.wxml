@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<import src="./view/add-view.wxml" xmlns:wx="http://www.w3.org/1999/XSL/Transform"></import>
+<import src="./view/add-view.wxml"></import>
 <import src="./view/medicine-view.wxml"></import>
 <import src="./view/user-time-view.wxml"></import>
 <import src="./view/popup.wxml"></import>
