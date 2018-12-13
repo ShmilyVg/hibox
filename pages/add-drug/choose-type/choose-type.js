@@ -30,7 +30,7 @@ Page({
         const drugTypes = this.data.drugTypes;
         const selectedItem = drugTypes.filter(item => item.selected);
         if (selectedItem.length) {
-            HiNavigator.navigateToInputDrugPage({
+            HiNavigator.navigateToEditDrugPage({
                 classify: selectedItem[0].name,
                 step: 2,
                 count: 3
