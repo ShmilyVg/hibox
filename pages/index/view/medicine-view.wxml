@@ -1,6 +1,6 @@
 <template name="medicine-view">
     <view class="flex-row"
-          style="justify-content: space-between;width:650rpx;height:170rpx;border-radius:32rpx;background-color: {{num?'#E8F4F4':boxColor[item.compartment-1]}};margin: 10rpx 0;padding: 0 37rpx 0 25rpx"
+          style="justify-content: space-between;width:650rpx;height:170rpx;border-radius:32rpx;background-color: {{num?backgroundColor:boxColor[item.compartment-1]}};margin: 10rpx 0;padding: 0 37rpx 0 25rpx"
           bindtap="clickPhoto" data-index="{{[num,index]}}">
         <view class="flex-row">
             <view style="position: relative">
