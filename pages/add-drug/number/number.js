@@ -42,8 +42,8 @@ Page({
                 pieceArray: this.getArray(99)
             }
         );
-        getApp().setBLEListener({
-            receiveDataListener: ({finalResult, state}) => {
+        getApp().setCommonBLEListener({
+            appReceiveDataListener: ({finalResult, state}) => {
                 if (BlueToothState.SEND_ALERT_TIME_RESULT === state.protocolState) {
                     if (finalResult.isSetSingleAlertItemSuccess) {
                         if (!!this.dataForBLE.length) {

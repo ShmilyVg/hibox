@@ -32,9 +32,9 @@ export default class BlueToothProtocol {
                 };
             },
             '0x75': ({dataArray}) => {
-                const isEatDrug = BlueToothProtocol.hexArrayToNum(dataArray.slice(0, 1)) === 1;
+                const isEat = BlueToothProtocol.hexArrayToNum(dataArray.slice(0, 1)) === 1;
                 const timestamp = BlueToothProtocol.hexArrayToNum(dataArray.slice(1));
-                return {state: BlueToothState.QUERY_EAT_DRUG_STATE, dataAfterProtocol: {isEatDrug, timestamp}};
+                return {state: BlueToothState.QUERY_EAT_DRUG_STATE, dataAfterProtocol: {isEat, timestamp}};
             },
             //由设备发出的电量和版本号
             // '0x76': ({dataArray}) => {

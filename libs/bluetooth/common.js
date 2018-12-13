@@ -15,7 +15,7 @@ const obj = {
                         !this.bLEManager.getBindMarkStorage() && Protocol.postDeviceBind({deviceId}).then(() => {
                             console.log('绑定协议发送成功');
                             this.bLEManager.setBindMarkStorage();
-                            this.appReceiveDataListener && this.appReceiveDataListener({finalResult, state});
+                            this.commonAppReceiveDataListener && this.commonAppReceiveDataListener({finalResult, state});
                         }).catch((res) => {
                             console.log('绑定协议报错', res);
                             this._updateBLEState({state: {connectState: BlueToothState.UNBIND}});
@@ -24,7 +24,7 @@ const obj = {
                         this.bLEManager.clearConnectedBLE();
                     }
                 } else {
-                    this.appReceiveDataListener && this.appReceiveDataListener({finalResult, state});
+                    this.commonAppReceiveDataListener && this.commonAppReceiveDataListener({finalResult, state});
                 }
             }, bleStateListener: ({state}) => {
                 this.bLEManager.latestState = state;
@@ -55,9 +55,9 @@ const obj = {
         return this.bLEManager;
     },
 
-    setBLEListener({receiveDataListener, bleStateListener}) {
-        this.appReceiveDataListener = receiveDataListener;
-        this.appBLEStateListener = bleStateListener;
+    setCommonBLEListener({appReceiveDataListener, appBLEStateListener}) {
+        this.commonAppReceiveDataListener = appReceiveDataListener;
+        this.commonAppBLEStateListener = appBLEStateListener;
     },
 
     getLatestBLEState() {
@@ -65,7 +65,7 @@ const obj = {
     },
 
     _updateBLEState({state}) {
-        this.appBLEStateListener && this.appBLEStateListener({state});
+        this.commonAppBLEStateListener && this.commonAppBLEStateListener({state});
     },
 
     doLogin() {
