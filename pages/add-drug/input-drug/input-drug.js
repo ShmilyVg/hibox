@@ -10,8 +10,8 @@ Page({
         name: ''
     },
     onLoad(options) {
-        const {type, step, count} = options;
-        this.setData({type, step, count});
+        const {type, step, count, drugNumber} = options;
+        this.setData({type, step, count, drugNumber});
 
         Protocol.getDrugItems({type}).then(data => {
             const {result: drugs} = data;
