@@ -18,7 +18,13 @@ Page({
             }
         });
 
-        Protocol.medicalRemindList({device_id: '123456'}).then(data => {
+        Protocol.getMedicalRemindInfo().then(data => {
+            this.setData({
+                box: data.result
+            })
+        });
+
+        Protocol.getMedicalRemindList().then(data => {
             this.setData({
                 list: data.result
             })
@@ -35,7 +41,8 @@ Page({
         let index = this.getIndexNum(e);
         console.log(index);
         let that = this;
-        if (false) {
+        let image = that.data.list[that.data.listText[index[0]]].image_url;
+        if (typeof(image) == "undefined") {
             wx.chooseImage({
                 count: 1, // 默认9
                 sizeType: ['compressed'],

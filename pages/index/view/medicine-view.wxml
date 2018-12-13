@@ -1,16 +1,18 @@
 <template name="medicine-view">
     <view class="flex-row"
-          style="justify-content: space-between;width:650rpx;height:170rpx;border-radius:32rpx;background-color: {{boxColor[item.compartment-1]}};margin: 10rpx 0;padding: 0 37rpx 0 25rpx"
+          style="justify-content: space-between;width:650rpx;height:170rpx;border-radius:32rpx;background-color: {{num?'#E8F4F4':boxColor[item.compartment-1]}};margin: 10rpx 0;padding: 0 37rpx 0 25rpx"
           bindtap="clickPhoto" data-index="{{[num,index]}}">
         <view class="flex-row">
             <view style="position: relative">
-                <view style="width:90rpx;height:50rpx;background-color:black;border-radius:12rpx;opacity:0.2"></view>
+                <view wx:if="num" style="width:90rpx;height:50rpx;background-color:{{boxColor[item.compartment-1]}};border-radius:12rpx"></view>
+                <view wx:else style="width:90rpx;height:50rpx;background-color:black;border-radius:12rpx;opacity:0.2"></view>
                 <view style="width:90rpx;height:50rpx;position: absolute;top: 0;left: 0;line-height: 50rpx;color: white;font-size: 26rpx;text-align: center;justify-content:center">{{item.compartment}}号仓</view>
             </view>
-            <view style="margin-left: 20rpx;font-size: 38rpx;color: white;">{{item.drug_name}}</view>
+            <view style="margin-left: 20rpx;font-size: 38rpx;color: {{num?'#8AB4B2':white}}">{{item.drug_name}}</view>
         </view>
-        <view class="flex-row" style="color: white">
-            <image src="../../images/photo.png" style="width: 70rpx;height: 70rpx;border-radius: 50%;background-color: white"></image>
+        <view class="flex-row" style="color: {{num?'#8AB4B2':white}}">
+            <image wx:if="{{item.image_url}}" src="{{item.image_url}}" style="width: 70rpx;height: 70rpx;border-radius: 50%"></image>
+            <image wx:else src="../../images/photo.png" style="width: 70rpx;height: 70rpx;border-radius: 50%;background-color: white"></image>
             <view style="align-items: flex-end;display: flex">
                 <view style="font-size: 40rpx;margin-left: 24rpx">X</view>
                 <view style="font-size: 100rpx;margin-left: 12rpx;line-height: 100rpx">{{item.number}}</view>
