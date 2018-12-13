@@ -45,7 +45,7 @@ Page({
                 popupShow: true,
             });
         } else {
-            HiNavigator.navigateToAddDrug({compartment: index+1});
+            HiNavigator.navigateToAddDrug({compartment: index + 1});
         }
     },
 
