@@ -21,7 +21,7 @@
     <template is="add-view" wx:for="{{box}}" data-index="{{index}}" data="{{boxColor,index,item:box[index]}}"></template>
 </view>
 
-<view style="position: absolute;top: 576rpx;width: 100%">
+<view style="position: absolute;top: 536rpx;width: 100%">
     <view class="flex-column" wx:if="{{list['now'].length}}">
         <template is="user-time-view" data="{{title:'现在',time:list['now'][0].remind_time}}"></template>
         <template is="medicine-view" wx:for="{{list['now']}}" data="{{num:0,index,item,boxColor}}"></template>
@@ -34,5 +34,3 @@
 </view>
 
 <template wx:if="{{popupShow}}" is="popup" data="{{item:list[listText[choseIndex[0]]][choseIndex[1]],boxColor}}"></template>
-
-<!--<view class="windows"></view>-->
