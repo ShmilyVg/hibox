@@ -2,6 +2,7 @@
 import Protocol from "../../modules/network/protocol";
 import * as config from "../../utils/config";
 import toast from "../../view/toast";
+import HiNavigator from "../../navigator/hi-navigator";
 
 Page({
     data: {
@@ -38,7 +39,14 @@ Page({
 
     clickTopAdd(e) {
         let index = this.getIndexNum(e);
-        console.log(index);
+        if (this.data.box[index]) {
+            this.setData({
+                choseIndex: index,
+                popupShow: true,
+            });
+        } else {
+            HiNavigator.navigateToAddDrug({compartment: index+1});
+        }
     },
 
     clickPhoto(e) {
@@ -62,10 +70,6 @@ Page({
                             break;
                         case 1:
                             that.chooseImage(that, item);
-                            // that.setData({
-                            //     choseIndex: index,
-                            //     popupShow: true,
-                            // });
                             break;
                     }
                 },
