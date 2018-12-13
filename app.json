@@ -1,17 +1,36 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
     "pages/connect-device/connect-device",
     "pages/bind-device/bind-device",
     "pages/connect-err/connect-err",
     "pages/add-drug/choose-type/choose-type",
     "pages/add-drug/input-drug/input-drug",
-    "pages/add-drug/number/number"
+    "pages/add-drug/number/number",
+    "pages/history/history"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "tabBar": {
+    "selectedColor": "#66DABF",
+    "color": "#698B89",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "用药提醒",
+        "iconPath": "images/tabbar/index.png",
+        "selectedIconPath": "images/tabbar/index-pitch.png"
+      },
+      {
+        "pagePath": "pages/history/history",
+        "text": "服药记录",
+        "iconPath": "images/tabbar/history.png",
+        "selectedIconPath": "images/tabbar/history-pitch.png"
+      }
+    ]
+  },
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "HiBox",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   }
 }
