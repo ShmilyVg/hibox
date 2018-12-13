@@ -50,10 +50,9 @@ Page({
     timeItemChooseEvent(e) {
         console.log(e);
         const {detail: {value}} = e;
-        const data = this.data;
-        const obj = {};
-        obj[`list[${data.selectedItemIndex}]`] = {...data.list[data.selectedItemIndex], ...DrugRuler.getFinalItemExpectPiece(value)};
-        this.setData(obj);
+        const {list, selectedItemIndex} = this.data;
+        list[selectedItemIndex] = {...list[selectedItemIndex], ...DrugRuler.getFinalItemExpectPiece(value)};
+        this.setData({list: list.sort(DrugRuler.sortFun)});
     },
 
     pieceAllChooseEvent(e) {

@@ -11,25 +11,25 @@ export default class DrugRuler {
             })]
         };
     }
-    static getConvertToBLEList({compartment,list}) {
+
+    static getConvertToBLEList({compartment, list}) {
         const {length} = list;
-        return list.sort(function (item1, item2) {
-            return item1.timestamp - item2.timestamp;
-        }).map((item, timeIndex) => {
+        return list.sort(this.sortFun).map((item, timeIndex) => {
             return {compartment: parseInt(compartment) || 1, length, timeIndex, timestamp: item.timestamp,};
         })
     }
+
     static setSingleCompartmentInfo({deviceId, compartment, classify, drugName, items}) {
         getApp().globalData.addOrEditDrugObj = {deviceId, compartment, classify, drugName, items};
     }
 
     static convertServerListToLocalList({items}) {
-        return items.map(item=>{
+        return items.map(item => {
             return {...this.getFinalItemExpectPiece(item.remind_time), piece: item.number};
         })
     }
 
-   static getDayPart(hour) {
+    static getDayPart(hour) {
         let part = 'night';
         if (hour < 12) {
             part = 'morning';
@@ -38,10 +38,15 @@ export default class DrugRuler {
         }
         return part;
     }
-   static getList({ruler, number, piece}) {
+
+    static getList({ruler, number, piece}) {
         return ruler[number].map(item => {
             return {...this.getFinalItemExpectPiece(item), piece};
         });
+    }
+
+    static sortFun(item1, item2) {
+        return item1.timestamp - item2.timestamp;
     }
 
     static getFinalItemExpectPiece(hourAndMinute) {
