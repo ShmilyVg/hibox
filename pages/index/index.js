@@ -41,7 +41,8 @@ Page({
         let index = this.getIndexNum(e);
         console.log(index);
         let that = this;
-        if (false) {
+        let image = that.data.list[that.data.listText[index[0]]].image_url;
+        if (typeof(image) == "undefined") {
             wx.chooseImage({
                 count: 1, // 默认9
                 sizeType: ['compressed'],
