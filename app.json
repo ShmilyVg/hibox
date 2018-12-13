@@ -16,8 +16,8 @@
       {
         "pagePath": "pages/index/index",
         "text": "用药提醒",
-        "iconPath": "images/tabbar/index.png",
-        "selectedIconPath": "images/tabbar/index-pitch.png"
+        "iconPath": "images/tabbar/remind.png",
+        "selectedIconPath": "images/tabbar/remind-pitch.png"
       },
       {
         "pagePath": "pages/history/history",
