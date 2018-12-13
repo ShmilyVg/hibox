@@ -22,7 +22,6 @@ Page({
     },
     onLoad(options) {
         let number = 3, piece = 1, list;
-        // &number=${drugDayCount}&piece=${drugPiece}&compartment=${compartment}
         const {items, compartment} = getApp().globalData.addOrEditDrugObj;
         if (!!items && !!items.length) {
             number = items.length;
