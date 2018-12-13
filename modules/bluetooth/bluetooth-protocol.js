@@ -2,7 +2,7 @@ import BlueToothState from "./state-const";
 
 const commandIndex = 4, dataStartIndex = 5;
 
-const deviceIndexNum = 6;
+const deviceIndexNum = 7;
 export default class BlueToothProtocol {
 
     constructor(blueToothManager) {
@@ -11,40 +11,35 @@ export default class BlueToothProtocol {
             //由设备发出的时间戳请求
             '0x70': () => {
                 const now = Date.now() / 1000;
-                blueToothManager.sendData({buffer: this.createBuffer({command: '0x71', data: now})});
+                blueToothManager.sendData({buffer: this.createBuffer({command: '0x71', data: [now]})});
                 return {state: BlueToothState.TIMESTAMP};
             },
-            //由设备发出的预热请求
+            //由手机发出的查找设备请求
             '0x72': () => {
-                blueToothManager.sendData({buffer: this.createBuffer({command: '0x73'})});
-                return {state: BlueToothState.PRE_HOT_START};
+                blueToothManager.sendData({buffer: this.createBuffer({command: '0x72'})});
+                return {state: BlueToothState.SEND_FIND_DEVICE};
             },
-            //由设备发出的吹气请求
-            '0x74': () => {
-                blueToothManager.sendData({buffer: this.createBuffer({command: '0x75'})});
-                return {state: BlueToothState.PRE_HOT_FINISH_AND_START_BREATH};
+            //由手机发出的定时设置请求
+            '0x74': ({singleAlertData}) => {
+                blueToothManager.sendData({buffer: this.createBuffer({command: '0x74', data: singleAlertData})});
+                return {state: BlueToothState.NORMAL_PROTOCOL};
             },
-            //由设备发出的重新吹气请求
-            '0x76': () => {
-                blueToothManager.sendData({buffer: this.createBuffer({command: '0x77'})});
-                return {state: BlueToothState.BREATH_RESTART};
+            '0x7d': ({dataArray}) => {
+                const isSetSingleAlertItemSuccess = BlueToothProtocol.hexArrayToNum(dataArray) === 1;
+                return {
+                    state: BlueToothState.SEND_ALERT_TIME_RESULT,
+                    dataAfterProtocol: {isSetSingleAlertItemSuccess}
+                };
             },
-            //由设备发出的显示结果请求
-            '0x78': ({dataArray}) => {
-                blueToothManager.sendData({buffer: this.createBuffer({command: '0x79'})});
-                const timestamp = BlueToothProtocol.hexArrayToNum(dataArray.slice(0, 4));
-                const result = BlueToothProtocol.hexArrayToNum(dataArray.slice(-2));
-                return {state: BlueToothState.BREATH_FINISH_AND_SUCCESS, dataAfterProtocol: {result, timestamp}};
+            '0x75': ({dataArray}) => {
+                const isEatDrug = BlueToothProtocol.hexArrayToNum(dataArray.slice(0, 1)) === 1;
+                const timestamp = BlueToothProtocol.hexArrayToNum(dataArray.slice(1));
+                return {state: BlueToothState.QUERY_EAT_DRUG_STATE, dataAfterProtocol: {isEatDrug, timestamp}};
             },
-            // //由App发出的串号请求
-            // '0x7a': () => {
-            //     blueToothManager.sendData({buffer: this.createBuffer({command: '0x7a'})});
-            //     return {state: BlueToothState.DEVICE_ID_REQUIRE};
-            // },
-            // //由设备发出的串号反馈
-            // '0x7b': ({dataArray}) => {
-            //     const deviceId = BlueToothProtocol.hexArrayToNum(dataArray);
-            //     return {state: BlueToothState.DEVICE_ID_GET_SUCCESS, dataAfterProtocol: {deviceId}};
+            //由设备发出的电量和版本号
+            // '0x76': ({dataArray}) => {
+            //
+            //     return {state: BlueToothState.BREATH_RESTART};
             // },
             //由手机发出的连接请求
             '0x7a': () => {
@@ -72,6 +67,15 @@ export default class BlueToothProtocol {
 
     requireDeviceBind() {
         !this.getDeviceIsBind() && this.action['0x7a']();
+    }
+
+    /**
+     * 发送定时闹钟
+     */
+    sendAlertTime({singleAlertData}) {
+        if (this.getDeviceIsBind()) {
+            this.action['0x74']({singleAlertData: [...singleAlertData]});
+        }
     }
 
     startCommunication() {
@@ -108,10 +112,11 @@ export default class BlueToothProtocol {
         }
         const action = this.action[commandHex];
         if (!this._filtra && action) {
-            return action({dataArray});
+            const {state, dataAfterProtocol} = action({dataArray});
+            return {state: {connectState: BlueToothState.CONNECTED, protocolState: state}, dataAfterProtocol};
         } else {
             console.log('协议中包含了unknown状态或过滤信息');
-            return {state: BlueToothState.UNKNOWN};
+            return {state: {connectState: BlueToothState.CONNECTED, protocolState: BlueToothState.UNKNOWN}};
         }
     }
 
@@ -121,8 +126,8 @@ export default class BlueToothProtocol {
         return new Uint8Array(dataBody).buffer;
     }
 
-    createDataBody({command = '', data}) {
-        const dataPart = BlueToothProtocol.numToHexArray(data);
+    createDataBody({command = '', data = []}) {
+        const dataPart = data.map(item => BlueToothProtocol.numToHexArray(item));
         const lowLength = BlueToothProtocol.hexToNum((dataPart.length + 2).toString(16));
         const array = [170, 0, lowLength, deviceIndexNum, BlueToothProtocol.hexToNum(command), ...dataPart];
         let count = 0;
@@ -176,5 +181,3 @@ export default class BlueToothProtocol {
         return count;
     }
 }
-
-

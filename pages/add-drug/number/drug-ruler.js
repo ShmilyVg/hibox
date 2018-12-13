@@ -15,9 +15,11 @@ export default class DrugRuler {
 
     static getConvertToBLEList({compartment, list}) {
         const {length} = list;
-        return list.sort(this.sortFun).map((item, timeIndex) => {
-            return {compartment: parseInt(compartment) || 1, length, timeIndex, timestamp: item.timestamp,};
-        })
+        return list.sort(this.sortFun).map((item, timeIndex) =>
+            ({compartment: parseInt(compartment) || 1, length, timeIndex, timestamp: item.timestamp,})
+        ).map(item =>
+            [item.compartment, item.length, item.timeIndex, item.timestamp]
+        ).reverse();
     }
 
     static convertServerListToLocalList({items}) {

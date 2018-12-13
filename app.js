@@ -1,13 +1,18 @@
 //app.js
 import './libs/adapter';
-import Login from "./modules/network/login";
+import {common} from "./libs/bluetooth/common";
 
 App({
-    onLaunch() {
-        Login.doLogin();
+    onLaunch(options) {
+        this.commonOnLaunch(options);
+    },
+
+    onHide() {
+        this.commonOnHide();
     },
     globalData: {
         userInfo: {nickname: '', headUrl: '', id: 0},
         addOrEditDrugObj: {deviceId: '', compartment: 1, classify: '', drugName: '', items: []}
-    }
+    },
+    ...common,
 });

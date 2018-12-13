@@ -26,4 +26,11 @@ export default class Protocol {
         return Network.request({url: 'medical/remind/image', data: {id: id, image_url: image_url}});
     }
 
+    static postDeviceBind({deviceId}){
+        return Network.request({url: 'device/bind', data: {deviceId}});
+    }
+
+    static postDeviceUnbind({deviceId}){
+        return Network.request({url: 'device/unbind', data: {deviceId}});
+    }
 }
