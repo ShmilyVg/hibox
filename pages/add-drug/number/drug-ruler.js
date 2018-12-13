@@ -1,4 +1,8 @@
 export default class DrugRuler {
+    static setSingleCompartmentInfo({deviceId, compartment, classify, drugName, items}) {
+        getApp().globalData.addOrEditDrugObj = {deviceId, compartment, classify, drugName, items};
+    }
+
     static getConvertToServerList({compartment, classify, drugName, list}) {
 
         return {
@@ -17,10 +21,6 @@ export default class DrugRuler {
         return list.sort(this.sortFun).map((item, timeIndex) => {
             return {compartment: parseInt(compartment) || 1, length, timeIndex, timestamp: item.timestamp,};
         })
-    }
-
-    static setSingleCompartmentInfo({deviceId, compartment, classify, drugName, items}) {
-        getApp().globalData.addOrEditDrugObj = {deviceId, compartment, classify, drugName, items};
     }
 
     static convertServerListToLocalList({items}) {
