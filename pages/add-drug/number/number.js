@@ -22,7 +22,7 @@ Page({
     },
     onLoad(options) {
         let number = 3, piece = 1, list;
-        const {items, compartment} = getApp().globalData.addOrEditDrugObj;
+        const {items, compartment, deviceId} = getApp().globalData.addOrEditDrugObj;
         if (!!items && !!items.length) {
             number = items.length;
             piece = items[0].number;
@@ -34,6 +34,7 @@ Page({
                 number,
                 piece,
                 compartment,
+                deviceId,
                 list: list || DrugRuler.getList({ruler: this.data.ruler, number, piece}),
                 numberArray: this.getArray(9),
                 pieceArray: this.getArray(99)

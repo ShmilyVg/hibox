@@ -1,7 +1,7 @@
 export default class HiNavigator {
 
-    static navigateToAddDrug() {
-        getApp().globalData.addOrEditDrugObj = {};
+    static navigateToAddDrug({deviceId, compartment}) {
+        getApp().globalData.addOrEditDrugObj = {deviceId, compartment};
         this.navigateTo({url: '/pages/add-drug/choose-type/choose-type'});
     }
 
