@@ -1,4 +1,15 @@
 <!--pages/history/popup.wxml-->
+<import src="../index/view/medicine-view.wxml"></import>
 <view class="history-content">
     <view class="history-hint">记录待同步</view>
+    <view class="history-box" wx:for="{{allList}}" wx:key="id">
+        <view class="history-headbox">
+            <view>
+                <view class="history-data">2018年1月20日</view>
+                <view class="history-time">上午8：30</view>
+            </view>
+            <view class="history-state">已服用</view>
+        </view>
+        <template is="medicine-view" data="{{num:1,index,item,boxColor,backgroundColor:'#fff'}}"></template>
+    </view>
 </view>
