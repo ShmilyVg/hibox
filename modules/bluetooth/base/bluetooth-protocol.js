@@ -46,7 +46,7 @@ export default class BlueToothProtocol {
             //App请求同步数据
             '0x77': () => {
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x77'})});
-                blueToothManager.updateBLEStateImmediately({state: this._getState({protocolState: BlueToothProtocol.QUERY_DATA_START})});
+                blueToothManager.updateBLEStateImmediately({state: BlueToothProtocol.getState({protocolState: BlueToothProtocol.QUERY_DATA_START})});
             },
             //设备返回要同步的数据
             '0x75': ({dataArray}) => {
@@ -58,7 +58,7 @@ export default class BlueToothProtocol {
             //App传给设备同步数据的结果
             '0x78': () => {
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x78'})});
-                blueToothManager.updateBLEStateImmediately({state: this._getState({protocolState: BlueToothProtocol.QUERY_DATA_FINISH})});
+                blueToothManager.updateBLEStateImmediately({state: BlueToothProtocol.getState({protocolState: BlueToothProtocol.QUERY_DATA_FINISH})});
             },
             //由设备发出的电量和版本号
             // '0x76': ({dataArray}) => {
@@ -158,15 +158,15 @@ export default class BlueToothProtocol {
         const action = this.action[commandHex];
         if (!this._filtra && action) {
             const {state: protocolState, dataAfterProtocol} = action({dataArray});
-            return this._getState({protocolState, dataAfterProtocol});
+            return BlueToothProtocol.getState({protocolState, dataAfterProtocol});
         } else {
             console.log('协议中包含了unknown状态或过滤信息');
-            return this._getState({protocolState: BlueToothProtocol.UNKNOWN});
+            return BlueToothProtocol.getState({protocolState: BlueToothProtocol.UNKNOWN});
         }
     }
 
 
-    _getState({protocolState, dataAfterProtocol}) {
+    static getState({protocolState, dataAfterProtocol}) {
         return {state: {connectState: BlueToothState.CONNECTED, protocolState}, dataAfterProtocol};
     }
 
