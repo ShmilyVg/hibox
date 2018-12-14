@@ -34,7 +34,7 @@ Page({
         app.getBLEManager().connect();
         app.setBLEListener({
             bleStateListener: ({state}) => {
-                this.showResult({state});
+                this.showResult({state: state.connectState});
             },
             receiveDataListener: ({finalResult, state}) => {
                 if (BlueToothState.GET_CONNECTED_RESULT_SUCCESS === state) {
