@@ -3,6 +3,7 @@ import Protocol from "../../modules/network/protocol";
 import * as config from "../../utils/config";
 import toast from "../../view/toast";
 import HiNavigator from "../../navigator/hi-navigator";
+import BlueToothState from "../../modules/bluetooth/state-const";
 
 Page({
     data: {
@@ -29,7 +30,6 @@ Page({
         getApp().getBLEManager().connect();
         getApp().setBLEListener({
             bleStateListener: function ({state}) {
-                console.log('====>>>');
                 let data = that.setConnectState(state);
                 that.setData({
                     connectState: data.text,
@@ -46,7 +46,6 @@ Page({
     },
 
     setConnectState(state) {
-        console.log('状态', state.connectState);
         switch (state.connectState) {
             case BlueToothState.UNBIND:
                 return {text: '未绑定', isConnect: false};
