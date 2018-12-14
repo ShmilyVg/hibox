@@ -1,5 +1,7 @@
 // pages/connect-device/connect-device.js
 import HiNavigator from "../../navigator/hi-navigator";
+import BlueToothProtocol from "../../modules/bluetooth/base/bluetooth-protocol";
+import BlueToothState from "../../modules/bluetooth/state-const";
 
 const app = getApp();
 
@@ -37,10 +39,10 @@ Page({
                 this.showResult({state: state.connectState});
             },
             receiveDataListener: ({finalResult, state}) => {
-                if (BlueToothState.GET_CONNECTED_RESULT_SUCCESS === state) {
+                if (BlueToothProtocol.GET_CONNECTED_RESULT_SUCCESS === state) {
                     this.isBind = true;
                     const {isConnected} = finalResult;
-                    app.getBLEManager().updateBLEStateImmediately({state: BlueToothState.CONNECTED_AND_BIND});
+                    app.getBLEManager().updateBLEStateImmediately({state: BlueToothProtocol.CONNECTED_AND_BIND});
                     isConnected && HiNavigator.switchToIndexPage({refresh: false});
                 }
             }
