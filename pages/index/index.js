@@ -24,6 +24,13 @@ Page({
         this.getBaseInfo();
     },
 
+    onShow() {
+        if (getApp().globalData.refreshIndexPage) {
+            this.getBaseInfo();
+            getApp().globalData.refreshIndexPage = false
+        }
+    },
+
     getBaseInfo() {
         Protocol.getMedicalRemindInfo().then(data => {
             this.setData({

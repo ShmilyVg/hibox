@@ -22,7 +22,8 @@ export default class HiNavigator {
     }
 
     static switchToIndexPage({refresh = false}) {
-        this.switchTab({url: '/pages/index/index?refresh=' + refresh});
+        getApp().globalData.refreshIndexPage = refresh;
+        this.switchTab({url: '/pages/index/index'});
     }
 
     static navigateSearchDevicePage() {
