@@ -97,7 +97,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
         if (this._isConnected) {
             return new Promise((resolve) => resolve);
         }
-        return !this._bleStateListener({state: this.getState({connectState: BaseBlueToothImp.CONNECTING})})
+        return !this._bleStateListener(this.getState({connectState: BaseBlueToothImp.CONNECTING}))
             && this._updateFinalState({
                 promise: this.openAdapter().then(() => !!this._deviceId ?
                     this.createBLEConnection({deviceId: this._deviceId}) : this.startBlueToothDevicesDiscovery())
@@ -111,7 +111,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
      */
     reconnectBLE() {
         this._isConnected = false;
-        return !this._bleStateListener({state: this.getState({connectState: BaseBlueToothImp.CONNECTING})})
+        return !this._bleStateListener(this.getState({connectState: BaseBlueToothImp.CONNECTING}))
             && this._updateFinalState({promise: this.createBLEConnection({deviceId: this._deviceId})});
     }
 
@@ -128,7 +128,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
     }
 
     getState({connectState, protocolState}) {
-        return {connectState, protocolState};
+        return {state: {connectState, protocolState}};
     }
 
     /**
@@ -157,7 +157,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
                     // 该方法回调中可以用于处理连接意外断开等异常情况
                     console.log(`device ${res.deviceId} state has changed, connected: ${res.connected}`);
                     if (!res.connected) {
-                        this._bleStateListener({state: this.getState({connectState: BaseBlueToothImp.DISCONNECT})});
+                        this._bleStateListener(this.getState({connectState: BaseBlueToothImp.DISCONNECT}));
                         if (!this._isActiveCloseBLE) {
                             this.reconnectBLE();
                         } else {
@@ -167,15 +167,15 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
                 });
                 this._isInitWXBLEListener = true;
             }
-            this._bleStateListener({state: this.getState({connectState: BaseBlueToothImp.CONNECTED})});
+            this._bleStateListener(this.getState({connectState: BaseBlueToothImp.CONNECTED}));
         })
             .catch((res) => {
                 console.log(res);
                 const errorFun = this.errorType[res.errCode];
                 if (!!errorFun) {
-                    this._bleStateListener({state: this.getState({connectState: errorFun.type})});
+                    this._bleStateListener(this.getState({connectState: errorFun.type}));
                 } else {
-                    this._bleStateListener({state: this.getState({connectState: BaseBlueToothImp.DISCONNECT})});
+                    this._bleStateListener(this.getState({connectState: BaseBlueToothImp.DISCONNECT}));
                 }
             });
     }

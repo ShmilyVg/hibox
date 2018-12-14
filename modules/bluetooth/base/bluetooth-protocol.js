@@ -1,4 +1,5 @@
 import BlueToothState from "../state-const";
+import BaseBlueToothImp from "../../../libs/bluetooth/base/base-bluetooth-imp";
 
 const commandIndex = 4, dataStartIndex = 5;
 
@@ -21,6 +22,7 @@ export default class BlueToothProtocol {
 
     constructor(blueToothManager) {
         this.setFilter(true);//过滤
+        this._blueToothManager = blueToothManager;
         this.action = {
             //由设备发出的时间戳请求
             '0x70': () => {
@@ -46,7 +48,7 @@ export default class BlueToothProtocol {
             //App请求同步数据
             '0x77': () => {
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x77'})});
-                blueToothManager.updateBLEStateImmediately({state: BlueToothProtocol.getState({protocolState: BlueToothProtocol.QUERY_DATA_START})});
+                blueToothManager.updateBLEStateImmediately(this.getOtherStateWithConnectedState({protocolState: BlueToothProtocol.QUERY_DATA_START}));
             },
             //设备返回要同步的数据
             '0x75': ({dataArray}) => {
@@ -58,7 +60,7 @@ export default class BlueToothProtocol {
             //App传给设备同步数据的结果
             '0x78': () => {
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x78'})});
-                blueToothManager.updateBLEStateImmediately({state: BlueToothProtocol.getState({protocolState: BlueToothProtocol.QUERY_DATA_FINISH})});
+                blueToothManager.updateBLEStateImmediately(this.getOtherStateWithConnectedState({protocolState: BlueToothProtocol.QUERY_DATA_FINISH}));
             },
             //由设备发出的电量和版本号
             // '0x76': ({dataArray}) => {
@@ -159,16 +161,15 @@ export default class BlueToothProtocol {
         const action = this.action[commandHex];
         if (!this._filtra && action) {
             const {state: protocolState, dataAfterProtocol} = action({dataArray});
-            return BlueToothProtocol.getState({protocolState, dataAfterProtocol});
+            return this.getOtherStateWithConnectedState({protocolState, dataAfterProtocol});
         } else {
             console.log('协议中包含了unknown状态或过滤信息');
-            return BlueToothProtocol.getState({protocolState: BlueToothProtocol.UNKNOWN});
+            return this.getOtherStateWithConnectedState({protocolState: BlueToothProtocol.UNKNOWN});
         }
     }
 
-
-    static getState({protocolState, dataAfterProtocol}) {
-        return {state: {connectState: BlueToothState.CONNECTED, protocolState}, dataAfterProtocol};
+    getOtherStateWithConnectedState({protocolState, dataAfterProtocol}) {
+        return {...this._blueToothManager.getState({connectState: BlueToothState.CONNECTED, protocolState}), dataAfterProtocol};
     }
 
     createBuffer({command, data}) {

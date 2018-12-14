@@ -52,9 +52,10 @@ export default class SimpleBlueToothImp {
         return this.bluetoothManager.closeAdapter();
     }
 
-    getState({connectState,protocolState}) {
+    getState({connectState, protocolState}) {
         return this.bluetoothManager.getState(arguments[0]);
     }
+
     /**
      * 立即更新蓝牙设备状态
      * 调用该函数会导致立刻回调bleStateListener函数

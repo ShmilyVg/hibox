@@ -39,7 +39,8 @@ Page({
                 if (BlueToothProtocol.GET_CONNECTED_RESULT_SUCCESS === state.protocolState) {
                     this.isBind = true;
                     const {isConnected} = finalResult;
-                    app.getBLEManager().updateBLEStateImmediately({state: BlueToothProtocol.getState({protocolState: BlueToothProtocol.CONNECTED_AND_BIND})});
+                    const manager = app.getBLEManager();
+                    manager.updateBLEStateImmediately(manager.getState({protocolState: BlueToothProtocol.CONNECTED_AND_BIND}));
                     isConnected && HiNavigator.switchToIndexPage({refresh: false});
                 }
             }
