@@ -28,7 +28,9 @@ App({
                     this.appReceiveDataListener && this.appReceiveDataListener({finalResult, state});
                 }
             },
-            commonAppBLEStateListener: this.appBLEStateListener
+            commonAppBLEStateListener: ({state}) => {
+                this.appBLEStateListener && this.appBLEStateListener({state});
+            }
         });
         this.commonOnLaunch({options, bLEManager: new HiBoxBlueToothManager()});
     },
