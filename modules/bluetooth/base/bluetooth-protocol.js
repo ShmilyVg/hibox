@@ -9,8 +9,10 @@ export default class BlueToothProtocol {
     static NORMAL_PROTOCOL = 'normal_protocol';//无需处理的协议
 
     static SEND_ALERT_TIME_RESULT = 'send_alert_time_result';//手机发送定时闹钟,设备反馈处理结果
-    static QUERY_DATA_ING = 'query_data_ing';//与设备同步吃药状态
-    static QUERY_DATA_FINISH = 'query_data_finish';//与设备同步吃药状态
+
+    static QUERY_DATA_START = 'query_data_start';//开始与设备同步吃药
+    static QUERY_DATA_ING = 'query_data_ing';//与设备同步吃药状态中
+    static QUERY_DATA_FINISH = 'query_data_finish';//完成与设备同步吃药的状态
     static CONNECTED_AND_BIND = 'connected_and_bind';
     static GET_CONNECTED_RESULT_SUCCESS = 'get_connected_result_success';//设备返回连接结果
     static SEND_CONNECTED_REQUIRED = 'send_connected_required';//手机发送连接请求
@@ -44,6 +46,7 @@ export default class BlueToothProtocol {
             //App请求同步数据
             '0x77': () => {
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x77'})});
+                blueToothManager.updateBLEStateImmediately({state: this._getState({protocolState: BlueToothProtocol.QUERY_DATA_START})});
             },
             //设备返回要同步的数据
             '0x75': ({dataArray}) => {
@@ -55,6 +58,7 @@ export default class BlueToothProtocol {
             //App传给设备同步数据的结果
             '0x78': () => {
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x78'})});
+                blueToothManager.updateBLEStateImmediately({state: this._getState({protocolState: BlueToothProtocol.QUERY_DATA_FINISH})});
             },
             //由设备发出的电量和版本号
             // '0x76': ({dataArray}) => {
@@ -78,14 +82,6 @@ export default class BlueToothProtocol {
             },
             '0x7c': () => {
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x7c'})});
-            },
-            '0x7e': ({isQuerySuccess}) => {
-                blueToothManager.sendData({
-                    buffer: this.createBuffer({
-                        command: '0x74',
-                        data: [isQuerySuccess ? 1 : 2]
-                    })
-                });
             }
         }
     }
@@ -109,7 +105,9 @@ export default class BlueToothProtocol {
 
     sendQueryDataRequiredProtocol() {
         if (this.getDeviceIsBind()) {
-            this.action['0x77']();
+            setTimeout(() => {
+                this.action['0x77']();
+            }, 4000);
         }
     }
 
