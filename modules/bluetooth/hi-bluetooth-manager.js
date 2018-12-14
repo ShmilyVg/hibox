@@ -1,12 +1,11 @@
 import SimpleBlueToothImp from "../../libs/bluetooth/simple-bluetooth-imp";
-import BlueToothProtocol from "./bluetooth-protocol";
+import BlueToothProtocol from "./base/bluetooth-protocol";
 import BlueToothState from "./state-const";
 
 export default class HiBlueToothManager extends SimpleBlueToothImp {
 
     constructor() {
         super();
-        this.setUUIDs({services: ['6E400001-B5A3-F393-E0A9-E50E24DCCA9E']});//设置主Services方式如 this.setUUIDs({services: ['xxxx']})  xxxx为UUID全称，可设置多个
         this.bluetoothProtocol = new BlueToothProtocol(this);
         this.latestState = BlueToothState.UNBIND;
     }
@@ -71,10 +70,6 @@ export default class HiBlueToothManager extends SimpleBlueToothImp {
         }, 2000);
     }
 
-    sendAlertTimeOperationProtocol({singleAlertData}) {
-        this.bluetoothProtocol.sendAlertTime({singleAlertData});
-    }
-
     /**
      * 处理从蓝牙设备接收到的数据的具体实现
      * 这里会将处理后的数据，作为参数传递给setBLEListener的receiveDataListener监听函数。
@@ -83,7 +78,7 @@ export default class HiBlueToothManager extends SimpleBlueToothImp {
      */
     dealReceiveData({receiveBuffer}) {
         const {dataAfterProtocol, state} = this.bluetoothProtocol.receive({receiveBuffer});
-        if (BlueToothState.UNKNOWN === state.protocolState) {
+        if (BlueToothProtocol.UNKNOWN === state.protocolState) {
             return {filter: true};
         }
         super.updateBLEStateImmediately({state});

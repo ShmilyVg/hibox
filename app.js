@@ -9,17 +9,23 @@ App({
     appBLEStateListener: null,
 
     onLaunch(options) {
+        let records = [];
         this.setCommonBLEListener({
             appReceiveDataListener: ({finalResult, state}) => {
-                if (BlueToothState.QUERY_EAT_DRUG_STATE === state.protocolState) {
-                    const {isEat, timestamp} = finalResult;
-                    Protocol.postMedicalRecordSave({isEat, timestamp}).then(data => {
-                        //TODO 向设备回复成功
+                if (BlueToothState.QUERY_DATA_ING === state.protocolState) {
+                    const {length, isEat, timestamp} = finalResult;
+                    if (records.length < length) {
+                        records.push({state: isEat ? 1 : 0, timestamp});
+                    } else {
+                        Protocol.postMedicalRecordSave({records}).then(data => {
+                            //TODO 向设备回复成功
+                            this.bLEManager.sendQueryDataSuccessProtocol();
+                        }).catch(res => {
+                            //TODO 向设备回复失败
 
-                    }).catch(res => {
-                        //TODO 向设备回复失败
+                        }).finally(() => records = []);
+                    }
 
-                    });
                 }
             },
             appBLEStateListener: this.appBLEStateListener

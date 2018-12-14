@@ -34,7 +34,7 @@ export default class Protocol {
         return Network.request({url: 'device/unbind', data: {deviceId}});
     }
 
-    static postMedicalRecordSave({isEat, timestamp}) {
-        return Network.request({url: 'medical/record/save', data: {state: isEat ? 1 : 0, timestamp}});
+    static postMedicalRecordSave({records}) {
+        return Network.request({url: 'medical/record/save', data: {records}});
     }
 }

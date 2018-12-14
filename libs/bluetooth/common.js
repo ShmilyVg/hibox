@@ -1,12 +1,12 @@
 import Login from "../../modules/network/login";
 import UserInfo from "../../modules/network/userInfo";
-import HiBlueToothManager from "../../modules/bluetooth/hi-bluetooth-manager";
+import HiBoxBlueToothManager from "../../modules/bluetooth/hi-box-bluetooth-manager";
 import Protocol from "../../modules/network/protocol";
 
 const obj = {
     commonOnLaunch(options) {
         this.doLogin();
-        this.bLEManager = new HiBlueToothManager();
+        this.bLEManager = new HiBoxBlueToothManager();
         this.bLEManager.setBLEListener({
             receiveDataListener: ({finalResult, state}) => {
                 if (BlueToothState.GET_CONNECTED_RESULT_SUCCESS === state.protocolState) {
