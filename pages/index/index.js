@@ -27,7 +27,6 @@ Page({
 
     onShow() {
         let that = this;
-        getApp().getBLEManager().connect();
         getApp().setBLEListener({
             bleStateListener: function ({state}) {
                 let data = that.setConnectState(state);
@@ -38,7 +37,6 @@ Page({
             }
         });
 
-
         if (getApp().globalData.refreshIndexPage) {
             this.getBaseInfo();
             getApp().globalData.refreshIndexPage = false
@@ -46,6 +44,7 @@ Page({
     },
 
     setConnectState(state) {
+        console.log('状态', state);
         switch (state.connectState) {
             case BlueToothState.UNBIND:
                 return {text: '未绑定', isConnect: false};

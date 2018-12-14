@@ -35,6 +35,10 @@ App({
         this.commonOnLaunch({options, bLEManager: new HiBoxBlueToothManager()});
     },
 
+    onShow() {
+        this.bLEManager.getBindMarkStorage() && this.bLEManager.connect();
+    },
+
     onHide() {
         this.commonOnHide();
     },
