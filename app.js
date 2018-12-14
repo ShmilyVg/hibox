@@ -3,6 +3,7 @@ import './libs/adapter';
 import {common} from "./libs/bluetooth/common";
 import BlueToothState from "./modules/bluetooth/state-const";
 import Protocol from "./modules/network/protocol";
+import HiBoxBlueToothManager from "./modules/bluetooth/hi-box-bluetooth-manager";
 
 App({
 
@@ -19,8 +20,7 @@ App({
                             //TODO 向设备回复成功
                             this.bLEManager.sendQueryDataSuccessProtocol();
                         }).catch(res => {
-                            //TODO 向设备回复失败
-
+                            console.log(res, '同步数据失败');
                         }).finally(() => records = []);
                     }
 
@@ -30,7 +30,7 @@ App({
             },
             commonAppBLEStateListener: this.appBLEStateListener
         });
-        this.commonOnLaunch(options);
+        this.commonOnLaunch({options, bLEManager: new HiBoxBlueToothManager()});
     },
 
     onHide() {
