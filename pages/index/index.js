@@ -8,7 +8,8 @@ Page({
     data: {
         boxColor: ['#68D5B8', '#8FC25E', '#9F92D6', '#8CA5DC'],
         popupShow: false,
-        listText: ['now', 'future']
+        listText: ['now', 'future'],
+        isConnect: false,
     },
     onLoad: function () {
         let that = this;
@@ -21,6 +22,13 @@ Page({
             }
         });
         this.getBaseInfo();
+    },
+
+    onShow() {
+        if (getApp().globalData.refreshIndexPage) {
+            this.getBaseInfo();
+            getApp().globalData.refreshIndexPage = false
+        }
     },
 
     getBaseInfo() {
@@ -111,7 +119,7 @@ Page({
     },
 
     toSet() {
-        console.log('toSet');
+        HiNavigator.navigateSearchDevicePage();
     },
 
     getIndexNum(e) {

@@ -1,10 +1,10 @@
 export default class DrugRuler {
 
-    static getConvertToServerList({deviceId, compartment, classify, drugName, list}) {
+    static getConvertToServerData({deviceId, compartment, classify, drugName, list}) {
 
         return {
-            compartment: parseInt(compartment) || 1, drug_name: drugName,
-            drug_classify: classify, device_id: deviceId,
+            compartment: parseInt(compartment) || 1, drugName: drugName,
+            drugClassify: classify, deviceId: deviceId,
             items: [...list.sort(function (item1, item2) {
                 return item1.timestamp - item2.timestamp;
             }).map((item) => {
@@ -15,9 +15,11 @@ export default class DrugRuler {
 
     static getConvertToBLEList({compartment, list}) {
         const {length} = list;
-        return list.sort(this.sortFun).map((item, timeIndex) => {
-            return {compartment: parseInt(compartment) || 1, length, timeIndex, timestamp: item.timestamp,};
-        })
+        return list.sort(this.sortFun).map((item, timeIndex) =>
+            ({compartment: parseInt(compartment) || 1, length, timeIndex, timestamp: item.timestamp,})
+        ).map(item =>
+            [item.compartment, item.length, item.timeIndex, item.timestamp]
+        ).reverse();
     }
 
     static convertServerListToLocalList({items}) {

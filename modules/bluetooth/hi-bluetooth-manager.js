@@ -1,12 +1,11 @@
 import SimpleBlueToothImp from "../../libs/bluetooth/simple-bluetooth-imp";
-import BlueToothProtocol from "./bluetooth-protocol";
+import BlueToothProtocol from "./base/bluetooth-protocol";
 import BlueToothState from "./state-const";
 
-export default class HiBreathBlueToothManager extends SimpleBlueToothImp {
+export default class HiBlueToothManager extends SimpleBlueToothImp {
 
     constructor() {
         super();
-        this.setUUIDs({services: ['6E400001-B5A3-F393-E0A9-E50E24DCCA9E']});//设置主Services方式如 this.setUUIDs({services: ['xxxx']})  xxxx为UUID全称，可设置多个
         this.bluetoothProtocol = new BlueToothProtocol(this);
         this.latestState = BlueToothState.UNBIND;
     }
@@ -79,11 +78,11 @@ export default class HiBreathBlueToothManager extends SimpleBlueToothImp {
      */
     dealReceiveData({receiveBuffer}) {
         const {dataAfterProtocol, state} = this.bluetoothProtocol.receive({receiveBuffer});
-        if (BlueToothState.UNKNOWN === state) {
+        if (BlueToothProtocol.UNKNOWN === state.protocolState) {
             return {filter: true};
         }
         super.updateBLEStateImmediately({state});
-        HiBreathBlueToothManager.logReceiveData({receiveBuffer});
+        HiBlueToothManager.logReceiveData({receiveBuffer});
         return {finalResult: dataAfterProtocol, state};
     }
 

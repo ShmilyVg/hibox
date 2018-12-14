@@ -2,7 +2,6 @@
 import Toast from "../../view/toast";
 import Login from "../../modules/network/login";
 import UserInfo from "../../modules/network/userInfo";
-
 Page({
 
     data: {},
@@ -10,6 +9,7 @@ Page({
     onLoad: function (options) {
 
     },
+
     onGotUserInfo(e){
         const {detail: {userInfo, encryptedData, iv}} = e;
         if (!!userInfo) {

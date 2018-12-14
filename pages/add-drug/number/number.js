@@ -1,4 +1,9 @@
 import DrugRuler from "./drug-ruler";
+import Toast from "../../../view/toast";
+import HiNavigator from "../../../navigator/hi-navigator";
+import BlueToothProtocol from "../../../modules/bluetooth/base/bluetooth-protocol";
+import Protocol from "../../../modules/network/protocol";
+import BlueToothState from "../../../modules/bluetooth/state-const";
 
 Page({
 
@@ -40,6 +45,36 @@ Page({
                 pieceArray: this.getArray(99)
             }
         );
+        getApp().setBLEListener({
+            bleStateListener: ({state}) => {
+                switch (state.connectState) {
+                    case BlueToothState.UNAVAILABLE:
+                    case BlueToothState.UNBIND:
+                    case BlueToothState.DISCONNECT:
+                        Toast.hiddenLoading();
+                        setTimeout(Toast.warn, 0, '请重试');
+                        break;
+                }
+            },
+            receiveDataListener: ({finalResult, state}) => {
+                if (BlueToothProtocol.SEND_ALERT_TIME_RESULT === state.protocolState) {
+                    if (finalResult.isSetSingleAlertItemSuccess) {
+                        if (!!this.dataForBLE.length) {
+                            this.sendDataToBLE();
+                        } else {
+                            Protocol.postMedicalRemindConfig({...DrugRuler.getConvertToServerData({...this.data})})
+                                .then(() => HiNavigator.switchTab({score: finalResult.result}))
+                                .catch(() => setTimeout(Toast.warn, 0, '网络异常'))
+                                .finally(() => Toast.hiddenLoading());
+                        }
+                    } else {
+                        Toast.hiddenLoading();
+                        setTimeout(Toast.warn, 0, '请重试');
+                    }
+                }
+            }
+        });
+
     },
 
     numberAllChooseEvent(e) {
@@ -91,11 +126,14 @@ Page({
         return array;
     },
 
-
     nextStep() {
-        console.log(DrugRuler.getConvertToBLEList({...this.data}));
-        console.log(DrugRuler.getConvertToServerList({...this.data}));
+        Toast.showLoading();
+        this.dataForBLE = DrugRuler.getConvertToBLEList({...this.data});
+        this.sendDataToBLE();
     },
 
+    sendDataToBLE() {
+        const singleAlertData = this.dataForBLE.pop();
+        !!singleAlertData && getApp().getBLEManager().sendAlertTimeOperationProtocol({singleAlertData});
+    }
 });
-

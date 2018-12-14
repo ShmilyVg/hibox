@@ -3,11 +3,11 @@
     "pages/index/index",
     "pages/connect-device/connect-device",
     "pages/bind-device/bind-device",
-    "pages/connect-err/connect-err",
     "pages/add-drug/choose-type/choose-type",
     "pages/add-drug/input-drug/input-drug",
     "pages/add-drug/number/number",
-    "pages/history/history"
+    "pages/history/history",
+    "pages/search-device/search-device"
   ],
   "tabBar": {
     "selectedColor": "#66DABF",
