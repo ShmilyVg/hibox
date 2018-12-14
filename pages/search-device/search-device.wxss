@@ -21,6 +21,7 @@
     line-height: 100rpx;
     margin: 0 5rpx;
     font-size: 30rpx;
+    text-align: center;
 }
 
 .num{
