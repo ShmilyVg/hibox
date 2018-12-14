@@ -1,0 +1,32 @@
+// pages/search-device/search-device.js
+Page({
+
+    data: {
+        num: 10,
+        isSearching: false
+    },
+    onLoad: function (options) {
+    },
+
+    startSearch() {
+        this.setData({
+            isSearching: true
+        });
+        let timer = setInterval(() => {
+            this.setData({
+                num: --this.data.num
+            });
+            if (this.data.num === 0) {
+                this.setData({
+                    num: 10,
+                    isSearching: false
+                });
+                clearTimeout(timer);
+            }
+        }, 1000);
+    },
+
+    deleteDevice() {
+
+    }
+})

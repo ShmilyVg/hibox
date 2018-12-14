@@ -1,0 +1,13 @@
+<!--pages/search-device/search-device.wxml-->
+<view class="flex-column">
+    <view class="flex-column" style="margin-top: 150rpx;opacity: {{isSearching?'0.1':'1'}}">
+        <image src="../../images/device-top.gif" style="width: 346rpx;height: 317rpx"></image>
+        <image src="../../images/device-bottom.png" style="width: 346rpx;height: 430rpx"></image>
+    </view>
+    <view class="device-text">HiPee Intelligent Medicine Box</view>
+    <view class="flex-row" style="position: fixed;bottom: 82rpx;">
+        <button class="btn" style="background-color: #67D5B8;border-radius: 74rpx 6rpx 6rpx 74rpx" hover-class="press-style" bindtap="startSearch">寻找药盒</button>
+        <button class="btn" style="background-color: #FD7474;border-radius: 6rpx 74rpx 74rpx 6rpx" hover-class="press-style" bindtap="deleteDevice">删除药盒</button>
+    </view>
+</view>
+<view wx:if="{{isSearching}}" class="num">{{num}}</view>

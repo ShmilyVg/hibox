@@ -21,6 +21,10 @@ export default class HiNavigator {
         this.navigateTo({url: `/pages/add-drug/number/number?classify=${classify}&drugName=${drugName}&step=${parseInt(step) + 1}&count=${count}`})
     }
 
+    static navigateSearchDevicePage() {
+        this.navigateTo({url: `/pages/search-device/search-device`})
+    }
+
     static navigateTo({url, success, fail, complete}) {
         wx.navigateTo({url, success, fail, complete});
     }
