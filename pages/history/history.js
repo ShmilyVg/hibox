@@ -1,19 +1,38 @@
 // pages/history/history.js
+import Protocol from "../../modules/network/protocol";
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+      boxColor: ['#68D5B8', '#8FC25E', '#9F92D6', '#8CA5DC'],
+      listText: ['now', 'future'],
+      allList: [],
+      page: 1
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-
+  onLoad() {
+      this.getMedicalRecordList({});
   },
+   getMedicalRecordList({page = 1}) {
+        Protocol.MedicalRecordList({page}).then(data => {
+          console.log(data.result);
+            let list = data.result;
+            if (list.length) {
+                this.setData({
+                    allList: this.data.allList.concat(list),
+                })
+            } else {
+                this.data.page--;
+            }
+        }).finally(() => wx.stopPullDownRefresh());
+    },
+
+
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -54,13 +73,6 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
 
   }
 })

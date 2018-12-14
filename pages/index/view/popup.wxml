@@ -1,5 +1,5 @@
-<template name="popup">
-    <view class="index-popup">
+<template name="popup" >
+    <view wx:if="{{popupShow}}" class="index-popup" bindtap="popupHideClick">
         <view class="popup-box">
             <view class="popup-num" style="background: {{boxColor[item.compartment-1]}}">
                 <view class="popup-num-text">{{item.compartment}}</view>

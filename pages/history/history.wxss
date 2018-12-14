@@ -16,3 +16,33 @@ page{
     background: rgba(0,0,0,0.3);
 }
 
+.history-box{
+    width: 690rpx;
+    margin: 80rpx auto 0;
+}
+.history-headbox{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 26rpx;
+}
+.history-data{
+    font-size: 30rpx;
+    color: #fff;
+    margin-bottom: 10rpx;
+}
+.history-time{
+    font-size: 60rpx;
+    color: #fff;
+    line-height: 60rpx;
+}
+.history-state{
+    width: 174rpx;
+    height: 66rpx;
+    background: #fff;
+    text-align: center;
+    line-height: 66rpx;
+    border-radius: 50rpx;
+    font-size: 28rpx;
+    color: #66DABF;
+}

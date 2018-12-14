@@ -1,15 +1,11 @@
+import Protocol from "../../../modules/network/protocol";
+
 Page({
     data: {
 
     },
 
-    reviseBtnClick(){
 
-    },
-
-    notakeBtnClick(){
-
-    },
-    onLoad: function () {
-    },
+    onLoad: {
+    }
 })

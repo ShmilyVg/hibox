@@ -116,6 +116,29 @@ Page({
 
     getIndexNum(e) {
         return e.currentTarget.dataset.index
-    }
+    },
+
+    popupHideClick(){
+        this.setData({
+            popupShow: false,
+        })
+    },
+
+    reviseBtnClick(){
+        this.setData({
+            popupShow: false,
+        })
+    },
+
+    notakeBtnClick(){
+        this.setData({
+            popupShow: false,
+        })
+        Protocol.medicalRemindRemove({compartment}).then(data => {
+            let compartment = data.compartment;
+            console.log(compartment);
+
+        })
+    },
 
 })
