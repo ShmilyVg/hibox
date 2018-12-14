@@ -9,6 +9,7 @@ Page({
     },
 
     startSearch() {
+        getApp().getBLEManager().sendFindDeviceProtocol();
         this.setData({
             isSearching: true
         });
@@ -16,12 +17,12 @@ Page({
             this.setData({
                 num: --this.data.num
             });
-            if (this.data.num === 0) {
+            if (this.data.num <= 0) {
                 this.setData({
                     num: 10,
                     isSearching: false
                 });
-                clearTimeout(timer);
+                clearInterval(timer);
             }
         }, 1000);
     },
