@@ -37,4 +37,13 @@ export default class Protocol {
     static postMedicalRecordSave({records}) {
         return Network.request({url: 'medical/record/save', data: {records}});
     }
+
+    static postMedicalRemindConfig({deviceId, compartment, drugName, drugClassify, items}) {
+        return Network.request({
+            url: 'medical/record/save',
+            data: {deviceId, compartment, drug_name: drugName, drug_classify: drugClassify, items}
+        });
+    }
+
+
 }

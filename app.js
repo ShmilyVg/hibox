@@ -5,13 +5,11 @@ import BlueToothState from "./modules/bluetooth/state-const";
 import Protocol from "./modules/network/protocol";
 
 App({
-    appReceiveDataListener: null,
-    appBLEStateListener: null,
 
     onLaunch(options) {
         let records = [];
         this.setCommonBLEListener({
-            appReceiveDataListener: ({finalResult, state}) => {
+            commonAppReceiveDataListener: ({finalResult, state}) => {
                 if (BlueToothState.QUERY_DATA_ING === state.protocolState) {
                     const {length, isEat, timestamp} = finalResult;
                     if (records.length < length) {
@@ -26,9 +24,11 @@ App({
                         }).finally(() => records = []);
                     }
 
+                } else {
+                    this.appReceiveDataListener && this.appReceiveDataListener({finalResult, state});
                 }
             },
-            appBLEStateListener: this.appBLEStateListener
+            commonAppBLEStateListener: this.appBLEStateListener
         });
         this.commonOnLaunch(options);
     },
