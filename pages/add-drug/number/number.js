@@ -1,6 +1,9 @@
 import DrugRuler from "./drug-ruler";
 import Toast from "../../../view/toast";
 import HiNavigator from "../../../navigator/hi-navigator";
+import BlueToothProtocol from "../../../modules/bluetooth/base/bluetooth-protocol";
+import Protocol from "../../../modules/network/protocol";
+import BlueToothState from "../../../modules/bluetooth/state-const";
 
 Page({
 
@@ -42,21 +45,33 @@ Page({
                 pieceArray: this.getArray(99)
             }
         );
-        getApp().setCommonBLEListener({
-            appReceiveDataListener: ({finalResult, state}) => {
-                if (BlueToothState.SEND_ALERT_TIME_RESULT === state.protocolState) {
+        getApp().setBLEListener({
+            bleStateListener: ({state}) => {
+                switch (state.connectState) {
+                    case BlueToothState.UNAVAILABLE:
+                    case BlueToothState.UNBIND:
+                    case BlueToothState.DISCONNECT:
+                        Toast.hiddenLoading();
+                        setTimeout(Toast.warn, 0, '请重试');
+                        break;
+                }
+            },
+            receiveDataListener: ({finalResult, state}) => {
+                if (BlueToothProtocol.SEND_ALERT_TIME_RESULT === state.protocolState) {
                     if (finalResult.isSetSingleAlertItemSuccess) {
                         if (!!this.dataForBLE.length) {
                             this.sendDataToBLE();
-                            return;
                         } else {
-                            HiNavigator.switchTab({score: finalResult.result});
+                            Protocol.postMedicalRemindConfig({...DrugRuler.getConvertToServerData({...this.data})})
+                                .then(() => HiNavigator.switchTab({score: finalResult.result}))
+                                .catch(() => setTimeout(Toast.warn, 0, '网络异常'))
+                                .finally(() => Toast.hiddenLoading());
                         }
                     } else {
-                        Toast.warn('请重试');
+                        Toast.hiddenLoading();
+                        setTimeout(Toast.warn, 0, '请重试');
                     }
                 }
-                Toast.hiddenLoading();
             }
         });
 
@@ -111,12 +126,10 @@ Page({
         return array;
     },
 
-
     nextStep() {
         Toast.showLoading();
         this.dataForBLE = DrugRuler.getConvertToBLEList({...this.data});
         this.sendDataToBLE();
-        // console.log(DrugRuler.getConvertToServerList({...this.data}));
     },
 
     sendDataToBLE() {
