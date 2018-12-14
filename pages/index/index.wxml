@@ -10,7 +10,7 @@
             <image src="{{userInfo.headUrl}}" class="avatar"></image>
             <view style="margin-left: 30rpx;color: white;">
                 <view style="font-size: 40rpx">我的药盒</view>
-                <view style="font-size: 30rpx">{{isConnect?'已连接':'连接中…'}}</view>
+                <view style="font-size: 30rpx">{{connectState}}</view>
             </view>
         </view>
         <image src="../../images/set.png" class="set" bindtap="toSet"></image>

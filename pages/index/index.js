@@ -25,9 +25,39 @@ Page({
     },
 
     onShow() {
+        let that = this;
+        getApp().getBLEManager().connect();
+        getApp().setBLEListener({
+            bleStateListener: function ({state}) {
+                console.log('====>>>');
+                let data = that.setConnectState(state);
+                that.setData({
+                    connectState: data.text,
+                    isConnect: data.isConnect
+                })
+            }
+        });
+
+
         if (getApp().globalData.refreshIndexPage) {
             this.getBaseInfo();
             getApp().globalData.refreshIndexPage = false
+        }
+    },
+
+    setConnectState(state) {
+        console.log('状态', state.connectState);
+        switch (state.connectState) {
+            case BlueToothState.UNBIND:
+                return {text: '未绑定', isConnect: false};
+            case BlueToothState.UNAVAILABLE:
+                return {text: '请开启手机蓝牙', isConnect: false};
+            case BlueToothState.DISCONNECT:
+                return {text: '连接失败', isConnect: false};
+            case BlueToothState.CONNECTING:
+                return {text: '正在连接', isConnect: false};
+            case BlueToothState.CONNECTED:
+                return {text: '已连接', isConnect: true}
         }
     },
 
