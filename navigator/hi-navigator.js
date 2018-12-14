@@ -1,6 +1,6 @@
 export default class HiNavigator {
 
-    static navigateToAddDrug({deviceId='', compartment}) {
+    static navigateToAddDrug({deviceId = '', compartment}) {
         getApp().globalData.addOrEditDrugObj = {deviceId, compartment};
         this.navigateTo({url: '/pages/add-drug/choose-type/choose-type'});
     }
@@ -19,6 +19,10 @@ export default class HiNavigator {
      */
     static navigateToDrugNumberPage({classify, drugName, step, count}) {
         this.navigateTo({url: `/pages/add-drug/number/number?classify=${classify}&drugName=${drugName}&step=${parseInt(step) + 1}&count=${count}`})
+    }
+
+    static navigetoToIndexPage({refresh = false}) {
+        this.switchTab({url: '/pages/index/index?refresh=' + refresh});
     }
 
     static navigateSearchDevicePage() {
