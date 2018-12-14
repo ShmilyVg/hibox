@@ -9,6 +9,9 @@ Page({
     },
 
     startSearch() {
+        if (this.data.isSearching) {
+            return;
+        }
         getApp().getBLEManager().sendFindDeviceProtocol();
         this.setData({
             isSearching: true

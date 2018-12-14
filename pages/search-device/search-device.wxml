@@ -6,8 +6,8 @@
     </view>
     <view class="device-text">HiPee Intelligent Medicine Box</view>
     <view class="flex-row" style="position: fixed;bottom: 82rpx;">
-        <button class="btn" style="background-color: #67D5B8;border-radius: 74rpx 6rpx 6rpx 74rpx" hover-class="press-style" bindtap="startSearch">寻找药盒</button>
-        <button class="btn" style="background-color: #FD7474;border-radius: 6rpx 74rpx 74rpx 6rpx" hover-class="press-style" bindtap="deleteDevice">删除药盒</button>
+        <view class="btn" style="background-color: {{isSearching?'#595959':'#67D5B8'}};color:  {{isSearching?'#8A8A8A':'white'}}; border-radius: 74rpx 6rpx 6rpx 74rpx" hover-class='press-style' bindtap="startSearch">寻找药盒</view>
+        <view class="btn" style="background-color: {{isSearching?'#595959':'#FD7474'}};color:  {{isSearching?'#8A8A8A':'white'}};border-radius: 6rpx 74rpx 74rpx 6rpx" hover-class='press-style' bindtap="deleteDevice">删除药盒</view>
     </view>
 </view>
 <view wx:if="{{isSearching}}" class="num">{{num}}</view>
