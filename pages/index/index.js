@@ -111,7 +111,7 @@ Page({
     },
 
     toSet() {
-        console.log('toSet');
+        HiNavigator.navigateSearchDevicePage();
     },
 
     getIndexNum(e) {

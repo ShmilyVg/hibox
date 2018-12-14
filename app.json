@@ -7,7 +7,8 @@
     "pages/add-drug/choose-type/choose-type",
     "pages/add-drug/input-drug/input-drug",
     "pages/add-drug/number/number",
-    "pages/history/history"
+    "pages/history/history",
+    "pages/search-device/search-device"
   ],
   "tabBar": {
     "selectedColor": "#66DABF",
