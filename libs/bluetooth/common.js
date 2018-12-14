@@ -2,6 +2,7 @@ import Login from "../../modules/network/login";
 import UserInfo from "../../modules/network/userInfo";
 import HiBoxBlueToothManager from "../../modules/bluetooth/hi-box-bluetooth-manager";
 import Protocol from "../../modules/network/protocol";
+import {listener} from "./listener";
 
 const obj = {
     commonOnLaunch(options) {
@@ -15,7 +16,10 @@ const obj = {
                         !this.bLEManager.getBindMarkStorage() && Protocol.postDeviceBind({deviceId}).then(() => {
                             console.log('绑定协议发送成功');
                             this.bLEManager.setBindMarkStorage();
-                            this.commonAppReceiveDataListener && this.commonAppReceiveDataListener({finalResult, state});
+                            this.commonAppReceiveDataListener && this.commonAppReceiveDataListener({
+                                finalResult,
+                                state
+                            });
                         }).catch((res) => {
                             console.log('绑定协议报错', res);
                             this._updateBLEState({state: {connectState: BlueToothState.UNBIND}});
@@ -55,9 +59,9 @@ const obj = {
         return this.bLEManager;
     },
 
-    setCommonBLEListener({appReceiveDataListener, appBLEStateListener}) {
-        this.commonAppReceiveDataListener = appReceiveDataListener;
-        this.commonAppBLEStateListener = appBLEStateListener;
+    setCommonBLEListener({commonAppReceiveDataListener, commonAppBLEStateListener}) {
+        this.commonAppReceiveDataListener = commonAppReceiveDataListener;
+        this.commonAppBLEStateListener = commonAppBLEStateListener;
     },
 
     getLatestBLEState() {
@@ -75,4 +79,6 @@ const obj = {
     },
 };
 
-export {obj as common};
+const common = {...obj, ...listener};
+
+export {common};
