@@ -82,6 +82,7 @@ export default class BlueToothProtocol {
             },
             '0x7c': () => {
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x7c'})});
+                this.sendQueryDataRequiredProtocol();
             }
         }
     }
