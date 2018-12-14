@@ -1,4 +1,6 @@
 import DrugRuler from "./drug-ruler";
+import Toast from "../../../view/toast";
+import HiNavigator from "../../../navigator/hi-navigator";
 
 Page({
 
@@ -40,6 +42,24 @@ Page({
                 pieceArray: this.getArray(99)
             }
         );
+        getApp().setCommonBLEListener({
+            appReceiveDataListener: ({finalResult, state}) => {
+                if (BlueToothState.SEND_ALERT_TIME_RESULT === state.protocolState) {
+                    if (finalResult.isSetSingleAlertItemSuccess) {
+                        if (!!this.dataForBLE.length) {
+                            this.sendDataToBLE();
+                            return;
+                        } else {
+                            HiNavigator.switchTab({score: finalResult.result});
+                        }
+                    } else {
+                        Toast.warn('请重试');
+                    }
+                }
+                Toast.hiddenLoading();
+            }
+        });
+
     },
 
     numberAllChooseEvent(e) {
@@ -93,9 +113,14 @@ Page({
 
 
     nextStep() {
-        console.log(DrugRuler.getConvertToBLEList({...this.data}));
-        console.log(DrugRuler.getConvertToServerList({...this.data}));
+        Toast.showLoading();
+        this.dataForBLE = DrugRuler.getConvertToBLEList({...this.data});
+        this.sendDataToBLE();
+        // console.log(DrugRuler.getConvertToServerList({...this.data}));
     },
 
+    sendDataToBLE() {
+        const singleAlertData = this.dataForBLE.pop();
+        !!singleAlertData && getApp().getBLEManager().sendAlertTimeOperationProtocol({singleAlertData});
+    }
 });
-

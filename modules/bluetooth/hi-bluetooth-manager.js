@@ -2,7 +2,7 @@ import SimpleBlueToothImp from "../../libs/bluetooth/simple-bluetooth-imp";
 import BlueToothProtocol from "./bluetooth-protocol";
 import BlueToothState from "./state-const";
 
-export default class HiBreathBlueToothManager extends SimpleBlueToothImp {
+export default class HiBlueToothManager extends SimpleBlueToothImp {
 
     constructor() {
         super();
@@ -71,6 +71,10 @@ export default class HiBreathBlueToothManager extends SimpleBlueToothImp {
         }, 2000);
     }
 
+    sendAlertTimeOperationProtocol({singleAlertData}) {
+        this.bluetoothProtocol.sendAlertTime({singleAlertData});
+    }
+
     /**
      * 处理从蓝牙设备接收到的数据的具体实现
      * 这里会将处理后的数据，作为参数传递给setBLEListener的receiveDataListener监听函数。
@@ -79,11 +83,11 @@ export default class HiBreathBlueToothManager extends SimpleBlueToothImp {
      */
     dealReceiveData({receiveBuffer}) {
         const {dataAfterProtocol, state} = this.bluetoothProtocol.receive({receiveBuffer});
-        if (BlueToothState.UNKNOWN === state) {
+        if (BlueToothState.UNKNOWN === state.protocolState) {
             return {filter: true};
         }
         super.updateBLEStateImmediately({state});
-        HiBreathBlueToothManager.logReceiveData({receiveBuffer});
+        HiBlueToothManager.logReceiveData({receiveBuffer});
         return {finalResult: dataAfterProtocol, state};
     }
 
