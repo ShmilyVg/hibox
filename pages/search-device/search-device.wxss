@@ -20,6 +20,7 @@
     color: white;
     line-height: 100rpx;
     margin: 0 5rpx;
+    font-size: 30rpx;
 }
 
 .num{
