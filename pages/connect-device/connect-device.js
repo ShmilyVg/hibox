@@ -8,29 +8,26 @@ const app = getApp();
 Page({
 
     data: {
-        backgroundColor: '#3E3E3E',
         isFlicker: false,
-        index: 1,
-        showContent: [
-            {
-                title: '将药盒靠近手机',
-                content: '正在努力的寻找药盒…',
-                backgroundColor: '#3E3E3E',
-                navigationColor: '#3E3E3E'
-            },
-            {
-                title: '药盒找到啦！',
-                content: '短按药盒按钮',
-                backgroundColor: 'linear-gradient(#66DABF, #008290)',
-                navigationColor: '#66DABF'
-            }
+        state: {
+            title: '将药盒靠近手机',
+            content: '正在努力的寻找药盒…',
+            backgroundColor: '#3E3E3E',
+            navigationColor: '#3E3E3E',
+            connectErr: false
+        },
+        content: [
+            '手机未开启蓝牙',
+            '手机未授权微信获取定位权限',
+            '药盒离手机太远',
+            '未在药盒上短按按键确认'
         ]
     },
 
     onLoad: function (options) {
         wx.setNavigationBarColor({
             frontColor: '#ffffff',
-            backgroundColor: this.data.showContent[this.data.index].navigationColor,
+            backgroundColor: this.data.state.navigationColor,
         });
         this.flickerHandle();
         app.getBLEManager().connect();
@@ -48,6 +45,7 @@ Page({
             }
         });
     },
+
     onUnload() {
         !this.isBind && app.getBLEManager().clearConnectedBLE();
     },
@@ -62,9 +60,11 @@ Page({
         switch (state) {
             case BlueToothState.CONNECTING:
                 return {
-                    color: '#979797',
-                    text: '正在寻找您的设备\n请将设备开机并靠近手机',
-                    picPath: '../../images/device-bind/connecting.png'
+                    title: '将药盒靠近手机',
+                    content: '正在努力的寻找药盒…',
+                    backgroundColor: '#3E3E3E',
+                    navigationColor: '#3E3E3E',
+                    connectErr: false
                 };
             case BlueToothState.UNAVAILABLE:
             case BlueToothState.DISCONNECT:
@@ -72,23 +72,29 @@ Page({
                 this.isBind = false;
                 app.getBLEManager().clearConnectedBLE();
                 return {
-                    color: '#979797',
-                    text: '绑定失败，请检查后重试',
-                    picPath: '../../images/device-bind/fail.png'
+                    connectErr: true,
+                    navigationColor: '#66DABF',
+                    backgroundColor: 'linear-gradient(#66DABF, #008290)',
                 };
             default:
                 return {
-                    color: '#FE5E01',
-                    text: '已找到您的设备\n短按设备上的按键确认绑定',
-                    picPath: '../../images/device-bind/connected.png'
+                    title: '药盒找到啦！',
+                    content: '短按药盒按钮',
+                    backgroundColor: 'linear-gradient(#66DABF, #008290)',
+                    navigationColor: '#66DABF',
+                    connectErr: false
                 };
         }
     },
 
     showResult({state}) {
         this.setData({
-            result: this.getResultState({state}),
+            state: this.getResultState({state}),
             showReConnected: state === BlueToothState.DISCONNECT || state === BlueToothState.UNAVAILABLE
+        });
+        wx.setNavigationBarColor({
+            frontColor: '#ffffff',
+            backgroundColor: this.data.state.navigationColor,
         });
     },
 

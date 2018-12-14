@@ -1,7 +1,7 @@
 <!--pages/connect-device/connect-device.wxml-->
-<view class="background-view flex-column" style="background: {{showContent[index].backgroundColor}}">
-    <view class="title-first">{{showContent[index].title}}</view>
-    <view class="title-second">{{showContent[index].content}}</view>
+<view wx:if="{{!state.connectErr}}" class="background-view flex-column" style="background: {{state.backgroundColor}}">
+    <view class="title-first">{{state.title}}</view>
+    <view class="title-second">{{state.content}}</view>
     <view wx:if="{{!index}}" class="flex-column" style="margin-top: 70rpx">
         <image src="../../images/device-top.gif" style="width: 346rpx;height: 317rpx"></image>
         <image src="../../images/device-bottom.png" style="width: 346rpx;height: 430rpx"></image>
@@ -11,3 +11,20 @@
     </image>
     <view class="text-bottom">HiPee Intelligent Medicine Box</view>
 </view>
+
+<block wx:else>
+    <view class="bg">
+        <text class="title-text">出了点小问题\n需要您检查再试试</text>
+        <block wx:for="{{content}}">
+            <view wx:if="{{index}}" class="content-line"></view>
+            <view class="flex-row" style="height: 140rpx">
+                <view class="content-num">{{index+1}}</view>
+                <view class="content-text">{{item}}</view>
+            </view>
+        </block>
+    </view>
+
+    <view class="flex-column">
+        <view class="bottom-btn btn" bindtap="reConnectEvent">重试</view>
+    </view>
+</block>
