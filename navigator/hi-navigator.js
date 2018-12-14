@@ -21,7 +21,7 @@ export default class HiNavigator {
         this.navigateTo({url: `/pages/add-drug/number/number?classify=${classify}&drugName=${drugName}&step=${parseInt(step) + 1}&count=${count}`})
     }
 
-    static navigetoToIndexPage({refresh = false}) {
+    static switchToIndexPage({refresh = false}) {
         this.switchTab({url: '/pages/index/index?refresh=' + refresh});
     }
 
