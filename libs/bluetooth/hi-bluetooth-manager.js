@@ -1,13 +1,11 @@
-import SimpleBlueToothImp from "../../../libs/bluetooth/simple-bluetooth-imp";
-import BlueToothProtocol from "./bluetooth-protocol";
-import BlueToothState from "../state-const";
+import SimpleBlueToothImp from "./base/simple-bluetooth-imp";
+import {ConnectState, ProtocolState} from "./state-const";
 
 export default class HiBlueToothManager extends SimpleBlueToothImp {
 
     constructor() {
         super();
-        this.bluetoothProtocol = new BlueToothProtocol(this);
-        this.latestState = BlueToothState.UNBIND;
+        this.latestState = ConnectState.UNBIND;
     }
 
     /**
@@ -34,7 +32,7 @@ export default class HiBlueToothManager extends SimpleBlueToothImp {
         if (this.getBindMarkStorage()) {
             return this.latestState;
         }
-        return this.latestState = BlueToothState.UNBIND;
+        return this.latestState = ConnectState.UNBIND;
     }
 
     clearConnectedBLE() {
@@ -78,7 +76,7 @@ export default class HiBlueToothManager extends SimpleBlueToothImp {
      */
     dealReceiveData({receiveBuffer}) {
         const {dataAfterProtocol, state} = this.bluetoothProtocol.receive({receiveBuffer});
-        if (BlueToothProtocol.UNKNOWN === state.protocolState) {
+        if (ProtocolState.UNKNOWN === state.protocolState) {
             return {filter: true};
         }
         super.updateBLEStateImmediately({state});

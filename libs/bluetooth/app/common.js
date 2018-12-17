@@ -1,7 +1,7 @@
 import Login from "../../../modules/network/login";
 import UserInfo from "../../../modules/network/userInfo";
 import Protocol from "../../../modules/network/protocol";
-import BlueToothState from "../../../modules/bluetooth/state-const";
+import {ConnectState, ProtocolState} from "../state-const";
 import {listener} from "./listener";
 
 const obj = {
@@ -10,7 +10,7 @@ const obj = {
         this.bLEManager = bLEManager;
         this.bLEManager.setBLEListener({
             receiveDataListener: ({finalResult, state}) => {
-                if (BlueToothState.GET_CONNECTED_RESULT_SUCCESS === state.protocolState) {
+                if (ProtocolState.GET_CONNECTED_RESULT_SUCCESS === state.protocolState) {
                     const {isConnected, deviceId} = finalResult;
                     if (isConnected) {
                         !this.bLEManager.getBindMarkStorage() && Protocol.postDeviceBind({deviceId}).then(() => {
@@ -22,7 +22,7 @@ const obj = {
                             });
                         }).catch((res) => {
                             console.log('绑定协议报错', res);
-                            this._updateBLEState({state: {connectState: BlueToothState.UNBIND}});
+                            this._updateBLEState({state: {connectState: ConnectState.UNBIND}});
                         });
                     } else {
                         this.bLEManager.clearConnectedBLE();
@@ -34,12 +34,12 @@ const obj = {
                 this.bLEManager.latestState = state;
                 console.log('状态更新', state);
                 switch (state.connectState) {
-                    case BlueToothState.CONNECTED:
+                    case ConnectState.CONNECTED:
                         this.bLEManager.startProtocol();
                         break;
-                    case BlueToothState.UNBIND:
-                    case BlueToothState.DISCONNECT:
-                    case BlueToothState.UNAVAILABLE:
+                    case ConnectState.UNBIND:
+                    case ConnectState.DISCONNECT:
+                    case ConnectState.UNAVAILABLE:
                         this.bLEManager.setFilter(true);
                         break;
 

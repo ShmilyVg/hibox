@@ -3,7 +3,7 @@ import Protocol from "../../modules/network/protocol";
 import * as config from "../../utils/config";
 import toast from "../../view/toast";
 import HiNavigator from "../../navigator/hi-navigator";
-import BlueToothState from "../../modules/bluetooth/state-const";
+import {ConnectState} from "../../libs/bluetooth/state-const";
 
 Page({
     data: {
@@ -45,15 +45,15 @@ Page({
 
     setConnectState(state) {
         switch (state.connectState) {
-            case BlueToothState.UNBIND:
+            case ConnectState.UNBIND:
                 return {text: '未绑定', isConnect: false};
-            case BlueToothState.UNAVAILABLE:
+            case ConnectState.UNAVAILABLE:
                 return {text: '请开启手机蓝牙', isConnect: false};
-            case BlueToothState.DISCONNECT:
+            case ConnectState.DISCONNECT:
                 return {text: '连接失败', isConnect: false};
-            case BlueToothState.CONNECTING:
+            case ConnectState.CONNECTING:
                 return {text: '正在连接', isConnect: false};
-            case BlueToothState.CONNECTED:
+            case ConnectState.CONNECTED:
                 return {text: '已连接', isConnect: true}
         }
     },

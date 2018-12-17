@@ -1,7 +1,6 @@
 // pages/connect-device/connect-device.js
 import HiNavigator from "../../navigator/hi-navigator";
-import BlueToothProtocol from "../../modules/bluetooth/base/bluetooth-protocol";
-import BlueToothState from "../../modules/bluetooth/state-const";
+import {ConnectState, ProtocolState} from "../../libs/bluetooth/state-const";
 
 const app = getApp();
 
@@ -36,11 +35,11 @@ Page({
                 this.showResult({state: state.connectState});
             },
             receiveDataListener: ({finalResult, state}) => {
-                if (BlueToothProtocol.GET_CONNECTED_RESULT_SUCCESS === state.protocolState) {
+                if (ProtocolState.GET_CONNECTED_RESULT_SUCCESS === state.protocolState) {
                     this.isBind = true;
                     const {isConnected} = finalResult;
                     const manager = app.getBLEManager();
-                    manager.updateBLEStateImmediately(manager.getState({protocolState: BlueToothProtocol.CONNECTED_AND_BIND}));
+                    manager.updateBLEStateImmediately(manager.getState({protocolState: ProtocolState.CONNECTED_AND_BIND}));
                     isConnected && HiNavigator.switchToIndexPage({refresh: false});
                 }
             }
@@ -59,7 +58,7 @@ Page({
 
     getResultState({state}) {
         switch (state) {
-            case BlueToothState.CONNECTING:
+            case ConnectState.CONNECTING:
                 return {
                     title: '将药盒靠近手机',
                     content: '正在努力的寻找药盒…',
@@ -67,9 +66,9 @@ Page({
                     navigationColor: '#3E3E3E',
                     connectErr: false
                 };
-            case BlueToothState.UNAVAILABLE:
-            case BlueToothState.DISCONNECT:
-            case BlueToothState.UNBIND:
+            case ConnectState.UNAVAILABLE:
+            case ConnectState.DISCONNECT:
+            case ConnectState.UNBIND:
                 this.isBind = false;
                 app.getBLEManager().clearConnectedBLE();
                 return {
@@ -91,7 +90,7 @@ Page({
     showResult({state}) {
         this.setData({
             state: this.getResultState({state}),
-            showReConnected: state === BlueToothState.DISCONNECT || state === BlueToothState.UNAVAILABLE
+            showReConnected: state === ConnectState.DISCONNECT || state === ConnectState.UNAVAILABLE
         });
         wx.setNavigationBarColor({
             frontColor: '#ffffff',

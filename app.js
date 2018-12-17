@@ -1,7 +1,7 @@
 //app.js
 import './libs/adapter';
 import {common} from "./libs/bluetooth/app/common";
-import BlueToothState from "./modules/bluetooth/state-const";
+import {ProtocolState} from "./libs/bluetooth/state-const";
 import Protocol from "./modules/network/protocol";
 import HiBoxBlueToothManager from "./modules/bluetooth/hi-box-bluetooth-manager";
 
@@ -11,7 +11,7 @@ App({
         let records = [];
         this.setCommonBLEListener({
             commonAppReceiveDataListener: ({finalResult, state}) => {
-                if (BlueToothState.QUERY_DATA_ING === state.protocolState) {
+                if (ProtocolState.QUERY_DATA_ING === state.protocolState) {
                     const {length, isEat, timestamp} = finalResult;
                     if (records.length < length) {
                         records.push({state: isEat ? 1 : 0, timestamp});

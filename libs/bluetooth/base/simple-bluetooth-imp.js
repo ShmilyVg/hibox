@@ -1,4 +1,4 @@
-import BaseBlueToothImp from "./base/base-bluetooth-imp";
+import BaseBlueToothImp from "./base-bluetooth-imp";
 
 export default class SimpleBlueToothImp {
     constructor() {

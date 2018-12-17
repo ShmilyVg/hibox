@@ -1,9 +1,8 @@
 import DrugRuler from "./drug-ruler";
 import Toast from "../../../view/toast";
 import HiNavigator from "../../../navigator/hi-navigator";
-import BlueToothProtocol from "../../../modules/bluetooth/base/bluetooth-protocol";
 import Protocol from "../../../modules/network/protocol";
-import BlueToothState from "../../../modules/bluetooth/state-const";
+import {ConnectState, ProtocolState} from "../../../libs/bluetooth/state-const";
 
 Page({
 
@@ -48,16 +47,16 @@ Page({
         getApp().setBLEListener({
             bleStateListener: ({state}) => {
                 switch (state.connectState) {
-                    case BlueToothState.UNAVAILABLE:
-                    case BlueToothState.UNBIND:
-                    case BlueToothState.DISCONNECT:
+                    case ConnectState.UNAVAILABLE:
+                    case ConnectState.UNBIND:
+                    case ConnectState.DISCONNECT:
                         Toast.hiddenLoading();
                         setTimeout(Toast.warn, 0, '请重试');
                         break;
                 }
             },
             receiveDataListener: ({finalResult, state}) => {
-                if (BlueToothProtocol.SEND_ALERT_TIME_RESULT === state.protocolState) {
+                if (ProtocolState.SEND_ALERT_TIME_RESULT === state.protocolState) {
                     if (finalResult.isSetSingleAlertItemSuccess) {
                         if (!!this.dataForBLE.length) {
                             this.sendDataToBLE();
