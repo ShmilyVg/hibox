@@ -153,19 +153,19 @@ Page({
         return e.currentTarget.dataset.index
     },
 
-    popupHideClick(){
+    popupHideClick() {
         this.setData({
             popupShow: false,
         })
     },
 
-    reviseBtnClick(){
+    reviseBtnClick() {
         this.setData({
             popupShow: false,
         })
     },
 
-    notakeBtnClick(){
+    notakeBtnClick() {
         this.setData({
             popupShow: false,
         })
