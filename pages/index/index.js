@@ -11,7 +11,8 @@ Page({
         popupShow: false,
         isConnect: false,
         animationData: {},
-        connectState: {'text': '正在连接...', color: '#65FF0A'}
+        animationData1: {},
+        connectState: {'text': '正在连接...', color: '#65FF0A'},
     },
 
     onLoad: function () {
@@ -53,7 +54,6 @@ Page({
         })
 
         this.animation = animation;
-
         setTimeout(function () {
             animation.translateY(-100).step()
             this.setData({
@@ -62,18 +62,23 @@ Page({
         }.bind(this), 3000);
     },
 
-
     setConnectState(state) {
         switch (state.connectState) {
             case ConnectState.UNBIND:
+                this.data.clearInterval(this.data.pointTimer);
                 return {text: '未绑定', isConnect: false};
             case ConnectState.UNAVAILABLE:
+                this.data.clearInterval(this.data.pointTimer);
                 return {text: '请开启手机蓝牙', isConnect: false};
             case ConnectState.DISCONNECT:
+                this.data.clearInterval(this.data.pointTimer);
                 return {text: '连接失败', isConnect: false};
             case ConnectState.CONNECTING:
+                this.pointAnimation();
                 return {text: '正在连接', isConnect: false};
             case ConnectState.CONNECTED:
+                this.data.clearInterval(this.data.pointTimer);
+                this.hiddenTopTip();
                 return {text: '已连接', isConnect: true}
         }
     },
@@ -166,11 +171,33 @@ Page({
     },
 
     toSet() {
+        // this.hiddenTopTip();
+        // this.pointAnimation();
         HiNavigator.navigateSearchDevicePage();
+
     },
 
     getIndexNum(e) {
         return e.currentTarget.dataset.index
+    },
+
+    pointAnimation(){
+        const animation1 = wx.createAnimation({
+            duration: 1000,
+            timingFunction: 'ease',
+        });
+        let that = this;
+
+
+        let num = 0;
+        this.data.pointTimer = setInterval(function () {
+            this.animation1 = animation1;
+            animation1.opacity(num % 2).step();
+            that.setData({
+                animationData1: animation1.export()
+            });
+            num++;
+        }, 1000)
     },
 
     hidePopupView() {
