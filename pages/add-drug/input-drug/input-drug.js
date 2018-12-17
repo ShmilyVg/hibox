@@ -15,7 +15,8 @@ Page({
 
         Protocol.getDrugItems({classify}).then(data => {
             const {result: drugs} = data;
-            this.setData({drugs});
+            const drugName = this.data.drugName;
+            this.setData({drugs: drugs.map(item => ({...item, selected: item.name === drugName}))});
         });
     },
 
