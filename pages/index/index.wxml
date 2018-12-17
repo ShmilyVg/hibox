@@ -33,6 +33,6 @@
     </view>
 </view>
 
-<template is="popup" data="{{item:list[listText[choseIndex[0]]][choseIndex[1]],boxColor,popupShow}}"></template>
+<template is="popup" data="{{item:box[choseIndex],boxColor,popupShow}}"></template>
 
 <!--<view class="windows"></view>-->
