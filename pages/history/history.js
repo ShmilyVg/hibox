@@ -1,9 +1,9 @@
 // pages/history/history.js
 import Protocol from "../../modules/network/protocol";
-import BlueToothProtocol from "../../modules/bluetooth/base/bluetooth-protocol";
 import * as tools from "../../utils/tools";
 import toast from "../../view/toast";
 import * as config from "../../utils/config";
+import {ProtocolState} from "../../libs/bluetooth/state-const";
 
 Page({
 
@@ -87,13 +87,13 @@ Page({
         getApp().setBLEListener({
             bleStateListener: ({state}) => {
                 switch (state.protocolState) {
-                    // case BlueToothProtocol.QUERY_DATA_START:
+                    // case ProtocolState.QUERY_DATA_START:
                     //
                     //     break;
-                    case BlueToothProtocol.QUERY_DATA_ING:
+                    case ProtocolState.QUERY_DATA_ING:
                         this.setData({queryState: '同步中...'});
                         break;
-                    case BlueToothProtocol.QUERY_DATA_FINISH:
+                    case ProtocolState.QUERY_DATA_FINISH:
                         this.setData({queryState: '同步完成'});
                         break;
                 }
