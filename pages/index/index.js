@@ -44,7 +44,6 @@ Page({
     },
 
     setConnectState(state) {
-        console.log('状态', state);
         switch (state.connectState) {
             case BlueToothState.UNBIND:
                 return {text: '未绑定', isConnect: false};
