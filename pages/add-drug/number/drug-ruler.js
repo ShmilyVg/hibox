@@ -5,11 +5,11 @@ export default class DrugRuler {
         return {
             compartment: parseInt(compartment) || 1, drugName: drugName,
             drugClassify: classify, deviceId: deviceId,
-            items: [...list.sort(function (item1, item2) {
-                return item1.timestamp - item2.timestamp;
-            }).map((item) => {
-                return {remind_time: item.time, number: item.piece};
-            })]
+            items: [...list.sort((item1, item2) =>
+                item1.timestamp - item2.timestamp
+            ).map((item) =>
+                ({remind_time: item.time, number: item.piece})
+            )]
         };
     }
 
@@ -18,14 +18,12 @@ export default class DrugRuler {
         return list.sort(this.sortFun).map((item, timeIndex) =>
             ({compartment: parseInt(compartment) || 1, length, timeIndex, timestamp: item.timestamp,})
         ).map(item =>
-            [item.compartment, item.length, item.timeIndex, item.timestamp]
+            [item.compartment, item.length, item.timeIndex + 1, item.timestamp]
         ).reverse();
     }
 
     static convertServerListToLocalList({items}) {
-        return items.map(item => {
-            return {...this.getFinalItemExpectPiece(item.remind_time), piece: item.number};
-        })
+        return items.map(item => ({...this.getFinalItemExpectPiece(item.remind_time), piece: item.number}));
     }
 
     static getDayPart(hour) {
@@ -39,9 +37,7 @@ export default class DrugRuler {
     }
 
     static getList({ruler, number, piece}) {
-        return ruler[number].map(item => {
-            return {...this.getFinalItemExpectPiece(item), piece};
-        });
+        return ruler[number].map(item => ({...this.getFinalItemExpectPiece(item), piece}));
     }
 
     static sortFun(item1, item2) {

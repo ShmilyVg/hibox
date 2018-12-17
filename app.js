@@ -1,6 +1,6 @@
 //app.js
 import './libs/adapter';
-import {common} from "./libs/bluetooth/common";
+import {common} from "./libs/bluetooth/app/common";
 import BlueToothState from "./modules/bluetooth/state-const";
 import Protocol from "./modules/network/protocol";
 import HiBoxBlueToothManager from "./modules/bluetooth/hi-box-bluetooth-manager";
@@ -33,6 +33,10 @@ App({
             }
         });
         this.commonOnLaunch({options, bLEManager: new HiBoxBlueToothManager()});
+    },
+
+    onShow(options) {
+        this.commonOnShow({options});
     },
 
     onHide() {

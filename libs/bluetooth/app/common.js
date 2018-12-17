@@ -1,11 +1,11 @@
-import Login from "../../modules/network/login";
-import UserInfo from "../../modules/network/userInfo";
-import Protocol from "../../modules/network/protocol";
-import BlueToothState from "../../modules/bluetooth/state-const";
+import Login from "../../../modules/network/login";
+import UserInfo from "../../../modules/network/userInfo";
+import Protocol from "../../../modules/network/protocol";
+import BlueToothState from "../../../modules/bluetooth/state-const";
 import {listener} from "./listener";
 
 const obj = {
-    commonOnLaunch({options,bLEManager}) {
+    commonOnLaunch({options, bLEManager}) {
         this.doLogin();
         this.bLEManager = bLEManager;
         this.bLEManager.setBLEListener({
@@ -48,7 +48,11 @@ const obj = {
             }
         })
     },
-
+    commonOnShow({options}) {
+        setTimeout(() => {
+            this.bLEManager.getBindMarkStorage() && this.bLEManager.connect();
+        }, 800);
+    },
     commonOnHide() {
         this.bLEManager.closeAll();
     },

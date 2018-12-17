@@ -27,7 +27,6 @@ Page({
 
     onShow() {
         let that = this;
-        getApp().getBLEManager().connect();
         getApp().setBLEListener({
             bleStateListener: function ({state}) {
                 let data = that.setConnectState(state);
@@ -37,7 +36,6 @@ Page({
                 })
             }
         });
-
 
         if (getApp().globalData.refreshIndexPage) {
             this.getBaseInfo();
