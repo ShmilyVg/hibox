@@ -25,15 +25,20 @@ Page({
     onLoad() {
         this.getMedicalRecordList({});
     },
-    getMedicalRecordList({page = 1}) {
+    getMedicalRecordList({page = 1, recorded = false}) {
         Protocol.MedicalRecordList({page}).then(data => {
             let list = data.result;
             let frontItemTime = {date: '', time: ''};
 
-            console.log(list);
             if (list.length) {
+                let allList = [];
+                if (recorded) {
+                    allList = list;
+                } else {
+                    allList = this.data.allList.concat(list);
+                }
                 this.setData({
-                    allList: this.data.allList.concat(list).sort(function (item1, item2) {
+                    allList: allList.sort(function (item1, item2) {
                         return item1.time - item2.time;
                     }).map(item => {
                         const {id, device_id: deviceId, drug_name: drug_name, number, compartment, state, image_url} = item;
@@ -41,13 +46,13 @@ Page({
                         const isShowTime = !(frontItemTime.date === date && frontItemTime.time === time);
                         frontItemTime.date = date;
                         frontItemTime.time = time;
-                        if(item.state == 1){
+                        if (item.state == 1) {
                             this.setData({
-                                stateBtn:'已服用'
+                                stateBtn: '已服用'
                             })
-                        }else{
+                        } else {
                             this.setData({
-                                stateBtn:'未服用'
+                                stateBtn: '未服用'
                             })
                         }
                         return {date, time, isShowTime, id, deviceId, drug_name, number, compartment, state, image_url};
@@ -59,7 +64,8 @@ Page({
         }).finally(() => wx.stopPullDownRefresh());
     },
 
-    stateBtnClick(){
+
+    stateBtnClick() {
         Protocol.MedicalRecordList({state}).then(data => {
             //let state = data.state;
             //console.log(state)
@@ -171,6 +177,7 @@ Page({
                         Protocol.postMedicalRecordImage({
                             id: item.id, image_url: image
                         }).then(data => {
+                            that.getMedicalRecordList({recorded: true});
                             toast.hiddenLoading();
                         })
                     },
