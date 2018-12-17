@@ -1,4 +1,5 @@
 import HiBlueToothProtocol from "../../libs/bluetooth/hi-bluetooth-protocol";
+import {HexTools} from "../../libs/bluetooth/utils/tools";
 
 export default class HiBoxBlueToothProtocol extends HiBlueToothProtocol {
     constructor(blueToothManager) {
@@ -10,7 +11,7 @@ export default class HiBoxBlueToothProtocol extends HiBlueToothProtocol {
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x74', data: singleAlertData})});
             },
             '0x7d': ({dataArray}) => {
-                const isSetSingleAlertItemSuccess = HiBlueToothProtocol.hexArrayToNum(dataArray) === 1;
+                const isSetSingleAlertItemSuccess = HexTools.hexArrayToNum(dataArray) === 1;
                 return {
                     state: ProtocolState.SEND_ALERT_TIME_RESULT,
                     dataAfterProtocol: {isSetSingleAlertItemSuccess}
