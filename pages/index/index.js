@@ -3,7 +3,7 @@ import Protocol from "../../modules/network/protocol";
 import * as config from "../../utils/config";
 import toast from "../../view/toast";
 import HiNavigator from "../../navigator/hi-navigator";
-import {ConnectState} from "../../libs/bluetooth/state-const";
+import {ConnectState} from "../../modules/bluetooth/bluetooth-state";
 
 Page({
     data: {

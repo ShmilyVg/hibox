@@ -2,7 +2,7 @@ import DrugRuler from "./drug-ruler";
 import Toast from "../../../view/toast";
 import HiNavigator from "../../../navigator/hi-navigator";
 import Protocol from "../../../modules/network/protocol";
-import {ConnectState, ProtocolState} from "../../../libs/bluetooth/state-const";
+import {ConnectState, ProtocolState} from "../../../modules/bluetooth/bluetooth-state";
 
 Page({
 

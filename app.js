@@ -1,7 +1,7 @@
 //app.js
 import './libs/adapter';
 import {common} from "./libs/bluetooth/app/common";
-import {ProtocolState} from "./libs/bluetooth/state-const";
+import {ProtocolState} from "./modules/bluetooth/bluetooth-state";
 import Protocol from "./modules/network/protocol";
 import HiBoxBlueToothManager from "./modules/bluetooth/hi-box-bluetooth-manager";
 

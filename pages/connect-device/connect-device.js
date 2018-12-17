@@ -1,6 +1,6 @@
 // pages/connect-device/connect-device.js
 import HiNavigator from "../../navigator/hi-navigator";
-import {ConnectState, ProtocolState} from "../../libs/bluetooth/state-const";
+import {ConnectState, ProtocolState} from "../../modules/bluetooth/bluetooth-state";
 
 const app = getApp();
 

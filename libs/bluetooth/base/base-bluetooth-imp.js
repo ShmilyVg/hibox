@@ -1,15 +1,10 @@
 import AbstractBlueTooth from "./abstract-bluetooth";
+import {CommonConnectState} from "./state";
 
 /**
  * 蓝牙核心业务的封装
  */
 export default class BaseBlueToothImp extends AbstractBlueTooth {
-    //蓝牙的常见状态值
-    static UNAVAILABLE = 'unavailable';//蓝牙适配器不可用，通常是没有在手机设置中开启蓝牙，或是没有直接或间接调用父类中的openAdapter()
-    static DISCONNECT = 'disconnect';//蓝牙连接已断开
-    static CONNECTING = 'connecting';//正在连接蓝牙设备
-    static CONNECTED = 'connected';//已经正常连接到蓝牙设备
-    static NOT_SUPPORT = 'not_support';//当前Android系统版本小于4.3
 
     constructor() {
         super();
@@ -19,16 +14,16 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
 
         this.errorType = {
             '-1': {
-                errMsg: 'createBLEConnection:fail:already connect', type: BaseBlueToothImp.CONNECTED,
+                errMsg: 'createBLEConnection:fail:already connect', type: CommonConnectState.CONNECTED,
             },
             '10001': {
-                errMsg: '', type: BaseBlueToothImp.UNAVAILABLE,
+                errMsg: '', type: CommonConnectState.UNAVAILABLE,
             },
             '10006': {
-                errMsg: 'closeBLEConnection:fail:no connection', type: BaseBlueToothImp.DISCONNECT,
+                errMsg: 'closeBLEConnection:fail:no connection', type: CommonConnectState.DISCONNECT,
             },
             '10009': {
-                errMsg: 'Android System not support', type: BaseBlueToothImp.NOT_SUPPORT
+                errMsg: 'Android System not support', type: CommonConnectState.NOT_SUPPORT
             }
         };
         let timeoutIndex = 0;
@@ -97,7 +92,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
         if (this._isConnected) {
             return new Promise((resolve) => resolve);
         }
-        return !this._bleStateListener(this.getState({connectState: BaseBlueToothImp.CONNECTING}))
+        return !this._bleStateListener(this.getState({connectState: CommonConnectState.CONNECTING}))
             && this._updateFinalState({
                 promise: this.openAdapter().then(() => !!this._deviceId ?
                     this.createBLEConnection({deviceId: this._deviceId}) : this.startBlueToothDevicesDiscovery())
@@ -111,7 +106,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
      */
     reconnectBLE() {
         this._isConnected = false;
-        return !this._bleStateListener(this.getState({connectState: BaseBlueToothImp.CONNECTING}))
+        return !this._bleStateListener(this.getState({connectState: CommonConnectState.CONNECTING}))
             && this._updateFinalState({promise: this.createBLEConnection({deviceId: this._deviceId})});
     }
 
@@ -157,7 +152,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
                     // 该方法回调中可以用于处理连接意外断开等异常情况
                     console.log(`device ${res.deviceId} state has changed, connected: ${res.connected}`);
                     if (!res.connected) {
-                        this._bleStateListener(this.getState({connectState: BaseBlueToothImp.DISCONNECT}));
+                        this._bleStateListener(this.getState({connectState: CommonConnectState.DISCONNECT}));
                         if (!this._isActiveCloseBLE) {
                             this.reconnectBLE();
                         } else {
@@ -167,7 +162,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
                 });
                 this._isInitWXBLEListener = true;
             }
-            this._bleStateListener(this.getState({connectState: BaseBlueToothImp.CONNECTED}));
+            this._bleStateListener(this.getState({connectState: CommonConnectState.CONNECTED}));
         })
             .catch((res) => {
                 console.log(res);
@@ -175,7 +170,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
                 if (!!errorFun) {
                     this._bleStateListener(this.getState({connectState: errorFun.type}));
                 } else {
-                    this._bleStateListener(this.getState({connectState: BaseBlueToothImp.DISCONNECT}));
+                    this._bleStateListener(this.getState({connectState: CommonConnectState.DISCONNECT}));
                 }
             });
     }

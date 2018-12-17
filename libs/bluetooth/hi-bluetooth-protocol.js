@@ -1,4 +1,4 @@
-import {ConnectState, ProtocolState} from "./state-const";
+import {CommonConnectState, CommonProtocolState} from "./base/state";
 
 const commandIndex = 4, dataStartIndex = 5;
 
@@ -13,24 +13,24 @@ export default class HiBlueToothProtocol {
             '0x70': () => {
                 const now = Date.now() / 1000;
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x71', data: [now]})});
-                return {state: ProtocolState.TIMESTAMP};
+                return {state: CommonProtocolState.TIMESTAMP};
             },
             //App请求同步数据
             '0x77': () => {
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x77'})});
-                blueToothManager.updateBLEStateImmediately(this.getOtherStateWithConnectedState({protocolState: ProtocolState.QUERY_DATA_START}));
+                blueToothManager.updateBLEStateImmediately(this.getOtherStateWithConnectedState({protocolState: CommonProtocolState.QUERY_DATA_START}));
             },
             //设备返回要同步的数据
             '0x75': ({dataArray}) => {
                 const length = HiBlueToothProtocol.hexArrayToNum(dataArray.slice(0, 1));
                 const isEat = HiBlueToothProtocol.hexArrayToNum(dataArray.slice(1, 2)) === 1;
                 const timestamp = HiBlueToothProtocol.hexArrayToNum(dataArray.slice(2));
-                return {state: ProtocolState.QUERY_DATA_ING, dataAfterProtocol: {length, isEat, timestamp}};
+                return {state: CommonProtocolState.QUERY_DATA_ING, dataAfterProtocol: {length, isEat, timestamp}};
             },
             //App传给设备同步数据的结果
             '0x78': () => {
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x78'})});
-                blueToothManager.updateBLEStateImmediately(this.getOtherStateWithConnectedState({protocolState: ProtocolState.QUERY_DATA_FINISH}));
+                blueToothManager.updateBLEStateImmediately(this.getOtherStateWithConnectedState({protocolState: CommonProtocolState.QUERY_DATA_FINISH}));
             },
             //由设备发出的电量和版本号
             // '0x76': ({dataArray}) => {
@@ -48,7 +48,7 @@ export default class HiBlueToothProtocol {
                 //由手机回复的连接成功
                 isConnected && this.startCommunication();
                 return {
-                    state: ProtocolState.GET_CONNECTED_RESULT_SUCCESS,
+                    state: CommonProtocolState.GET_CONNECTED_RESULT_SUCCESS,
                     dataAfterProtocol: {isConnected, deviceId}
                 };
             },
@@ -120,13 +120,13 @@ export default class HiBlueToothProtocol {
             return this.getOtherStateWithConnectedState({protocolState, dataAfterProtocol});
         } else {
             console.log('协议中包含了unknown状态或过滤信息');
-            return this.getOtherStateWithConnectedState({protocolState: ProtocolState.UNKNOWN});
+            return this.getOtherStateWithConnectedState({protocolState: CommonProtocolState.UNKNOWN});
         }
     }
 
     getOtherStateWithConnectedState({protocolState, dataAfterProtocol}) {
         return {
-            ...this._blueToothManager.getState({connectState: ConnectState.CONNECTED, protocolState}),
+            ...this._blueToothManager.getState({connectState: CommonConnectState.CONNECTED, protocolState}),
             dataAfterProtocol
         };
     }
