@@ -18,7 +18,7 @@ export default class DrugRuler {
         return list.sort(this.sortFun).map((item, timeIndex) =>
             ({compartment: parseInt(compartment) || 1, length, timeIndex, timestamp: item.timestamp,})
         ).map(item =>
-            [item.compartment, item.length, item.timeIndex, item.timestamp]
+            [item.compartment, item.length, item.timeIndex + 1, item.timestamp]
         ).reverse();
     }
 
