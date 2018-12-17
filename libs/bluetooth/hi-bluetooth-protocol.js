@@ -32,11 +32,6 @@ export default class HiBlueToothProtocol {
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x78'})});
                 blueToothManager.updateBLEStateImmediately(this.getOtherStateWithConnectedState({protocolState: CommonProtocolState.QUERY_DATA_FINISH}));
             },
-            //由设备发出的电量和版本号
-            // '0x76': ({dataArray}) => {
-            //
-            //     return {state: BlueToothState.BREATH_RESTART};
-            // },
             //由手机发出的连接请求
             '0x7a': () => {
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x7a'})});
