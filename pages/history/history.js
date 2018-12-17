@@ -1,21 +1,16 @@
 // pages/history/history.js
 import Protocol from "../../modules/network/protocol";
-import BlueToothProtocol from "../../modules/bluetooth/base/bluetooth-protocol";
-import * as tools from "../../utils/tools";
-
 Page({
 
-    /**
-     * 页面的初始数据
-     */
-    data: {
-        boxColor: ['#68D5B8', '#8FC25E', '#9F92D6', '#8CA5DC'],
-        listText: ['now', 'future'],
-        allList: [],
-        queryState: '记录待同步',
-        stateBtn: '',
-        page: 1
-    },
+  /**
+   * 页面的初始数据
+   */
+  data: {
+      boxColor: ['#68D5B8', '#8FC25E', '#9F92D6', '#8CA5DC'],
+      listText: ['now', 'future'],
+      allList: [],
+      page: 1
+  },
 
     /**
      * 生命周期函数--监听页面加载
@@ -25,6 +20,7 @@ Page({
     },
     getMedicalRecordList({page = 1}) {
         Protocol.MedicalRecordList({page}).then(data => {
+          console.log(data.result);
             let list = data.result;
             let frontItemTime = {date: '', time: ''};
 

@@ -9,9 +9,9 @@ Page({
     data: {
         boxColor: ['#68D5B8', '#8FC25E', '#9F92D6', '#8CA5DC'],
         popupShow: false,
-        listText: ['now', 'future'],
         isConnect: false,
     },
+
     onLoad: function () {
         let that = this;
         wx.getStorage({
@@ -86,9 +86,9 @@ Page({
 
     clickPhoto(e) {
         let index = this.getIndexNum(e);
-        console.log(index);
         let that = this;
-        let item = that.data.list[that.data.listText[index[0]]][index[1]];
+        let listText = ['now', 'future'];
+        let item = that.data.list[listText[index[0]]][index[1]];
         let image = item.image_url;
         if (typeof (image) == "undefined") {
             that.chooseImage(that, item);
