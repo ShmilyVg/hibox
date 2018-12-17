@@ -27,11 +27,11 @@ export default class Protocol {
     }
 
     static MedicalRecordList({page, page_size = 15}) {
-        return Network.request({url: "/medical/record/list",data: {page, page_size}});
+        return Network.request({url: "/medical/record/list", data: {page, page_size}});
     }
 
     static MedicalRecordUpdate({state}) {
-        return Network.request({url: "/medical/record/update",data: {state}});
+        return Network.request({url: "/medical/record/update", data: {state}});
     }
 
     static getMedicalRemindImage({id, image_url}) {
@@ -57,5 +57,10 @@ export default class Protocol {
         });
     }
 
-
+    static postMedicalRecordImage({id, image_url}) {
+        return Network.request({
+            url: 'medical/record/image',
+            data: {id, image_url}
+        })
+    }
 }

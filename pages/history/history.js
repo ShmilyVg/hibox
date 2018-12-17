@@ -2,6 +2,8 @@
 import Protocol from "../../modules/network/protocol";
 import BlueToothProtocol from "../../modules/bluetooth/base/bluetooth-protocol";
 import * as tools from "../../utils/tools";
+import toast from "../../view/toast";
+import * as config from "../../utils/config";
 
 Page({
 
@@ -34,7 +36,7 @@ Page({
                     allList: this.data.allList.concat(list).sort(function (item1, item2) {
                         return item1.time - item2.time;
                     }).map(item => {
-                        const {id, device_id: deviceId, drug_name: drug_name, number, compartment,state} = item;
+                        const {id, device_id: deviceId, drug_name: drug_name, number, compartment, state, image_url} = item;
                         const {date, time} = tools.createDateAndTime(item.time);
                         const isShowTime = !(frontItemTime.date === date && frontItemTime.time === time);
                         frontItemTime.date = date;
@@ -48,7 +50,7 @@ Page({
                                 stateBtn:'未服用'
                             })
                         }
-                        return {date, time, isShowTime, id, deviceId, drug_name, number, compartment,state};
+                        return {date, time, isShowTime, id, deviceId, drug_name, number, compartment, state, image_url};
                     })
                 });
             } else {
@@ -120,5 +122,65 @@ Page({
      */
     onReachBottom: function () {
 
-    }
+    },
+
+    clickPhoto(e) {
+        let index = e.currentTarget.dataset.index;
+        let that = this;
+        let item = that.data.allList[index[1]];
+        let image = item.image_url;
+        if (typeof (image) == "undefined") {
+            that.chooseImage(that, item);
+        } else {
+            wx.showActionSheet({
+                itemList: ['查看', '修改'],
+                success(res) {
+                    switch (res.tapIndex) {
+                        case 0:
+                            wx.previewImage({
+                                urls: [image] // 需要预览的图片http链接列表
+                            });
+                            break;
+                        case 1:
+                            that.chooseImage(that, item);
+                            break;
+                    }
+                },
+                fail(res) {
+                    console.log(res.errMsg)
+                }
+            })
+        }
+    },
+
+    chooseImage(that, item) {
+        wx.chooseImage({
+            count: 1,
+            sizeType: ['compressed'],
+            sourceType: ['album', 'camera'],
+            success: function (res) {
+                toast.showLoading();
+                let path = res.tempFilePaths[0];
+                wx.uploadFile({
+                    url: config.UploadUrl,
+                    filePath: path,
+                    name: path,
+                    success: function (res) {
+                        let data = res.data;
+                        let image = JSON.parse(data).result.path;
+                        Protocol.postMedicalRecordImage({
+                            id: item.id, image_url: image
+                        }).then(data => {
+                            toast.hiddenLoading();
+                        })
+                    },
+                    fail: function (e) {
+                    },
+                    complete: function (e) {
+                    }
+                })
+            }
+        })
+    },
+
 })
