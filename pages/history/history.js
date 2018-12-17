@@ -7,7 +7,6 @@ Page({
    */
   data: {
       boxColor: ['#68D5B8', '#8FC25E', '#9F92D6', '#8CA5DC'],
-      listText: ['now', 'future'],
       allList: [],
       page: 1
   },
