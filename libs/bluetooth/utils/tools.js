@@ -70,14 +70,14 @@ export class ProtocolBody {
         const doAction = action[commandHex];
         if (!filter && doAction) {
             const {state: protocolState, dataAfterProtocol} = doAction({dataArray});
-            return this.getOtherStateWithConnectedState({protocolState, dataAfterProtocol});
+            return this.getOtherStateAndResultWithConnectedState({protocolState, dataAfterProtocol});
         } else {
             console.log('协议中包含了unknown状态或过滤信息');
-            return this.getOtherStateWithConnectedState({protocolState: CommonProtocolState.UNKNOWN});
+            return this.getOtherStateAndResultWithConnectedState({protocolState: CommonProtocolState.UNKNOWN});
         }
     }
 
-    getOtherStateWithConnectedState({protocolState, dataAfterProtocol}) {
+    getOtherStateAndResultWithConnectedState({protocolState, dataAfterProtocol}) {
         return {
             ...this.blueToothManager.getState({connectState: CommonConnectState.CONNECTED, protocolState}),
             dataAfterProtocol

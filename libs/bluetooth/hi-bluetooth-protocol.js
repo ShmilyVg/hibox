@@ -9,7 +9,7 @@ export default class HiBlueToothProtocol {
         this.setFilter(true);//过滤
         const protocolBody = new ProtocolBody({commandIndex, dataStartIndex, deviceIndexNum, blueToothManager});
         this.createBuffer = protocolBody.createBuffer;
-        this.getOtherStateWithConnectedState = protocolBody.getOtherStateWithConnectedState;
+        this.getOtherStateAndResultWithConnectedState = protocolBody.getOtherStateAndResultWithConnectedState;
         this.receiveData = protocolBody.receive;
         this.action = {
             //由设备发出的时间戳请求
@@ -24,7 +24,7 @@ export default class HiBlueToothProtocol {
             //App请求同步数据
             '0x77': () => {
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x77'})});
-                blueToothManager.updateBLEStateImmediately(this.getOtherStateWithConnectedState({protocolState: CommonProtocolState.QUERY_DATA_START}));
+                blueToothManager.updateBLEStateImmediately(this.getOtherStateAndResultWithConnectedState({protocolState: CommonProtocolState.QUERY_DATA_START}));
             },
             //设备返回要同步的数据
             '0x75': ({dataArray}) => {
@@ -36,7 +36,7 @@ export default class HiBlueToothProtocol {
             //App传给设备同步数据的结果
             '0x78': () => {
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x78'})});
-                blueToothManager.updateBLEStateImmediately(this.getOtherStateWithConnectedState({protocolState: CommonProtocolState.QUERY_DATA_FINISH}));
+                blueToothManager.updateBLEStateImmediately(this.getOtherStateAndResultWithConnectedState({protocolState: CommonProtocolState.QUERY_DATA_FINISH}));
             },
             //由手机发出的连接请求
             '0x7a': () => {
