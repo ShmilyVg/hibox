@@ -10,10 +10,13 @@ Page({
         boxColor: ['#68D5B8', '#8FC25E', '#9F92D6', '#8CA5DC'],
         popupShow: false,
         isConnect: false,
+        animationData: {},
+        connectState: {'text': '正在连接...', color: '#65FF0A'}
     },
 
     onLoad: function () {
         let that = this;
+
         wx.getStorage({
             key: 'userInfo',
             success(res) {
@@ -31,7 +34,7 @@ Page({
             bleStateListener: function ({state}) {
                 let data = that.setConnectState(state);
                 that.setData({
-                    connectState: data.text,
+                    connectState: data,
                     isConnect: data.isConnect
                 })
             }
@@ -43,18 +46,36 @@ Page({
         }
     },
 
+    hiddenTopTip() {
+        const animation = wx.createAnimation({
+            duration: 2000,
+            timingFunction: 'ease',
+        })
+
+        this.animation = animation;
+
+        setTimeout(function () {
+            animation.translateY(-100).step()
+            this.setData({
+                animationData: animation.export()
+            })
+        }.bind(this), 3000);
+    },
+
+
     setConnectState(state) {
         switch (state.connectState) {
             case BlueToothState.UNBIND:
-                return {text: '未绑定', isConnect: false};
+                return {text: '未绑定', isConnect: false, color: '#FF8000'};
             case BlueToothState.UNAVAILABLE:
-                return {text: '请开启手机蓝牙', isConnect: false};
+                return {text: '请开启手机蓝牙', isConnect: false, color: '#FF8000'};
             case BlueToothState.DISCONNECT:
-                return {text: '连接失败', isConnect: false};
+                return {text: '连接失败，请重试', isConnect: false, color: '#FF8000'};
             case BlueToothState.CONNECTING:
-                return {text: '正在连接', isConnect: false};
+                return {text: '正在连接', isConnect: false, color: '#65FF0A'};
             case BlueToothState.CONNECTED:
-                return {text: '已连接', isConnect: true}
+                this.hiddenTopTip();
+                return {text: '已连接', isConnect: true, color: '#65FF0A'}
         }
     },
 
