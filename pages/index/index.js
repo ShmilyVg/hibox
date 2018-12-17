@@ -9,11 +9,14 @@ Page({
     data: {
         boxColor: ['#68D5B8', '#8FC25E', '#9F92D6', '#8CA5DC'],
         popupShow: false,
-        listText: ['now', 'future'],
         isConnect: false,
+        animationData: {},
+        connectState: {'text': '正在连接...', color: '#65FF0A'}
     },
+
     onLoad: function () {
         let that = this;
+
         wx.getStorage({
             key: 'userInfo',
             success(res) {
@@ -31,7 +34,7 @@ Page({
             bleStateListener: function ({state}) {
                 let data = that.setConnectState(state);
                 that.setData({
-                    connectState: data.text,
+                    connectState: data,
                     isConnect: data.isConnect
                 })
             }
@@ -42,6 +45,23 @@ Page({
             getApp().globalData.refreshIndexPage = false
         }
     },
+
+    hiddenTopTip() {
+        const animation = wx.createAnimation({
+            duration: 2000,
+            timingFunction: 'ease',
+        })
+
+        this.animation = animation;
+
+        setTimeout(function () {
+            animation.translateY(-100).step()
+            this.setData({
+                animationData: animation.export()
+            })
+        }.bind(this), 3000);
+    },
+
 
     setConnectState(state) {
         switch (state.connectState) {
@@ -86,9 +106,9 @@ Page({
 
     clickPhoto(e) {
         let index = this.getIndexNum(e);
-        console.log(index);
         let that = this;
-        let item = that.data.list[that.data.listText[index[0]]][index[1]];
+        let listText = ['now', 'future'];
+        let item = that.data.list[listText[index[0]]][index[1]];
         let image = item.image_url;
         if (typeof (image) == "undefined") {
             that.chooseImage(that, item);

@@ -1,4 +1,5 @@
 {
   "navigationBarBackgroundColor": "#3E3E3E",
-  "navigationBarTextStyle":"light"
+  "navigationBarTextStyle": "light",
+  "backgroundColor": "#3E3E3E"
 }

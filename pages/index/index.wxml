@@ -3,33 +3,36 @@
 <import src="./view/medicine-view.wxml"></import>
 <import src="./view/user-time-view.wxml"></import>
 <import src="./view/popup.wxml"></import>
+<import src="../../view/top-tip.wxml"></import>
 
-<view class="top-view">
-    <view class="flex-row" style="justify-content: space-between;width: 100%">
-        <view class="flex-row">
-            <image src="{{userInfo.headUrl}}" class="avatar"></image>
-            <view style="margin-left: 30rpx;color: white;">
-                <view style="font-size: 40rpx">我的药盒</view>
-                <view style="font-size: 30rpx">{{connectState}}</view>
+
+<template is="top-tip" wx:if="{{!isConnect}}" data="{{connectState,animationData}}"></template>
+<view style="position: relative">
+    <view class="top-view">
+        <view class="flex-row" style="justify-content: space-between;width: 100%">
+            <view class="flex-row">
+                <image src="{{userInfo.headUrl}}" class="avatar"></image>
+                <view style="margin-left: 30rpx;color: white;font-size: 40rpx">我的药盒</view>
             </view>
+            <image src="../../images/set.png" class="set" bindtap="toSet"></image>
         </view>
-        <image src="../../images/set.png" class="set" bindtap="toSet"></image>
-    </view>
-</view>
-
-<view class="flex-row top-add">
-    <template is="add-view" wx:for="{{box}}" data-index="{{index}}" data="{{boxColor,index,item:box[index],isConnect:isConnect}}"></template>
-</view>
-
-<view style="position: absolute;top: 536rpx;width: 100%;padding-bottom: 50rpx">
-    <view class="flex-column" wx:if="{{list['now'].length}}">
-        <template is="user-time-view" data="{{title:'现在',time:list['now'][0].remind_time}}"></template>
-        <template is="medicine-view" wx:for="{{list['now']}}" data="{{num:0,index,item,boxColor}}"></template>
     </view>
 
-    <view class="flex-column" wx:if="{{list['future'].length}}">
-        <template is="user-time-view" data="{{title:'今日即将',time:list['future'][0].remind_time}}"></template>
-        <template is="medicine-view" wx:for="{{list['future']}}" data="{{num:1,index,item,boxColor,backgroundColor:'#E8F4F4'}}"></template>
+    <view class="flex-row top-add">
+        <template is="add-view" wx:for="{{box}}" data-index="{{index}}"
+                  data="{{boxColor,index,item:box[index],isConnect:isConnect}}"></template>
+    </view>
+
+    <view style="position: absolute;top: 536rpx;width: 100%;padding-bottom: 50rpx">
+        <view class="flex-column" wx:if="{{list['now'].length}}">
+            <template is="user-time-view" data="{{title:'现在',time:list['now'][0].remind_time}}"></template>
+            <template is="medicine-view" wx:for="{{list['now']}}" data="{{num:0,index,item,boxColor}}"></template>
+        </view>
+
+        <view class="flex-column" wx:if="{{list['future'].length}}">
+            <template is="user-time-view" data="{{title:'今日即将',time:list['future'][0].remind_time}}"></template>
+            <template is="medicine-view" wx:for="{{list['future']}}" data="{{num:1,index,item,boxColor,backgroundColor:'#E8F4F4'}}"></template>
+        </view>
     </view>
 </view>
 
