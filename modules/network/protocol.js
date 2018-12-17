@@ -63,4 +63,8 @@ export default class Protocol {
             data: {id, image_url}
         })
     }
+
+    static postDeviceUnbind() {
+        return Network.request({url: 'device/unbind'})
+    }
 }

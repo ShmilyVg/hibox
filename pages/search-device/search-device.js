@@ -1,4 +1,7 @@
 // pages/search-device/search-device.js
+import protocol from "../../modules/network/protocol";
+import HiNavigator from "../../navigator/hi-navigator";
+
 Page({
 
     data: {
@@ -31,6 +34,8 @@ Page({
     },
 
     deleteDevice() {
-
+        protocol.postDeviceUnbind().then(data => {
+            HiNavigator.switchToIndexPage({});
+        })
     }
 })
