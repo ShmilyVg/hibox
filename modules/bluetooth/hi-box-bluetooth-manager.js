@@ -1,4 +1,4 @@
-import HiBlueToothManager from "./hi-bluetooth-manager";
+import HiBlueToothManager from "./base/hi-bluetooth-manager";
 
 export default class HiBoxBlueToothManager extends HiBlueToothManager{
     constructor() {

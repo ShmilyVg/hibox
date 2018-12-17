@@ -1,7 +1,7 @@
-import Login from "../../modules/network/login";
-import UserInfo from "../../modules/network/userInfo";
-import Protocol from "../../modules/network/protocol";
-import BlueToothState from "../../modules/bluetooth/state-const";
+import Login from "../../../modules/network/login";
+import UserInfo from "../../../modules/network/userInfo";
+import Protocol from "../../../modules/network/protocol";
+import BlueToothState from "../../../modules/bluetooth/state-const";
 import {listener} from "./listener";
 
 const obj = {

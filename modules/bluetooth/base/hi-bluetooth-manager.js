@@ -1,6 +1,6 @@
-import SimpleBlueToothImp from "../../libs/bluetooth/simple-bluetooth-imp";
-import BlueToothProtocol from "./base/bluetooth-protocol";
-import BlueToothState from "./state-const";
+import SimpleBlueToothImp from "../../../libs/bluetooth/simple-bluetooth-imp";
+import BlueToothProtocol from "./bluetooth-protocol";
+import BlueToothState from "../state-const";
 
 export default class HiBlueToothManager extends SimpleBlueToothImp {
 
