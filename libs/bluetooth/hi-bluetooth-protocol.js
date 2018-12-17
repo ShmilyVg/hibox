@@ -2,11 +2,10 @@ import {CommonProtocolState} from "./base/state";
 import {HexTools, ProtocolBody} from "./utils/tools";
 
 const commandIndex = 4, dataStartIndex = 5;
-const deviceIndexNum = 7;
 
 export default class HiBlueToothProtocol {
 
-    constructor(blueToothManager) {
+    constructor({blueToothManager, deviceIndexNum}) {
         this.setFilter(true);//过滤
         const protocolBody = new ProtocolBody({commandIndex, dataStartIndex, deviceIndexNum, blueToothManager});
         this.createBuffer = protocolBody.createBuffer;

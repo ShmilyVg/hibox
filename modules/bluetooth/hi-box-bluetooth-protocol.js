@@ -3,7 +3,7 @@ import {HexTools} from "../../libs/bluetooth/utils/tools";
 
 export default class HiBoxBlueToothProtocol extends HiBlueToothProtocol {
     constructor(blueToothManager) {
-        super(blueToothManager);
+        super({blueToothManager, deviceIndexNum: 7});
         this.action = {
             ...this.action,
             //由手机发出的定时设置请求
