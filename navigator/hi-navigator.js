@@ -6,6 +6,7 @@ export default class HiNavigator {
     }
 
     static navigateToEditDrugPage({deviceId, compartment, classify, drugName, items, step, count}) {
+        console.log(arguments[0]);
         getApp().globalData.addOrEditDrugObj = {deviceId, compartment, classify, drugName, items};
         this.navigateTo({url: `/pages/add-drug/input-drug/input-drug?classify=${classify}&step=${step}&count=${count}`});
     }

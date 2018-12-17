@@ -19,7 +19,7 @@ export default class Protocol {
     }
 
     static medicalRemindRemove({compartment}) {
-        return Network.request({url: '/medical/remind/remove', data: {device_id: device_id,compartment: compartment}});
+        return Network.request({url: '/medical/remind/remove', data: {compartment: compartment}});
     }
 
     static getMedicalRemindInfo() {

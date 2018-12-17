@@ -164,17 +164,22 @@ Page({
     reviseBtnClick() {
         this.setData({
             popupShow: false,
-        })
+        });
+        let deviceId = this.data.box[this.data.choseIndex].device_id;
+        let compartment = this.data.box[this.data.choseIndex].compartment;
+        let classify = this.data.box[this.data.choseIndex].drug_classify;
+        let drugName = this.data.box[this.data.choseIndex].drug_name;
+        let items = this.data.box[this.data.choseIndex].items;
+        HiNavigator.navigateToEditDrugPage({deviceId, compartment,classify, drugName, items,step:1,count:2});
+
     },
 
     notakeBtnClick() {
+        let compartment = this.data.box[this.data.choseIndex].compartment;
         this.setData({
             popupShow: false,
-        })
+        });
         Protocol.medicalRemindRemove({compartment}).then(data => {
-            let compartment = data.compartment;
-            console.log(compartment);
-
         })
     },
 

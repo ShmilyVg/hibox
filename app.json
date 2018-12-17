@@ -1,5 +1,5 @@
 {
-  "pages": [
+  "pages":[
     "pages/index/index",
     "pages/connect-device/connect-device",
     "pages/bind-device/bind-device",
@@ -31,6 +31,6 @@
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "HiBox",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle":"black"
   }
 }
