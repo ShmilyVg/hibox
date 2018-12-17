@@ -7,7 +7,7 @@ page{
     height: 100%;
 }
 .history-hint{
-    width: 100%;
+    width: 710rpx;
     height: 79rpx;
     color: #fff;
     font-size: 30rpx;
