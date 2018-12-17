@@ -10,10 +10,13 @@ export default class HiBlueToothProtocol {
         this._blueToothManager = blueToothManager;
         this.action = {
             //由设备发出的时间戳请求
-            '0x70': () => {
+            '0x70': ({dataArray}) => {
+                const battery = HiBlueToothProtocol.hexArrayToNum(dataArray.slice(0, 1));
+                const version = HiBlueToothProtocol.hexArrayToNum(dataArray.slice(1, 3));
+                const deviceId = HiBlueToothProtocol.hexArrayToNum(dataArray.slice(3));
                 const now = Date.now() / 1000;
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x71', data: [now]})});
-                return {state: CommonProtocolState.TIMESTAMP};
+                return {state: CommonProtocolState.TIMESTAMP, dataAfterProtocol: {battery, version, deviceId}};
             },
             //App请求同步数据
             '0x77': () => {
