@@ -153,32 +153,35 @@ Page({
         return e.currentTarget.dataset.index
     },
 
-    popupHideClick() {
+    hidePopupView() {
         this.setData({
             popupShow: false,
         })
+    },
+
+    popupHideClick() {
+        this.hidePopupView();
     },
 
     reviseBtnClick() {
-        this.setData({
-            popupShow: false,
+        this.hidePopupView();
+        let item = this.data.box[this.data.choseIndex];
+        HiNavigator.navigateToEditDrugPage({
+            deviceId: item.device_id,
+            compartment: item.compartment,
+            classify: item.drug_classify,
+            drugName: item.drug_name,
+            items: item.items,
+            step: 1,
+            count: 2
         });
-        let deviceId = this.data.box[this.data.choseIndex].device_id;
-        let compartment = this.data.box[this.data.choseIndex].compartment;
-        let classify = this.data.box[this.data.choseIndex].drug_classify;
-        let drugName = this.data.box[this.data.choseIndex].drug_name;
-        let items = this.data.box[this.data.choseIndex].items;
-        HiNavigator.navigateToEditDrugPage({deviceId, compartment,classify, drugName, items,step:1,count:2});
-
     },
 
-    notakeBtnClick() {
+    noTakeBtnClick() {
+        this.hidePopupView();
         let compartment = this.data.box[this.data.choseIndex].compartment;
-        this.setData({
-            popupShow: false,
-        });
         Protocol.medicalRemindRemove({compartment}).then(data => {
+            this.getBaseInfo();
         })
     },
-
 })
