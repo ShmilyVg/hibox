@@ -23,11 +23,14 @@ Page({
         ]
     },
 
+    isBind: false,
+
     onLoad: function (options) {
         wx.setNavigationBarColor({
             frontColor: '#ffffff',
             backgroundColor: this.data.state.navigationColor,
         });
+        const that = this;
         this.flickerHandle();
         app.getBLEManager().connect();
         app.setBLEListener({
@@ -35,8 +38,11 @@ Page({
                 this.showResult({state: state.connectState});
             },
             receiveDataListener: ({finalResult, state}) => {
+                console.log('当前dddd',that);
+
                 if (ProtocolState.GET_CONNECTED_RESULT_SUCCESS === state.protocolState) {
-                    this.isBind = true;
+                    console.log('当前',that);
+                    that.isBind = true;
                     const {isConnected} = finalResult;
                     const manager = app.getBLEManager();
                     manager.updateBLEStateImmediately(manager.getState({protocolState: ProtocolState.CONNECTED_AND_BIND}));
@@ -47,14 +53,13 @@ Page({
     },
 
     onUnload() {
+        console.log('绑定了？',this.isBind);
         !this.isBind && app.getBLEManager().clearConnectedBLE();
     },
 
     reConnectEvent() {
         app.getBLEManager().connect();
     },
-
-    isBind: false,
 
     getResultState({state}) {
         switch (state) {
@@ -77,7 +82,6 @@ Page({
                     backgroundColor: 'linear-gradient(#66DABF, #008290)',
                 };
             default:
-                HiNavigator.switchToIndexPage({});
                 return {
                     title: '药盒找到啦！',
                     content: '短按药盒按钮',
