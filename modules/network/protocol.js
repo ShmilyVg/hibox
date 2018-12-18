@@ -64,7 +64,7 @@ export default class Protocol {
         return Network.request({url: 'device/unbind'})
     }
 
-    static getDeviceBindList() {
-        return Network.request({url: 'device/bindList'})
+    static getDeviceBindInfo() {
+        return Network.request({url: 'device/bind/info'})
     }
 }
