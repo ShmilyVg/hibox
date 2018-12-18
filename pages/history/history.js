@@ -15,7 +15,8 @@ Page({
         listText: ['now', 'future'],
         allList: [],
         queryState: '记录待同步',
-        isConnect: true,
+        isConnect: false,
+        connectState: {'text': '记录同步中...', color: '#65FF0A'},
         page: 1
     },
 
@@ -29,7 +30,7 @@ Page({
         Protocol.MedicalRecordList({page}).then(data => {
             let list = data.result;
             let frontItemTime = {date: '', time: ''};
-
+            console.log()
             if (list.length) {
                 let allList = [];
                 if (recorded) {
@@ -39,7 +40,7 @@ Page({
                 }
                 this.setData({
                     allList: allList.sort(function (item1, item2) {
-                        return item1.time - item2.time;
+                        return item2.time - item1.time;
                     }).map(item => {
                         const {id, device_id: deviceId, drug_name: drug_name, number, compartment, state, image_url} = item;
                         const {date, time} = tools.createDateAndTime(item.time);
@@ -96,19 +97,38 @@ Page({
     onShow: function () {
         getApp().setBLEListener({
             bleStateListener: ({state}) => {
-                switch (state.protocolState) {
-                    // case ProtocolState.QUERY_DATA_START:
-                    //
-                    //     break;
-                    case ProtocolState.QUERY_DATA_ING:
-                        this.setData({queryState: '同步中...'});
-                        break;
-                    case ProtocolState.QUERY_DATA_FINISH:
-                        this.setData({queryState: '同步完成'});
-                        /*setTimeout(function(){
-                            this.getMedicalRecordList({page = 1, recorded = true});
-                        },3000);*/
-                        break;
+                if (ConnectState.DISCONNECT===state.connectState||ConnectState.UNAVAILABLE===state.connectState||ConnectState.NOT_SUPPORT===state.connectState||ConnectState.UNBIND===state.connectState) {
+                    this.setData({
+                        connectState: {'text': '药盒未连接...', color: '#65FF0A'},
+                        //queryState: '记录同步中...',
+                        isConnect: false
+                    });
+                }else{
+                    switch (state.protocolState) {
+                        // case ProtocolState.QUERY_DATA_START:
+                        //
+                        //     break;
+                        case ProtocolState.QUERY_DATA_ING:
+                            this.setData({
+                                connectState: {'text': '记录同步中...', color: '#65FF0A'},
+                                //queryState: '记录同步中...',
+                                isConnect: false
+                            });
+                            break;
+                        case ProtocolState.QUERY_DATA_FINISH:
+                            this.setData({
+                                connectState: {'text': '记录同步完成', color: '#65FF0A'},
+                                //queryState: '记录同步完成',
+                                isConnect: false
+                            });
+                            setTimeout(function(){
+                                this.getMedicalRecordList({page : 1, recorded : true});
+                                this.setData({
+                                    isConnect: true
+                                });
+                            },3000);
+                            break;
+                    }
                 }
             }
         });
@@ -132,15 +152,15 @@ Page({
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
-    onPullDownRefresh: function () {
+    onPullDownRefresh() {
 
     },
 
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom: function () {
-
+    onReachBottom() {
+        this.getMedicalRecordList({page: ++this.data.page});
     },
 
     clickPhoto(e) {

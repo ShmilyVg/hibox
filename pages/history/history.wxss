@@ -45,5 +45,15 @@ page{
     line-height: 66rpx;
     border-radius: 50rpx;
     font-size: 28rpx;
+}
+.took{
     color: #66DABF;
+}
+.notake{
+    color: #698B89;
+}
+.history-state image{
+    width: 26rpx;
+    height: 25rpx;
+    margin-right: 5rpx;
 }
