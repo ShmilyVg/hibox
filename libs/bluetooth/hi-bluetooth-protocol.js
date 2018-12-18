@@ -98,7 +98,7 @@ export default class HiBlueToothProtocol {
     }
 
     receive({receiveBuffer}) {
-        this.protocolBody.receiveData({action: this.action, receiveBuffer, filter: this._filter});
+        this.protocolBody.receive({action: this.action, receiveBuffer, filter: this._filter});
     }
 
 }
