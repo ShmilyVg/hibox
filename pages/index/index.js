@@ -65,19 +65,19 @@ Page({
     setConnectState(state) {
         switch (state.connectState) {
             case ConnectState.UNBIND:
-                this.data.clearInterval(this.data.pointTimer);
+                clearInterval(this.data.pointTimer);
                 return {text: '未绑定', isConnect: false};
             case ConnectState.UNAVAILABLE:
-                this.data.clearInterval(this.data.pointTimer);
+                clearInterval(this.data.pointTimer);
                 return {text: '请开启手机蓝牙', isConnect: false};
             case ConnectState.DISCONNECT:
-                this.data.clearInterval(this.data.pointTimer);
+                clearInterval(this.data.pointTimer);
                 return {text: '连接失败', isConnect: false};
             case ConnectState.CONNECTING:
                 this.pointAnimation();
                 return {text: '正在连接', isConnect: false};
             case ConnectState.CONNECTED:
-                this.data.clearInterval(this.data.pointTimer);
+                clearInterval(this.data.pointTimer);
                 this.hiddenTopTip();
                 return {text: '已连接', isConnect: true}
         }

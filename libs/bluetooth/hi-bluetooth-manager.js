@@ -5,7 +5,12 @@ export default class HiBlueToothManager extends SimpleBlueToothImp {
 
     constructor() {
         super();
-        this.latestState = CommonConnectState.UNBIND;
+        this.latestState = {
+            state: {
+                connectState: CommonConnectState.UNBIND,
+                protocolState: CommonProtocolState.NORMAL_PROTOCOL
+            }
+        };
     }
 
     /**
@@ -32,7 +37,12 @@ export default class HiBlueToothManager extends SimpleBlueToothImp {
         if (this.getBindMarkStorage()) {
             return this.latestState;
         }
-        return this.latestState = CommonConnectState.UNBIND;
+        return this.latestState = {
+            state: {
+                connectState: CommonConnectState.UNBIND,
+                protocolState: CommonProtocolState.NORMAL_PROTOCOL
+            }
+        };
     }
 
     clearConnectedBLE() {
