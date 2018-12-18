@@ -24,7 +24,7 @@ Page({
         const {currentTarget: {dataset: {index}}} = e;
         const obj = this.getAfterClearSelectedObj();
         obj[`drugs[${index}].selected`] = true;
-        obj['drugName'] = this.data.drugs[index].drugName;
+        obj['drugName'] = this.data.drugs[index].name;
         this.setData(obj);
     },
 

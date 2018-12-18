@@ -26,7 +26,7 @@ Page({
     },
     onLoad(options) {
         let number = 3, piece = 1, list;
-        const {items, compartment, deviceId} = getApp().globalData.addOrEditDrugObj;
+        const {items, compartment, deviceId = ''} = getApp().globalData.addOrEditDrugObj;
         if (!!items && !!items.length) {
             number = items.length;
             piece = items[0].number;
