@@ -34,7 +34,7 @@ App({
         });
         this.commonOnLaunch({options, bLEManager: new HiBoxBlueToothManager()});
 
-        // Protocol.getDeviceBindList().then(data => {
+        // Protocol.getDeviceBindInfo().then(data => {
         //     if (data.result.length) {
         //         HiNavigator.switchToIndexPage({});
         //     } else {

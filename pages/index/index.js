@@ -76,7 +76,7 @@ Page({
                 return {text: '连接失败', isConnect: false};
             case ConnectState.CONNECTING:
                 this.pointAnimation();
-                return {text: '正在连接', isConnect: false};
+                return {text: '正在连接...', isConnect: false};
             case ConnectState.CONNECTED:
                 clearInterval(this.data.pointTimer);
                 this.hiddenTopTip();
