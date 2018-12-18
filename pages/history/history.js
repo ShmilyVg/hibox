@@ -6,10 +6,6 @@ import * as config from "../../utils/config";
 import {ProtocolState} from "../../modules/bluetooth/bluetooth-state";
 
 Page({
-
-    /**
-     * 页面的初始数据
-     */
     data: {
         boxColor: ['#68D5B8', '#8FC25E', '#9F92D6', '#8CA5DC'],
         listText: ['now', 'future'],
@@ -20,42 +16,72 @@ Page({
         page: 1
     },
 
-    /**
-     * 生命周期函数--监听页面加载
-     */
     onLoad() {
         this.getMedicalRecordList({});
     },
+
+    onShow: function () {
+        getApp().setBLEListener({
+            bleStateListener: ({state}) => {
+                if (ConnectState.DISCONNECT === state.connectState || ConnectState.UNAVAILABLE === state.connectState || ConnectState.NOT_SUPPORT === state.connectState || ConnectState.UNBIND === state.connectState) {
+                    this.setData({
+                        connectState: {'text': '药盒未连接...', color: '#65FF0A'},
+                        isConnect: false
+                    });
+                } else {
+                    switch (state.protocolState) {
+                        case ProtocolState.QUERY_DATA_ING:
+                            this.setData({
+                                connectState: {'text': '记录同步中...', color: '#65FF0A'},
+                                isConnect: false
+                            });
+                            break;
+                        case ProtocolState.QUERY_DATA_FINISH:
+                            this.setData({
+                                connectState: {'text': '记录同步完成', color: '#65FF0A'},
+                                isConnect: false
+                            });
+                            setTimeout(function () {
+                                this.getMedicalRecordList({page: 1, recorded: true});
+                                this.setData({
+                                    isConnect: true
+                                });
+                            }, 3000);
+                            break;
+                    }
+                }
+            }
+        });
+    },
+
     getMedicalRecordList({page = 1, recorded = false}) {
         Protocol.MedicalRecordList({page}).then(data => {
             let list = data.result;
             let frontItemTime = {date: '', time: ''};
-            console.log()
+
             if (list.length) {
-                let allList = [];
-                if (recorded) {
-                    allList = list;
-                } else {
-                    allList = this.data.allList.concat(list);
+                let allList = list.sort(function (item1, item2) {
+                    return item2.time - item1.time;
+                }).map(item => {
+                    const {id, device_id: deviceId, drug_name: drug_name, number, compartment, state, image_url} = item;
+                    const {date, time} = tools.createDateAndTime(item.time);
+                    const isShowTime = !(frontItemTime.date === date && frontItemTime.time === time);
+                    frontItemTime.date = date;
+                    frontItemTime.time = time;
+                    return {date, time, isShowTime, id, deviceId, drug_name, number, compartment, state, image_url};
+                });
+
+                if (!recorded) {
+                    allList = this.data.allList.concat(allList);
                 }
                 this.setData({
-                    allList: allList.sort(function (item1, item2) {
-                        return item2.time - item1.time;
-                    }).map(item => {
-                        const {id, device_id: deviceId, drug_name: drug_name, number, compartment, state, image_url} = item;
-                        const {date, time} = tools.createDateAndTime(item.time);
-                        const isShowTime = !(frontItemTime.date === date && frontItemTime.time === time);
-                        frontItemTime.date = date;
-                        frontItemTime.time = time;
-                        return {date, time, isShowTime, id, deviceId, drug_name, number, compartment, state, image_url};
-                    })
-                });
+                    allList: allList
+                })
             } else {
                 this.data.page--;
             }
         }).finally(() => wx.stopPullDownRefresh());
     },
-
 
     stateBtnClick(e) {
         let list = this.data.allList;
@@ -63,102 +89,31 @@ Page({
         let time = list[index].time;
         let ids = [];
         let state = list[index].state;
-        for (let i in list){
-            if (time === list[i].time){
-                ids.push(list[i].id);
-                if(state === 0){
+        list.map(item => {
+            if (time === item.time) {
+                ids.push(item.id);
+                if (state === 0) {
                     state = 1;
-                }else if(state === 1){
+                } else if (state === 1) {
                     state = 0;
                 }
-                list[i].state = state;
-            }
-        }
-        this.setData({
-            allList : list
-        })
-
-        Protocol.MedicalRecordUpdate({ids,state}).then(data => {
-
-        })
-    },
-
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function () {
-        getApp().setBLEListener({
-            bleStateListener: ({state}) => {
-                if (ConnectState.DISCONNECT===state.connectState||ConnectState.UNAVAILABLE===state.connectState||ConnectState.NOT_SUPPORT===state.connectState||ConnectState.UNBIND===state.connectState) {
-                    this.setData({
-                        connectState: {'text': '药盒未连接...', color: '#65FF0A'},
-                        //queryState: '记录同步中...',
-                        isConnect: false
-                    });
-                }else{
-                    switch (state.protocolState) {
-                        // case ProtocolState.QUERY_DATA_START:
-                        //
-                        //     break;
-                        case ProtocolState.QUERY_DATA_ING:
-                            this.setData({
-                                connectState: {'text': '记录同步中...', color: '#65FF0A'},
-                                //queryState: '记录同步中...',
-                                isConnect: false
-                            });
-                            break;
-                        case ProtocolState.QUERY_DATA_FINISH:
-                            this.setData({
-                                connectState: {'text': '记录同步完成', color: '#65FF0A'},
-                                //queryState: '记录同步完成',
-                                isConnect: false
-                            });
-                            setTimeout(function(){
-                                this.getMedicalRecordList({page : 1, recorded : true});
-                                this.setData({
-                                    isConnect: true
-                                });
-                            },3000);
-                            break;
-                    }
-                }
+                item.state = state;
             }
         });
 
+        Protocol.MedicalRecordUpdate({ids, state}).then(data => {
+            if (data.code === 1) {
+                this.setData({
+                    allList: list
+                });
+            }
+        })
     },
 
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
     onHide: function () {
         getApp().setBLEListener({bleStateListener: null});
     },
 
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload: function () {
-
-    },
-
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh() {
-
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
     onReachBottom() {
         this.getMedicalRecordList({page: ++this.data.page});
     },
@@ -222,5 +177,4 @@ Page({
             }
         })
     },
-
 })
