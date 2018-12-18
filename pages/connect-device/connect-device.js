@@ -77,6 +77,7 @@ Page({
                     backgroundColor: 'linear-gradient(#66DABF, #008290)',
                 };
             default:
+                HiNavigator.switchToIndexPage({});
                 return {
                     title: '药盒找到啦！',
                     content: '短按药盒按钮',

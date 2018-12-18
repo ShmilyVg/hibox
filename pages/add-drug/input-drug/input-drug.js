@@ -11,7 +11,7 @@ Page({
     },
     onLoad(options) {
         const {classify, step, count} = options;
-        this.setData({classify, step, count, drugName: getApp().globalData.addOrEditDrugObj.drugName});
+        this.setData({classify, step, count, drugName: getApp().globalData.addOrEditDrugObj.drugName || ''});
 
         Protocol.getDrugItems({classify}).then(data => {
             const {result: drugs} = data;
@@ -24,7 +24,7 @@ Page({
         const {currentTarget: {dataset: {index}}} = e;
         const obj = this.getAfterClearSelectedObj();
         obj[`drugs[${index}].selected`] = true;
-        obj['drugName'] = this.data.drugs[index].drugName;
+        obj['drugName'] = this.data.drugs[index].name;
         this.setData(obj);
     },
 
