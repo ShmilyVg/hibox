@@ -11,7 +11,7 @@ Page({
     },
     onLoad(options) {
         const {classify, step, count} = options;
-        this.setData({classify, step, count, drugName: getApp().globalData.addOrEditDrugObj.drugName});
+        this.setData({classify, step, count, drugName: getApp().globalData.addOrEditDrugObj.drugName || ''});
 
         Protocol.getDrugItems({classify}).then(data => {
             const {result: drugs} = data;
