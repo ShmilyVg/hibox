@@ -90,7 +90,8 @@ export class ProtocolBody {
     }
 
     _createDataBody({command = '', data = []}) {
-        const dataPart = data.map(item => HexTools.numToHexArray(item));
+        const dataPart = [];
+        data.map(item => HexTools.numToHexArray(item)).forEach(item=>dataPart.push(...item));
         const lowLength = HexTools.hexToNum((dataPart.length + 2).toString(16));
         const array = [170, 0, lowLength, this.deviceIndexNum, HexTools.hexToNum(command), ...dataPart];
         let count = 0;
