@@ -42,10 +42,6 @@ export default class Protocol {
         return Network.request({url: 'device/bind', data: {deviceId}});
     }
 
-    static postDeviceUnbind({deviceId}) {
-        return Network.request({url: 'device/unbind', data: {deviceId}});
-    }
-
     static postMedicalRecordSave({records}) {
         return Network.request({url: 'medical/record/save', data: {records}});
     }

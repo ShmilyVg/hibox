@@ -1,5 +1,5 @@
 // pages/search-device/search-device.js
-import protocol from "../../modules/network/protocol";
+import Protocol from "../../modules/network/protocol";
 import HiNavigator from "../../navigator/hi-navigator";
 
 Page({
@@ -34,9 +34,9 @@ Page({
     },
 
     deleteDevice() {
-        protocol.postDeviceUnbind().then(data => {
+        Protocol.postDeviceUnbind().then(data => {
             getApp().getBLEManager().clearConnectedBLE().finally(function () {
-                HiNavigator.switchToIndexPage({});
+                HiNavigator.reLaunchToBindDevicePage({});
             });
         })
     }
