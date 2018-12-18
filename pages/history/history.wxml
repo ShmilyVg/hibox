@@ -1,14 +1,15 @@
 <!--pages/history/popup.wxml-->
 <import src="../index/view/medicine-view.wxml"></import>
 <view class="history-content">
-    <view class="history-hint">{{queryState}}</view>
+    <template is="top-tip" wx:if="{{!isConnect}}" data="{{connectState,animationData,animationData1}}"></template>
+    <!--<view class="history-hint">{{queryState}}</view>-->
     <view class="history-box" wx:for="{{allList}}" wx:key="id">
         <view class="history-headbox" wx:if="{{item.isShowTime}}">
             <view>
                 <view class="history-data">{{item.date}}</view>
                 <view class="history-time">{{item.time}}</view>
             </view>
-            <view class="history-state" bindtap="stateBtnClick">{{stateBtn}}</view>
+            <view class="history-state" bindtap="stateBtnClick" data-index="{{index}}">{{item.state?'已服用':'未服用'}}</view>
         </view>
         <template is="medicine-view" data="{{num:1,index,item,boxColor,backgroundColor:'#fff'}}"></template>
     </view>

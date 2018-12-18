@@ -22,6 +22,10 @@ export default class HiNavigator {
         this.navigateTo({url: `/pages/add-drug/number/number?classify=${classify}&drugName=${drugName}&step=${parseInt(step) + 1}&count=${count}`})
     }
 
+    static navigateToConnectDevice(){
+        this.navigateTo({url:'/pages/connect-device/connect-device'});
+    }
+
     static switchToIndexPage({refresh = false}) {
         getApp().globalData.refreshIndexPage = refresh;
         this.switchTab({url: '/pages/index/index'});
@@ -29,6 +33,10 @@ export default class HiNavigator {
 
     static navigateSearchDevicePage() {
         this.navigateTo({url: `/pages/search-device/search-device`})
+    }
+
+    static reLaunchToBindDevicePage(){
+        this.reLaunch({url:'/pages/bind-device/bind-device'})
     }
 
     static navigateTo({url, success, fail, complete}) {

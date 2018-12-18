@@ -51,11 +51,11 @@ Page({
         const animation = wx.createAnimation({
             duration: 2000,
             timingFunction: 'ease',
-        })
+        });
 
         this.animation = animation;
         setTimeout(function () {
-            animation.translateY(-100).step()
+            animation.translateY(-100).step();
             this.setData({
                 animationData: animation.export()
             })
@@ -181,7 +181,7 @@ Page({
         return e.currentTarget.dataset.index
     },
 
-    pointAnimation(){
+    pointAnimation() {
         const animation1 = wx.createAnimation({
             duration: 1000,
             timingFunction: 'ease',
