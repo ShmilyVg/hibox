@@ -32,14 +32,6 @@ export default class SimpleBlueToothImp {
         return this.bluetoothManager.openAdapterAndConnectLatestBLE();
     }
 
-    /**
-     * 断开蓝牙
-     * @returns {*}
-     */
-    disconnect() {
-        return this.bluetoothManager.closeBLEConnection();
-    }
-
     getConnectDevices() {
         return this.bluetoothManager.getConnectedBlueToothDevices();
     }
@@ -50,6 +42,10 @@ export default class SimpleBlueToothImp {
      */
     closeAll() {
         return this.bluetoothManager.closeAdapter();
+    }
+
+    clearConnectedBLE() {
+        return this.bluetoothManager.clearConnectedBLE();
     }
 
     getState({connectState, protocolState}) {
@@ -63,10 +59,6 @@ export default class SimpleBlueToothImp {
      */
     updateBLEStateImmediately({state}) {
         this.bluetoothManager.updateBLEState({state});
-    }
-
-    clearConnectedBLE() {
-        return this.bluetoothManager.clearConnectedBLE();
     }
 
     /**
