@@ -43,6 +43,7 @@ export default class HiBlueToothProtocol {
             '0x7b': ({dataArray}) => {
                 const isConnected = HexTools.hexArrayToNum(dataArray.slice(0, 1)) === 1;
                 const deviceId = HexTools.hexArrayToNum(dataArray.slice(1));
+                console.log('绑定结果',dataArray, deviceId, isConnected);
                 //由手机回复的连接成功
                 isConnected && this.startCommunication();
                 return {

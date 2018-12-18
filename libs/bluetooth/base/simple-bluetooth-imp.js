@@ -24,6 +24,10 @@ export default class SimpleBlueToothImp {
         return this.bluetoothManager.sendData({buffer});
     }
 
+    getDeviceMacAddress() {
+        return this.bluetoothManager.getDeviceMacAddress();
+    }
+
     /**
      * 连接蓝牙
      * @returns {*}

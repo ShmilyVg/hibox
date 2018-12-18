@@ -14,7 +14,10 @@ const obj = {
                 if (ProtocolState.GET_CONNECTED_RESULT_SUCCESS === state.protocolState) {
                     const {isConnected, deviceId} = finalResult;
                     if (isConnected) {
-                        !this.bLEManager.getBindMarkStorage() && Protocol.postDeviceBind({deviceId}).then(() => {
+                        !this.bLEManager.getBindMarkStorage() && Protocol.postDeviceBind({
+                            deviceId,
+                            mac: this.bLEManager.getDeviceMacAddress()
+                        }).then(() => {
                             console.log('绑定协议发送成功');
                             this.bLEManager.setBindMarkStorage();
                             this.commonAppReceiveDataListener && this.commonAppReceiveDataListener({

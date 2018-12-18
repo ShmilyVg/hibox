@@ -38,8 +38,9 @@ export default class Protocol {
         return Network.request({url: 'medical/remind/image', data: {id: id, image_url: image_url}});
     }
 
-    static postDeviceBind({deviceId: device_Id}) {
-        return Network.request({url: 'device/bind', data: {device_Id}});
+    static postDeviceBind({deviceId: device_id, mac}) {
+        console.log('上传绑定信息',device_id, mac);
+        return Network.request({url: 'device/bind', data: {device_id, mac}});
     }
 
     static postMedicalRecordSave({records}) {

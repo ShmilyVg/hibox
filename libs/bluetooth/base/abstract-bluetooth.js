@@ -36,6 +36,9 @@ export default class AbstractBlueTooth {
 
     }
 
+    getDeviceMacAddress() {
+        return wx.getStorageSync('deviceId');
+    }
 
     /**
      * 打开蓝牙适配器
@@ -43,7 +46,7 @@ export default class AbstractBlueTooth {
      * @returns {Promise<any>}
      */
     openAdapter() {
-        !this._deviceId && (this._deviceId = wx.getStorageSync('deviceId'));
+        !this._deviceId && (this._deviceId = this.getDeviceMacAddress());
         console.log('设备id', this._deviceId);
         return new Promise((resolve, reject) => {
             if (!this._isOpenAdapter) {
