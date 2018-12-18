@@ -30,8 +30,8 @@ export default class Protocol {
         return Network.request({url: "/medical/record/list", data: {page, page_size}});
     }
 
-    static MedicalRecordUpdate({ids,state}) {
-        return Network.request({url: "/medical/record/update", data: {ids: ids,state: state}});
+    static MedicalRecordUpdate({ids, state}) {
+        return Network.request({url: "/medical/record/update", data: {ids: ids, state: state}});
     }
 
     static getMedicalRemindImage({id, image_url}) {
@@ -62,5 +62,9 @@ export default class Protocol {
 
     static postDeviceUnbind() {
         return Network.request({url: 'device/unbind'})
+    }
+
+    static getDeviceBindList() {
+        return Network.request({url: 'device/bindList'})
     }
 }
