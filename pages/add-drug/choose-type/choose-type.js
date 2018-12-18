@@ -31,6 +31,7 @@ Page({
         const selectedItem = drugTypes.filter(item => item.selected);
         if (selectedItem.length) {
             HiNavigator.navigateToEditDrugPage({
+                ...getApp().globalData.addOrEditDrugObj,
                 classify: selectedItem[0].name,
                 step: 2,
                 count: 3
