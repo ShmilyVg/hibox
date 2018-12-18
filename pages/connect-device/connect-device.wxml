@@ -2,7 +2,7 @@
 <view wx:if="{{!state.connectErr}}" class="background-view flex-column" style="background: {{state.backgroundColor}}">
     <view class="title-first">{{state.title}}</view>
     <view class="title-second">{{state.content}}</view>
-    <view wx:if="{{!index}}" class="flex-column" style="margin-top: 70rpx">
+    <view wx:if="{{!state.findBox}}" class="flex-column" style="margin-top: 70rpx">
         <image src="../../images/device-top.gif" style="width: 346rpx;height: 317rpx"></image>
         <image src="../../images/device-bottom.png" style="width: 346rpx;height: 430rpx"></image>
     </view>

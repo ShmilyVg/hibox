@@ -24,7 +24,6 @@ App({
                             console.log(res, '同步数据失败');
                         }).finally(() => records = []);
                     }
-
                 } else {
                     this.appReceiveDataListener && this.appReceiveDataListener({finalResult, state});
                 }
@@ -35,13 +34,13 @@ App({
         });
         this.commonOnLaunch({options, bLEManager: new HiBoxBlueToothManager()});
 
-        Protocol.getDeviceBindList().then(data => {
-            if (data.result.length) {
-                HiNavigator.switchToIndexPage({});
-            } else {
-                HiNavigator.reLaunchToBindDevicePage();
-            }
-        })
+        // Protocol.getDeviceBindList().then(data => {
+        //     if (data.result.length) {
+        //         HiNavigator.switchToIndexPage({});
+        //     } else {
+        //         HiNavigator.reLaunchToBindDevicePage();
+        //     }
+        // })
     },
 
     onShow(options) {

@@ -27,6 +27,7 @@ Page({
             }
         });
         this.getBaseInfo();
+        this.pointAnimation();
     },
 
     onShow() {

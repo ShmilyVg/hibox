@@ -38,10 +38,10 @@ Page({
                 this.showResult({state: state.connectState});
             },
             receiveDataListener: ({finalResult, state}) => {
-                console.log('当前dddd',that);
+                console.log('当前dddd', that);
 
                 if (ProtocolState.GET_CONNECTED_RESULT_SUCCESS === state.protocolState) {
-                    console.log('当前',that);
+                    console.log('当前', that);
                     that.isBind = true;
                     const {isConnected} = finalResult;
                     const manager = app.getBLEManager();
@@ -53,7 +53,7 @@ Page({
     },
 
     onUnload() {
-        console.log('绑定了？',this.isBind);
+        console.log('绑定了？', this.isBind);
         !this.isBind && app.getBLEManager().clearConnectedBLE();
     },
 
@@ -69,7 +69,8 @@ Page({
                     content: '正在努力的寻找药盒…',
                     backgroundColor: '#3E3E3E',
                     navigationColor: '#3E3E3E',
-                    connectErr: false
+                    connectErr: false,
+                    findBox: false
                 };
             case ConnectState.UNAVAILABLE:
             case ConnectState.DISCONNECT:
@@ -87,7 +88,8 @@ Page({
                     content: '短按药盒按钮',
                     backgroundColor: 'linear-gradient(#66DABF, #008290)',
                     navigationColor: '#66DABF',
-                    connectErr: false
+                    connectErr: false,
+                    findBox: true
                 };
         }
     },
