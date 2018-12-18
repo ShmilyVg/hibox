@@ -15,7 +15,7 @@ Page({
         listText: ['now', 'future'],
         allList: [],
         queryState: '记录待同步',
-        stateBtn: '',
+        isConnect: true,
         page: 1
     },
 
@@ -46,15 +46,6 @@ Page({
                         const isShowTime = !(frontItemTime.date === date && frontItemTime.time === time);
                         frontItemTime.date = date;
                         frontItemTime.time = time;
-                        if (item.state == 1) {
-                            this.setData({
-                                stateBtn: '已服用'
-                            })
-                        } else {
-                            this.setData({
-                                stateBtn: '未服用'
-                            })
-                        }
                         return {date, time, isShowTime, id, deviceId, drug_name, number, compartment, state, image_url};
                     })
                 });
@@ -65,10 +56,29 @@ Page({
     },
 
 
-    stateBtnClick() {
-        Protocol.MedicalRecordList({state}).then(data => {
-            //let state = data.state;
-            //console.log(state)
+    stateBtnClick(e) {
+        let list = this.data.allList;
+        let index = e.target.dataset.index;
+        let time = list[index].time;
+        let ids = [];
+        let state = list[index].state;
+        for (let i in list){
+            if (time === list[i].time){
+                ids.push(list[i].id);
+                if(state === 0){
+                    state = 1;
+                }else if(state === 1){
+                    state = 0;
+                }
+                list[i].state = state;
+            }
+        }
+        this.setData({
+            allList : list
+        })
+
+        Protocol.MedicalRecordUpdate({ids,state}).then(data => {
+
         })
     },
 
@@ -95,6 +105,9 @@ Page({
                         break;
                     case ProtocolState.QUERY_DATA_FINISH:
                         this.setData({queryState: '同步完成'});
+                        /*setTimeout(function(){
+                            this.getMedicalRecordList({page = 1, recorded = true});
+                        },3000);*/
                         break;
                 }
             }

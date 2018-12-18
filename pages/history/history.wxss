@@ -18,13 +18,14 @@ page{
 
 .history-box{
     width: 690rpx;
-    margin: 80rpx auto 0;
+    margin: 20rpx auto 0;
 }
 .history-headbox{
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     margin-bottom: 26rpx;
+    margin-top:60rpx;
 }
 .history-data{
     font-size: 30rpx;
