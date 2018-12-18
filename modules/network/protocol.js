@@ -38,8 +38,8 @@ export default class Protocol {
         return Network.request({url: 'medical/remind/image', data: {id: id, image_url: image_url}});
     }
 
-    static postDeviceBind({deviceId}) {
-        return Network.request({url: 'device/bind', data: {deviceId}});
+    static postDeviceBind({deviceId: device_Id}) {
+        return Network.request({url: 'device/bind', data: {device_Id}});
     }
 
     static postMedicalRecordSave({records}) {
