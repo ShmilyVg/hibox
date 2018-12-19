@@ -30,7 +30,6 @@ Page({
             frontColor: '#ffffff',
             backgroundColor: this.data.state.navigationColor,
         });
-        const that = this;
         this.flickerHandle();
         app.getBLEManager().connect();
         app.setBLEListener({
@@ -38,22 +37,21 @@ Page({
                 this.showResult({state: state.connectState});
             },
             receiveDataListener: ({finalResult, state}) => {
-                console.log('当前dddd', that);
-
                 if (ProtocolState.GET_CONNECTED_RESULT_SUCCESS === state.protocolState) {
-                    console.log('当前', that);
-                    that.isBind = true;
+                    this.isBind = true;
                     const {isConnected} = finalResult;
                     const manager = app.getBLEManager();
-                    manager.updateBLEStateImmediately(manager.getState({protocolState: ProtocolState.CONNECTED_AND_BIND}));
-                    isConnected && HiNavigator.switchToIndexPage({refresh: false});
+                    manager.updateBLEStateImmediately(manager.getState({
+                        protocolState: ProtocolState.CONNECTED_AND_BIND,
+                        connectState: ConnectState.CONNECTED
+                    }));
+                    setTimeout(() => isConnected && HiNavigator.switchToIndexPage({refresh: false}));
                 }
             }
         });
     },
 
     onUnload() {
-        console.log('绑定了？', this.isBind);
         !this.isBind && app.getBLEManager().clearConnectedBLE();
     },
 

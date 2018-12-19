@@ -4,6 +4,7 @@ import {common} from "./libs/bluetooth/app/common";
 import {ProtocolState} from "./modules/bluetooth/bluetooth-state";
 import Protocol from "./modules/network/protocol";
 import HiBoxBlueToothManager from "./modules/bluetooth/hi-box-bluetooth-manager";
+import HiNavigator from "./navigator/hi-navigator";
 
 App({
 
@@ -33,13 +34,11 @@ App({
         });
         this.commonOnLaunch({options, bLEManager: new HiBoxBlueToothManager()});
 
-        // Protocol.getDeviceBindInfo().then(data => {
-        //     if (data.result.length) {
-        //         HiNavigator.switchToIndexPage({});
-        //     } else {
-        //         HiNavigator.reLaunchToBindDevicePage();
-        //     }
-        // })
+        Protocol.getDeviceBindInfo().then(data => {
+            if (!data.result.length) {
+                HiNavigator.reLaunchToBindDevicePage();
+            }
+        })
     },
 
     onShow(options) {
