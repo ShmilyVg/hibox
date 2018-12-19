@@ -21,6 +21,8 @@ Page({
     },
 
     onShow: function () {
+
+
         getApp().setBLEListener({
             bleStateListener: ({state}) => {
                 if (ConnectState.DISCONNECT === state.connectState || ConnectState.UNAVAILABLE === state.connectState || ConnectState.NOT_SUPPORT === state.connectState || ConnectState.UNBIND === state.connectState) {
@@ -41,7 +43,7 @@ Page({
                                 connectState: {'text': '记录同步完成', color: '#65FF0A'},
                                 isConnect: false
                             });
-                            setTimeout(function () {
+                            setTimeout(() => {
                                 this.getMedicalRecordList({page: 1, recorded: true});
                                 this.setData({
                                     isConnect: true

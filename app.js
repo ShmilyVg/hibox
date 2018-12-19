@@ -13,15 +13,15 @@ App({
             commonAppReceiveDataListener: ({finalResult, state}) => {
                 if (ProtocolState.QUERY_DATA_ING === state.protocolState) {
                     const {length, isEat, timestamp} = finalResult;
+                    console.log('同步数据',length, records);
                     if (records.length < length) {
                         records.push({state: isEat ? 1 : 0, timestamp});
                     } else {
                         Protocol.postMedicalRecordSave({records}).then(data => {
-                            //TODO 向设备回复成功
-                            this.bLEManager.sendQueryDataSuccessProtocol();
+                            console.log('同步数据成功');
                         }).catch(res => {
                             console.log(res, '同步数据失败');
-                        }).finally(() => records = []);
+                        }).finally(() => records = [] && this.bLEManager.sendQueryDataSuccessProtocol());
                     }
                 } else {
                     this.appReceiveDataListener && this.appReceiveDataListener({finalResult, state});
