@@ -45,6 +45,7 @@ App({
             } else {
                 this.bLEManager.setBindMarkStorage();
                 this.bLEManager.connect({macId: data.result.mac});
+                HiNavigator.switchToIndexPage({});
             }
         })
     },
