@@ -41,7 +41,6 @@ const obj = {
                     case ConnectState.CONNECTED:
                         if (!isConnected) {
                             this.bLEManager.startProtocol();
-                            this.bLEManager.setFilter(false);
                             isConnected = true;
                         }
                         break;

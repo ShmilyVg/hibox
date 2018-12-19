@@ -11,6 +11,7 @@ export default class HiBoxBlueToothProtocol extends HiBlueToothProtocol {
             '0x74': ({singleAlertData}) => {
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x74', data: singleAlertData})});
             },
+            //设备反馈定时设置结果
             '0x7d': ({dataArray}) => {
                 const isSetSingleAlertItemSuccess = HexTools.hexArrayToNum(dataArray.slice(0, 1)) === 1;
                 return {
