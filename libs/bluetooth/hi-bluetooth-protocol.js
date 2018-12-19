@@ -15,12 +15,12 @@ export default class HiBlueToothProtocol {
                 const version = HexTools.hexArrayToNum(dataArray.slice(1, 3));
                 const deviceId = HexTools.hexArrayToNum(dataArray.slice(3));
                 const now = Date.now() / 1000;
-                blueToothManager.sendData({buffer: this.protocolBody.createBuffer({command: '0x71', data: [now]})});
+                blueToothManager.sendData({buffer: this.createBuffer({command: '0x71', data: [now]})});
                 return {state: CommonProtocolState.TIMESTAMP, dataAfterProtocol: {battery, version, deviceId}};
             },
             //App请求同步数据
             '0x77': () => {
-                blueToothManager.sendData({buffer: this.protocolBody.createBuffer({command: '0x77'})});
+                blueToothManager.sendData({buffer: this.createBuffer({command: '0x77'})});
                 blueToothManager.updateBLEStateImmediately(this.protocolBody.getOtherStateAndResultWithConnectedState({protocolState: CommonProtocolState.QUERY_DATA_START}));
             },
             //设备返回要同步的数据
@@ -32,18 +32,18 @@ export default class HiBlueToothProtocol {
             },
             //App传给设备同步数据的结果
             '0x78': () => {
-                blueToothManager.sendData({buffer: this.protocolBody.createBuffer({command: '0x78'})});
+                blueToothManager.sendData({buffer: this.createBuffer({command: '0x78'})});
                 blueToothManager.updateBLEStateImmediately(this.protocolBody.getOtherStateAndResultWithConnectedState({protocolState: CommonProtocolState.QUERY_DATA_FINISH}));
             },
             //由手机发出的连接请求
             '0x7a': () => {
-                blueToothManager.sendData({buffer: this.protocolBody.createBuffer({command: '0x7a'})});
+                blueToothManager.sendData({buffer: this.createBuffer({command: '0x7a'})});
             },
             //由设备发出的连接反馈 1接受 0不接受 后面的是
             '0x7b': ({dataArray}) => {
                 const isConnected = HexTools.hexArrayToNum(dataArray.slice(0, 1)) === 1;
                 const deviceId = HexTools.hexArrayToNum(dataArray.slice(1));
-                console.log('绑定结果',dataArray, deviceId, isConnected);
+                console.log('绑定结果', dataArray, deviceId, isConnected);
                 //由手机回复的连接成功
                 isConnected && this.startCommunication();
                 return {
@@ -53,7 +53,7 @@ export default class HiBlueToothProtocol {
             },
             //App发送同步数据
             '0x7c': () => {
-                blueToothManager.sendData({buffer: this.protocolBody.createBuffer({command: '0x7c'})});
+                blueToothManager.sendData({buffer: this.createBuffer({command: '0x7c'})});
                 this.sendQueryDataRequiredProtocol();
             },
         }
@@ -102,4 +102,7 @@ export default class HiBlueToothProtocol {
         return this.protocolBody.receive({action: this.action, receiveBuffer, filter: this._filter});
     }
 
+    createBuffer({command, data}) {
+        return this.protocolBody.createBuffer({command, data});
+    }
 }

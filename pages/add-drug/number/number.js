@@ -126,7 +126,7 @@ Page({
     },
 
     nextStep() {
-        Toast.showLoading();
+        // Toast.showLoading();
         this.dataForBLE = DrugRuler.getConvertToBLEList({...this.data});
         this.sendDataToBLE();
     },
