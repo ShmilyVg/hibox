@@ -18,8 +18,19 @@ export default class DrugRuler {
         return list.sort(this.sortFun).map((item, timeIndex) =>
             ({compartment: parseInt(compartment) || 1, length, timeIndex, timestamp: item.timestamp,})
         ).map(item =>
-            [item.compartment, item.length, item.timeIndex + 1, item.timestamp]
+            [item.compartment, item.length, item.timeIndex + 1, ...this._getTimestampMayAddZero(item.timestamp)]
         ).reverse();
+    }
+
+    static _getTimestampMayAddZero(timestamp) {
+        const array = [];
+        if (!(timestamp >> 8)) {
+            array.push(0, 0);
+        } else if (!(timestamp >> 16)) {
+            array.push(0);
+        }
+        array.push(timestamp);
+        return array;
     }
 
     static convertServerListToLocalList({items}) {
@@ -50,3 +61,5 @@ export default class DrugRuler {
         return {timestamp: hour * 3600 + minute * 60, time: hourAndMinute, dayPart: this.getDayPart(hour)};
     }
 }
+
+
