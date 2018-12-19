@@ -12,7 +12,7 @@ export default class HiBoxBlueToothProtocol extends HiBlueToothProtocol {
                 blueToothManager.sendData({buffer: this.createBuffer({command: '0x74', data: singleAlertData})});
             },
             '0x7d': ({dataArray}) => {
-                const isSetSingleAlertItemSuccess = HexTools.hexArrayToNum(dataArray) === 1;
+                const isSetSingleAlertItemSuccess = HexTools.hexArrayToNum(dataArray.slice(0, 1)) === 1;
                 return {
                     state: ProtocolState.SEND_ALERT_TIME_RESULT,
                     dataAfterProtocol: {isSetSingleAlertItemSuccess}

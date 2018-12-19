@@ -39,7 +39,7 @@ export default class Protocol {
     }
 
     static postDeviceBind({deviceId: device_id, mac}) {
-        console.log('上传绑定信息',device_id, mac);
+        console.log('上传绑定信息', device_id, mac);
         return Network.request({url: 'device/bind', data: {device_id, mac}});
     }
 
@@ -49,8 +49,8 @@ export default class Protocol {
 
     static postMedicalRemindConfig({deviceId, compartment, drugName, drugClassify, items}) {
         return Network.request({
-            url: 'medical/record/save',
-            data: {deviceId, compartment, drug_name: drugName, drug_classify: drugClassify, items}
+            url: 'medical/remind/config',
+            data: {device_id: deviceId, compartment, drug_name: drugName, drug_classify: drugClassify, items}
         });
     }
 
