@@ -14,15 +14,17 @@ App({
             commonAppReceiveDataListener: ({finalResult, state}) => {
                 if (ProtocolState.QUERY_DATA_ING === state.protocolState) {
                     const {length, isEat, timestamp} = finalResult;
-                    console.log('同步数据',length, records);
                     if (records.length < length) {
                         records.push({state: isEat ? 1 : 0, timestamp});
-                    } else {
+                    } else if (records.length > 0) {
                         Protocol.postMedicalRecordSave({records}).then(data => {
                             console.log('同步数据成功');
+                            this.bLEManager.sendQueryDataSuccessProtocol();
                         }).catch(res => {
                             console.log(res, '同步数据失败');
-                        }).finally(() => records = [] && this.bLEManager.sendQueryDataSuccessProtocol());
+                        }).finally(() => records = []);
+                    } else {
+                        this.bLEManager.sendQueryDataSuccessProtocol();
                     }
                 } else {
                     this.appReceiveDataListener && this.appReceiveDataListener({finalResult, state});
@@ -35,8 +37,10 @@ App({
         this.commonOnLaunch({options, bLEManager: new HiBoxBlueToothManager()});
 
         Protocol.getDeviceBindInfo().then(data => {
-            if (!data.result.length) {
+            if (!data.result) {
                 HiNavigator.reLaunchToBindDevicePage();
+            } else {
+                this.bLEManager.connect({macId: data.result.mac});
             }
         })
     },
