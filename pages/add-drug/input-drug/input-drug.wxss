@@ -26,6 +26,11 @@
     font-size: 32rpx;
     font-weight: 500;
     line-height: 47rpx;
-    margin-right: 16rpx;
+    margin: 8rpx;
+}
+
+.input-drug-wrap-layout{
     flex-wrap: wrap;
+    box-sizing: border-box;
+    padding: 0 20rpx;
 }
