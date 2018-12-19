@@ -38,8 +38,10 @@ App({
 
         Protocol.getDeviceBindInfo().then(data => {
             if (!data.result) {
+                this.bLEManager.clearConnectedBLE();
                 HiNavigator.reLaunchToBindDevicePage();
             } else {
+                this.bLEManager.setBindMarkStorage();
                 this.bLEManager.connect({macId: data.result.mac});
             }
         })
