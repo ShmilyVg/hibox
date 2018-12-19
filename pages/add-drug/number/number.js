@@ -62,7 +62,7 @@ Page({
                             this.sendDataToBLE();
                         } else {
                             Protocol.postMedicalRemindConfig({...DrugRuler.getConvertToServerData({...this.data})})
-                                .then(() => HiNavigator.switchTab({score: finalResult.result}))
+                                .then(() => HiNavigator.switchToIndexPage({refresh: true}))
                                 .catch(() => setTimeout(Toast.warn, 0, '网络异常'))
                                 .finally(() => Toast.hiddenLoading());
                         }
