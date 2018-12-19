@@ -26,6 +26,8 @@ App({
                     } else {
                         this.bLEManager.sendQueryDataSuccessProtocol();
                     }
+                    console.log('同步数据的数组', records);
+
                 } else {
                     this.appReceiveDataListener && this.appReceiveDataListener({finalResult, state});
                 }
