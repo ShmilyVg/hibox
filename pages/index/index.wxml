@@ -6,7 +6,7 @@
 <import src="../../view/top-tip.wxml"></import>
 
 
-<template is="top-tip" wx:if="{{!isConnect}}" data="{{connectState,animationData,animationData1}}"></template>
+<template is="top-tip" wx:if="{{!isConnect}}" bindTap="reSend" data="{{connectState,animationData,animationData1}}"></template>
 <view style="position: relative">
     <view class="top-view">
         <view class="flex-row" style="justify-content: space-between;width: 100%">

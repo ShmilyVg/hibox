@@ -73,7 +73,7 @@ Page({
                 return {text: '请开启手机蓝牙', isConnect: false};
             case ConnectState.DISCONNECT:
                 clearInterval(this.data.pointTimer);
-                return {text: '连接失败', isConnect: false};
+                return {text: '连接失败，点击重试', isConnect: false};
             case ConnectState.CONNECTING:
                 this.pointAnimation();
                 return {text: '正在连接...', isConnect: false};
@@ -232,4 +232,9 @@ Page({
             this.getBaseInfo();
         })
     },
+
+
+    reSend(){
+        getApp().getBLEManager().connect();
+    }
 })
