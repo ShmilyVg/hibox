@@ -40,6 +40,10 @@ export default class AbstractBlueTooth {
         return wx.getStorageSync('deviceId');
     }
 
+    setDeviceMacAddress({macId}) {
+        wx.setStorageSync('deviceId', this._deviceId = macId);
+    }
+
     /**
      * 打开蓝牙适配器
      * 只有蓝牙开启的状态下，才可执行成功
@@ -286,10 +290,9 @@ export default class AbstractBlueTooth {
                 }
                 if (read !== i && write === -1 && properties.write) {
                     write = i;
-                    this._deviceId = deviceId;
                     this._serviceId = serviceId;
                     this._characteristicId = uuid;
-                    wx.setStorage({key: 'deviceId', data: this._deviceId});
+                    this.setDeviceMacAddress({macId: deviceId});
                 }
             }
             // resolve();

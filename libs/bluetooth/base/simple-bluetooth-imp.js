@@ -32,8 +32,8 @@ export default class SimpleBlueToothImp {
      * 连接蓝牙
      * @returns {*}
      */
-    connect() {
-        return this.bluetoothManager.openAdapterAndConnectLatestBLE();
+    connect({macId} = {}) {
+        return this.bluetoothManager.openAdapterAndConnectLatestBLE({macId});
     }
 
     getConnectDevices() {

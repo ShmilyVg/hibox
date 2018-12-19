@@ -38,12 +38,21 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
                         const {devices} = res;
                         // console.log('发现新的蓝牙设备', devices);
                         if (devices.length > 0) {
-                            const device = devices.reduce((prev, cur) => prev.RSSI > cur.RSSI ? prev : cur);
-                            // console.log('要连接的设备', device);
-                            if (!this._deviceId) {
-                                this._updateFinalState({
-                                    promise: this.createBLEConnection({deviceId: device.deviceId})
-                                });
+                            if (!!this._deviceId) {
+                                const deviceBind = devices.filter(item => this._deviceId === item.deviceId);
+                                if (!!deviceBind.length) {
+                                    this._updateFinalState({
+                                        promise: this.createBLEConnection({deviceId: deviceBind[0].deviceId})
+                                    });
+                                }
+                            } else {
+                                const device = devices.reduce((prev, cur) => prev.RSSI > cur.RSSI ? prev : cur);
+                                // console.log('要连接的设备', device);
+                                if (!this._deviceId) {
+                                    this._updateFinalState({
+                                        promise: this.createBLEConnection({deviceId: device.deviceId})
+                                    });
+                                }
                             }
                         }
                     }).catch();
@@ -88,7 +97,8 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
      * 如果之前已经连接过了，则这次会按照持久化的deviceId直接连接
      * @returns {*}
      */
-    openAdapterAndConnectLatestBLE() {
+    openAdapterAndConnectLatestBLE({macId} = {}) {
+        !!macId && this.setDeviceMacAddress({macId});
         if (this._isConnected) {
             return new Promise((resolve) => resolve);
         }
