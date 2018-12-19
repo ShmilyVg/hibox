@@ -1,6 +1,5 @@
 {
   "pages":[
-    "pages/empty/empty",
     "pages/index/index",
     "pages/bind-device/bind-device",
     "pages/connect-device/connect-device",
