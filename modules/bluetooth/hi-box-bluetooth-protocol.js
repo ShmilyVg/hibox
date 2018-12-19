@@ -1,5 +1,6 @@
 import HiBlueToothProtocol from "../../libs/bluetooth/hi-bluetooth-protocol";
 import {HexTools} from "../../libs/bluetooth/utils/tools";
+import {ProtocolState} from "../../modules/bluetooth/bluetooth-state";
 
 export default class HiBoxBlueToothProtocol extends HiBlueToothProtocol {
     constructor(blueToothManager) {
