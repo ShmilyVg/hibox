@@ -12,6 +12,13 @@ Page({
 
     },
 
+    onShow(){
+        wx.setNavigationBarColor({
+            frontColor: '#ffffff',
+            backgroundColor: '#3E3E3E',
+        });
+    },
+
     onGotUserInfo(e) {
         const {detail: {userInfo, encryptedData, iv}} = e;
         if (!!userInfo) {
