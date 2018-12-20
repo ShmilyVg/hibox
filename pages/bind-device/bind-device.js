@@ -3,23 +3,13 @@ import Toast from "../../view/toast";
 import Login from "../../modules/network/login";
 import UserInfo from "../../modules/network/userInfo";
 import HiNavigator from "../../navigator/hi-navigator";
-import Protocol from "../../modules/network/protocol";
 
 Page({
 
     data: {},
 
     onLoad: function (options) {
-        Protocol.getDeviceBindInfo().then(data => {
-            if (!data.result) {
-                getApp().bLEManager.clearConnectedBLE();
-                HiNavigator.reLaunchToBindDevicePage();
-            } else {
-                getApp().bLEManager.setBindMarkStorage();
-                getApp().bLEManager.connect({macId: data.result.mac});
-                HiNavigator.switchToIndexPage({});
-            }
-        })
+
     },
 
     onShow(){
