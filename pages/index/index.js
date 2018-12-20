@@ -73,17 +73,17 @@ Page({
     setConnectState(state, that) {
         switch (state.connectState) {
             case ConnectState.UNBIND:
-                return {text: '未绑定', color: '#65FF0A'};
+                return {text: '未绑定', color: '#65FF0A', pointAnimation: false};
             case ConnectState.UNAVAILABLE:
-                return {text: '请开启手机蓝牙', color: '#65FF0A'};
+                return {text: '请开启手机蓝牙', color: '#65FF0A', pointAnimation: false};
             case ConnectState.DISCONNECT:
-                return {text: '连接失败，点击重试', color: '#FF8000'};
+                return {text: '连接失败，点击重试', color: '#FF8000', pointAnimation: false};
             case ConnectState.CONNECTING:
                 this.pointAnimation();
-                return {text: '正在连接...', color: '#65FF0A'};
+                return {text: '正在连接...', color: '#65FF0A',pointAnimation: true};
             case ConnectState.CONNECTED:
                 this.hiddenTopTip(that);
-                return {text: '已连接', color: '#65FF0A'}
+                return {text: '已连接', color: '#65FF0A', pointAnimation: false}
         }
     },
 
