@@ -7,9 +7,7 @@ export default class HiBlueToothProtocol {
 
     constructor({blueToothManager, deviceIndexNum}) {
         this.setFilter(true);//过滤
-        this.sendData = ({command, data}) => {
-            blueToothManager.sendData({buffer: this.createBuffer({command, data})});
-        };
+        this._blueToothManager = blueToothManager;
         this.protocolBody = new ProtocolBody({commandIndex, dataStartIndex, deviceIndexNum, blueToothManager});
         this.action = {
             //由设备发出的时间戳请求
@@ -72,6 +70,10 @@ export default class HiBlueToothProtocol {
                 this.action['0x77']();
             }, 4000);
         }
+    }
+
+    sendData({command, data}) {
+        this._blueToothManager.sendData({buffer: this.createBuffer({command, data})});
     }
 
     sendQueryDataSuccessProtocol() {
