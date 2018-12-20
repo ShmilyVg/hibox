@@ -50,7 +50,7 @@ Page({
 
     hiddenTopTip(that) {
         that.setData({
-            connectState: {text: '已连接', color: '#65FF0A'},
+            connectState: {text: '已连接', color: '#65FF0A', pointAnimation: false, isConnect: false},
         });
         const animation = wx.createAnimation({
             duration: 2000,
@@ -75,18 +75,28 @@ Page({
     setConnectState(state, that) {
         switch (state.connectState) {
             case ConnectState.UNBIND:
+                that.topViewInit(that);
                 return {text: '未绑定', color: '#65FF0A', pointAnimation: false, isConnect: false};
             case ConnectState.UNAVAILABLE:
+                that.topViewInit(that);
                 return {text: '请开启手机蓝牙', color: '#65FF0A', pointAnimation: false, isConnect: false};
             case ConnectState.DISCONNECT:
+                that.topViewInit(that);
                 return {text: '连接失败，点击重试', color: '#FF8000', pointAnimation: false, isConnect: false};
             case ConnectState.CONNECTING:
-                this.pointAnimation();
+                that.topViewInit(that);
                 return {text: '正在连接...', color: '#65FF0A', pointAnimation: true, isConnect: true};
             case ConnectState.CONNECTED:
                 this.hiddenTopTip(that);
                 return {text: '已连接', color: '#65FF0A', pointAnimation: false, isConnect: false}
         }
+    },
+
+    topViewInit(that){
+        that.animation.translateY(0).step();
+        this.setData({
+            animationData: that.animation.export()
+        });
     },
 
     getBaseInfo() {
@@ -177,10 +187,7 @@ Page({
     },
 
     toSet() {
-        // this.hiddenTopTip();
-        // this.pointAnimation();
         HiNavigator.navigateSearchDevicePage();
-
     },
 
     getIndexNum(e) {
