@@ -34,10 +34,8 @@ Page({
         let that = this;
         getApp().setBLEListener({
             bleStateListener: function ({state}) {
-                let data = that.setConnectState(state);
                 that.setData({
-                    connectState: data,
-                    isConnect: data.isConnect
+                    connectState: that.setConnectState(state, that),
                 })
             }
         });
@@ -48,7 +46,10 @@ Page({
         }
     },
 
-    hiddenTopTip() {
+    hiddenTopTip(that) {
+        that.setData({
+            connectState: '已连接',
+        });
         const animation = wx.createAnimation({
             duration: 2000,
             timingFunction: 'ease',
@@ -61,26 +62,25 @@ Page({
                 animationData: animation.export()
             })
         }.bind(this), 3000);
+        that.setData({
+            isConnect: true
+        })
     },
 
-    setConnectState(state) {
+    setConnectState(state, that) {
         switch (state.connectState) {
             case ConnectState.UNBIND:
-                clearInterval(this.data.pointTimer);
-                return {text: '未绑定', isConnect: false};
+                return '未绑定';
             case ConnectState.UNAVAILABLE:
-                clearInterval(this.data.pointTimer);
-                return {text: '请开启手机蓝牙', isConnect: false};
+                return '请开启手机蓝牙';
             case ConnectState.DISCONNECT:
-                clearInterval(this.data.pointTimer);
-                return {text: '连接失败，点击重试', isConnect: false};
+                return '连接失败，点击重试';
             case ConnectState.CONNECTING:
                 this.pointAnimation();
-                return {text: '正在连接...', isConnect: false};
+                return '正在连接...';
             case ConnectState.CONNECTED:
-                clearInterval(this.data.pointTimer);
-                this.hiddenTopTip();
-                return {text: '已连接', isConnect: true}
+                this.hiddenTopTip(that);
+                return '已连接';
         }
     },
 
@@ -191,7 +191,7 @@ Page({
 
 
         let num = 0;
-        this.data.pointTimer = setInterval(function () {
+        setInterval(function () {
             this.animation1 = animation1;
             animation1.opacity(num % 2).step();
             that.setData({
@@ -234,7 +234,7 @@ Page({
     },
 
 
-    reSend(){
+    reSend() {
         getApp().getBLEManager().connect();
     }
 })
