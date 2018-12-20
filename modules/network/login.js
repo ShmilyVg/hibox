@@ -24,6 +24,7 @@ export default class Login {
                     if (code === 2) {
                         console.log('未注册，请先注册');
                         _needRegister = true;
+                        reject(res);
                         return;
                     }
                 }
