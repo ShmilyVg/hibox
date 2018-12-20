@@ -34,10 +34,8 @@ Page({
         let that = this;
         getApp().setBLEListener({
             bleStateListener: function ({state}) {
-                let data = that.setConnectState(state);
                 that.setData({
-                    connectState: data,
-                    isConnect: data.isConnect
+                    connectState: that.setConnectState(state, that),
                 })
             }
         });
@@ -48,7 +46,10 @@ Page({
         }
     },
 
-    hiddenTopTip() {
+    hiddenTopTip(that) {
+        that.setData({
+            connectState: {text: '已连接', color: '#65FF0A'},
+        });
         const animation = wx.createAnimation({
             duration: 2000,
             timingFunction: 'ease',
@@ -61,26 +62,28 @@ Page({
                 animationData: animation.export()
             })
         }.bind(this), 3000);
+
+        setTimeout(function () {
+            that.setData({
+                isConnect: true
+            })
+        }.bind(this), 4000);
     },
 
-    setConnectState(state) {
+    setConnectState(state, that) {
         switch (state.connectState) {
             case ConnectState.UNBIND:
-                clearInterval(this.data.pointTimer);
-                return {text: '未绑定', isConnect: false};
+                return {text: '未绑定', color: '#65FF0A', pointAnimation: false};
             case ConnectState.UNAVAILABLE:
-                clearInterval(this.data.pointTimer);
-                return {text: '请开启手机蓝牙', isConnect: false};
+                return {text: '请开启手机蓝牙', color: '#65FF0A', pointAnimation: false};
             case ConnectState.DISCONNECT:
-                clearInterval(this.data.pointTimer);
-                return {text: '连接失败，点击重试', isConnect: false};
+                return {text: '连接失败，点击重试', color: '#FF8000', pointAnimation: false};
             case ConnectState.CONNECTING:
                 this.pointAnimation();
-                return {text: '正在连接...', isConnect: false};
+                return {text: '正在连接...', color: '#65FF0A',pointAnimation: true};
             case ConnectState.CONNECTED:
-                clearInterval(this.data.pointTimer);
-                this.hiddenTopTip();
-                return {text: '已连接', isConnect: true}
+                this.hiddenTopTip(that);
+                return {text: '已连接', color: '#65FF0A', pointAnimation: false}
         }
     },
 
@@ -191,7 +194,7 @@ Page({
 
 
         let num = 0;
-        this.data.pointTimer = setInterval(function () {
+        setInterval(function () {
             this.animation1 = animation1;
             animation1.opacity(num % 2).step();
             that.setData({
@@ -234,7 +237,7 @@ Page({
     },
 
 
-    reSend(){
+    reSend() {
         getApp().getBLEManager().connect();
     }
 })
