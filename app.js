@@ -1,6 +1,6 @@
 //app.js
 import './libs/adapter';
-import {common, NOT_REGISTER} from "./libs/bluetooth/app/common";
+import {common} from "./libs/bluetooth/app/common";
 import {ProtocolState} from "./modules/bluetooth/bluetooth-state";
 import Protocol from "./modules/network/protocol";
 import HiBoxBlueToothManager from "./modules/bluetooth/hi-box-bluetooth-manager";
@@ -41,6 +41,8 @@ App({
         this.appLoginListener = ({loginState}) => {
             if (loginState === NOT_REGISTER) {
                 //TODO 未注册情况
+                this.bLEManager.clearConnectedBLE();
+                HiNavigator.reLaunchToBindDevicePage();
             }
         };
         Protocol.getDeviceBindInfo().then(data => {
