@@ -22,7 +22,7 @@ export default class HiNavigator {
     }
 
     static navigateToConnectDevice(){
-        this.navigateTo({url:'/pages/connect-device/connect-device'});
+        this.reLaunch({url:'/pages/connect-device/connect-device'});
     }
 
     static switchToIndexPage({refresh = false}) {

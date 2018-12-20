@@ -32,6 +32,14 @@ Page({
 
     onShow() {
         let that = this;
+        let state = getApp().getLatestBLEState();
+
+        let value = this.setConnectState(state, that);
+        that.setData({
+            connectState: value,
+            isConnect: value.isConnect
+        })
+
         getApp().setBLEListener({
             bleStateListener: function ({state}) {
                 let value = that.setConnectState(state, that);
@@ -75,29 +83,41 @@ Page({
     setConnectState(state, that) {
         switch (state.connectState) {
             case ConnectState.UNBIND:
+                console.log('=====================>未绑定');
                 that.topViewInit(that);
                 return {text: '未绑定', color: '#65FF0A', pointAnimation: false, isConnect: false};
             case ConnectState.UNAVAILABLE:
+                console.log('=====================>请开启手机蓝牙');
                 that.topViewInit(that);
                 return {text: '请开启手机蓝牙', color: '#65FF0A', pointAnimation: false, isConnect: false};
             case ConnectState.DISCONNECT:
+                console.log('=====================>连接失败，点击重试');
                 that.topViewInit(that);
                 return {text: '连接失败，点击重试', color: '#FF8000', pointAnimation: false, isConnect: false};
             case ConnectState.CONNECTING:
+                console.log('=====================>正在连接...');
                 that.topViewInit(that);
-                return {text: '正在连接...', color: '#65FF0A', pointAnimation: true, isConnect: true};
+                return {text: '正在连接...', color: '#65FF0A', pointAnimation: true, isConnect: false};
             case ConnectState.CONNECTED:
+                console.log('=====================>已连接');
                 this.hiddenTopTip(that);
                 return {text: '已连接', color: '#65FF0A', pointAnimation: false, isConnect: false}
         }
     },
 
-    topViewInit(that){
+    topViewInit(that) {
+        const animation = wx.createAnimation({
+            duration: 0,
+            timingFunction: 'ease',
+        });
+
+        this.animation = animation;
         that.animation.translateY(0).step();
         this.setData({
             animationData: that.animation.export()
         });
     },
+
 
     getBaseInfo() {
         Protocol.getMedicalRemindInfo().then(data => {
