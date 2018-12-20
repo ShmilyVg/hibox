@@ -17,4 +17,5 @@ export class CommonProtocolState {
     static GET_CONNECTED_RESULT_SUCCESS = 'get_connected_result_success';//设备返回连接结果
     static SEND_CONNECTED_REQUIRED = 'send_connected_required';//手机发送连接请求
     static TIMESTAMP = 'timestamp';//设备获取时间戳
+    static DORMANT = 'dormant';//设备休眠
 }

@@ -26,7 +26,7 @@ export default class HiBlueToothProtocol {
                     dataAfterProtocol: {isConnected, deviceId}
                 };
             },
-            //App发送同步数据
+            //App发送绑定成功，并隔一段时间发送同步数据
             '0x03': () => {
                 this.sendData({command: '0x03'});
                 this.sendQueryDataRequiredProtocol();

@@ -41,7 +41,7 @@ export class HexTools {
      */
     static hexArrayToNum(array) {
         let count = 0, divideNum = array.length - 1;
-        array.forEach((item, index) => count += item << (divideNum - index) * 4);
+        array.forEach((item, index) => count += item << (divideNum - index) * 8);
         return count;
     }
 }
