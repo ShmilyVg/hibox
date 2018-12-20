@@ -9,7 +9,7 @@ export default class HiBoxBlueToothProtocol extends HiBlueToothProtocol {
             ...this.action,
             //由手机发出的定时设置请求
             '0x74': ({singleAlertData}) => {
-                blueToothManager.sendData({buffer: this.createBuffer({command: '0x74', data: singleAlertData})});
+                this.sendData({command: '0x74', data: singleAlertData});
             },
             //设备反馈定时设置结果
             '0x7d': ({dataArray}) => {
@@ -21,7 +21,7 @@ export default class HiBoxBlueToothProtocol extends HiBlueToothProtocol {
             },
             //由手机发出的查找设备请求
             '0x72': () => {
-                blueToothManager.sendData({buffer: this.createBuffer({command: '0x72'})});
+                this.sendData({command: '0x72'});
             },
         }
     }
