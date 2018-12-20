@@ -3,7 +3,7 @@ import Protocol from "../../modules/network/protocol";
 import * as config from "../../utils/config";
 import toast from "../../view/toast";
 import HiNavigator from "../../navigator/hi-navigator";
-import {ConnectState} from "../../modules/bluetooth/bluetooth-state";
+import {ConnectState, ProtocolState} from "../../modules/bluetooth/bluetooth-state";
 
 Page({
     data: {
@@ -32,21 +32,10 @@ Page({
 
     onShow() {
         let that = this;
-        let state = getApp().getLatestBLEState();
-
-        let value = this.setConnectState(state, that);
-        that.setData({
-            connectState: value,
-            isConnect: value.isConnect
-        })
 
         getApp().setBLEListener({
             bleStateListener: function ({state}) {
-                let value = that.setConnectState(state, that);
-                that.setData({
-                    connectState: value,
-                    isConnect: value.isConnect
-                })
+                that.setConnectState(state, that);
             }
         });
 
@@ -54,11 +43,18 @@ Page({
             this.getBaseInfo();
             getApp().globalData.refreshIndexPage = false
         }
+
+
+        let state = getApp().getLatestBLEState();
+        this.setConnectState(state, that);
     },
 
     hiddenTopTip(that) {
+        that.topViewInit(that);
+
         that.setData({
-            connectState: {text: '已连接', color: '#65FF0A', pointAnimation: false, isConnect: false},
+            connectState: {text: '已连接', color: '#65FF0A', pointAnimation: false},
+            isConnect: false
         });
         const animation = wx.createAnimation({
             duration: 2000,
@@ -85,23 +81,42 @@ Page({
             case ConnectState.UNBIND:
                 console.log('=====================>未绑定');
                 that.topViewInit(that);
-                return {text: '未绑定', color: '#65FF0A', pointAnimation: false, isConnect: false};
+                that.setData({
+                    connectState: {text: '未绑定', color: '#65FF0A', pointAnimation: false},
+                    isConnect: false
+                });
+                break;
             case ConnectState.UNAVAILABLE:
                 console.log('=====================>请开启手机蓝牙');
                 that.topViewInit(that);
-                return {text: '请开启手机蓝牙', color: '#65FF0A', pointAnimation: false, isConnect: false};
+                that.setData({
+                    connectState: {text: '请开启手机蓝牙', color: '#65FF0A', pointAnimation: false},
+                    isConnect: false
+                });
+                break;
             case ConnectState.DISCONNECT:
                 console.log('=====================>连接失败，点击重试');
                 that.topViewInit(that);
-                return {text: '连接失败，点击重试', color: '#FF8000', pointAnimation: false, isConnect: false};
+                that.setData({
+                    connectState: {text: '连接失败，点击重试', color: '#FF8000', pointAnimation: false},
+                    isConnect: false
+                });
+                break;
             case ConnectState.CONNECTING:
                 console.log('=====================>正在连接...');
                 that.topViewInit(that);
-                return {text: '正在连接...', color: '#65FF0A', pointAnimation: true, isConnect: false};
+                that.setData({
+                    connectState: {text: '正在连接...', color: '#65FF0A', pointAnimation: true},
+                    isConnect: false
+                });
+                break;
             case ConnectState.CONNECTED:
-                console.log('=====================>已连接');
-                this.hiddenTopTip(that);
-                return {text: '已连接', color: '#65FF0A', pointAnimation: false, isConnect: false}
+                if (ProtocolState.QUERY_DATA_START == state.protocolState) {
+                    console.log('=====================>已连接');
+                    that.topViewInit(that);
+                    that.hiddenTopTip(that);
+                }
+                break;
         }
     },
 
@@ -134,6 +149,9 @@ Page({
     },
 
     clickTopAdd(e) {
+        if (!this.data.isConnect) {
+            return;
+        }
         let index = this.getIndexNum(e);
         if (this.data.box[index]) {
             this.setData({
@@ -265,8 +283,13 @@ Page({
         })
     },
 
-
     reSend() {
+        console.log('==================>reSend');
         getApp().getBLEManager().connect();
+        this.topViewInit(this);
+        this.setData({
+            connectState: {text: '正在连接...', color: '#65FF0A', pointAnimation: true},
+            isConnect: false
+        })
     }
 })
