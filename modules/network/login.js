@@ -24,9 +24,9 @@ export default class Login {
                     if (code === 2) {
                         console.log('未注册，请先注册');
                         _needRegister = true;
-                        reject(res);
-                        return;
                     }
+                    reject(res);
+                    return;
                 }
                 reject(res);
                 WXDialog.showDialog({title: '糟糕', content: '抱歉，目前小程序无法登录，请稍后重试'});
