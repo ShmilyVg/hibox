@@ -48,7 +48,7 @@ Page({
 
     hiddenTopTip(that) {
         that.setData({
-            connectState: '已连接',
+            connectState: {text: '已连接', color: '#65FF0A'},
         });
         const animation = wx.createAnimation({
             duration: 2000,
@@ -62,25 +62,28 @@ Page({
                 animationData: animation.export()
             })
         }.bind(this), 3000);
-        that.setData({
-            isConnect: true
-        })
+
+        setTimeout(function () {
+            that.setData({
+                isConnect: true
+            })
+        }.bind(this), 4000);
     },
 
     setConnectState(state, that) {
         switch (state.connectState) {
             case ConnectState.UNBIND:
-                return '未绑定';
+                return {text: '未绑定', color: '#65FF0A'};
             case ConnectState.UNAVAILABLE:
-                return '请开启手机蓝牙';
+                return {text: '请开启手机蓝牙', color: '#65FF0A'};
             case ConnectState.DISCONNECT:
-                return '连接失败，点击重试';
+                return {text: '连接失败，点击重试', color: '#FF8000'};
             case ConnectState.CONNECTING:
                 this.pointAnimation();
-                return '正在连接...';
+                return {text: '正在连接...', color: '#65FF0A'};
             case ConnectState.CONNECTED:
                 this.hiddenTopTip(that);
-                return '已连接';
+                return {text: '已连接', color: '#65FF0A'}
         }
     },
 
