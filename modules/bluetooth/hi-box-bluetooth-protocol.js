@@ -1,6 +1,7 @@
 import HiBlueToothProtocol from "../../libs/bluetooth/hi-bluetooth-protocol";
 import {HexTools} from "../../libs/bluetooth/utils/tools";
 import {ProtocolState} from "../../modules/bluetooth/bluetooth-state";
+import {CommonProtocolState} from "../../libs/bluetooth/base/state";
 
 export default class HiBoxBlueToothProtocol extends HiBlueToothProtocol {
     constructor(blueToothManager) {
@@ -8,27 +9,30 @@ export default class HiBoxBlueToothProtocol extends HiBlueToothProtocol {
         this.action = {
             ...this.action,
             //由手机发出的定时设置请求
-            '0x74': ({singleAlertData}) => {
-                super.sendData({command: '0x74', data: singleAlertData});
+            '0x30': ({singleAlertData}) => {
+                super.sendData({command: '0x30', data: singleAlertData});
             },
             //设备反馈定时设置结果
-            '0x7d': ({dataArray}) => {
+            '0x31': ({dataArray}) => {
                 const isSetSingleAlertItemSuccess = HexTools.hexArrayToNum(dataArray.slice(0, 1)) === 1;
                 return {
                     state: ProtocolState.SEND_ALERT_TIME_RESULT,
                     dataAfterProtocol: {isSetSingleAlertItemSuccess}
                 };
             },
-            //由手机发出的查找设备请求
-            '0x72': () => {
-                super.sendData({command: '0x72'});
+            //设备返回要同步的数据
+            '0x32': ({dataArray}) => {
+                const length = HexTools.hexArrayToNum(dataArray.slice(0, 1));
+                const isEat = HexTools.hexArrayToNum(dataArray.slice(1, 2)) === 1;
+                const timestamp = HexTools.hexArrayToNum(dataArray.slice(2));
+                return {state: CommonProtocolState.QUERY_DATA_ING, dataAfterProtocol: {length, isEat, timestamp}};
             },
         }
     }
 
     sendFindDeviceProtocol() {
         if (this.getDeviceIsBind()) {
-            this.action['0x72']();
+            this.action['0x08']();
         }
     }
 
@@ -37,7 +41,7 @@ export default class HiBoxBlueToothProtocol extends HiBlueToothProtocol {
      */
     sendAlertTime({singleAlertData}) {
         if (this.getDeviceIsBind()) {
-            this.action['0x74']({singleAlertData: [...singleAlertData]});
+            this.action['0x30']({singleAlertData: [...singleAlertData]});
         }
     }
 };

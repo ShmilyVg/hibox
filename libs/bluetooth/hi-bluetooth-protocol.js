@@ -1,7 +1,7 @@
 import {CommonProtocolState} from "./base/state";
 import {HexTools, ProtocolBody} from "./utils/tools";
 
-const commandIndex = 4, dataStartIndex = 5;
+const commandIndex = 2, dataStartIndex = 3;
 
 export default class HiBlueToothProtocol {
 
@@ -10,38 +10,12 @@ export default class HiBlueToothProtocol {
         this._blueToothManager = blueToothManager;
         this.protocolBody = new ProtocolBody({commandIndex, dataStartIndex, deviceIndexNum, blueToothManager});
         this.action = {
-            //由设备发出的时间戳请求
-            '0x70': ({dataArray}) => {
-                const battery = HexTools.hexArrayToNum(dataArray.slice(0, 1));
-                const version = HexTools.hexArrayToNum(dataArray.slice(1, 3));
-                const deviceId = HexTools.hexArrayToNum(dataArray.slice(3));
-                const now = Date.now() / 1000;
-                this.sendData({command: '0x71', data: [now]});
-                return {state: CommonProtocolState.TIMESTAMP, dataAfterProtocol: {battery, version, deviceId}};
-            },
-            //App请求同步数据
-            '0x77': () => {
-                this.sendData({command: '0x77'});
-                blueToothManager.updateBLEStateImmediately(this.protocolBody.getOtherStateAndResultWithConnectedState({protocolState: CommonProtocolState.QUERY_DATA_START}));
-            },
-            //设备返回要同步的数据
-            '0x75': ({dataArray}) => {
-                const length = HexTools.hexArrayToNum(dataArray.slice(0, 1));
-                const isEat = HexTools.hexArrayToNum(dataArray.slice(1, 2)) === 1;
-                const timestamp = HexTools.hexArrayToNum(dataArray.slice(2));
-                return {state: CommonProtocolState.QUERY_DATA_ING, dataAfterProtocol: {length, isEat, timestamp}};
-            },
-            //App传给设备同步数据的结果
-            '0x78': () => {
-                this.sendData({command: '0x78'});
-                blueToothManager.updateBLEStateImmediately(this.protocolBody.getOtherStateAndResultWithConnectedState({protocolState: CommonProtocolState.QUERY_DATA_FINISH}));
-            },
             //由手机发出的连接请求
-            '0x7a': () => {
-                this.sendData({command: '0x7a'});
+            '0x01': () => {
+                this.sendData({command: '0x01'});
             },
-            //由设备发出的连接反馈 1接受 0不接受 后面的是
-            '0x7b': ({dataArray}) => {
+            //由设备发出的连接反馈 1接受 2不接受 后面的是
+            '0x02': ({dataArray}) => {
                 const isConnected = HexTools.hexArrayToNum(dataArray.slice(0, 1)) === 1;
                 const deviceId = HexTools.hexArrayToNum(dataArray.slice(1));
                 console.log('绑定结果', dataArray, deviceId, isConnected);
@@ -53,21 +27,52 @@ export default class HiBlueToothProtocol {
                 };
             },
             //App发送同步数据
-            '0x7c': () => {
-                this.sendData({command: '0x7c'});
+            '0x03': () => {
+                this.sendData({command: '0x03'});
                 this.sendQueryDataRequiredProtocol();
+            },
+            //由设备发出的时间戳请求
+            '0x04': ({dataArray}) => {
+                const battery = HexTools.hexArrayToNum(dataArray.slice(0, 1));
+                const version = HexTools.hexArrayToNum(dataArray.slice(1, 3));
+                const deviceId = HexTools.hexArrayToNum(dataArray.slice(3));
+                const now = Date.now() / 1000;
+                this.sendData({command: '0x05', data: [now]});
+                return {state: CommonProtocolState.TIMESTAMP, dataAfterProtocol: {battery, version, deviceId}};
+            },
+            '0x06': () => {
+                this.sendData({command: '0x07'});
+                return {state: CommonProtocolState.DORMANT};
+            },
+            //由手机发出的查找设备请求
+            '0x08': () => {
+                this.sendData({command: '0x08'});
+            },
+            //设备反馈的查找设备结果，找到了设备
+            '0x09': () => {
+                return {state: CommonProtocolState.NORMAL_PROTOCOL};
+            },
+            //App请求同步数据
+            '0x0a': () => {
+                this.sendData({command: '0x0a'});
+                blueToothManager.updateBLEStateImmediately(this.protocolBody.getOtherStateAndResultWithConnectedState({protocolState: CommonProtocolState.QUERY_DATA_START}));
+            },
+            //App传给设备同步数据的结果
+            '0x0b': () => {
+                this.sendData({command: '0x0b'});
+                blueToothManager.updateBLEStateImmediately(this.protocolBody.getOtherStateAndResultWithConnectedState({protocolState: CommonProtocolState.QUERY_DATA_FINISH}));
             },
         }
     }
 
     requireDeviceBind() {
-        !this.getDeviceIsBind() && this.action['0x7a']();
+        !this.getDeviceIsBind() && this.action['0x01']();
     }
 
     sendQueryDataRequiredProtocol() {
         if (this.getDeviceIsBind()) {
             setTimeout(() => {
-                this.action['0x77']();
+                this.action['0x0a']();
             }, 4000);
         }
     }
@@ -78,12 +83,12 @@ export default class HiBlueToothProtocol {
 
     sendQueryDataSuccessProtocol() {
         if (this.getDeviceIsBind()) {
-            this.action['0x78']();
+            this.action['0x0b']();
         }
     }
 
     startCommunication() {
-        this.action['0x7c']();
+        this.action['0x03']();
     }
 
     setFilter(filter) {
@@ -91,8 +96,9 @@ export default class HiBlueToothProtocol {
     }
 
     getDeviceIsBind() {
-        console.log('获取设备是否被绑定', !!wx.getStorageSync('isBindDevice'));
-        return !!wx.getStorageSync('isBindDevice');
+        const isBind = !!wx.getStorageSync('isBindDevice');
+        console.log('获取设备是否被绑定', isBind);
+        return isBind;
     }
 
     setBindMarkStorage() {

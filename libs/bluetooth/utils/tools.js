@@ -61,7 +61,7 @@ export class ProtocolBody {
         let command = receiveArray[this.commandIndex];
         let commandHex = `0x${HexTools.numToHex(command)}`;
         console.log('命令字', commandHex, '是否过滤', filter);
-        let dataLength = receiveArray[2] - 2;
+        let dataLength = receiveArray[1] - 1;
         let dataArray;
         if (dataLength > 0) {
             const endIndex = this.dataStartIndex + dataLength;
@@ -92,8 +92,8 @@ export class ProtocolBody {
     _createDataBody({command = '', data = []}) {
         const dataPart = [];
         data.map(item => HexTools.numToHexArray(item)).forEach(item => dataPart.push(...item));
-        const lowLength = HexTools.hexToNum((dataPart.length + 2).toString(16));
-        const array = [170, 0, lowLength, this.deviceIndexNum, HexTools.hexToNum(command), ...dataPart];
+        const lowLength = HexTools.hexToNum((dataPart.length + 1).toString(16));
+        const array = [this.deviceIndexNum, lowLength, HexTools.hexToNum(command), ...dataPart];
         let count = 0;
         array.forEach(item => count += item);
         count = ~count + 1;
