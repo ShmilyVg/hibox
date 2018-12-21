@@ -1,6 +1,7 @@
 // pages/search-device/search-device.js
 import Protocol from "../../modules/network/protocol";
 import HiNavigator from "../../navigator/hi-navigator";
+import {ConnectState} from "../../modules/bluetooth/bluetooth-state";
 
 Page({
 
@@ -15,22 +16,26 @@ Page({
         if (this.data.isSearching) {
             return;
         }
-        getApp().getBLEManager().sendFindDeviceProtocol();
-        this.setData({
-            isSearching: true
-        });
-        let timer = setInterval(() => {
+
+        let state = getApp().getLatestBLEState();
+        if (state.connectState === ConnectState.CONNECTED){
+            getApp().getBLEManager().sendFindDeviceProtocol();
             this.setData({
-                num: --this.data.num
+                isSearching: true
             });
-            if (this.data.num <= 0) {
+            let timer = setInterval(() => {
                 this.setData({
-                    num: 10,
-                    isSearching: false
+                    num: --this.data.num
                 });
-                clearInterval(timer);
-            }
-        }, 1000);
+                if (this.data.num <= 0) {
+                    this.setData({
+                        num: 10,
+                        isSearching: false
+                    });
+                    clearInterval(timer);
+                }
+            }, 1000);
+        }
     },
 
     deleteDevice() {

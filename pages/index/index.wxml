@@ -25,7 +25,7 @@
     </view>
 
     <view style="position: absolute;top: 536rpx;width: 100%">
-        <view style="padding-bottom: 50rpx" wx:if="{{list['now'].length || list['future'].length}}">
+        <view wx:if="{{list['now'].length || list['future'].length}}">
             <view class="flex-column">
                 <template is="user-time-view" data="{{title:'现在',time:list['now'][0].remind_time}}"></template>
                 <template is="medicine-view" wx:for="{{list['now']}}"

@@ -35,4 +35,5 @@
   line-height: 42rpx;
   text-align: center;
   padding-top: 120rpx;
+  padding-bottom: 50rpx
 }
