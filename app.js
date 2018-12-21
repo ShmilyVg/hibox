@@ -16,13 +16,14 @@ App({
                     const {length, isEat, timestamp} = finalResult;
                     if (records.length < length) {
                         records.push({state: isEat ? 1 : 0, timestamp});
-                    } else if (records.length > 0) {
-                        Protocol.postMedicalRecordSave({records}).then(data => {
-                            console.log('同步数据成功');
-                            this.bLEManager.sendQueryDataSuccessProtocol();
-                        }).catch(res => {
-                            console.log(res, '同步数据失败');
-                        }).finally(() => records = []);
+                        if (records.length === length) {
+                            Protocol.postMedicalRecordSave({records}).then(data => {
+                                console.log('同步数据成功');
+                                this.bLEManager.sendQueryDataSuccessProtocol();
+                            }).catch(res => {
+                                console.log(res, '同步数据失败');
+                            }).finally(() => records = []);
+                        }
                     } else {
                         this.bLEManager.sendQueryDataSuccessProtocol();
                     }
