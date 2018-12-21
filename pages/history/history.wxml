@@ -1,9 +1,10 @@
 <!--pages/history/popup.wxml-->
 <import src="../index/view/medicine-view.wxml"></import>
 <import src="../../view/top-tip.wxml"></import>
-<view class="history-content">
-    <template is="top-tip" wx:if="{{!isConnect}}" data="{{connectState,animationData,animationData1}}"></template>
-    <!--<view class="history-hint">{{queryState}}</view>-->
+
+<template is="top-tip" wx:if="{{!isConnect}}" data="{{connectState,animationData,animationData1}}"></template>
+
+<view class="history-content" wx:if="{{allList.length}}">
     <view class="history-box flex-column" wx:for="{{allList}}" wx:key="id">
         <view class="history-headbox" wx:if="{{item.isShowTime}}">
             <view>
@@ -15,3 +16,6 @@
         <template is="medicine-view" data="{{num:1,index,item,boxColor,backgroundColor:'#fff'}}"></template>
     </view>
 </view>
+
+
+<view wx:else class="history-none">暂无服药记录</view>
