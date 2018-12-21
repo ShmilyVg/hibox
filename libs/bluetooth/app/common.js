@@ -90,8 +90,10 @@ const obj = {
         setTimeout(() =>
             Login.doLogin()
                 .catch((res) => {
-                    if (res.code === 2) {
-                        this.appLoginListener && this.appLoginListener({loginState: NOT_REGISTER});
+                    if (res.data) {
+                        if (res.data.code === 2) {
+                            this.appLoginListener && this.appLoginListener({loginState: NOT_REGISTER});
+                        }
                     }
                 })
                 .then(() => UserInfo.get())
