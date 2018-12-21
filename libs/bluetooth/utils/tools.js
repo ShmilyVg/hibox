@@ -65,7 +65,7 @@ export class ProtocolBody {
         let dataArray;
         if (dataLength > 0) {
             const endIndex = this.dataStartIndex + dataLength;
-            dataArray = receiveArray.slice(this.dataStartIndex, endIndex + 1);
+            dataArray = receiveArray.slice(this.dataStartIndex, endIndex);
         }
         const doAction = action[commandHex];
         if (!filter && doAction) {
