@@ -27,3 +27,13 @@
   width:50rpx;
   height:47rpx;
 }
+
+.empty-text{
+  font-size:30rpx;
+  font-weight:400;
+  color: rgba(138,180,178,1);
+  line-height: 42rpx;
+  text-align: center;
+  padding-top: 120rpx;
+  padding-bottom: 50rpx
+}

@@ -4,7 +4,7 @@
 <view class="history-content">
     <template is="top-tip" wx:if="{{!isConnect}}" data="{{connectState,animationData,animationData1}}"></template>
     <!--<view class="history-hint">{{queryState}}</view>-->
-    <view class="history-box" wx:for="{{allList}}" wx:key="id">
+    <view class="history-box flex-column" wx:for="{{allList}}" wx:key="id">
         <view class="history-headbox" wx:if="{{item.isShowTime}}">
             <view>
                 <view class="history-data">{{item.date}}</view>

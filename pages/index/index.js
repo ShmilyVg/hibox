@@ -12,7 +12,7 @@ Page({
         isConnect: false,
         animationData: {},
         animationData1: {},
-        connectState: {'text': '正在连接...', color: '#65FF0A', pointAnimation: true},
+        connectState: {text: '正在连接...', color: '#65FF0A', pointAnimation: true},
     },
 
     onLoad: function () {
@@ -49,38 +49,38 @@ Page({
         this.setConnectState(state, that);
     },
 
-    hiddenTopTip(that) {
-        that.topViewInit(that);
-
-        that.setData({
-            connectState: {text: '已连接', color: '#65FF0A', pointAnimation: false},
-            isConnect: false
-        });
-        const animation = wx.createAnimation({
-            duration: 2000,
-            timingFunction: 'ease',
-        });
-
-        this.animation = animation;
-        setTimeout(function () {
-            animation.translateY(-100).step();
-            this.setData({
-                animationData: animation.export()
-            })
-        }.bind(this), 3000);
-
-        setTimeout(function () {
-            that.setData({
-                isConnect: true
-            })
-        }.bind(this), 4000);
-    },
+    // hiddenTopTip(that) {
+    //     that.topViewInit(that);
+    //
+    //     that.setData({
+    //         connectState: {text: '已连接', color: '#65FF0A', pointAnimation: false},
+    //         isConnect: false
+    //     });
+    //     const animation = wx.createAnimation({
+    //         duration: 2000,
+    //         timingFunction: 'ease',
+    //     });
+    //
+    //     this.animation = animation;
+    //     setTimeout(function () {
+    //         animation.translateY(-100).step();
+    //         this.setData({
+    //             animationData: animation.export()
+    //         })
+    //     }.bind(this), 3000);
+    //
+    //     setTimeout(function () {
+    //         that.setData({
+    //             isConnect: true
+    //         })
+    //     }.bind(this), 4000);
+    // },
 
     setConnectState(state, that) {
         switch (state.connectState) {
             case ConnectState.UNBIND:
                 console.log('=====================>未绑定');
-                that.topViewInit(that);
+                // that.topViewInit(that);
                 that.setData({
                     connectState: {text: '未绑定', color: '#65FF0A', pointAnimation: false},
                     isConnect: false
@@ -88,7 +88,7 @@ Page({
                 break;
             case ConnectState.UNAVAILABLE:
                 console.log('=====================>请开启手机蓝牙');
-                that.topViewInit(that);
+                // that.topViewInit(that);
                 that.setData({
                     connectState: {text: '请开启手机蓝牙', color: '#65FF0A', pointAnimation: false},
                     isConnect: false
@@ -96,7 +96,7 @@ Page({
                 break;
             case ConnectState.DISCONNECT:
                 console.log('=====================>连接失败，点击重试');
-                that.topViewInit(that);
+                // that.topViewInit(that);
                 that.setData({
                     connectState: {text: '连接失败，点击重试', color: '#FF8000', pointAnimation: false},
                     isConnect: false
@@ -104,34 +104,36 @@ Page({
                 break;
             case ConnectState.CONNECTING:
                 console.log('=====================>正在连接...');
-                that.topViewInit(that);
+                // that.topViewInit(that);
                 that.setData({
                     connectState: {text: '正在连接...', color: '#65FF0A', pointAnimation: true},
                     isConnect: false
                 });
                 break;
             case ConnectState.CONNECTED:
-                if (ProtocolState.QUERY_DATA_START == state.protocolState) {
                     console.log('=====================>已连接');
-                    that.topViewInit(that);
-                    that.hiddenTopTip(that);
-                }
+                    // that.topViewInit(that);
+                    // that.hiddenTopTip(that);
+                that.setData({
+                    connectState: {text: '已连接', color: '#65FF0A', pointAnimation: false},
+                    isConnect: true
+                });
                 break;
         }
     },
 
-    topViewInit(that) {
-        const animation = wx.createAnimation({
-            duration: 0,
-            timingFunction: 'ease',
-        });
-
-        this.animation = animation;
-        that.animation.translateY(0).step();
-        this.setData({
-            animationData: that.animation.export()
-        });
-    },
+    // topViewInit(that) {
+    //     const animation = wx.createAnimation({
+    //         duration: 0,
+    //         timingFunction: 'ease',
+    //     });
+    //
+    //     this.animation = animation;
+    //     that.animation.translateY(0).step();
+    //     this.setData({
+    //         animationData: that.animation.export()
+    //     });
+    // },
 
 
     getBaseInfo() {
@@ -286,10 +288,18 @@ Page({
     reSend() {
         console.log('==================>reSend');
         getApp().getBLEManager().connect();
-        this.topViewInit(this);
-        this.setData({
-            connectState: {text: '正在连接...', color: '#65FF0A', pointAnimation: true},
-            isConnect: false
-        })
+        // this.topViewInit(this);
+        let state = getApp().getLatestBLEState();
+        if (state.connectState === ConnectState.UNAVAILABLE){
+            this.setData({
+                connectState: {text: '请开启手机蓝牙', color: '#65FF0A', pointAnimation: false},
+                isConnect: false
+            });
+        } else {
+            this.setData({
+                connectState: {text: '正在连接...', color: '#65FF0A', pointAnimation: true},
+                isConnect: false
+            });
+        }
     }
 })

@@ -4,9 +4,8 @@
             <view style="position: absolute;top: 0;left: 30rpx;width: 690rpx;height:80rpx;background-color: black;opacity: 0.2;border-radius:30rpx;z-index: 10"></view>
             <view class="flex-row"
                   style="position: absolute;top: 0;left: 30rpx;width: 690rpx;text-align: center;font-size: 30rpx;line-height: 80rpx;color: white;justify-content:center;z-index: 20">
-                <view wx:if="{{connectState.pointAnimation}}" style="width:17rpx;height:17rpx;background-color: {{connectState.color}};border-radius: 50%" animation="{{animationData1}}"></view>
-                <view wx:else style="width:17rpx;height:17rpx;background-color: {{connectState.color}};border-radius: 50%"></view>
-
+                <!--<view style="width:17rpx;height:17rpx;background-color: {{connectState.color}};border-radius: 50%" animation="{{connectState.pointAnimation?animationData1:''}}"></view>-->
+                <view style="width:17rpx;height:17rpx;background-color: {{connectState.color}};border-radius: 50%"></view>
                 <view style="margin-left: 15rpx">{{connectState.text}}</view>
             </view>
         </view>

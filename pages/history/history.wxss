@@ -17,10 +17,11 @@ page{
 }
 
 .history-box{
-    width: 690rpx;
-    margin: 20rpx auto 0;
+    margin: 10rpx auto 0;
 }
 .history-headbox{
+    width:690rpx;
+    padding:0 30rpx;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
