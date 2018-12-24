@@ -27,12 +27,16 @@
     <view style="position: absolute;top: 536rpx;width: 100%">
         <view wx:if="{{list['now'].length || list['future'].length}}">
             <view class="flex-column">
-                <template is="user-time-view" data="{{title:'现在',time:list['now'][0].remind_time}}"></template>
-                <template is="medicine-view" wx:for="{{list['now']}}"
-                          data="{{num:0,index,item,boxColor}}"></template>
-                <template is="user-time-view" data="{{title:'今日即将',time:list['future'][0].remind_time}}"></template>
-                <template is="medicine-view" wx:for="{{list['future']}}"
-                          data="{{num:1,index,item,boxColor,backgroundColor:'#E8F4F4'}}"></template>
+                <block wx:if="{{list['now'].length}}">
+                    <template is="user-time-view" data="{{title:'现在',time:list['now'][0].remind_time}}"></template>
+                    <template is="medicine-view" wx:for="{{list['now']}}"
+                              data="{{num:0,index,item,boxColor}}"></template>
+                </block>
+                <block wx:if="{{list['future'].length}}">
+                    <template is="user-time-view" data="{{title:'今日即将',time:list['future'][0].remind_time}}"></template>
+                    <template is="medicine-view" wx:for="{{list['future']}}"
+                              data="{{num:1,index,item,boxColor,backgroundColor:'#E8F4F4'}}"></template>
+                </block>
             </view>
         </view>
         <view class="empty-text" wx:else>

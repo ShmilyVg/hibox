@@ -90,7 +90,7 @@ Page({
                 console.log('=====================>请开启手机蓝牙');
                 // that.topViewInit(that);
                 that.setData({
-                    connectState: {text: '请开启手机蓝牙', color: '#65FF0A', pointAnimation: false},
+                    connectState: {text: '请开启手机蓝牙', color: '#FF8000', pointAnimation: false},
                     isConnect: false
                 });
                 break;

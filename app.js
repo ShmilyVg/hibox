@@ -5,6 +5,8 @@ import Protocol from "./modules/network/protocol";
 import HiBoxBlueToothManager from "./modules/bluetooth/hi-box-bluetooth-manager";
 import HiNavigator from "./navigator/hi-navigator";
 
+const NOT_REGISTER = 'not_register';
+
 App({
 
     onLaunch(options) {
