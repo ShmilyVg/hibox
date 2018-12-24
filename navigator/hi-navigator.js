@@ -1,4 +1,6 @@
-export default class HiNavigator {
+import CommonNavigator from "heheda-navigator";
+
+export default class HiNavigator extends CommonNavigator {
 
     static navigateToAddDrug({deviceId = '', compartment}) {
         getApp().globalData.addOrEditDrugObj = {deviceId, compartment};
@@ -21,8 +23,8 @@ export default class HiNavigator {
         this.navigateTo({url: `/pages/add-drug/number/number?classify=${classify}&drugName=${drugName}&step=${parseInt(step) + 1}&count=${count}`})
     }
 
-    static navigateToConnectDevice(){
-        this.reLaunch({url:'/pages/connect-device/connect-device'});
+    static navigateToConnectDevice() {
+        this.reLaunch({url: '/pages/connect-device/connect-device'});
     }
 
     static switchToIndexPage({refresh = false}) {
@@ -34,28 +36,7 @@ export default class HiNavigator {
         this.navigateTo({url: `/pages/search-device/search-device`})
     }
 
-    static reLaunchToBindDevicePage(){
-        this.reLaunch({url:'/pages/bind-device/bind-device'})
+    static reLaunchToBindDevicePage() {
+        this.reLaunch({url: '/pages/bind-device/bind-device'})
     }
-
-    static navigateTo({url, success, fail, complete}) {
-        wx.navigateTo({url, success, fail, complete});
-    }
-
-    static reLaunch({url, success, fail, complete}) {
-        wx.reLaunch({url, success, fail, complete});
-    }
-
-    static navigateBack({delta, success, fail, complete}) {
-        wx.navigateBack({delta, success, fail, complete});
-    }
-
-    static switchTab({url, success, fail, complete}) {
-        wx.switchTab({url, success, fail, complete});
-    }
-
-    static redirectTo({url, success, fail, complete}) {
-        wx.redirectTo({url, success, fail, complete})
-    }
-
 }

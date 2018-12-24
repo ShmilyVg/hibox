@@ -1,7 +1,6 @@
-import HiBlueToothProtocol from "../../libs/bluetooth/hi-bluetooth-protocol";
-import {HexTools} from "../../libs/bluetooth/utils/tools";
-import {ProtocolState} from "../../modules/bluetooth/bluetooth-state";
-import {CommonProtocolState} from "../../libs/bluetooth/base/state";
+import {HexTools, HiBlueToothProtocol} from "heheda-bluetooth";
+import {ProtocolState} from "./bluetooth-state";
+
 
 export default class HiBoxBlueToothProtocol extends HiBlueToothProtocol {
     constructor(blueToothManager) {
@@ -25,7 +24,7 @@ export default class HiBoxBlueToothProtocol extends HiBlueToothProtocol {
                 const length = HexTools.hexArrayToNum(dataArray.slice(0, 1));
                 const isEat = HexTools.hexArrayToNum(dataArray.slice(1, 2)) === 1;
                 const timestamp = HexTools.hexArrayToNum(dataArray.slice(2));
-                return {state: CommonProtocolState.QUERY_DATA_ING, dataAfterProtocol: {length, isEat, timestamp}};
+                return {state: ProtocolState.QUERY_DATA_ING, dataAfterProtocol: {length, isEat, timestamp}};
             },
         }
     }
