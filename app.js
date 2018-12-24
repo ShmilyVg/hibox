@@ -1,11 +1,10 @@
 //app.js
+import "./utils/config";
 import {common} from "heheda-bluetooth";
 import {ProtocolState} from "./modules/bluetooth/bluetooth-state";
 import Protocol from "./modules/network/protocol";
 import HiBoxBlueToothManager from "./modules/bluetooth/hi-box-bluetooth-manager";
 import HiNavigator from "./navigator/hi-navigator";
-
-const NOT_REGISTER = 'not_register';
 
 App({
 
