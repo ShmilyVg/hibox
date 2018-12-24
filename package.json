@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "heheda-bluetooth": "^1.1.1",
-    "heheda-network": "^1.0.7",
+    "heheda-network": "^1.1.1",
     "heheda-navigator": "^1.0.0",
     "heheda-bluetooth-state": "^1.0.0",
     "heheda-common-view": "^1.0.0"
