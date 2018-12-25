@@ -26,8 +26,15 @@ Page({
                 })
             }
         });
-        this.getBaseInfo();
-        this.pointAnimation();
+
+
+        Protocol.getDeviceBindInfo().then(data => {
+            if (data.result.device_id) {
+                this.getBaseInfo();
+            }
+        });
+
+        // this.pointAnimation();
     },
 
     onShow() {
@@ -111,9 +118,9 @@ Page({
                 });
                 break;
             case ConnectState.CONNECTED:
-                    console.log('=====================>已连接');
-                    // that.topViewInit(that);
-                    // that.hiddenTopTip(that);
+                console.log('=====================>已连接');
+                // that.topViewInit(that);
+                // that.hiddenTopTip(that);
                 that.setData({
                     connectState: {text: '已连接', color: '#65FF0A', pointAnimation: false},
                     isConnect: true
@@ -290,7 +297,7 @@ Page({
         getApp().getBLEManager().connect();
         // this.topViewInit(this);
         let state = getApp().getLatestBLEState();
-        if (state.connectState === ConnectState.UNAVAILABLE){
+        if (state.connectState === ConnectState.UNAVAILABLE) {
             this.setData({
                 connectState: {text: '请开启手机蓝牙', color: '#65FF0A', pointAnimation: false},
                 isConnect: false
