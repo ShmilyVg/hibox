@@ -23,6 +23,10 @@ Page({
     },
 
     onShow: function () {
+        if (!!app.isAppOnHide) {
+            this.queryStart();
+            app.isAppOnHide = false;
+        }
         !!app.isQueryDataFinish && this.queryFinish();
         app.setBLEListener({
             bleStateListener: ({state}) => {
@@ -34,7 +38,6 @@ Page({
                 } else {
                     switch (state.protocolState) {
                         case ProtocolState.QUERY_DATA_ING:
-                            this.data.isQuery = false;
                             this.setData({
                                 connectState: {'text': '记录同步中...', color: '#65FF0A'},
                                 isConnect: false
@@ -46,6 +49,13 @@ Page({
                     }
                 }
             }
+        });
+    },
+
+    queryStart() {
+        this.setData({
+            connectState: {'text': '记录同步中...', color: '#65FF0A'},
+            isConnect: false
         });
     },
 
