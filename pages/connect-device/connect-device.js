@@ -45,7 +45,7 @@ Page({
                         protocolState: ProtocolState.CONNECTED_AND_BIND,
                         connectState: ConnectState.CONNECTED
                     }));
-                    setTimeout(() => isConnected && HiNavigator.switchToIndexPage({refresh: false}));
+                    setTimeout(() => isConnected && HiNavigator.switchToIndexPage({refresh: true}));
                 }
             }
         });

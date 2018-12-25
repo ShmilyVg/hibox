@@ -28,12 +28,9 @@ Page({
         });
 
 
-        // getApp().onDeviceBindInfoListener = ({deviceId}) => {
-        //     deviceId && this.getBaseInfo();
-        // };
-
-        this.getBaseInfo();
-
+        getApp().onDeviceBindInfoListener = ({deviceId}) => {
+            deviceId && this.getBaseInfo();
+        };
 
         // this.pointAnimation();
     },
