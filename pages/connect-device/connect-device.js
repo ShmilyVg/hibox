@@ -87,20 +87,25 @@ Page({
                     backgroundColor: 'linear-gradient(#66DABF, #008290)',
                     navigationColor: '#66DABF',
                     connectErr: false,
-                    findBox: true
+                    findBox: true,
+                    delayTime: 2000
                 };
         }
     },
 
     showResult({state}) {
-        this.setData({
-            state: this.getResultState({state}),
-            showReConnected: state === ConnectState.DISCONNECT || state === ConnectState.UNAVAILABLE
-        });
-        wx.setNavigationBarColor({
-            frontColor: '#ffffff',
-            backgroundColor: this.data.state.navigationColor,
-        });
+        const resultState = this.getResultState({state});
+        setTimeout(() => {
+            this.setData({
+                state: resultState,
+                showReConnected: state === ConnectState.DISCONNECT || state === ConnectState.UNAVAILABLE
+            });
+            wx.setNavigationBarColor({
+                frontColor: '#ffffff',
+                backgroundColor: this.data.state.navigationColor,
+            });
+        }, resultState.delayTime || 0);
+
     },
 
     flickerHandle() {
