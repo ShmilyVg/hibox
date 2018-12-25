@@ -34,6 +34,9 @@ App({
                 }
             },
             commonAppBLEStateListener: ({state}) => {
+                if (state.protocolState === ProtocolState.QUERY_DATA_FINISH) {
+                    this.isQueryDataFinish = true;
+                }
                 this.appBLEStateListener && this.appBLEStateListener({state});
             }
         });

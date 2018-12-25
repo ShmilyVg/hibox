@@ -5,6 +5,7 @@ import toast from "../../view/toast";
 import * as config from "../../utils/config";
 import {ProtocolState, ConnectState} from "../../modules/bluetooth/bluetooth-state";
 
+const app = getApp();
 Page({
     data: {
         boxColor: ['#68D5B8', '#8FC25E', '#9F92D6', '#8CA5DC'],
@@ -13,7 +14,8 @@ Page({
         queryState: '记录待同步',
         isConnect: false,
         connectState: {'text': '记录同步中...', color: '#65FF0A'},
-        page: 1
+        page: 1,
+        isQuery: false
     },
 
     onLoad() {
@@ -21,9 +23,8 @@ Page({
     },
 
     onShow: function () {
-
-
-        getApp().setBLEListener({
+        !!app.isQueryDataFinish && this.queryFinish();
+        app.setBLEListener({
             bleStateListener: ({state}) => {
                 if (ConnectState.DISCONNECT === state.connectState || ConnectState.UNAVAILABLE === state.connectState || ConnectState.NOT_SUPPORT === state.connectState || ConnectState.UNBIND === state.connectState) {
                     this.setData({
@@ -39,16 +40,7 @@ Page({
                             });
                             break;
                         case ProtocolState.QUERY_DATA_FINISH:
-                            this.setData({
-                                connectState: {'text': '记录同步完成', color: '#65FF0A'},
-                                isConnect: false
-                            });
-                            setTimeout(() => {
-                                this.getMedicalRecordList({page: 1, recorded: true});
-                                this.setData({
-                                    isConnect: true
-                                });
-                            }, 3000);
+                            this.queryFinish();
                             break;
                     }
                 }
@@ -56,6 +48,22 @@ Page({
         });
     },
 
+    queryFinish() {
+        if (!this.data.isQuery) {
+            this.setData({
+                connectState: {'text': '记录同步完成', color: '#65FF0A'},
+                isConnect: false
+            });
+            setTimeout(() => {
+                this.getMedicalRecordList({page: 1, recorded: true});
+                this.setData({
+                    isConnect: true
+                });
+            }, 3000);
+            this.data.isQuery = true;
+        }
+
+    },
     getMedicalRecordList({page = 1, recorded = false}) {
         Protocol.MedicalRecordList({page}).then(data => {
             let list = data.result;
@@ -113,7 +121,7 @@ Page({
     },
 
     onHide: function () {
-        getApp().setBLEListener({bleStateListener: null});
+        app.setBLEListener({bleStateListener: null});
     },
 
     onReachBottom() {
