@@ -48,7 +48,10 @@ App({
                 HiNavigator.reLaunchToBindDevicePage();
             }
         };
+    },
 
+    onShow(options) {
+        this.commonOnShow({options});
         Protocol.getDeviceBindInfo().then(data => {
             if (data.result) {
                 const {device_id: deviceId, mac} = data.result;
@@ -60,10 +63,6 @@ App({
                 HiNavigator.reLaunchToBindDevicePage();
             }
         })
-    },
-
-    onShow(options) {
-        this.commonOnShow({options});
     },
 
     onHide() {
