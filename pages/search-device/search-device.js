@@ -19,11 +19,12 @@ Page({
 
         let state = getApp().getLatestBLEState();
         if (state.connectState === ConnectState.CONNECTED){
-            getApp().getBLEManager().sendFindDeviceProtocol();
+
             this.setData({
                 isSearching: true
             });
             let timer = setInterval(() => {
+                getApp().getBLEManager().sendFindDeviceProtocol();
                 this.setData({
                     num: --this.data.num
                 });
