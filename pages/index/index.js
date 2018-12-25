@@ -28,7 +28,7 @@ Page({
         });
 
 
-        getApp().onDeviceBindInfoListener = ({deviceId, mac}) => {
+        getApp().onDeviceBindInfoListener = ({deviceId}) => {
             deviceId && this.getBaseInfo();
         };
 
@@ -140,7 +140,6 @@ Page({
     //     });
     // },
 
-
     getBaseInfo() {
         Protocol.getMedicalRemindInfo().then(data => {
             this.setData({
@@ -176,7 +175,7 @@ Page({
         let listText = ['now', 'future'];
         let item = that.data.list[listText[index[0]]][index[1]];
         let image = item.image_url;
-        if (typeof (image) == "undefined") {
+        if (typeof (image) === "undefined") {
             that.chooseImage(that, item);
         } else {
             wx.showActionSheet({

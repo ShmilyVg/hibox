@@ -41,9 +41,11 @@ Page({
 
     deleteDevice() {
         Protocol.postDeviceUnbind().then(data => {
-            getApp().getBLEManager().clearConnectedBLE().finally(function () {
-                HiNavigator.reLaunchToBindDevicePage({});
-            });
+            if (data.code === 1) {
+                getApp().getBLEManager().clearConnectedBLE().finally(function () {
+                    HiNavigator.reLaunchToBindDevicePage({});
+                });
+            }
         })
     }
 })

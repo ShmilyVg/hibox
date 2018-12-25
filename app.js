@@ -50,16 +50,15 @@ App({
         };
 
         Protocol.getDeviceBindInfo().then(data => {
-            const {device_id: deviceId, mac} = data.result;
-            if (!data.result) {
-                this.bLEManager.clearConnectedBLE();
-                HiNavigator.reLaunchToBindDevicePage();
-            } else {
+            if (data.result) {
+                const {device_id: deviceId, mac} = data.result;
                 this.bLEManager.setBindMarkStorage();
                 this.bLEManager.connect({macId: mac});
+                this.onDeviceBindInfoListener && this.onDeviceBindInfoListener({deviceId});
+            } else {
+                this.bLEManager.clearConnectedBLE();
+                HiNavigator.reLaunchToBindDevicePage();
             }
-            this.onDeviceBindInfoListener && this.onDeviceBindInfoListener({deviceId, mac});
-
         })
     },
 
