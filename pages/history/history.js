@@ -34,6 +34,7 @@ Page({
                 } else {
                     switch (state.protocolState) {
                         case ProtocolState.QUERY_DATA_ING:
+                            this.data.isQuery = false;
                             this.setData({
                                 connectState: {'text': '记录同步中...', color: '#65FF0A'},
                                 isConnect: false
