@@ -28,11 +28,9 @@ Page({
         });
 
 
-        Protocol.getDeviceBindInfo().then(data => {
-            if (data.result.device_id) {
-                this.getBaseInfo();
-            }
-        });
+        getApp().onDeviceBindInfoListener = ({deviceId, mac}) => {
+            deviceId && this.getBaseInfo();
+        };
 
         // this.pointAnimation();
     },

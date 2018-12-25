@@ -7,7 +7,7 @@ import HiBoxBlueToothManager from "./modules/bluetooth/hi-box-bluetooth-manager"
 import HiNavigator from "./navigator/hi-navigator";
 
 App({
-
+    onDeviceBindInfoListener: null,
     onLaunch(options) {
         let records = [];
         this.setCommonBLEListener({
@@ -41,20 +41,22 @@ App({
 
         this.appLoginListener = ({loginState}) => {
             if (loginState === this.NOT_REGISTER) {
-                //TODO 未注册情况
                 this.bLEManager.clearConnectedBLE();
                 HiNavigator.reLaunchToBindDevicePage();
             }
         };
+
         Protocol.getDeviceBindInfo().then(data => {
+            const {device_id: deviceId, mac} = data.result;
             if (!data.result) {
                 this.bLEManager.clearConnectedBLE();
                 HiNavigator.reLaunchToBindDevicePage();
             } else {
                 this.bLEManager.setBindMarkStorage();
-                this.bLEManager.connect({macId: data.result.mac});
-                HiNavigator.switchToIndexPage({});
+                this.bLEManager.connect({macId: mac});
             }
+            this.onDeviceBindInfoListener && this.onDeviceBindInfoListener({deviceId, mac});
+
         })
     },
 
