@@ -39,6 +39,7 @@ Page({
                     switch (state.protocolState) {
                         case ProtocolState.QUERY_DATA_ING:
                             this.data.isQuery = true;
+                            console.log('merge测试');
                             this.setData({
                                 connectState: {'text': '记录同步中...', color: '#65FF0A'},
                                 isConnect: false
