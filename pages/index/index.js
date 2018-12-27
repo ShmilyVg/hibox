@@ -111,7 +111,7 @@ Page({
                 console.log('=====================>正在连接...');
                 // that.topViewInit(that);
                 that.setData({
-                    connectState: {text: '正在连接...', color: '#65FF0A', pointAnimation: true},
+                    connectState: {text: '正在努力的连接药盒...', color: '#65FF0A', pointAnimation: true},
                     isConnect: false
                 });
                 break;
@@ -120,7 +120,7 @@ Page({
                 // that.topViewInit(that);
                 // that.hiddenTopTip(that);
                 that.setData({
-                    connectState: {text: '已连接', color: '#65FF0A', pointAnimation: false},
+                    connectState: {text: '药盒已连接', color: '#65FF0A', pointAnimation: false},
                     isConnect: true
                 });
                 break;
