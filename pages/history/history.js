@@ -27,7 +27,7 @@ Page({
             this.queryStart();
             app.isAppOnHide = false;
         }
-        console.log('记录同步是否完成', app.isQueryDataFinish);
+        console.log('记录同步是否完成', app.isQueryDataFinish, this.data.isQuery);
         !!app.isQueryDataFinish && this.queryFinish();
         app.setBLEListener({
             bleStateListener: ({state}) => {
