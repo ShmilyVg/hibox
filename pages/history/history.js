@@ -23,6 +23,11 @@ Page({
     },
 
     onShow: function () {
+        if (!!app.isAppOnHide) {
+            this.queryStart();
+            app.isAppOnHide = false;
+        }
+        console.log('记录同步是否完成', app.isQueryDataFinish, this.data.isQuery);
         !!app.isQueryDataFinish && this.queryFinish();
         app.setBLEListener({
             bleStateListener: ({state}) => {
@@ -46,6 +51,13 @@ Page({
                     }
                 }
             }
+        });
+    },
+
+    queryStart() {
+        this.setData({
+            connectState: {'text': '记录同步中...', color: '#65FF0A'},
+            isConnect: false
         });
     },
 

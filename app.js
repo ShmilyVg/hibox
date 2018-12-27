@@ -67,6 +67,7 @@ App({
 
     onHide() {
         this.commonOnHide();
+        this.isAppOnHide = true;
     },
     globalData: {
         refreshIndexPage: false,
