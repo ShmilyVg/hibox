@@ -2,6 +2,7 @@
 import Protocol from "../../modules/network/protocol";
 import HiNavigator from "../../navigator/hi-navigator";
 import {ConnectState} from "../../modules/bluetooth/bluetooth-state";
+import toast from "../../view/toast";
 
 Page({
 
@@ -40,7 +41,9 @@ Page({
     },
 
     deleteDevice() {
+        toast.showLoading();
         Protocol.postDeviceUnbind().then(data => {
+            toast.hiddenLoading();
             if (data.code === 1) {
                 getApp().getBLEManager().clearConnectedBLE().finally(function () {
                     HiNavigator.reLaunchToBindDevicePage({});
