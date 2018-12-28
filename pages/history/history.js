@@ -15,7 +15,6 @@ Page({
         isConnect: true,
         connectState: {'text': '记录同步中...', color: '#65FF0A'},
         page: 1,
-        isQuery: false
     },
 
     onLoad() {
@@ -27,7 +26,7 @@ Page({
             this.queryStart();
             app.isAppOnHide = false;
         }
-        console.log('记录同步是否完成', app.isQueryDataFinish, this.data.isQuery);
+        console.log('记录同步是否完成', app.isQueryDataFinish, app.isQuery);
         !!app.isQueryDataFinish && this.queryFinish();
         app.setBLEListener({
             bleStateListener: ({state}) => {
@@ -40,7 +39,6 @@ Page({
                 } else {
                     switch (state.protocolState) {
                         case ProtocolState.QUERY_DATA_ING:
-                            this.data.isQuery = false;
                             this.setData({
                                 connectState: {'text': '记录同步中...', color: '#65FF0A'},
                                 isConnect: false
@@ -63,12 +61,7 @@ Page({
     },
 
     queryFinish() {
-        if (!this.data.isQuery) {
-            /*this.setData({
-                connectState: {'text': '记录同步完成', color: '#65FF0A'},
-                isConnect: false
-            });*/
-
+        if (!app.isQuery) {
             Toast.success('同步完成', 3000);
 
             setTimeout(() => {
@@ -77,7 +70,7 @@ Page({
                     isConnect: true
                 });
             }, 3000);
-            this.data.isQuery = true;
+            app.isQuery = true;
         }
 
     },
