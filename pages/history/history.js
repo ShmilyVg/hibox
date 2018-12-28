@@ -1,7 +1,7 @@
 // pages/history/history.js
 import Protocol from "../../modules/network/protocol";
 import * as tools from "../../utils/tools";
-import toast from "../../view/toast";
+import Toast from "../../view/toast";
 import * as config from "../../utils/config";
 import {ProtocolState, ConnectState} from "../../modules/bluetooth/bluetooth-state";
 
@@ -64,10 +64,13 @@ Page({
 
     queryFinish() {
         if (!this.data.isQuery) {
-            this.setData({
+            /*this.setData({
                 connectState: {'text': '记录同步完成', color: '#65FF0A'},
                 isConnect: false
-            });
+            });*/
+
+            Toast.success('同步完成', 3000);
+
             setTimeout(() => {
                 this.getMedicalRecordList({page: 1, recorded: true});
                 this.setData({
