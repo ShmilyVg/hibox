@@ -294,6 +294,9 @@ Page({
         getApp().getBLEManager().connect();
         // this.topViewInit(this);
         let state = getApp().getLatestBLEState();
+        if (state.connectState === ConnectState.CONNECTED) {
+            return;
+        }
         if (state.connectState === ConnectState.UNAVAILABLE) {
             this.setData({
                 connectState: {text: '请开启手机蓝牙', color: '#65FF0A', pointAnimation: false},
