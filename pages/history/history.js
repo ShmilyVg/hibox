@@ -12,7 +12,7 @@ Page({
         listText: ['now', 'future'],
         allList: [],
         queryState: '记录待同步',
-        isConnect: false,
+        isConnect: true,
         connectState: {'text': '记录同步中...', color: '#65FF0A'},
         page: 1,
     },
@@ -30,10 +30,11 @@ Page({
         !!app.isQueryDataFinish && this.queryFinish();
         app.setBLEListener({
             bleStateListener: ({state}) => {
+                console.log('1111',state);
                 if (ConnectState.DISCONNECT === state.connectState || ConnectState.UNAVAILABLE === state.connectState || ConnectState.NOT_SUPPORT === state.connectState || ConnectState.UNBIND === state.connectState) {
                     this.setData({
-                        connectState: {'text': '药盒未连接...', color: '#FF8000'},
-                        isConnect: false
+                        //connectState: {'text': '药盒未连接...', color: '#FF8000'},
+                        isConnect: true
                     });
                 } else {
                     switch (state.protocolState) {
