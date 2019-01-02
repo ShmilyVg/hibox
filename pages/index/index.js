@@ -231,7 +231,7 @@ Page({
             });
         } else {
             this.setData({
-                connectState: {text: '正在连接...', color: '#65FF0A', pointAnimation: true},
+                connectState: {text: '正在努力的连接药盒...', color: '#65FF0A', pointAnimation: true},
                 isConnect: false
             });
         }
