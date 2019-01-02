@@ -3,7 +3,9 @@ import Protocol from "../../modules/network/protocol";
 import * as config from "../../utils/config";
 import toast from "../../view/toast";
 import HiNavigator from "../../navigator/hi-navigator";
-import {ConnectState, ProtocolState} from "../../modules/bluetooth/bluetooth-state";
+import {ConnectState} from "../../modules/bluetooth/bluetooth-state";
+import DrugRuler from "../add-drug/number/drug-ruler";
+import Toast from "../../view/toast";
 
 Page({
     data: {
@@ -206,9 +208,14 @@ Page({
     noTakeBtnClick() {
         this.hidePopupView();
         let compartment = this.data.box[this.data.choseIndex].compartment;
-        Protocol.medicalRemindRemove({compartment}).then(data => {
-            this.getBaseInfo();
-        })
+        if (getApp().getLatestBLEState().connectState === ConnectState.CONNECTED) {
+            DrugRuler.sendAlertTimeDataToBLE({singleAlertData: DrugRuler.getConvertToBLEEmptyList({compartment})});
+            Protocol.medicalRemindRemove({compartment}).then(data => {
+                this.getBaseInfo();
+            })
+        } else {
+            Toast.warn('请先连接药盒');
+        }
     },
 
     reSend() {

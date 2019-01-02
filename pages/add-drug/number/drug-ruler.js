@@ -22,6 +22,14 @@ export default class DrugRuler {
         ).reverse();
     }
 
+    static sendAlertTimeDataToBLE({singleAlertData}) {
+        !!singleAlertData && getApp().getBLEManager().sendAlertTimeOperationProtocol({singleAlertData});
+    }
+
+    static getConvertToBLEEmptyList({compartment}) {
+        return [compartment, 0, 1, ...this._getTimestampMayAddZero(this.getFinalItemExpectPiece('08:00').timestamp)];
+    }
+
     static _getTimestampMayAddZero(timestamp) {
         const array = [];
         if (!(timestamp >> 8)) {

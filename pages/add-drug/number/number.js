@@ -133,6 +133,6 @@ Page({
 
     sendDataToBLE() {
         const singleAlertData = this.dataForBLE.pop();
-        !!singleAlertData && getApp().getBLEManager().sendAlertTimeOperationProtocol({singleAlertData});
+        DrugRuler.sendAlertTimeDataToBLE({singleAlertData});
     }
 });
