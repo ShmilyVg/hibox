@@ -11,6 +11,7 @@ input{
     font-weight:bold;
     color:rgba(104,213,184,1);
     line-height:47rpx;
+    text-align: center;
 }
 
 .add-drug-number-input-border-style{
