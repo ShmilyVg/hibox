@@ -1,7 +1,7 @@
 // pages/history/history.js
 import Protocol from "../../modules/network/protocol";
 import * as tools from "../../utils/tools";
-import Toast from "../../view/toast";
+import toast from "../../view/toast";
 import * as config from "../../utils/config";
 import {ProtocolState, ConnectState} from "../../modules/bluetooth/bluetooth-state";
 
@@ -62,8 +62,10 @@ Page({
 
     queryFinish() {
         if (!app.isQuery) {
-            Toast.success('同步完成', 3000);
-
+            toast.success('同步完成', 3000);
+            this.setData({
+                isConnect: true
+            });
             setTimeout(() => {
                 this.getMedicalRecordList({page: 1, recorded: true});
                 this.setData({
