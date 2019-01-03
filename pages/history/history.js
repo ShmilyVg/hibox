@@ -63,7 +63,9 @@ Page({
     queryFinish() {
         if (!app.isQuery) {
             toast.success('同步完成', 3000);
-
+            this.setData({
+                isConnect: true
+            });
             setTimeout(() => {
                 this.getMedicalRecordList({page: 1, recorded: true});
                 this.setData({
