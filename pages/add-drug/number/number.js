@@ -41,9 +41,12 @@ Page({
                 deviceId,
                 list: list || DrugRuler.getList({ruler: this.data.ruler, number, piece}),
                 numberArray: this.getArray(9),
-                pieceArray: this.getArray(99)
+                pieceArray: this.getArray(99),
+                hourAndMinuteArray: [new Array(24).fill(0).map((item, index) => `0${index}`.slice(-2)),
+                    new Array(12).fill(0).map((item, index) => `0${index * 5}`.slice(-2))],
             }
         );
+
         getApp().setBLEListener({
             bleStateListener: ({state}) => {
                 switch (state.connectState) {
@@ -84,8 +87,8 @@ Page({
     timeItemChooseEvent(e) {
         console.log(e);
         const {detail: {value}} = e;
-        const {list, selectedItemIndex} = this.data;
-        list[selectedItemIndex] = {...list[selectedItemIndex], ...DrugRuler.getFinalItemExpectPiece(value)};
+        const {list, selectedItemIndex, hourAndMinuteArray} = this.data;
+        list[selectedItemIndex] = {...list[selectedItemIndex], ...DrugRuler.getFinalItemExpectPiece(`${hourAndMinuteArray[0][value[0]]}:${hourAndMinuteArray[1][value[1]]}`)};
         this.setData({list: list.sort(DrugRuler.sortFun)});
     },
 

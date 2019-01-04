@@ -66,7 +66,13 @@ export default class DrugRuler {
     static getFinalItemExpectPiece(hourAndMinute) {
         const hour = parseInt(hourAndMinute.slice(0, 2));
         const minute = parseInt(hourAndMinute.slice(-2));
-        return {timestamp: hour * 3600 + minute * 60, time: hourAndMinute, dayPart: this.getDayPart(hour)};
+
+        return {
+            timestamp: hour * 3600 + minute * 60,
+            time: hourAndMinute,
+            dayPart: this.getDayPart(hour),
+            hourAndMinuteIndex: [hour, minute / 5]
+        };
     }
 }
 
