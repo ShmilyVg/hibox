@@ -36,6 +36,12 @@ export default class HiNavigator extends CommonNavigator {
         this.navigateTo({url: `/pages/search-device/search-device`})
     }
 
+    static navigateSearchDrugPage() {
+        this.navigateTo({
+            url: `/pages/search-drug/search-drug`
+        })
+    }
+
     static reLaunchToBindDevicePage() {
         this.reLaunch({url: '/pages/bind-device/bind-device'})
     }

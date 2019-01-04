@@ -5,8 +5,6 @@
 <import src="./view/popup.wxml"></import>
 <import src="../../view/top-tip.wxml"></import>
 
-
-<!--<template is="top-tip" wx:if="{{!isConnect}}" data="{{connectState,animationData,animationData1}}"></template>-->
 <template is="top-tip" data="{{connectState,animationData1}}"></template>
 <view style="position: relative">
     <view class="top-view">

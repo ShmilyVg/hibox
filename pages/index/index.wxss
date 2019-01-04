@@ -1,7 +1,7 @@
 /**index.wxss**/
 @import "./view/popup.wxss";
 
-.top-view{
+.top-view {
   height: 270rpx;
   background-color: #67D5B8;
   padding: 40rpx 30rpx 0;
@@ -9,7 +9,7 @@
   align-items: flex-start;
 }
 
-.top-add{
+.top-add {
   width: 690rpx;
   justify-content: space-between;
   position: absolute;
@@ -17,23 +17,23 @@
   padding: 0 30rpx;
 }
 
-.avatar{
-  width:120rpx;
-  height:120rpx;
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
   border-radius: 50%;
 }
 
-.set{
-  width:50rpx;
-  height:47rpx;
+.set {
+  width: 50rpx;
+  height: 47rpx;
 }
 
-.empty-text{
-  font-size:30rpx;
-  font-weight:400;
-  color: rgba(138,180,178,1);
+.empty-text {
+  font-size: 30rpx;
+  font-weight: 400;
+  color: rgba(138, 180, 178, 1);
   line-height: 42rpx;
   text-align: center;
   padding-top: 120rpx;
-  padding-bottom: 50rpx
+  padding-bottom: 50rpx;
 }

@@ -3,9 +3,10 @@ import Protocol from "../../modules/network/protocol";
 import * as config from "../../utils/config";
 import toast from "../../view/toast";
 import HiNavigator from "../../navigator/hi-navigator";
-import {ConnectState} from "../../modules/bluetooth/bluetooth-state";
+import {
+    ConnectState
+} from "../../modules/bluetooth/bluetooth-state";
 import DrugRuler from "../add-drug/number/drug-ruler";
-import Toast from "../../view/toast";
 
 Page({
     data: {
@@ -14,12 +15,16 @@ Page({
         isConnect: false,
         animationData: {},
         animationData1: {},
-        connectState: {text: '正在努力的连接药盒...', color: '#65FF0A', pointAnimation: true},
+        connectState: {
+            text: '正在努力的连接药盒...',
+            color: '#65FF0A',
+            pointAnimation: true
+        },
     },
 
     onLoad: function () {
         let that = this;
-
+        
         wx.getStorage({
             key: 'userInfo',
             success(res) {
@@ -29,8 +34,9 @@ Page({
             }
         });
 
-
-        getApp().onDeviceBindInfoListener = ({deviceId}) => {
+        getApp().onDeviceBindInfoListener = ({
+            deviceId
+        }) => {
             deviceId && this.getBaseInfo();
         };
     },
@@ -39,7 +45,9 @@ Page({
         let that = this;
 
         getApp().setBLEListener({
-            bleStateListener: function ({state}) {
+            bleStateListener: ({
+                state
+            }) => {
                 that.setConnectState(state, that);
             }
         });
@@ -49,7 +57,6 @@ Page({
             getApp().globalData.refreshIndexPage = false
         }
 
-
         let state = getApp().getLatestBLEState();
         this.setConnectState(state, that);
     },
@@ -58,25 +65,41 @@ Page({
         switch (state.connectState) {
             case ConnectState.UNAVAILABLE:
                 that.setData({
-                    connectState: {text: '请开启手机蓝牙', color: '#FF8000', pointAnimation: false},
+                    connectState: {
+                        text: '请开启手机蓝牙',
+                        color: '#FF8000',
+                        pointAnimation: false
+                    },
                     isConnect: false
                 });
                 break;
             case ConnectState.DISCONNECT:
                 that.setData({
-                    connectState: {text: '连接失败，点击重试', color: '#FF8000', pointAnimation: false},
+                    connectState: {
+                        text: '连接失败，点击重试',
+                        color: '#FF8000',
+                        pointAnimation: false
+                    },
                     isConnect: false
                 });
                 break;
             case ConnectState.CONNECTING:
                 that.setData({
-                    connectState: {text: '正在努力的连接药盒...', color: '#65FF0A', pointAnimation: true},
+                    connectState: {
+                        text: '正在努力的连接药盒...',
+                        color: '#65FF0A',
+                        pointAnimation: true
+                    },
                     isConnect: false
                 });
                 break;
             case ConnectState.CONNECTED:
                 that.setData({
-                    connectState: {text: '药盒已连接', color: '#65FF0A', pointAnimation: false},
+                    connectState: {
+                        text: '药盒已连接',
+                        color: '#65FF0A',
+                        pointAnimation: false
+                    },
                     isConnect: true
                 });
                 break;
@@ -108,7 +131,9 @@ Page({
                 popupShow: true,
             });
         } else {
-            HiNavigator.navigateToAddDrug({compartment: index + 1});
+            HiNavigator.navigateToAddDrug({
+                compartment: index + 1
+            });
         }
     },
 
@@ -127,7 +152,7 @@ Page({
                     switch (res.tapIndex) {
                         case 0:
                             wx.previewImage({
-                                urls: [image] // 需要预览的图片http链接列表
+                                urls: [image]
                             });
                             break;
                         case 1:
@@ -158,16 +183,15 @@ Page({
                         let data = res.data;
                         let image = JSON.parse(data).result.path;
                         Protocol.getMedicalRemindImage({
-                            id: item.id, image_url: image
+                            id: item.id,
+                            image_url: image
                         }).then(data => {
                             that.getBaseInfo();
                             toast.hiddenLoading();
                         })
                     },
-                    fail: function (e) {
-                    },
-                    complete: function (e) {
-                    }
+                    fail: function (e) {},
+                    complete: function (e) {}
                 })
             }
         })
@@ -209,12 +233,18 @@ Page({
         this.hidePopupView();
         let compartment = this.data.box[this.data.choseIndex].compartment;
         if (getApp().getLatestBLEState().connectState === ConnectState.CONNECTED) {
-            DrugRuler.sendAlertTimeDataToBLE({singleAlertData: DrugRuler.getConvertToBLEEmptyList({compartment})});
-            Protocol.medicalRemindRemove({compartment}).then(data => {
+            DrugRuler.sendAlertTimeDataToBLE({
+                singleAlertData: DrugRuler.getConvertToBLEEmptyList({
+                    compartment
+                })
+            });
+            Protocol.medicalRemindRemove({
+                compartment
+            }).then(data => {
                 this.getBaseInfo();
             })
         } else {
-            Toast.warn('请先连接药盒');
+            toast.warn('请先连接药盒');
         }
     },
 
@@ -226,12 +256,20 @@ Page({
         }
         if (state.connectState === ConnectState.UNAVAILABLE) {
             this.setData({
-                connectState: {text: '请开启手机蓝牙', color: '#65FF0A', pointAnimation: false},
+                connectState: {
+                    text: '请开启手机蓝牙',
+                    color: '#65FF0A',
+                    pointAnimation: false
+                },
                 isConnect: false
             });
         } else {
             this.setData({
-                connectState: {text: '正在努力的连接药盒...', color: '#65FF0A', pointAnimation: true},
+                connectState: {
+                    text: '正在努力的连接药盒...',
+                    color: '#65FF0A',
+                    pointAnimation: true
+                },
                 isConnect: false
             });
         }
