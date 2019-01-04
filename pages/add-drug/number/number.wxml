@@ -25,7 +25,7 @@
     </view>
 
     <view wx:for="{{list}}" wx:key="index" class="flex-row add-drug-number-item-super-style" bindtap="clickItemEvent" data-index="{{index}}">
-        <picker bindchange="timeItemChooseEvent" mode="time" value="{{item.time}}" start="06:00" end="23:00">
+        <picker bindchange="timeItemChooseEvent" mode="multiSelector" range="{{hourAndMinuteArray}}" value="{{item.hourAndMinuteIndex}}">
             <view class="flex-row add-drug-number-item-left-style">
                 <image src="../../../images/add-drug/{{item.dayPart}}.png" class="add-drug-number-icon-style"></image>
                 <text class="add-drug-number-item-text-style">{{item.time}}</text>
