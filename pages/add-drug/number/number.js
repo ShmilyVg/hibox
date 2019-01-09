@@ -54,7 +54,7 @@ Page({
                     case ConnectState.UNBIND:
                     case ConnectState.DISCONNECT:
                         Toast.hiddenLoading();
-                        setTimeout(Toast.warn, 0, '请重试');
+                        setTimeout(Toast.warn, 0, '药盒断连请重试');
                         break;
                 }
             },
@@ -65,13 +65,18 @@ Page({
                             this.sendDataToBLE();
                         } else {
                             Protocol.postMedicalRemindConfig({...DrugRuler.getConvertToServerData({...this.data})})
-                                .then(() => HiNavigator.switchToIndexPage({refresh: true}))
-                                .catch(() => setTimeout(Toast.warn, 0, '网络异常'))
+                                .then(() =>
+                                    setTimeout(() => {
+                                        Toast.success(`${this.data.compartment || 1}号仓设置成功`);
+                                        HiNavigator.switchToIndexPage({refresh: true});
+                                    })
+                                )
+                                .catch(() => setTimeout(Toast.warn, 0, '设置失败请重试'))
                                 .finally(() => Toast.hiddenLoading());
                         }
                     } else {
                         Toast.hiddenLoading();
-                        setTimeout(Toast.warn, 0, '请重试');
+                        setTimeout(Toast.warn, 0, '设置失败请重试');
                     }
                 }
             }

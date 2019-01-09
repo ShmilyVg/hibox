@@ -39,5 +39,5 @@
         </picker>
     </view>
 
-    <button class="bottom-btn" hover-class="press-style" bindtap="nextStep">完成</button>
+    <button class="bottom-btn" hover-class="press-style" bindtap="nextStep" loading="{{loading}}">完成</button>
 </view>
