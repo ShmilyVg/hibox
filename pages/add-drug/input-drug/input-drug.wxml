@@ -4,7 +4,8 @@
     <template is="title-layout" data="{{title:'药品名称是？',step:step+'/'+count}}"></template>
     <view style="margin-top: 84rpx;"></view>
 
-    <input value="{{drugName}}" placeholder="例如：阿司匹林" placeholder-class="input-drug-placeholder-style" class="input-drug-input-style" bindblur="lostFocusEvent" bindinput="startInputEvent"/>
+<input value="{{drugName}}" placeholder="例如：阿司匹林" placeholder-class="input-drug-placeholder-style" class="input-drug-input-style"
+    bindblur="lostFocusEvent" bindinput="startInputEvent" disabled="true" bindtap="toSearch"></input>
     <view style="width: 690rpx;height: 2rpx;background-color: #E3F4F4;margin-bottom: 115rpx;margin-top: 4rpx"></view>
     <view class="flex-row input-drug-wrap-layout">
         <view wx:for="{{drugs}}" wx:key="name" bindtap="nameChooseEvent" data-index="{{index}}" class="flex-column input-drug-items {{item.selected?'add-drug-item-click':''}}">

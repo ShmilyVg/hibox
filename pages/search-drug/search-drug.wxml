@@ -1,0 +1,9 @@
+<!--pages/search-drug/search-drug.wxml-->
+<view class="top-view" hover-class="none" hover-stop-propagation="false">
+    <input class="search-drug" type="text" bindinput="inputDrug" bindconfirm="finishInput" focus="true" value="{{inputName}}"></input>
+</view>
+
+<view wx:for="{{drugNames}}" class="drug-cell">
+    <view class="drug-name" bindtap='clickCell' data-index="{{index}}" hover-class="press-style">{{drugNames[index]}}</view>
+    <view class="drug-line" hover-stop-propagation="false"></view>
+</view>

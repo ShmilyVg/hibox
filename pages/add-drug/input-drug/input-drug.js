@@ -20,6 +20,12 @@ Page({
         });
     },
 
+    onShow() {
+        this.setData({
+            drugName: getApp().globalData.addOrEditDrugObj.drugName || ''
+        })
+    },
+
     nameChooseEvent(e) {
         const {currentTarget: {dataset: {index}}} = e;
         const obj = this.getAfterClearSelectedObj();
@@ -51,5 +57,10 @@ Page({
             this.setData({drugName: ''});
             Toast.warn('请输入药名');
         }
+    },
+
+    toSearch() {
+        HiNavigator.navigateSearchDrugPage()
     }
+
 });
