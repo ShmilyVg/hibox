@@ -77,6 +77,7 @@ Page({
 
     },
     getMedicalRecordList({page = 1, recorded = false}) {
+        toast.showLoading();
         Protocol.MedicalRecordList({page}).then(data => {
             let list = data.result;
             let frontItemTime = {date: '', time: ''};
@@ -102,6 +103,7 @@ Page({
             } else {
                 this.data.page--;
             }
+            toast.hiddenLoading();
         }).finally(() => wx.stopPullDownRefresh());
     },
 
@@ -137,6 +139,7 @@ Page({
     },
 
     onReachBottom() {
+        console.log('getMedicalRecordList', this.data.page + 1)
         this.getMedicalRecordList({page: ++this.data.page});
     },
 
