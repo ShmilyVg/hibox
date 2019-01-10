@@ -68,7 +68,7 @@ Page({
                                 .then(() =>
                                     setTimeout(() => {
                                         Toast.success(`${this.data.compartment || 1}号仓设置成功`);
-                                        HiNavigator.switchToIndexPage({refresh: true});
+                                        setTimeout(()=>HiNavigator.switchToIndexPage({refresh: true}));
                                     })
                                 )
                                 .catch(() => setTimeout(Toast.warn, 0, '设置失败请重试'))
