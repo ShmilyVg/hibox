@@ -96,6 +96,8 @@ Page({
 
                 if (!recorded) {
                     allList = this.data.allList.concat(allList);
+                } else {
+                    this.data.page = 1;
                 }
                 this.setData({
                     allList: allList
