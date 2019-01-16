@@ -24,10 +24,10 @@ App({
                                 console.log(res, '同步数据失败');
                             }).finally(() => records = []);
                         }
+                        console.log('同步数据的数组', records);
                     } else {
-                        this.bLEManager.sendQueryDataSuccessProtocol();
+                        console.log('同步数据中');
                     }
-                    console.log('同步数据的数组', records);
 
                 } else {
                     this.appReceiveDataListener && this.appReceiveDataListener({finalResult, state});
