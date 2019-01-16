@@ -20,6 +20,7 @@ input{
     border: 4rpx solid #E3F4F4;
     border-radius: 20rpx;
     justify-content: center;
+    align-items: center;
     margin: 0 19rpx;
 }
 .add-drug-number-text-style{
