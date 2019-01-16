@@ -1,7 +1,7 @@
 //app.js
 import "./utils/config";
 import {common} from "heheda-bluetooth";
-import {ProtocolState} from "./modules/bluetooth/bluetooth-state";
+import {ConnectState, ProtocolState} from "./modules/bluetooth/bluetooth-state";
 import Protocol from "./modules/network/protocol";
 import HiBoxBlueToothManager from "./modules/bluetooth/hi-box-bluetooth-manager";
 import HiNavigator from "./navigator/hi-navigator";
@@ -34,6 +34,14 @@ App({
                 }
             },
             commonAppBLEStateListener: ({state}) => {
+                switch (state.connectState) {
+                    case ConnectState.UNBIND:
+                    case ConnectState.UNAVAILABLE:
+                    case ConnectState.DISCONNECT:
+                    case ConnectState.NOT_SUPPORT:
+                        records = [];
+                        break;
+                }
                 if (state.protocolState === ProtocolState.QUERY_DATA_FINISH) {
                     this.isQueryDataFinish = true;
                     this.isQuery = false;
