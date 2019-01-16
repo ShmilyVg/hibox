@@ -26,7 +26,7 @@ App({
                         }
                         console.log('同步数据的数组', records);
                     } else {
-                        console.log('同步数据中', records);
+                        console.log('同步数据溢出', records);
                     }
 
                 } else {
