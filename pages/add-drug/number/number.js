@@ -24,6 +24,10 @@ Page({
             9: ["08:00", "09:30", "11:00", "12:30", "14:00", "15:30", "17:00", "18:30", "23:00"],
         }
     },
+
+    getHiMinutes(divideNumber) {
+        return new Array(12).fill(0).map((item, index) => `0${index * divideNumber}`.slice(-2));
+    },
     onLoad(options) {
         let number = 3, piece = 1, list;
         const {items, compartment, deviceId = ''} = getApp().globalData.addOrEditDrugObj;
@@ -43,7 +47,7 @@ Page({
                 numberArray: this.getArray(9),
                 pieceArray: this.getArray(99),
                 hourAndMinuteArray: [new Array(24).fill(0).map((item, index) => `0${index}`.slice(-2)),
-                    new Array(12).fill(0).map((item, index) => `0${index * 5}`.slice(-2))],
+                    this.getHiMinutes(5)],
             }
         );
 
@@ -68,7 +72,7 @@ Page({
                                 .then(() =>
                                     setTimeout(() => {
                                         Toast.success(`${this.data.compartment || 1}号仓设置成功`);
-                                        setTimeout(()=>HiNavigator.switchToIndexPage({refresh: true}));
+                                        setTimeout(() => HiNavigator.switchToIndexPage({refresh: true}));
                                     })
                                 )
                                 .catch(() => setTimeout(Toast.warn, 0, '设置失败请重试'))
