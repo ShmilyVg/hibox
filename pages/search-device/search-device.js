@@ -2,7 +2,7 @@
 import Protocol from "../../modules/network/protocol";
 import HiNavigator from "../../navigator/hi-navigator";
 import {ConnectState} from "../../modules/bluetooth/bluetooth-state";
-import toast from "../../view/toast";
+import Toast from "../../view/toast";
 
 Page({
 
@@ -19,7 +19,7 @@ Page({
         }
 
         let state = getApp().getLatestBLEState();
-        if (state.connectState === ConnectState.CONNECTED){
+        if (state.connectState === ConnectState.CONNECTED) {
 
             this.setData({
                 isSearching: true
@@ -37,13 +37,15 @@ Page({
                     clearInterval(timer);
                 }
             }, 1000);
+        } else {
+            Toast.warn('药盒未连接')
         }
     },
 
     deleteDevice() {
-        toast.showLoading();
+        Toast.showLoading();
         Protocol.postDeviceUnbind().then(data => {
-            toast.hiddenLoading();
+            Toast.hiddenLoading();
             if (data.code === 1) {
                 getApp().getBLEManager().clearConnectedBLE().finally(function () {
                     HiNavigator.reLaunchToBindDevicePage({});
