@@ -26,7 +26,8 @@ Page({
     },
 
     getHiMinutes(divideNumber) {
-        return new Array(12).fill(0).map((item, index) => `0${index * divideNumber}`.slice(-2));
+        let minuteOriginLength = 60;
+        return new Array(minuteOriginLength / divideNumber).fill(0).map((item, index) => `0${index * divideNumber}`.slice(-2));
     },
     onLoad(options) {
         let number = 3, piece = 1, list;
