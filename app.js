@@ -25,6 +25,8 @@ App({
                             }).finally(() => records = []);
                         }
                         console.log('同步数据的数组', records);
+                    } else if (!length) {
+                        this.bLEManager.sendQueryDataSuccessProtocol();
                     } else {
                         console.log('同步数据溢出', records);
                     }
