@@ -1,9 +1,9 @@
 <template name="add-view">
     <view class="flex-column"
           style="box-shadow:0px 0px 15px 9px rgba(141,232,220,0.3); width: 163rpx;height: 296rpx;background-color: white;border-radius: 32rpx;color: {{isConnect?boxColor[index]:'#8AB4B2'}}" bindtap="clickTopAdd" data-index="{{index}}">
-        <view style="align-content: flex-start;display: flex;margin-top: 25rpx;">
-            <view style="font-size: 80rpx;line-height: 80rpx">{{index+1}}</view>
-            <view style="font-size: 20rpx;">box</view>
+        <view style="align-content: flex-start;display: flex">
+            <view style="font-size: 80rpx;line-height: 80rpx;font-family: DIN Condensed;margin-top: 25rpx;">{{index+1}}</view>
+            <view style="font-size: 20rpx;margin-left: 5rpx;margin-top: 18rpx;">BOX</view>
         </view>
         <image wx:if="{{item}}" src="../../images/medicine{{isConnect?index+1:0}}.png" style="height: 90rpx;width: 90rpx;margin-top: 16rpx"></image>
         <view wx:else style="font-size: 40rpx;height: 90rpx;width: 90rpx;margin-top: 16rpx;text-align: center;line-height: 90rpx">空</view>
