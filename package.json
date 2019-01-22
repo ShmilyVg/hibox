@@ -6,8 +6,8 @@
     "wechat-mini-programs-apis": "^1.6.2"
   },
   "dependencies": {
-    "heheda-bluetooth": "^1.2.3",
-    "heheda-network": "^1.1.2",
+    "heheda-bluetooth": "^1.3.2",
+    "heheda-network": "^1.1.7",
     "heheda-navigator": "^1.0.0",
     "heheda-bluetooth-state": "^1.0.0",
     "heheda-common-view": "^1.0.0"
