@@ -13,9 +13,9 @@
         <view class="flex-row" style="color: {{num?'#8AB4B2':'white'}}">
             <image wx:if="{{item.image_url}}" mode="aspectFill" src="{{item.image_url}}" style="width: 70rpx;height: 70rpx;border-radius: 50%;background-color: white"></image>
             <image wx:else src="../../images/photo.png" style="width: 70rpx;height: 70rpx;border-radius: 50%;background-color: white"></image>
-            <view style="align-items: flex-start;display: flex">
-                <view style="font-size: 40rpx;margin-left: 24rpx;font-family: DIN Condensed;margin-top: 50rpx">X</view>
-                <view style="font-size: 100rpx;margin-left: 3rpx;line-height: 100rpx;width: 80rpx;text-align: center;font-family: DIN Condensed;margin-top: 10rpx">{{item.number}}</view>
+            <view style="align-items: flex-start;display: flex;margin-left: 20rpx">
+                <view style="font-size: 100rpx;margin-left: 3rpx;line-height: 100rpx;width: 80rpx;text-align: center;font-family: DIN Condensed;margin-top: 15rpx;width: 60rpx;text-align: right">{{item.number}}</view>
+                <view style="font-size: 30rpx;margin-top: 50rpx;margin-left: 15rpx">个</view>
             </view>
         </view>
     </view>
