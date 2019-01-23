@@ -2,7 +2,7 @@
 <view class="flex-column">
     <view class="flex-column" style="margin-top: 150rpx;opacity: {{isSearching?'0.1':'1'}}">
         <image src="../../images/device-top.gif" style="width: 346rpx;height: 317rpx"></image>
-        <image src="../../images/device-bottom.png" style="width: 346rpx;height: 430rpx"></image>
+        <image src="../../images/device-bottom.gif" style="width: 346rpx;height: 430rpx"></image>
     </view>
     <view class="device-text">HiPee Intelligent Medicine Box</view>
     <view class="flex-row" style="position: fixed;bottom: 82rpx;">
