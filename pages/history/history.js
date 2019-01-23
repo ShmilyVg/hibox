@@ -1,7 +1,7 @@
 // pages/history/history.js
 import Protocol from "../../modules/network/protocol";
 import * as tools from "../../utils/tools";
-import toast from "../../view/toast";
+import Toast from "../../view/toast";
 import * as config from "../../utils/config";
 import {ProtocolState, ConnectState} from "../../modules/bluetooth/bluetooth-state";
 
@@ -30,7 +30,7 @@ Page({
         !!app.isQueryDataFinish && this.queryFinish();
         app.setBLEListener({
             bleStateListener: ({state}) => {
-                console.log('1111',state);
+                console.log('1111', state);
                 if (ConnectState.DISCONNECT === state.connectState || ConnectState.UNAVAILABLE === state.connectState || ConnectState.NOT_SUPPORT === state.connectState || ConnectState.UNBIND === state.connectState) {
                     this.setData({
                         //connectState: {'text': '药盒未连接...', color: '#FF8000'},
@@ -40,7 +40,7 @@ Page({
                     switch (state.protocolState) {
                         case ProtocolState.QUERY_DATA_ING:
                             this.setData({
-                                connectState: {'text': '记录同步中...', color: '#65FF0A'},
+                                connectState: {'text': '药盒正在上传服药记录...', color: '#65FF0A'},
                                 isConnect: false
                             });
                             break;
@@ -55,14 +55,14 @@ Page({
 
     queryStart() {
         this.setData({
-            connectState: {'text': '记录同步中...', color: '#65FF0A'},
+            connectState: {'text': '药盒正在上传服药记录...', color: '#65FF0A'},
             isConnect: false
         });
     },
 
     queryFinish() {
         if (!app.isQuery) {
-            toast.success('同步完成', 3000);
+            Toast.success('上传成功', 3000);
             this.setData({
                 isConnect: true
             });
@@ -77,7 +77,7 @@ Page({
 
     },
     getMedicalRecordList({page = 1, recorded = false}) {
-        toast.showLoading();
+        Toast.showLoading();
         Protocol.MedicalRecordList({page}).then(data => {
             let list = data.result;
             let frontItemTime = {date: '', time: ''};
@@ -105,8 +105,10 @@ Page({
             } else {
                 this.data.page--;
             }
-            toast.hiddenLoading();
-        }).finally(() => wx.stopPullDownRefresh());
+        }).finally(() => {
+            Toast.hiddenLoading();
+            wx.stopPullDownRefresh();
+        });
     },
 
     stateBtnClick(e) {
@@ -180,7 +182,7 @@ Page({
             sizeType: ['compressed'],
             sourceType: ['album', 'camera'],
             success: function (res) {
-                toast.showLoading();
+                Toast.showLoading();
                 let path = res.tempFilePaths[0];
                 wx.uploadFile({
                     url: config.UploadUrl,
@@ -193,7 +195,7 @@ Page({
                             id: item.id, image_url: image
                         }).then(data => {
                             that.getMedicalRecordList({recorded: true});
-                            toast.hiddenLoading();
+                            Toast.hiddenLoading();
                         })
                     },
                     fail: function (e) {
