@@ -20,21 +20,46 @@ Page({
     },
 
     onGotUserInfo(e) {
-        const {detail: {userInfo, encryptedData, iv}} = e;
-        if (!!userInfo) {
-            Toast.showLoading();
-            Login.doRegister({
-                userInfo,
-                encryptedData,
-                iv
-            })
-                .then(() => UserInfo.get())
-                .then(({userInfo}) => !this.setData({userInfo}))
-                .catch(() => setTimeout(Toast.warn, 0, '获取信息失败')).finally(function () {
+        wx.getBluetoothAdapterState({
+            success(res) {
+                let state = res.available;
+                if (res.available){
+                    const {
+                        detail: {
+                            userInfo,
+                            encryptedData,
+                            iv
+                        }
+                    } = e;
+                    if (!!userInfo) {
+                        Toast.showLoading();
+                        Login.doRegister({
+                                userInfo,
+                                encryptedData,
+                                iv
+                            })
+                            .then(() => UserInfo.get())
+                            .then(({
+                                userInfo
+                            }) => !this.setData({
+                                userInfo
+                            }))
+                            .catch(() => setTimeout(Toast.warn, 0, '获取信息失败')).finally(function () {
 
-                Toast.hiddenLoading();
-                HiNavigator.navigateToConnectDevice();
-            });
-        }
+                                Toast.hiddenLoading();
+                                HiNavigator.navigateToConnectDevice();
+                            });
+                    }
+                } else {
+                    wx.showModal({
+                        title: 'TIPS',
+                        showCancel: false,
+                        content: '请开启手机蓝牙',
+                        confirmText: '我知道了',
+                        confirmColor: '#67D5B8',
+                    });
+                }
+            }
+        })   
     }
 })

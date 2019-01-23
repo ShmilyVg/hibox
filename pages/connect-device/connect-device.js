@@ -83,7 +83,7 @@ Page({
             default:
                 return {
                     title: '药盒找到啦！',
-                    content: '短按药盒按钮',
+                    content: '短按药盒按钮，绑定设备',
                     backgroundColor: 'linear-gradient(#66DABF, #008290)',
                     navigationColor: '#66DABF',
                     connectErr: false,
