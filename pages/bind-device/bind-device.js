@@ -59,6 +59,14 @@ Page({
                         confirmColor: '#67D5B8',
                     });
                 }
+            },fail(res){
+                wx.showModal({
+                    title: 'TIPS',
+                    showCancel: false,
+                    content: '请开启手机蓝牙',
+                    confirmText: '我知道了',
+                    confirmColor: '#67D5B8',
+                });
             }
         })   
     }
