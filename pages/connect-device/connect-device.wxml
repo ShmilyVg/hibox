@@ -1,8 +1,8 @@
 <!--pages/connect-device/connect-device.wxml-->
-<view wx:if="{{!state.connectErr}}" class="background-view flex-column" style="background: {{state.backgroundColor}}">
+<view wx:if="{{state.connectErr}}" class="background-view flex-column" style="background: {{state.backgroundColor}}">
     <view class="title-first">{{state.title}}</view>
     <view class="title-second" style="font-size: {{state.content=='短按药盒按钮，绑定设备'?'40':'30'}}rpx">{{state.content}}</view>
-    <view wx:if="{{!state.findBox}}" class="flex-column" style="margin-top: 70rpx">
+    <view wx:if="{{state.findBox}}" class="flex-column" style="margin-top: 70rpx">
         <image src="../../images/device-top.gif" style="width: 346rpx;height: 317rpx"></image>
         <image src="../../images/device-bottom.gif" style="width: 346rpx;height: 430rpx"></image>
     </view>
@@ -12,7 +12,7 @@
     <view class="text-bottom">HiPee Intelligent Medicine Box</view>
 </view>
 
-<block wx:else>
+<!-- <block wx:else>
     <view class="bg">
         <text class="title-text">出了点小问题\n需要您检查再试试</text>
         <block wx:for="{{content}}">
@@ -27,4 +27,4 @@
     <view class="flex-column">
         <view class="bottom-btn btn" bindtap="reConnectEvent">重试</view>
     </view>
-</block>
+</block> -->
