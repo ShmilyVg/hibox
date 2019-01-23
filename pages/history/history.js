@@ -40,7 +40,7 @@ Page({
                     switch (state.protocolState) {
                         case ProtocolState.QUERY_DATA_ING:
                             this.setData({
-                                connectState: {'text': '记录同步中...', color: '#65FF0A'},
+                                connectState: {'text': '药盒正在上传服药记录...', color: '#65FF0A'},
                                 isConnect: false
                             });
                             break;
@@ -55,14 +55,14 @@ Page({
 
     queryStart() {
         this.setData({
-            connectState: {'text': '记录同步中...', color: '#65FF0A'},
+            connectState: {'text': '药盒正在上传服药记录...', color: '#65FF0A'},
             isConnect: false
         });
     },
 
     queryFinish() {
         if (!app.isQuery) {
-            toast.success('同步完成', 3000);
+            toast.success('上传成功', 3000);
             this.setData({
                 isConnect: true
             });
