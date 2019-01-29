@@ -11,8 +11,8 @@ export default class HiBoxBlueToothManager extends HiBlueToothManager{
         this.bluetoothProtocol.sendAlertTime({singleAlertData});
     }
 
-    sendQueryDataSuccessProtocol() {
-        this.bluetoothProtocol.sendQueryDataSuccessProtocol();
+    sendQueryDataSuccessProtocol({isSuccess}) {
+        this.bluetoothProtocol.sendQueryDataSuccessProtocol(arguments[0]);
     }
 
     sendFindDeviceProtocol() {

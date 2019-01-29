@@ -5,6 +5,7 @@ import {ConnectState, ProtocolState} from "./modules/bluetooth/bluetooth-state";
 import Protocol from "./modules/network/protocol";
 import HiBoxBlueToothManager from "./modules/bluetooth/hi-box-bluetooth-manager";
 import HiNavigator from "./navigator/hi-navigator";
+import {CommonConnectState, CommonProtocolState} from "heheda-bluetooth-state";
 
 App({
     onDeviceBindInfoListener: null,
@@ -19,14 +20,20 @@ App({
                         if (records.length === length) {
                             Protocol.postMedicalRecordSave({records}).then(data => {
                                 console.log('同步数据成功');
-                                this.bLEManager.sendQueryDataSuccessProtocol();
+                                this.bLEManager.sendQueryDataSuccessProtocol({isSuccess: true});
                             }).catch(res => {
+                                this._updateBLEState({
+                                    state: {
+                                        connectState: CommonConnectState.CONNECTED,
+                                        protocolState: CommonProtocolState.QUERY_DATA_FINISH
+                                    }
+                                });
                                 console.log(res, '同步数据失败');
                             }).finally(() => records = []);
                         }
                         console.log('同步数据的数组', records);
                     } else if (!length) {
-                        this.bLEManager.sendQueryDataSuccessProtocol();
+                        this.bLEManager.sendQueryDataSuccessProtocol({isSuccess: true});
                     } else {
                         console.log('同步数据溢出', records);
                     }
