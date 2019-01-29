@@ -48,7 +48,7 @@ Page({
                 numberArray: this.getArray(9),
                 pieceArray: this.getArray(99),
                 hourAndMinuteArray: [new Array(24).fill(0).map((item, index) => `0${index}`.slice(-2)),
-                    this.getHiMinutes(30)],
+                    this.getHiMinutes(10)],
             }
         );
 
