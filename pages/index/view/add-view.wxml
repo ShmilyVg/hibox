@@ -1,12 +1,12 @@
 <template name="add-view">
     <view class="flex-column"
-    style="box-shadow:0px 0px 15px 9px rgba(141,232,220,0.3); width: 163rpx;height: 296rpx;background-color:white;border-radius: 32rpx;color: {{isConnect?boxColor[index]:'#D8E6E5'}}" bindtap="clickTopAdd" data-index="{{index}}">
+    style="box-shadow:0 0 15rpx 9rpx rgba(141,232,220,0.3); width: 163rpx;height: 296rpx;background-color:white;border-radius: 32rpx;color: {{isConnect?boxColor[index]:'#D8E6E5'}}" bindtap="clickTopAdd" data-index="{{index}}">
         <view style="align-content: flex-start;display: flex">
             <view style="font-size: 80rpx;line-height: 80rpx;font-family: DIN Condensed;margin-top: 32rpx;">{{index+1}}</view>
             <view style="font-size: 20rpx;margin-left: 5rpx;margin-top: 27rpx;">BOX</view>
         </view>
-        <image wx:if="{{item}}" src="../../images/medicine{{isConnect?index+1:0}}.png" style="height: 90rpx;width: 90rpx;margin-top: 16rpx"></image>
-        <view wx:else style="font-size: 40rpx;height: 90rpx;width: 90rpx;margin-top: 16rpx;text-align: center;line-height: 90rpx">空</view>
-        <image src="../../images/{{item?'editor':'add'}}-icon.png" style="background-color: {{isConnect?boxColor[index]:'#D8E6E5'}};height: 50rpx;width: 50rpx;border-radius: 50%;margin-top: 17rpx"></image>
+        <image wx:if="{{item}}" src="../../images/medicine{{isConnect?index+1:0}}.png" style="height: 90rpx;width: 90rpx"></image>
+        <view wx:else style="font-size: 40rpx;height: 90rpx;width: 90rpx;text-align: center;line-height: 90rpx">空</view>
+        <image src="../../images/{{item?'editor':'add'}}-icon.png" style="background-color: {{isConnect?boxColor[index]:'#D8E6E5'}};height: 50rpx;width: 50rpx;border-radius: 50%;margin-top: 15rpx"></image>
     </view>
 </template>
