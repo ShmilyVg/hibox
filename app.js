@@ -49,6 +49,7 @@ App({
                     case ConnectState.DISCONNECT:
                     case ConnectState.NOT_SUPPORT:
                         records = [];
+                        this.isQuery = false;
                         break;
                 }
                 if (state.protocolState === ProtocolState.QUERY_DATA_FINISH) {
@@ -86,7 +87,6 @@ App({
     onHide() {
         this.commonOnHide();
         this.isAppOnHide = true;
-        this.isQuery = false;
     },
     globalData: {
         refreshIndexPage: false,
