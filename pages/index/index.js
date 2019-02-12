@@ -20,11 +20,12 @@ Page({
             color: '#65FF0A',
             pointAnimation: true
         },
+        lowBattery: false
     },
 
     onLoad: function () {
         let that = this;
-        
+
         wx.getStorage({
             key: 'userInfo',
             success(res) {
@@ -39,6 +40,17 @@ Page({
         }) => {
             deviceId && this.getBaseInfo();
         };
+
+        getApp().onBatteryInfoListener = ({
+            lowBattery
+        }) => {
+            console.log(lowBattery);
+            if (lowBattery) {
+                this.setData({
+                    lowBattery: true
+                })
+            }
+        }
     },
 
     onShow() {
@@ -107,6 +119,11 @@ Page({
     },
 
     getBaseInfo() {
+        let lowBattery = getApp().globalData.lowBattery;
+        console.log('--------------lowBattery',lowBattery);
+        this.setData({
+            lowBattery: lowBattery
+        })
         Protocol.getMedicalRemindInfo().then(data => {
             this.setData({
                 box: data.result

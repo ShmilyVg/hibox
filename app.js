@@ -9,6 +9,7 @@ import {CommonConnectState, CommonProtocolState} from "heheda-bluetooth-state";
 
 App({
     onDeviceBindInfoListener: null,
+    onBatteryInfoListener: null,
     onLaunch(options) {
         let records = [];
         this.setCommonBLEListener({
@@ -38,6 +39,12 @@ App({
                         console.log('同步数据溢出', records);
                     }
 
+                } else if (ProtocolState.TIMESTAMP === state.protocolState) {
+                    let lowBattery = false;
+                    if (finalResult.battery < 21) {
+                        lowBattery = true
+                    }
+                    this.onBatteryInfoListener && this.onBatteryInfoListener({lowBattery});
                 } else {
                     this.appReceiveDataListener && this.appReceiveDataListener({finalResult, state});
                 }
