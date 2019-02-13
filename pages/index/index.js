@@ -42,7 +42,9 @@ Page({
         };
 
 
-        if (typeof (getApp().globalData.lowBattery) === "undefined") {
+        let globalBattery = getApp().globalData.lowBattery;
+        console.log('全局电量：',globalBattery);
+        if (globalBattery > 0) {
             getApp().onBatteryInfoListener = ({lowBattery}) => {
                 console.log(lowBattery);
                 if (lowBattery) {
@@ -52,10 +54,16 @@ Page({
                 }
             }
         } else {
-            this.setData({
-                lowBattery: getApp().globalData.lowBattery
-            })
-            getApp().globalData.lowBattery = 'undefined'
+            if (lowBattery === 2){
+                this.setData({
+                    lowBattery: true
+                })
+            } else if (lowBattery === 3){
+                this.setData({
+                    lowBattery: false
+                })
+            }
+            getApp().globalData.lowBattery = 0;
         }
     },
 

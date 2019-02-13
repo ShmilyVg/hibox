@@ -42,9 +42,11 @@ App({
                 } else if (ProtocolState.TIMESTAMP === state.protocolState) {
                     let lowBattery = false;
                     if (finalResult.battery < 21) {
-                        lowBattery = true
+                        lowBattery = true,
+                        this.globalData.lowBattery = 2
+                    } else {
+                        this.globalData.lowBattery = 3
                     }
-                    this.globalData.lowBattery = lowBattery;
                     this.onBatteryInfoListener && this.onBatteryInfoListener({lowBattery});
                 } else {
                     this.appReceiveDataListener && this.appReceiveDataListener({finalResult, state});
@@ -99,7 +101,8 @@ App({
     globalData: {
         refreshIndexPage: false,
         userInfo: {nickname: '', headUrl: '', id: 0},
-        addOrEditDrugObj: {deviceId: '', compartment: 1, classify: '', drugName: '', items: []}
+        addOrEditDrugObj: {deviceId: '', compartment: 1, classify: '', drugName: '', items: []},
+        lowBattery: 1 //1为默认，2为低电量，3为高电量
     },
     ...common,
 });
