@@ -43,10 +43,13 @@ Page({
 
 
         if (typeof (getApp().globalData.lowBattery) === "undefined") {
-            if (lowBattery) {
-                this.setData({
-                    lowBattery: true
-                })
+            getApp().onBatteryInfoListener = ({lowBattery}) => {
+                console.log(lowBattery);
+                if (lowBattery) {
+                    this.setData({
+                        lowBattery: true
+                    })
+                }
             }
         } else {
             this.setData({
