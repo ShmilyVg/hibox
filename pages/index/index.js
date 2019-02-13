@@ -35,35 +35,34 @@ Page({
             }
         });
 
-        getApp().onDeviceBindInfoListener = ({
-            deviceId
-        }) => {
+        getApp().onDeviceBindInfoListener = ({deviceId}) => {
             deviceId && this.getBaseInfo();
         };
 
 
-        let globalBattery = getApp().globalData.lowBattery;
+        let globalBattery = getApp().globalData.globalBattery;
         console.log('全局电量：',globalBattery);
-        if (globalBattery > 0) {
-            getApp().onBatteryInfoListener = ({lowBattery}) => {
-                console.log(lowBattery);
-                if (lowBattery) {
+        if (globalBattery === 1) {
+            getApp().onBatteryInfoListener = ({battery}) => {
+                if (battery) {
                     this.setData({
                         lowBattery: true
                     })
                 }
             }
         } else {
-            if (lowBattery === 2){
-                this.setData({
+            if (globalBattery === 2){
+                that.setData({
                     lowBattery: true
                 })
-            } else if (lowBattery === 3){
-                this.setData({
+            } else if (globalBattery === 3){
+                that.setData({
                     lowBattery: false
                 })
             }
-            getApp().globalData.lowBattery = 0;
+            setTimeout(function (){
+                getApp().globalData.globalBattery = 0;
+            }, 5000);
         }
     },
 
@@ -71,9 +70,7 @@ Page({
         let that = this;
 
         getApp().setBLEListener({
-            bleStateListener: ({
-                state
-            }) => {
+            bleStateListener: ({state}) => {
                 that.setConnectState(state, that);
             }
         });
@@ -133,11 +130,6 @@ Page({
     },
 
     getBaseInfo() {
-        let lowBattery = getApp().globalData.lowBattery;
-        console.log('--------------lowBattery',lowBattery);
-        this.setData({
-            lowBattery: lowBattery
-        })
         Protocol.getMedicalRemindInfo().then(data => {
             this.setData({
                 box: data.result
