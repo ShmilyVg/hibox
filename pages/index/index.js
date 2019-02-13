@@ -41,15 +41,18 @@ Page({
             deviceId && this.getBaseInfo();
         };
 
-        getApp().onBatteryInfoListener = ({
-            lowBattery
-        }) => {
-            console.log(lowBattery);
+
+        if (typeof (getApp().globalData.lowBattery) === "undefined") {
             if (lowBattery) {
                 this.setData({
                     lowBattery: true
                 })
             }
+        } else {
+            this.setData({
+                lowBattery: getApp().globalData.lowBattery
+            })
+            getApp().globalData.lowBattery = 'undefined'
         }
     },
 

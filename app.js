@@ -44,6 +44,7 @@ App({
                     if (finalResult.battery < 21) {
                         lowBattery = true
                     }
+                    this.globalData.lowBattery = lowBattery;
                     this.onBatteryInfoListener && this.onBatteryInfoListener({lowBattery});
                 } else {
                     this.appReceiveDataListener && this.appReceiveDataListener({finalResult, state});
