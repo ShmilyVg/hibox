@@ -7,17 +7,26 @@
 }
 
 .search-drug {
-    background-color: #86DDC6;
+    background-color: white;
     height: 64rpx;
     width: 652rpx;
     border-radius: 32rpx;
     padding-left: 35rpx;
-    font-size: 34rpx;
-    color: white;
+    font-size: 36rpx;
+    color: #698B89;
+}
+
+.search-line {
+    width:2rpx;
+    height:56rpx;
+    background:#E3F4F4;
 }
 
 .search-confirm{
-
+    margin-left: 37rpx;
+    font-size:36rpx;
+    font-weight:500;
+    color:rgba(104,213,184,1);
 }
 
 .drug-cell {

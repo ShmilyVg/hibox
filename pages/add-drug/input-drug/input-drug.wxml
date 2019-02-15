@@ -11,7 +11,6 @@
         <view wx:for="{{drugs}}" wx:key="name" bindtap="nameChooseEvent" data-index="{{index}}" class="flex-column input-drug-items}}">
             <text class="add-drug-item-title-color-normal">{{item.name}}</text>
         </view>
-
     </view>
 
     <button class="bottom-btn" hover-class="press-style" bindtap="nextStep">下一步</button>
