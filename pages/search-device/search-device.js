@@ -25,7 +25,7 @@ Page({
                 isSearching: true
             });
             let timer = setInterval(() => {
-                getApp().getBLEManager().sendFindDeviceProtocol();
+                this.data.num > 1 && getApp().getBLEManager().sendFindDeviceProtocol();
                 this.setData({
                     num: --this.data.num
                 });
