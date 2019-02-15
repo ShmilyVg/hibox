@@ -51,7 +51,7 @@ Page({
                 }
             }
         } else {
-            if (globalBattery === 2){
+            if (globalBattery === 2) {
                 that.setData({
                     lowBattery: true
                 })
