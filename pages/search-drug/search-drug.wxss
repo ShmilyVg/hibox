@@ -8,9 +8,9 @@
 
 .search-drug {
     background-color: white;
-    height: 64rpx;
-    width: 652rpx;
-    border-radius: 32rpx;
+    height: 84rpx;
+    width: 530rpx;
+    border-radius: 40rpx;
     padding-left: 35rpx;
     font-size: 36rpx;
     color: #698B89;
@@ -23,10 +23,9 @@
 }
 
 .search-confirm{
-    margin-left: 37rpx;
     font-size:36rpx;
-    font-weight:500;
-    color:rgba(104,213,184,1);
+    font-weight:bold;
+    color:white;
 }
 
 .drug-cell {
