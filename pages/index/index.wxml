@@ -12,6 +12,7 @@
             <view class="flex-row">
                 <image src="{{userInfo.headUrl}}" class="avatar"></image>
                 <view style="margin-left: 30rpx;color: white;font-size: 40rpx">我的药盒</view>
+                <image wx:if="{{lowBattery}}" src="../../images/index/battery_low.png" style="height: 21rpx;width: 46rpx;margin-left: 22rpx"/>
             </view>
             <image src="../../images/set.png" class="set" bindtap="toSet"></image>
         </view>

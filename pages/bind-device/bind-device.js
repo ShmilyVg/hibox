@@ -3,6 +3,7 @@ import Toast from "../../view/toast";
 import Login from "../../modules/network/login";
 import UserInfo from "../../modules/network/userInfo";
 import HiNavigator from "../../navigator/hi-navigator";
+import Protocol from "../../modules/network/protocol";
 
 Page({
 
@@ -46,5 +47,19 @@ Page({
                     HiNavigator.navigateToConnectDevice();
                 });
         }
+    },
+
+    clickBarCode() {
+        wx.scanCode({
+            onlyFromCamera: true,
+            scanType: ['barCode'],
+            success(res) {
+                console.log('一维码数字',res.result);
+                Protocol.getDrugCode({code:res.result}).then(data=>{
+                    console.log('一维码返回：',data);
+                    // data.result.description
+                })
+            }
+        })
     }
 })

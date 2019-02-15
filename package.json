@@ -9,7 +9,7 @@
     "heheda-bluetooth": "^1.3.3",
     "heheda-network": "^1.1.8",
     "heheda-navigator": "^1.0.0",
-    "heheda-bluetooth-state": "^1.0.0",
+    "heheda-bluetooth-state": "^1.0.1",
     "heheda-common-view": "^1.0.0"
   }
 }

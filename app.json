@@ -8,7 +8,8 @@
     "pages/add-drug/number/number",
     "pages/history/history",
     "pages/search-device/search-device",
-    "pages/search-drug/search-drug"
+    "pages/search-drug/search-drug",
+    "pages/update/update"
   ],
   "tabBar": {
     "selectedColor": "#66DABF",

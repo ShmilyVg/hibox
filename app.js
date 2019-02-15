@@ -9,6 +9,7 @@ import {CommonConnectState, CommonProtocolState} from "heheda-bluetooth-state";
 
 App({
     onDeviceBindInfoListener: null,
+    onBatteryInfoListener: null,
     onLaunch(options) {
         let records = [];
         this.setCommonBLEListener({
@@ -38,6 +39,14 @@ App({
                         console.log('同步数据溢出', records);
                     }
 
+                } else if (ProtocolState.TIMESTAMP === state.protocolState) {
+                    if (finalResult.battery < 21) {
+                        this.onBatteryInfoListener && this.onBatteryInfoListener({battery: true});
+                        this.globalData.globalBattery = 2
+                    } else {
+                        this.onBatteryInfoListener && this.onBatteryInfoListener({battery: false});
+                        this.globalData.globalBattery = 3
+                    }
                 } else {
                     this.appReceiveDataListener && this.appReceiveDataListener({finalResult, state});
                 }
@@ -91,7 +100,8 @@ App({
     globalData: {
         refreshIndexPage: false,
         userInfo: {nickname: '', headUrl: '', id: 0},
-        addOrEditDrugObj: {deviceId: '', compartment: 1, classify: '', drugName: '', items: []}
+        addOrEditDrugObj: {deviceId: '', compartment: 1, classify: '', drugName: '', items: []},
+        globalBattery: 1 //1为默认，2为低电量，3为高电量
     },
     ...common,
 });

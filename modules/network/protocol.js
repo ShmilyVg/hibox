@@ -69,6 +69,13 @@ export default class Protocol {
         return Network.request({url: 'device/bind/info'})
     }
 
+    static getDrugCode({code}) {
+        return Network.request({
+            url: 'drug/code',
+            data: {code}
+        })
+    }
+
     static getDrugSearch({
         name,
         page = 1,

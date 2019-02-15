@@ -20,11 +20,12 @@ Page({
             color: '#65FF0A',
             pointAnimation: true
         },
+        lowBattery: false
     },
 
     onLoad: function () {
         let that = this;
-        
+
         wx.getStorage({
             key: 'userInfo',
             success(res) {
@@ -34,20 +35,42 @@ Page({
             }
         });
 
-        getApp().onDeviceBindInfoListener = ({
-            deviceId
-        }) => {
+        getApp().onDeviceBindInfoListener = ({deviceId}) => {
             deviceId && this.getBaseInfo();
         };
+
+
+        let globalBattery = getApp().globalData.globalBattery;
+        console.log('全局电量：',globalBattery);
+        if (globalBattery === 1) {
+            getApp().onBatteryInfoListener = ({battery}) => {
+                if (battery) {
+                    this.setData({
+                        lowBattery: true
+                    })
+                }
+            }
+        } else {
+            if (globalBattery === 2) {
+                that.setData({
+                    lowBattery: true
+                })
+            } else if (globalBattery === 3){
+                that.setData({
+                    lowBattery: false
+                })
+            }
+            setTimeout(function (){
+                getApp().globalData.globalBattery = 0;
+            }, 5000);
+        }
     },
 
     onShow() {
         let that = this;
 
         getApp().setBLEListener({
-            bleStateListener: ({
-                state
-            }) => {
+            bleStateListener: ({state}) => {
                 that.setConnectState(state, that);
             }
         });
