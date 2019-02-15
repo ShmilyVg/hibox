@@ -18,7 +18,7 @@
 
 .search-line {
     width:2rpx;
-    height:56rpx;
+    height:50rpx;
     background:#E3F4F4;
 }
 
