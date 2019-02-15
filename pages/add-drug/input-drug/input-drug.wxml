@@ -8,7 +8,7 @@
     bindblur="lostFocusEvent" bindinput="startInputEvent" disabled="true" bindtap="toSearch"></input>
     <view style="width: 690rpx;height: 2rpx;background-color: #E3F4F4;margin-bottom: 115rpx;margin-top: 4rpx"></view>
     <view class="flex-row input-drug-wrap-layout">
-        <view wx:for="{{drugs}}" wx:key="name" bindtap="nameChooseEvent" data-index="{{index}}" class="flex-column input-drug-items {{item.selected?'add-drug-item-click':''}}">
+        <view wx:for="{{drugs}}" wx:key="name" bindtap="nameChooseEvent" data-index="{{index}}" class="flex-column input-drug-items}}">
             <text class="add-drug-item-title-color-normal">{{item.name}}</text>
         </view>
 
