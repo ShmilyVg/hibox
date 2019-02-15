@@ -16,6 +16,10 @@
     color: white;
 }
 
+.search-confirm{
+
+}
+
 .drug-cell {
     height: 132rpx;
     margin-left: 30rpx;

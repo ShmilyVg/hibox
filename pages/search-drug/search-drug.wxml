@@ -1,6 +1,7 @@
 <!--pages/search-drug/search-drug.wxml-->
 <view class="top-view" hover-class="none" hover-stop-propagation="false">
     <input class="search-drug" type="text" bindinput="inputDrug" bindconfirm="finishInput" focus="true" value="{{inputName}}"></input>
+    <view class="search-confirm" bindtap="clickConfirm">确定</view>
 </view>
 
 <view wx:for="{{drugNames}}" class="drug-cell">
