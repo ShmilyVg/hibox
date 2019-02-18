@@ -31,9 +31,8 @@ Page({
         app.setBLEListener({
             bleStateListener: ({state}) => {
                 console.log('1111', state);
-                if (ConnectState.DISCONNECT === state.connectState || ConnectState.UNAVAILABLE === state.connectState || ConnectState.NOT_SUPPORT === state.connectState || ConnectState.UNBIND === state.connectState) {
+                if (ConnectState.UNAVAILABLE === state.connectState || ConnectState.DISCONNECT === state.connectState || ConnectState.UNAVAILABLE === state.connectState || ConnectState.NOT_SUPPORT === state.connectState || ConnectState.UNBIND === state.connectState) {
                     this.setData({
-                        //connectState: {'text': '药盒未连接...', color: '#FF8000'},
                         isConnect: true
                     });
                 } else {
