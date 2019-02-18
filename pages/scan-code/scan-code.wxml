@@ -1,0 +1,13 @@
+<!--pages/scan-code/scan-code.wxml-->
+
+<view class="flex-column">
+    <image style="width: 440rpx;height: 440rpx;margin-top: 95rpx" src="../../images/scan/logo.png"></image>
+    <view style="color: #698B89;font-size: 36rpx;text-align: center;margin-top: 24rpx">
+        <text>请您扫描药品包装的\n69码</text>
+    </view>
+    <view class="flex-row" style="position: absolute;bottom: 217rpx;" bindtap="notShowTipPage">
+        <view style="width: 30rpx;height: 30rpx;background-color: #BECDCC;border-radius:5px">
+            <image wx:if="{{isChose}}" src="../../images/scan/chose.png" style="width: 30rpx;height: 30rpx;position: absolute;top: 5;left: 0"/></view>
+        <text style="color: #698B89;font-size: 30rpx;margin-left: 10rpx">下次不再提示该页面</text></view>
+    <view class="bottom-btn" bindtap="scanCode" hover-class="press-style">扫码添加</view>
+</view>

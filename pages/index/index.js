@@ -147,6 +147,7 @@ Page({
         if (!this.data.isConnect) {
             return;
         }
+
         let index = this.getIndexNum(e);
         if (this.data.box[index]) {
             this.setData({
@@ -154,9 +155,48 @@ Page({
                 popupShow: true,
             });
         } else {
-            HiNavigator.navigateToAddDrug({
-                compartment: index + 1
+            wx.showActionSheet({
+                itemList: ['扫码添加', '手动添加'],
+                itemColor: '#698B89',
+                success(res) {
+                    if (res.tapIndex === 0) {
+                        const value = wx.getStorageSync('verySixScanFunction');
+                        if (value == 'true') {
+                            // 直接扫描一维码
+                            HiNavigator.navigateToScanCode({
+                                compartment: index + 1
+                            })
+                        } else {
+                            // 进入预备扫描界面
+                            wx.scanCode({
+                                onlyFromCamera: true,
+                                scanType: ['barCode'],
+                                success(res) {
+                                    console.log('一维码数字', res.result);
+                                    Protocol.getDrugCode({code: res.result}).then(data => {
+                                        console.log('一维码返回：', data);
+                                        if (data.result.drugName) {
+                                            // 是可用一维码
+                                            HiNavigator.navigateToDrugInfo({
+                                                compartment: index + 1,
+                                                drugInfo: data
+                                            });
+                                        } else {
+                                            // 非可用一维码
+
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    } else if (res.tapIndex === 1) {
+                        HiNavigator.navigateToAddDrug({
+                            compartment: index + 1
+                        });
+                    }
+                }
             });
+
         }
     },
 
@@ -250,6 +290,16 @@ Page({
             step: 1,
             count: 2
         });
+    },
+
+    toView(){
+        let item = this.data.box[this.data.choseIndex];
+        Protocol.getDrugCode({code: item.drug_code}).then(data => {
+            HiNavigator.navigateToDrugInfo({
+                compartment: item.compartment,
+                drugInfo: data
+            });
+        })
     },
 
     noTakeBtnClick() {

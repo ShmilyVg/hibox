@@ -1,0 +1,28 @@
+<!--pages/drug-info/drug-info.wxml-->
+<view class="top-view flex-row">
+    <image class="top-view-image" src="{{data.imgUrl}}"></image>
+    <view class="flex-column" style="margin-left: 30rpx;align-items: self-start;align-self: self-start">
+        <view class="top-view-title">{{data.drugName}}</view>
+        <view class="top-view-content">{{data.manuName}}</view>
+    </view>
+</view>
+<view style="color: #698B89;margin-top: 40rpx;font-size: 36rpx;width: 100%;text-align: center">说明书</view>
+
+<view class="table">
+    <view class="table-cell">
+    </view>
+    <block wx:for="{{data.items}}">
+        <view class="table-cell">
+            <block wx:if="{{index==0}}">
+                <view class="table-title-title">{{item.title}}</view>
+                <view class="table-title-content">{{item.content}}</view>
+            </block>
+            <block wx:else>
+                <view class="table-item-title">{{item.title}}</view>
+                <view class="table-item-content">{{item.content}}</view>
+            </block>
+        </view>
+    </block>
+</view>
+
+<view class="bottom-button" bindtap="drugRemind">设定该药品的服药提醒</view>

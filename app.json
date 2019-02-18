@@ -9,7 +9,9 @@
     "pages/history/history",
     "pages/search-device/search-device",
     "pages/search-drug/search-drug",
-    "pages/update/update"
+    "pages/update/update",
+    "pages/scan-code/scan-code",
+    "pages/drug-info/drug-info"
   ],
   "tabBar": {
     "selectedColor": "#66DABF",

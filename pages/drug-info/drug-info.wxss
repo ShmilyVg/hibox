@@ -1,0 +1,105 @@
+/* pages/drug-info/drug-info.wxss */
+
+.top-view {
+    width:750rpx;
+    height:266rpx;
+    background:rgba(238,247,247,1);
+}
+
+.top-view-image {
+    width:250rpx;
+    height:170rpx;
+    margin-left: 30rpx;
+    background:rgba(226,226,226,1);
+    border-radius:10rpx;
+}
+
+.top-view-title {
+    width:380rpx;
+    font-size:38rpx;
+    font-weight:500;
+    color:rgba(65,86,85,1);
+    line-height:53rpx;
+    margin-top: 56rpx;
+    height: 106rpx;
+}
+
+.top-view-content {
+    font-size:26rpx;
+    font-weight:400;
+    color:rgba(105,139,137,1);
+    line-height:37rpx;
+    margin-top: 10rpx;
+}
+
+.table {
+    margin-top: 40rpx;
+    margin-bottom: 700rpx;
+}
+.table-cell {
+    display: flex;
+    width: 690rpx;
+    justify-content: center;
+    margin-top: 5rpx;
+    margin-left: 30rpx;
+}
+
+.table-title-title {
+    width:203rpx;
+    background:rgba(159,195,195,1);
+    border-radius:15rpx 0 0 0;
+    font-size:28rpx;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    padding: 25rpx 0;
+    text-align: center;
+}
+
+.table-title-content{
+    width:482rpx;
+    background:rgba(159,195,195,1);
+    border-radius:0 15rpx 0 0;
+    font-size:28rpx;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    padding: 25rpx 0;
+    text-align: center;
+    margin-left: 5rpx;
+}
+
+.table-item-title {
+    width: 203rpx;
+    justify-content: center;
+    text-align: center;
+    background:rgba(238,247,247,1);
+    color: #698B89;
+    font-size: 28rpx;
+    font-weight: 500;
+    padding: 25rpx 0rpx;
+}
+
+.table-item-content {
+    width: 422rpx;
+    justify-content: center;
+    background:rgba(238,247,247,1);
+    color: #698B89;
+    font-size: 28rpx;
+    font-weight: 400;
+    padding: 25rpx 30rpx;
+    text-align: left;
+    margin-left: 5rpx;
+}
+
+.bottom-button{
+    width:100%;
+    height:111rpx;
+    background:rgba(103,213,184,1);
+    font-size:32rpx;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    line-height: 111rpx;
+}

@@ -1,10 +1,10 @@
 export default class DrugRuler {
 
-    static getConvertToServerData({deviceId, compartment, classify, drugName, list}) {
+    static getConvertToServerData({deviceId, compartment, classify, drugName, list, code}) {
 
         return {
             compartment: parseInt(compartment) || 1, drugName: drugName,
-            drugClassify: classify, deviceId: deviceId,
+            drugClassify: classify, deviceId: deviceId, code: code,
             items: [...list.sort((item1, item2) =>
                 item1.timestamp - item2.timestamp
             ).map((item) =>
