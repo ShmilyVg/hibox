@@ -25,6 +25,10 @@ Page({
 
     onLoad: function () {
         let that = this;
+        wx.setStorage({
+            key: 'verySixScanFunction',
+            data: false
+        })
         wx.getStorage({
             key: 'userInfo',
             success(res) {
@@ -162,7 +166,7 @@ Page({
                         const value = wx.getStorageSync('verySixScanFunction');
                         console.log('verySixScanFunction====>',value);
                         if (wx.getStorageSync('verySixScanFunction')) {
-                            // 进入预备扫描界面
+                            // 直接扫描一维码
                             wx.scanCode({
                                 onlyFromCamera: true,
                                 scanType: ['barCode'],
@@ -188,7 +192,7 @@ Page({
                                 }
                             })
                         } else {
-                            // 直接扫描一维码
+                            // 进入预备扫描界面
                             HiNavigator.navigateToScanCode({
                                 compartment: index + 1
                             })
