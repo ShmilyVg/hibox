@@ -13,7 +13,7 @@
             </view>
             <view class="history-state {{item.state?'took':'notake'}}" bindtap="stateBtnClick" data-index="{{index}}"><image src="{{item.state?'../../images/history/took.png':'../../images/history/notake.png'}}"></image>{{item.state?'已服用':'未服用'}}</view>
         </view>
-        <template is="medicine-view" data="{{num:1,index,item,boxColor,backgroundColor:'#fff'}}"></template>
+        <template is="medicine-view" data="{{num:1,index,item,boxColor,backgroundColor:'#fff',showImage:false}}"></template>
     </view>
 </view>
 
