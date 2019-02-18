@@ -21,6 +21,13 @@ Page({
     },
 
     onGotUserInfo(e) {
+        wx.getNetworkType({
+            success: function (res) {
+                if (res.networkType === 'none') {
+                    Toast.showLoading('网络异常，请重试');
+                }
+            }
+        });
         const {
             detail: {
                 userInfo,
