@@ -18,6 +18,12 @@ export default class HiNavigator extends CommonNavigator {
         this.navigateTo({url: '/pages/drug-info/drug-info'});
     }
 
+    static navigateToScanErr({index}){
+        this.navigateTo({
+            url:`/pages/scan-err/scan-err?index=${index}`
+        })
+    }
+
     static navigateToEditDrugPage({deviceId, compartment, classify, drugName, items, step, count}) {
         getApp().globalData.addOrEditDrugObj = {deviceId, compartment, classify, drugName, items};
         this.navigateTo({url: `/pages/add-drug/input-drug/input-drug?classify=${classify}&step=${step}&count=${count}`});

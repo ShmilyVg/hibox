@@ -11,6 +11,7 @@
     "pages/search-drug/search-drug",
     "pages/update/update",
     "pages/scan-code/scan-code",
+    "pages/scan-err/scan-err",
     "pages/drug-info/drug-info"
   ],
   "tabBar": {

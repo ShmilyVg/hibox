@@ -177,13 +177,17 @@ Page({
                                         console.log('一维码返回：', data);
                                         if (data.result.drugName) {
                                             // 是可用一维码
+                                            console.log('是可用一维码');
                                             HiNavigator.navigateToDrugInfo({
                                                 compartment: index + 1,
                                                 drugInfo: data
                                             });
                                         } else {
                                             // 非可用一维码
-
+                                            console.log('非可用一维码');
+                                            HiNavigator.navigateToScanErr({
+                                                index: index + 1
+                                            })
                                         }
                                     })
                                 }
