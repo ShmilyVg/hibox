@@ -10,7 +10,6 @@
 }
 .popup-box{
     width: 614rpx;
-    height: 378rpx;
     padding-top: 148rpx;
     background: #fff;
     border-radius: 32rpx;
