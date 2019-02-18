@@ -25,7 +25,6 @@ Page({
 
     onLoad: function () {
         let that = this;
-
         wx.getStorage({
             key: 'userInfo',
             success(res) {
@@ -161,12 +160,8 @@ Page({
                 success(res) {
                     if (res.tapIndex === 0) {
                         const value = wx.getStorageSync('verySixScanFunction');
-                        if (value == 'true') {
-                            // 直接扫描一维码
-                            HiNavigator.navigateToScanCode({
-                                compartment: index + 1
-                            })
-                        } else {
+                        console.log('verySixScanFunction====>',value);
+                        if (wx.getStorageSync('verySixScanFunction')) {
                             // 进入预备扫描界面
                             wx.scanCode({
                                 onlyFromCamera: true,
@@ -191,6 +186,11 @@ Page({
                                         }
                                     })
                                 }
+                            })
+                        } else {
+                            // 直接扫描一维码
+                            HiNavigator.navigateToScanCode({
+                                compartment: index + 1
                             })
                         }
                     } else if (res.tapIndex === 1) {
