@@ -133,16 +133,6 @@ Page({
         })
     },
 
-    onUnload() {
-        // piece = items[0].number;
-        // for (let i = 0, len = pieceArray.length; i < len; i++) {
-        //     if (piece.toFixed(1) === pieceArray[i].toFixed(1)) {
-        //         piece = i;
-        //         break;
-        //     }
-        // }
-    },
-
     getChooseNumberTypeValue(e) {
         const {detail: {value}} = e;
         return (parseInt(value) || 0) + 1;
