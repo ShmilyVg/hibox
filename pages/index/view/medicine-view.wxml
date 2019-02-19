@@ -9,9 +9,11 @@
             </view>
             <view style="font-weight: bold;margin-left: 20rpx;font-size: 38rpx;color: {{num?'#8AB4B2':'white'}}">{{item.drug_name}}</view>
         </view>
-        <view class="flex-row" style="color: {{num?'#8AB4B2':'white'}}" bindtap="clickPhoto" data-index="{{[num,index]}}">
-            <image wx:if="{{item.image_url}}" mode="aspectFill" src="{{item.image_url}}" style="width: 70rpx;height: 70rpx;border-radius: 50%;background-color: white"></image>
-            <image wx:else src="../../images/photo.png" style="width: 70rpx;height: 70rpx;border-radius: 50%;background-color: white"></image>
+        <view class="flex-row" style="color: {{num?'#8AB4B2':'white'}}" bindtap="{{showImage?'clickPhoto':''}}" data-index="{{[num,index]}}">
+            <block wx:if="{{showImage}}">
+                <image wx:if="{{item.image_url}}" mode="aspectFill" src="{{item.image_url}}" style="width: 70rpx;height: 70rpx;border-radius: 50%;background-color: white"></image>
+                <image wx:else src="../../images/photo.png" style="width: 70rpx;height: 70rpx;border-radius: 50%;background-color: white"></image>
+            </block>
             <view style="align-items: flex-start;display: flex;margin-left: 20rpx">
                 <view style="font-size: 100rpx;margin-left: 3rpx;line-height: 100rpx;width: 80rpx;text-align: center;font-family: DIN Condensed;margin-top: 15rpx;width: 60rpx;text-align: right">{{item.number}}</view>
                 <view style="font-size: 30rpx;margin-top: 50rpx;margin-left: 15rpx;font-weight: bold">个</view>

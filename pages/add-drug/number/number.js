@@ -29,6 +29,7 @@ Page({
         let minuteOriginLength = 60;
         return new Array(minuteOriginLength / divideNumber).fill(0).map((item, index) => `0${index * divideNumber}`.slice(-2));
     },
+
     onLoad(options) {
         let number = 3, piece = 1, list;
         const {items, compartment, deviceId = ''} = getApp().globalData.addOrEditDrugObj;
@@ -44,6 +45,7 @@ Page({
                 piece,
                 compartment,
                 deviceId,
+                code: options.code,
                 list: list || DrugRuler.getList({ruler: this.data.ruler, number, piece}),
                 numberArray: this.getArray(9),
                 pieceArray: this.getArray(99),
@@ -140,6 +142,9 @@ Page({
 
     nextStep() {
         // Toast.showLoading();
+        if (this.data.code == 0) {
+            delete(this.data['code']);
+        }
         this.dataForBLE = DrugRuler.getConvertToBLEList({...this.data});
         this.sendDataToBLE();
     },

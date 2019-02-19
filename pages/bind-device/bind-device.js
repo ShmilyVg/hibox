@@ -21,13 +21,6 @@ Page({
     },
 
     onGotUserInfo(e) {
-        wx.getNetworkType({
-            success: function (res) {
-                if (res.networkType === 'none') {
-                    Toast.showLoading('网络异常，请重试');
-                }
-            }
-        });
         const {
             detail: {
                 userInfo,
@@ -56,17 +49,4 @@ Page({
         }
     },
 
-    clickBarCode() {
-        wx.scanCode({
-            onlyFromCamera: true,
-            scanType: ['barCode'],
-            success(res) {
-                console.log('一维码数字',res.result);
-                Protocol.getDrugCode({code:res.result}).then(data=>{
-                    console.log('一维码返回：',data);
-                    // data.result.description
-                })
-            }
-        })
-    }
 })

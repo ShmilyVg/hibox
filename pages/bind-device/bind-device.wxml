@@ -3,6 +3,4 @@
     <image class="device-image" src="../../images/device-image.png"></image>
     <view class="device-text">HiPee Intelligent Medicine Box</view>
     <button class="bottom-btn btn" hover-class="press-style" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo">点击绑定设备</button>
-
-    <button style="position: fixed;bottom: 300rpx;" bindtap="clickBarCode">点击扫描一维码</button>
 </view>

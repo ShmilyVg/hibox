@@ -7,6 +7,23 @@ export default class HiNavigator extends CommonNavigator {
         this.navigateTo({url: '/pages/add-drug/choose-type/choose-type'});
     }
 
+    static navigateToScanCode({deviceId = '', compartment}) {
+        getApp().globalData.addOrEditDrugObj = {deviceId, compartment};
+        this.navigateTo({url: '/pages/scan-code/scan-code'});
+    }
+
+    static navigateToDrugInfo({drugInfo, compartment, deviceId = ''}) {
+        getApp().globalData.drugInfo = drugInfo;
+        getApp().globalData.addOrEditDrugObj = {deviceId, compartment};
+        this.navigateTo({url: '/pages/drug-info/drug-info'});
+    }
+
+    static navigateToScanErr({index}){
+        this.navigateTo({
+            url:`/pages/scan-err/scan-err?index=${index}`
+        })
+    }
+
     static navigateToEditDrugPage({deviceId, compartment, classify, drugName, items, step, count}) {
         getApp().globalData.addOrEditDrugObj = {deviceId, compartment, classify, drugName, items};
         this.navigateTo({url: `/pages/add-drug/input-drug/input-drug?classify=${classify}&step=${step}&count=${count}`});
@@ -19,8 +36,8 @@ export default class HiNavigator extends CommonNavigator {
      * @param step 当前是第几步
      * @param count 当前总共的步数
      */
-    static navigateToDrugNumberPage({classify, drugName, step, count}) {
-        this.navigateTo({url: `/pages/add-drug/number/number?classify=${classify}&drugName=${drugName}&step=${parseInt(step) + 1}&count=${count}`})
+    static navigateToDrugNumberPage({classify='scan', drugName, step, count,code=0}) {
+        this.navigateTo({url: `/pages/add-drug/number/number?classify=${classify}&drugName=${drugName}&step=${parseInt(step) + 1}&count=${count}&code=${code}`})
     }
 
     static navigateToConnectDevice() {

@@ -1,0 +1,9 @@
+<!--pages/scan-err/scan-err.wxml-->
+
+<view class="flex-column">
+    <image style="height: 440rpx;width: 440rpx" src="../../images/scan/fail.png"/>
+    <view style="font-size:36rpx;font-weight:400;color:rgba(105,139,137,1);line-height:50rpx;text-align: center;margin-top: 24rpx">
+        <text>抱歉未能找到该药品\n请手动添加</text>
+    </view>
+    <view class="bottom-btn" bindtap="handAdd">手动添加</view>
+</view>
