@@ -3,9 +3,10 @@ import Toast from "../../../view/toast";
 import HiNavigator from "../../../navigator/hi-navigator";
 import Protocol from "../../../modules/network/protocol";
 import {ConnectState, ProtocolState} from "../../../modules/bluetooth/bluetooth-state";
+import WXDialog from "../../../view/dialog";
 
 Page({
-
+    divideNumber: 10,
     data: {
         number: 3,
         piece: 1,
@@ -31,6 +32,7 @@ Page({
     },
 
     onLoad(options) {
+        DrugRuler.setDiviceNumber(this.divideNumber);
         let number = 3, piece = 1, list;
         const {items, compartment, deviceId = ''} = getApp().globalData.addOrEditDrugObj;
         const pieceArray = this.getPieceArray(99);
@@ -57,7 +59,7 @@ Page({
                 numberArray: this.getArray(9),
                 pieceArray: this.getPieceArray(99),
                 hourAndMinuteArray: [new Array(24).fill(0).map((item, index) => `0${index}`.slice(-2)),
-                    this.getHiMinutes(10)],
+                    this.getHiMinutes(this.divideNumber)],
             }
         );
 
@@ -104,10 +106,20 @@ Page({
     },
 
     timeItemChooseEvent(e) {
-        console.log(e);
         const {detail: {value}} = e;
         const {list, selectedItemIndex, hourAndMinuteArray} = this.data;
-        list[selectedItemIndex] = {...list[selectedItemIndex], ...DrugRuler.getFinalItemExpectPiece(`${hourAndMinuteArray[0][value[0]]}:${hourAndMinuteArray[1][value[1]]}`)};
+        const finalItemExpectPiece = DrugRuler.getFinalItemExpectPiece(`${hourAndMinuteArray[0][value[0]]}:${hourAndMinuteArray[1][value[1]]}`);
+        let isOk = true;
+        list.forEach((item, index) => {
+            if (index !== selectedItemIndex && Math.abs(item.timestamp - finalItemExpectPiece.timestamp) <= 1800) {
+                isOk = false;
+            }
+        });
+        if (isOk) {
+            list[selectedItemIndex] = {...list[selectedItemIndex], ...DrugRuler.getFinalItemExpectPiece(`${hourAndMinuteArray[0][value[0]]}:${hourAndMinuteArray[1][value[1]]}`)};
+        } else {
+            WXDialog.showDialog({content: '建议两次服药时间间隔≥30分钟'});
+        }
         this.setData({list: list.sort(DrugRuler.sortFun)});
     },
 
