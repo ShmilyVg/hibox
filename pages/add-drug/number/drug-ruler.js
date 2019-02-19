@@ -1,6 +1,7 @@
+let _divideNumber = 10;
 export default class DrugRuler {
 
-    static getConvertToServerData({deviceId, compartment, classify, drugName, list, code}) {
+    static getConvertToServerData({deviceId, compartment, classify, drugName, list, code, pieceArray}) {
 
         return {
             compartment: parseInt(compartment) || 1, drugName: drugName,
@@ -8,7 +9,7 @@ export default class DrugRuler {
             items: [...list.sort((item1, item2) =>
                 item1.timestamp - item2.timestamp
             ).map((item) =>
-                ({remind_time: item.time, number: item.piece})
+                ({remind_time: item.time, number: pieceArray[item.piece - 1].value})
             )]
         };
     }
@@ -63,6 +64,9 @@ export default class DrugRuler {
         return item1.timestamp - item2.timestamp;
     }
 
+    static setDiviceNumber(divideNumber) {
+        _divideNumber = divideNumber;
+    }
     static getFinalItemExpectPiece(hourAndMinute) {
         const hour = parseInt(hourAndMinute.slice(0, 2));
         const minute = parseInt(hourAndMinute.slice(-2));
@@ -71,7 +75,7 @@ export default class DrugRuler {
             timestamp: hour * 3600 + minute * 60,
             time: hourAndMinute,
             dayPart: this.getDayPart(hour),
-            hourAndMinuteIndex: [hour, minute / 5]
+            hourAndMinuteIndex: [hour, minute / _divideNumber]
         };
     }
 }

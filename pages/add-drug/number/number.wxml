@@ -13,8 +13,8 @@
         <text class="add-drug-number-text-style">次</text>
 
         <text class="add-drug-number-text-style" style="margin-left: 74rpx;">每次</text>
-        <picker bindchange="pieceAllChooseEvent" value="{{piece-1}}" range="{{pieceArray}}">
-            <view class="flex-column add-drug-number-input-border-style add-drug-number-input-style">{{pieceArray[piece-1]}}</view>
+        <picker bindchange="pieceAllChooseEvent" value="{{piece-1}}" range-key="value" range="{{pieceArray}}">
+            <view class="flex-column add-drug-number-input-border-style add-drug-number-input-style">{{pieceArray[piece-1].value}}</view>
         </picker>
         <text class="add-drug-number-text-style">片</text>
     </view>
@@ -26,10 +26,10 @@
                 <text class="add-drug-number-item-text-style">{{item.time}}</text>
             </view>
         </picker>
-        <picker bindchange="pieceItemChooseEvent" value="{{item.piece-1}}" range="{{pieceArray}}">
+        <picker bindchange="pieceItemChooseEvent" value="{{item.piece-1}}" range-key="value" range="{{pieceArray}}">
             <view class="flex-row add-drug-number-item-right-style">
                 <text class="add-drug-number-item-right-x-style">x</text>
-                <text class="add-drug-number-item-right-piece-style">{{item.piece}}</text>
+                <text class="add-drug-number-item-right-piece-style">{{pieceArray[item.piece-1].value}}</text>
             </view>
         </picker>
     </view>
