@@ -33,22 +33,29 @@ Page({
     onLoad(options) {
         let number = 3, piece = 1, list;
         const {items, compartment, deviceId = ''} = getApp().globalData.addOrEditDrugObj;
+        const pieceArray = this.getPieceArray(99);
         if (!!items && !!items.length) {
             number = items.length;
             piece = items[0].number;
+            for (let i = 0, len = pieceArray.length; i < len; i++) {
+                if (piece.toFixed(1) === pieceArray[i].value.toFixed(1)) {
+                    piece = i + 1;//这里是因为页面中减了1，所以在这里要先加1
+                    break;
+                }
+            }
             list = DrugRuler.convertServerListToLocalList({items});
         }
         this.setData(
             {
                 ...options,
                 number,
-                piece,
+                piece,//这是用量的索引
                 compartment,
                 deviceId,
                 code: options.code,
                 list: list || DrugRuler.getList({ruler: this.data.ruler, number, piece}),
                 numberArray: this.getArray(9),
-                pieceArray: this.getArray(99),
+                pieceArray: this.getPieceArray(99),
                 hourAndMinuteArray: [new Array(24).fill(0).map((item, index) => `0${index}`.slice(-2)),
                     this.getHiMinutes(10)],
             }
@@ -106,9 +113,12 @@ Page({
 
     pieceAllChooseEvent(e) {
         const piece = this.getChooseNumberTypeValue(e);
+        console.log(piece);
         this.setData({list: DrugRuler.getList({...this.data, piece}), piece});
     },
-
+    getPieceValue({pieceIndex}) {
+        return this.data.pieceArray[pieceIndex - 1].value;
+    },
     pieceItemChooseEvent(e) {
         const piece = this.getChooseNumberTypeValue(e);
         const obj = {};
@@ -124,7 +134,13 @@ Page({
     },
 
     onUnload() {
-
+        // piece = items[0].number;
+        // for (let i = 0, len = pieceArray.length; i < len; i++) {
+        //     if (piece.toFixed(1) === pieceArray[i].toFixed(1)) {
+        //         piece = i;
+        //         break;
+        //     }
+        // }
     },
 
     getChooseNumberTypeValue(e) {
@@ -139,11 +155,20 @@ Page({
         }
         return array;
     },
-
+    getPieceArray(length) {
+        const array = [];
+        for (let i = 0; i < length; i++) {
+            array.push(i + 0.5);
+        }
+        return array.concat(this.getArray(length)).sort((item1, item2) => item1 - item2).map((item, index) => ({
+            key: index,
+            value: item
+        }));
+    },
     nextStep() {
         // Toast.showLoading();
         if (this.data.code == 0) {
-            delete(this.data['code']);
+            delete (this.data['code']);
         }
         this.dataForBLE = DrugRuler.getConvertToBLEList({...this.data});
         this.sendDataToBLE();

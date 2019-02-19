@@ -1,6 +1,6 @@
 export default class DrugRuler {
 
-    static getConvertToServerData({deviceId, compartment, classify, drugName, list, code}) {
+    static getConvertToServerData({deviceId, compartment, classify, drugName, list, code, pieceArray}) {
 
         return {
             compartment: parseInt(compartment) || 1, drugName: drugName,
@@ -8,7 +8,7 @@ export default class DrugRuler {
             items: [...list.sort((item1, item2) =>
                 item1.timestamp - item2.timestamp
             ).map((item) =>
-                ({remind_time: item.time, number: item.piece})
+                ({remind_time: item.time, number: pieceArray[item.piece - 1].value})
             )]
         };
     }
