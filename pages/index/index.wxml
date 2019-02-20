@@ -10,7 +10,8 @@
     <view class="top-view">
         <view class="flex-row" style="justify-content: space-between;width: 100%">
             <view class="flex-row">
-                <image src="{{userInfo.headUrl}}" class="avatar"></image>
+                <image wx:if="{{userInfo.headUrl.length}}" src="{{userInfo.headUrl}}" class="avatar"></image>
+                <image wx:else class="avatar" style="background-color: #88DEC7" src="../../images/index/default-avatar.png"/>
                 <view style="margin-left: 30rpx;color: white;font-size: 40rpx">我的药盒</view>
                 <image wx:if="{{lowBattery}}" src="../../images/index/battery_low.png" style="height: 21rpx;width: 46rpx;margin-left: 22rpx"/>
             </view>
