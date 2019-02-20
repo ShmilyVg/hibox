@@ -292,12 +292,12 @@ Page({
         this.hidePopupView();
         let item = this.data.box[this.data.choseIndex];
         if (item.drug_code) {
-            getApp().globalData.addOrEditDrugObj = {deviceId:'', compartment:item.compartment};
+            getApp().globalData.addOrEditDrugObj = {deviceId:'', compartment:item.compartment, classify:'scan', drugName:item.drug_name, items:item.items};
             HiNavigator.navigateToDrugNumberPage({
                 drugName: item.drug_name,
                 step: 2,
                 count: 3,
-                code: item.code
+                code: item.drug_code
             });
         } else {
             HiNavigator.navigateToEditDrugPage({
