@@ -44,7 +44,7 @@ Page({
 
 
         let globalBattery = getApp().globalData.globalBattery;
-        console.log('全局电量：',globalBattery);
+        console.log('全局电量：', globalBattery);
         if (globalBattery === 1) {
             getApp().onBatteryInfoListener = ({battery}) => {
                 if (battery) {
@@ -58,12 +58,12 @@ Page({
                 that.setData({
                     lowBattery: true
                 })
-            } else if (globalBattery === 3){
+            } else if (globalBattery === 3) {
                 that.setData({
                     lowBattery: false
                 })
             }
-            setTimeout(function (){
+            setTimeout(function () {
                 getApp().globalData.globalBattery = 0;
             }, 5000);
         }
@@ -164,7 +164,7 @@ Page({
                 success(res) {
                     if (res.tapIndex === 0) {
                         const value = wx.getStorageSync('verySixScanFunction');
-                        console.log('verySixScanFunction====>',value);
+                        console.log('verySixScanFunction====>', value);
                         if (wx.getStorageSync('verySixScanFunction')) {
                             // 直接扫描一维码
                             wx.scanCode({
@@ -261,8 +261,10 @@ Page({
                             toast.hiddenLoading();
                         })
                     },
-                    fail: function (e) {},
-                    complete: function (e) {}
+                    fail: function (e) {
+                    },
+                    complete: function (e) {
+                    }
                 })
             }
         })
@@ -289,22 +291,28 @@ Page({
     reviseBtnClick() {
         this.hidePopupView();
         let item = this.data.box[this.data.choseIndex];
-        let step = 1, count = 2;
         if (item.drug_code) {
-            step = 2, count = 1
+            getApp().globalData.addOrEditDrugObj = {deviceId:'', compartment:item.compartment};
+            HiNavigator.navigateToDrugNumberPage({
+                drugName: item.drug_name,
+                step: 2,
+                count: 3,
+                code: item.code
+            });
+        } else {
+            HiNavigator.navigateToEditDrugPage({
+                deviceId: item.device_id,
+                compartment: item.compartment,
+                classify: item.drug_classify,
+                drugName: item.drug_name,
+                items: item.items,
+                step: 1,
+                count: 2
+            });
         }
-        HiNavigator.navigateToEditDrugPage({
-            deviceId: item.device_id,
-            compartment: item.compartment,
-            classify: item.drug_classify,
-            drugName: item.drug_name,
-            items: item.items,
-            step: step,
-            count: count
-        });
     },
 
-    toView(){
+    toView() {
         let item = this.data.box[this.data.choseIndex];
         Protocol.getDrugCode({code: item.drug_code}).then(data => {
             HiNavigator.navigateToDrugInfo({
