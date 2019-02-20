@@ -22,7 +22,7 @@
         <template is="add-view" wx:for="{{box}}" data-index="{{index}}" data="{{boxColor,index,item:box[index],isConnect:isConnect}}"></template>
     </view>
 
-    <view wx:if="{{box[0]||box[1]||box[2]||box[3]]}}" style="position: absolute;top: 536rpx;width: 100%">
+    <view wx:if="{{box[0]||box[1]||box[2]||box[3]}}" style="position: absolute;top: 536rpx;width: 100%">
         <view wx:if="{{list['now'].length || list['future'].length}}">
             <view class="flex-column">
                 <block wx:if="{{list['now'].length}}">
