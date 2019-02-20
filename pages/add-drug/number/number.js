@@ -111,7 +111,7 @@ Page({
         const finalItemExpectPiece = DrugRuler.getFinalItemExpectPiece(`${hourAndMinuteArray[0][value[0]]}:${hourAndMinuteArray[1][value[1]]}`);
         let isOk = true;
         list.forEach((item, index) => {
-            if (index !== selectedItemIndex && Math.abs(item.timestamp - finalItemExpectPiece.timestamp) <= 1800) {
+            if (index !== selectedItemIndex && Math.abs(item.timestamp - finalItemExpectPiece.timestamp) < 1800) {
                 isOk = false;
             }
         });
