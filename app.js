@@ -59,6 +59,7 @@ App({
                     case ConnectState.NOT_SUPPORT:
                         records = [];
                         this.isQuery = false;
+                        this.isQueryDataFinish = false;
                         break;
                 }
                 if (state.protocolState === ProtocolState.QUERY_DATA_FINISH) {

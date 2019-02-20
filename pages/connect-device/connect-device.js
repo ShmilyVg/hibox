@@ -119,5 +119,17 @@ Page({
                 clearTimeout(timer);
             }
         }, 1000);
+    },
+
+    Showmorepopup(){
+        wx.showModal({
+            title: '小贴士',
+            content: '前往手机【设置】->找到【微信】应用\n' +
+                '\n' +
+                '打开【微信定位/位置权限】',
+            showCancel: false,
+            confirmText: '我知道了',
+        })
     }
+
 })
