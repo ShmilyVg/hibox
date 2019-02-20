@@ -116,7 +116,7 @@ Page({
             }
         });
         if (isOk) {
-            list[selectedItemIndex] = {...list[selectedItemIndex], ...DrugRuler.getFinalItemExpectPiece(`${hourAndMinuteArray[0][value[0]]}:${hourAndMinuteArray[1][value[1]]}`)};
+            list[selectedItemIndex] = {...list[selectedItemIndex], ...finalItemExpectPiece};
         } else {
             WXDialog.showDialog({content: '建议两次服药时间间隔≥30分钟'});
         }
