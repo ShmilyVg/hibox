@@ -292,6 +292,7 @@ Page({
         this.hidePopupView();
         let item = this.data.box[this.data.choseIndex];
         if (item.drug_code) {
+            getApp().globalData.addOrEditDrugObj = {deviceId:'', compartment:item.compartment};
             HiNavigator.navigateToDrugNumberPage({
                 drugName: item.drug_name,
                 step: 2,
