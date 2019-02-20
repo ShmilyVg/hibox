@@ -24,5 +24,6 @@
         </view>
     </block>
 </view>
+<view style="height: 150rpx"></view>
 
 <view class="bottom-button" bindtap="drugRemind">设定该药品的服药提醒</view>
