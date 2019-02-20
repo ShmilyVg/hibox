@@ -25,10 +25,10 @@ Page({
 
     onLoad: function () {
         let that = this;
-        wx.setStorage({
-            key: 'verySixScanFunction',
-            data: false
-        })
+        // wx.setStorage({
+        //     key: 'verySixScanFunction',
+        //     data: false
+        // })
         wx.getStorage({
             key: 'userInfo',
             success(res) {
@@ -289,14 +289,18 @@ Page({
     reviseBtnClick() {
         this.hidePopupView();
         let item = this.data.box[this.data.choseIndex];
+        let step = 1, count = 2;
+        if (item.drug_code) {
+            step = 2, count = 1
+        }
         HiNavigator.navigateToEditDrugPage({
             deviceId: item.device_id,
             compartment: item.compartment,
             classify: item.drug_classify,
             drugName: item.drug_name,
             items: item.items,
-            step: 1,
-            count: 2
+            step: step,
+            count: count
         });
     },
 
