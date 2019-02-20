@@ -39,25 +39,31 @@ page{
     line-height: 60rpx;
 }
 .history-state{
-    width: 174rpx;
+    display: flex;
+}
+.history-state-box{
+    width: 168rpx;
     height: 66rpx;
     background: #fff;
-    text-align: center;
-    line-height: 66rpx;
-    border-radius: 50rpx;
+    border-radius: 30rpx;
+    margin-right: 15rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 28rpx;
+}
+.history-state-box image{
+    width: 36rpx;
+    height: 36rpx;
+    margin-right: 5rpx;
 }
 .took{
     color: #66DABF;
 }
 .notake{
-    color: #698B89;
+    color: #FF8000;
 }
-.history-state image{
-    width: 26rpx;
-    height: 25rpx;
-    margin-right: 5rpx;
-}
+
 
 .history-none{
     font-size: 32rpx;

@@ -52,23 +52,20 @@
     margin: 0 auto 0;
 }
 .popup-btn-revise{
-    width: 469rpx;
-    height: 100rpx;
+    width: 262rpx;
+    height: 90rpx;
     color: #fff;
     font-size: 32rpx;
     text-align: center;
-    line-height: 100rpx;
+    line-height: 90rpx;
     background: #67D5B8;
     border-radius: 50rpx;
-    margin-top: 40rpx;
 }
 .popup-btn-notake{
-    width: 469rpx;
-    height: 100rpx;
     color: #698B89;
     font-size: 32rpx;
     text-align: center;
-    line-height: 100rpx;
+    line-height: 32rpx;
     background: none;
 }
 button::after {
