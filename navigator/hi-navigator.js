@@ -14,7 +14,6 @@ export default class HiNavigator extends CommonNavigator {
 
     static navigateToDrugInfo({drugInfo, compartment, deviceId = ''}) {
         getApp().globalData.drugInfo = drugInfo;
-        getApp().globalData.addOrEditDrugObj = {deviceId, compartment};
         this.navigateTo({url: '/pages/drug-info/drug-info'});
     }
 

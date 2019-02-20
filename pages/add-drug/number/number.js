@@ -38,7 +38,7 @@ Page({
         const pieceArray = this.getPieceArray(99);
         if (!!items && !!items.length) {
             number = items.length;
-            piece = parseInt(items[0].number);
+            piece = parseFloat(items[0].number);
             for (let i = 0, len = pieceArray.length; i < len; i++) {
                 if (piece.toFixed(1) === pieceArray[i].value.toFixed(1)) {
                     piece = i + 1;//这里是因为页面中减了1，所以在这里要先加1

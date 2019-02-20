@@ -314,9 +314,15 @@ Page({
 
     toView() {
         let item = this.data.box[this.data.choseIndex];
+
+        if (item.items){
+            getApp().globalData.addOrEditDrugObj = {deviceId:'', compartment:item.compartment, classify:'scan', drugName:item.drug_name, items:item.items};
+        } else {
+            getApp().globalData.addOrEditDrugObj = {deviceId, compartment:item.compartment};
+        }
+
         Protocol.getDrugCode({code: item.drug_code}).then(data => {
             HiNavigator.navigateToDrugInfo({
-                compartment: item.compartment,
                 drugInfo: data
             });
         })
