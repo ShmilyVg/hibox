@@ -11,7 +11,7 @@
                 <button class="popup-btn-revise" bindtap="reviseBtnClick">修改服药设置</button>
             </view>
             <button wx:else style="width: 540rpx;height: 90rpx;color: #fff;background: #67D5B8; border-radius: 50rpx;margin: 60rpx auto 68rpx;" bindtap="reviseBtnClick">修改服药设置</button>
-            <view style="width: 100%; padding-top: 30rpx;padding-bottom: 36rpx;border-top: 1px solid #D9D9D9;">
+            <view style="width: 100%; padding-top: 30rpx;padding-bottom: 36rpx;border-top: 1px solid #EEEEEE;">
                 <button class="popup-btn-notake" bindtap="noTakeBtnClick">不再服用该药</button>
             </view>
 

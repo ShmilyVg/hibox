@@ -24,7 +24,7 @@
     border-radius: 50%;
     position: absolute;
     top: -82.5rpx;
-    left: 224.5rpx;
+    left: 214.5rpx;
     text-align: center;
 }
 .popup-num-text{
@@ -45,6 +45,7 @@
     font-size: 44rpx;
     text-align: center;
     line-height: 62rpx;
+    font-weight: 700;
     margin: 0 auto 0;
 }
 .popup-btn-revise{

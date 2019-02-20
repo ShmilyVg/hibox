@@ -1,6 +1,6 @@
 <template name="medicine-view">
     <view class="flex-row"
-          style="justify-content: space-between;width:650rpx;height:170rpx;border-radius:32rpx;background-color: {{num?backgroundColor:boxColor[item.compartment-1]}};margin: 10rpx 0;padding: 0 37rpx 0 25rpx">
+          style="justify-content: space-between;width:650rpx;height:170rpx;border-radius:32rpx;background-color: {{num?backgroundColor:boxColor[item.compartment-1]}};margin: 10rpx 0;padding: 0 25rpx 0 25rpx">
         <view class="flex-row">
             <view style="position: relative">
                 <view wx:if="{{num}}" style="width:90rpx;height:50rpx;background-color:{{boxColor[item.compartment-1]}};border-radius:12rpx"></view>
@@ -10,14 +10,14 @@
             <view style="font-weight: bold;margin-left: 20rpx;font-size: 38rpx;color: {{num?'#8AB4B2':'white'}}">{{item.drug_name}}</view>
         </view>
         <view class="flex-row" style="color: {{num?'#8AB4B2':'white'}}" bindtap="{{showImage?'clickPhoto':''}}" data-index="{{[num,index]}}">
+            <view style="align-items: flex-start;display: flex;align-items: flex-end;margin-left: 20rpx;margin-right: 20rpx;">
+                <view style="font-size: 70rpx;font-family: DIN Condensed;line-height: 52rpx;margin-right: 5rpx">{{item.number}}</view>
+                <view style="font-size: 30rpx;line-height: 30rpx;">个</view>
+            </view>
             <block wx:if="{{showImage}}">
                 <image wx:if="{{item.image_url}}" mode="aspectFill" src="{{item.image_url}}" style="width: 70rpx;height: 70rpx;border-radius: 50%;background-color: white"></image>
                 <image wx:else src="../../images/photo.png" style="width: 70rpx;height: 70rpx;border-radius: 50%;background-color: white"></image>
             </block>
-            <view style="align-items: flex-start;display: flex;margin-left: 20rpx">
-                <view style="font-size: 100rpx;margin-left: 3rpx;line-height: 100rpx;width: 80rpx;text-align: center;font-family: DIN Condensed;margin-top: 15rpx;width: 60rpx;text-align: right">{{item.number}}</view>
-                <view style="font-size: 30rpx;margin-top: 50rpx;margin-left: 15rpx;font-weight: bold">个</view>
-            </view>
         </view>
     </view>
 </template>
