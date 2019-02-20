@@ -29,7 +29,7 @@ Page({
                         // 是可用一维码
                         console.log('是可用一维码');
                         HiNavigator.navigateToDrugInfo({
-                            compartment: getApp().globalData.addOrEditDrugObj.compartment+1,
+                            compartment: getApp().globalData.addOrEditDrugObj.compartment,
                             drugInfo: data
                         });
                     } else {
