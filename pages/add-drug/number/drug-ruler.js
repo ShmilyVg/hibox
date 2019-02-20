@@ -43,7 +43,7 @@ export default class DrugRuler {
     }
 
     static convertServerListToLocalList({items}) {
-        return items.map(item => ({...this.getFinalItemExpectPiece(item.remind_time), piece: item.number * 2 - 1}));//result = 0.5*index+0.5
+        return items.map(item => ({...this.getFinalItemExpectPiece(item.remind_time), piece: item.number * 2}));//result = 0.5*index
     }
 
     static getDayPart(hour) {
