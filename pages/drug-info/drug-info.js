@@ -12,6 +12,7 @@ Page({
         //         data: data.result
         //     })
         // })
+
         let drugInfo = getApp().globalData.drugInfo;
 
         this.setData({

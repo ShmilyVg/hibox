@@ -14,7 +14,6 @@ export default class HiNavigator extends CommonNavigator {
 
     static navigateToDrugInfo({drugInfo, compartment, deviceId = ''}) {
         getApp().globalData.drugInfo = drugInfo;
-        getApp().globalData.addOrEditDrugObj = {deviceId, compartment};
         this.navigateTo({url: '/pages/drug-info/drug-info'});
     }
 
@@ -36,7 +35,7 @@ export default class HiNavigator extends CommonNavigator {
      * @param step 当前是第几步
      * @param count 当前总共的步数
      */
-    static navigateToDrugNumberPage({classify='scan', drugName, step, count,code=0}) {
+    static navigateToDrugNumberPage({classify='scan', drugName, step, count, code = 0}) {
         this.navigateTo({url: `/pages/add-drug/number/number?classify=${classify}&drugName=${drugName}&step=${parseInt(step) + 1}&count=${count}&code=${code}`})
     }
 

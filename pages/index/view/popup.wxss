@@ -17,31 +17,27 @@
     position: relative;
 }
 .popup-num{
-    width:190rpx;
-    height:190rpx;
+    width:165rpx;
+    height:165rpx;
     background: #67D5B8;
     border: 10rpx solid #fff;
     border-radius: 50%;
     position: absolute;
-    top: -95rpx;
-    left: 212rpx;
+    top: -82.5rpx;
+    left: 214.5rpx;
     text-align: center;
-    /*line-height: 190rpx;*/
 }
 .popup-num-text{
-    display: inline-block;
-    vertical-align: top;
     color: #fff;
-    font-size: 120rpx;
-    line-height: 100rpx;
-    margin-top: 45rpx;
+    font-family: DIN Condensed;
+    font-size: 90rpx;
+    line-height:90rpx;
+    margin-top: 25rpx;
 }
 .popup-num-unit{
-    display: inline-block;
-    vertical-align: top;
     color: #fff;
+    font-family: DIN Condensed;
     font-size: 26rpx;
-    margin-top: 45rpx;
  }
 .popup-name{
     width: 379rpx;
@@ -49,26 +45,24 @@
     font-size: 44rpx;
     text-align: center;
     line-height: 62rpx;
+    font-weight: 700;
     margin: 0 auto 0;
 }
 .popup-btn-revise{
-    width: 469rpx;
-    height: 100rpx;
+    width: 262rpx;
+    height: 90rpx;
     color: #fff;
     font-size: 32rpx;
     text-align: center;
-    line-height: 100rpx;
+    line-height: 90rpx;
     background: #67D5B8;
     border-radius: 50rpx;
-    margin-top: 40rpx;
 }
 .popup-btn-notake{
-    width: 469rpx;
-    height: 100rpx;
     color: #698B89;
     font-size: 32rpx;
     text-align: center;
-    line-height: 100rpx;
+    line-height: 42rpx;
     background: none;
 }
 button::after {

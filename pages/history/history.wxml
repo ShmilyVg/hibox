@@ -11,7 +11,12 @@
                 <view class="history-data">{{item.date}}</view>
                 <view class="history-time">{{item.time}}</view>
             </view>
-            <view class="history-state {{item.state?'took':'notake'}}" bindtap="stateBtnClick" data-index="{{index}}"><image src="{{item.state?'../../images/history/took.png':'../../images/history/notake.png'}}"></image>{{item.state?'已服用':'未服用'}}</view>
+            <view class="history-state" bindtap="stateBtnClick">
+                <view class="history-state-box {{item.state?'took':'notake'}}" data-index="{{index}}">
+                    <image src="{{item.state?'../../images/history/done.png':'../../images/history/nodone.png'}}"></image>{{item.state?'已服用':'未服用'}}
+                </view>
+                <image  src="../../images/history/took.png" style="width: 66rpx;height: 66rpx;background: #fff;border-radius: 50%"  data-index="{{index}}"></image>
+            </view>
         </view>
         <template is="medicine-view" data="{{num:1,index,item,boxColor,backgroundColor:'#fff',showImage:false}}"></template>
     </view>

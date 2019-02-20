@@ -3,12 +3,18 @@
         <view class="popup-box">
             <view class="popup-num" style="background: {{boxColor[item.compartment-1]}}">
                 <view class="popup-num-text">{{item.compartment}}</view>
-                <view class="popup-num-unit">box</view>
+                <view class="popup-num-unit">BOX</view>
             </view>
             <view class="popup-name">{{item.drug_name}}</view>
-            <button wx:if="{{item.drug_code}}" class="popup-btn-revise" bindtap="toView">查看说明书</button>
-            <button class="popup-btn-revise" bindtap="reviseBtnClick">修改服药设置</button>
-            <button class="popup-btn-notake" bindtap="noTakeBtnClick">不再服用该药</button>
+            <view wx:if="{{item.drug_code}}" style="width: 540rpx;display: flex;justify-content: space-between;margin: 60rpx auto 68rpx;">
+                <button class="popup-btn-revise" bindtap="toView">查看说明书</button>
+                <button class="popup-btn-revise" bindtap="reviseBtnClick">修改服药设置</button>
+            </view>
+            <button wx:else style="width: 540rpx;height: 90rpx;color: #fff;background: #67D5B8; border-radius: 50rpx;margin: 60rpx auto 68rpx;" bindtap="reviseBtnClick">修改服药设置</button>
+            <view style="width: 100%; padding-top: 30rpx;padding-bottom: 36rpx;border-top: 1px solid #EEEEEE;">
+                <button class="popup-btn-notake" bindtap="noTakeBtnClick">不再服用该药</button>
+            </view>
+
         </view>
     </view>
 </template>
