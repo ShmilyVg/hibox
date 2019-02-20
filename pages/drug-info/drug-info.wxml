@@ -1,6 +1,6 @@
 <!--pages/drug-info/drug-info.wxml-->
 <view class="top-view flex-row">
-    <image class="top-view-image" src="{{data.imgUrl}}"></image>
+    <image class="top-view-image" src="{{data.imgUrl.length?data.imgUrl:'../../images/scan/default-image.png'}}"></image>
     <view class="flex-column" style="margin-left: 30rpx;align-items: self-start;align-self: self-start">
         <view class="top-view-title">{{data.drugName}}</view>
         <view class="top-view-content">{{data.manuName}}</view>
