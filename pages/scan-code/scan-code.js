@@ -8,7 +8,6 @@ Page({
     },
 
     onLoad: function (options) {
-        this.data.compartment = options.compartment
     },
 
     scanCode() {
@@ -30,7 +29,7 @@ Page({
                         // 是可用一维码
                         console.log('是可用一维码');
                         HiNavigator.navigateToDrugInfo({
-                            compartment: that.data.compartment,
+                            compartment: getApp().globalData.addOrEditDrugObj.compartment+1,
                             drugInfo: data
                         });
                     } else {

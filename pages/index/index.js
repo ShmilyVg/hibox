@@ -25,10 +25,10 @@ Page({
 
     onLoad: function () {
         let that = this;
-        wx.setStorage({
-            key: 'verySixScanFunction',
-            data: false
-        })
+        // wx.setStorage({
+        //     key: 'verySixScanFunction',
+        //     data: false
+        // })
         wx.getStorage({
             key: 'userInfo',
             success(res) {
