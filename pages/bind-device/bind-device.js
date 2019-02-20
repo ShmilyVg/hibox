@@ -21,32 +21,48 @@ Page({
     },
 
     onGotUserInfo(e) {
-        const {
-            detail: {
-                userInfo,
-                encryptedData,
-                iv
-            }
-        } = e;
-        if (!!userInfo) {
-            Toast.showLoading();
-            Login.doRegister({
-                    userInfo,
-                    encryptedData,
-                    iv
-                })
-                .then(() => UserInfo.get())
-                .then(({
-                    userInfo
-                }) => !this.setData({
-                    userInfo
-                }))
-                .catch(() => setTimeout(Toast.warn, 0, '获取信息失败')).finally(function () {
 
-                    Toast.hiddenLoading();
-                    HiNavigator.navigateToConnectDevice();
-                });
-        }
+        wx.getNetworkType({
+            success(res) {
+                if(res.networkType == 'none'){
+                    wx.showModal({
+                        title: '',
+                        content: '网络异常，请重试',
+                        showCancel: false,
+                        confirmText: '确定',
+                    })
+                }else{
+                    const {
+                        detail: {
+                            userInfo,
+                            encryptedData,
+                            iv
+                        }
+                    } = e;
+                    if (!!userInfo) {
+                        Toast.showLoading();
+                        Login.doRegister({
+                            userInfo,
+                            encryptedData,
+                            iv
+                        })
+                            .then(() => UserInfo.get())
+                            .then(({
+                                       userInfo
+                                   }) => !this.setData({
+                                userInfo
+                            }))
+                            .catch(() => setTimeout(Toast.warn, 0, '获取信息失败')).finally(function () {
+
+                            Toast.hiddenLoading();
+                            HiNavigator.navigateToConnectDevice();
+                        });
+                    }
+                }
+            }
+        })
+
+
     },
 
 })

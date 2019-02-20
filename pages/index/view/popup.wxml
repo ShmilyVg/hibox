@@ -6,9 +6,9 @@
                 <view class="popup-num-unit">box</view>
             </view>
             <view class="popup-name">{{item.drug_name}}</view>
-            <button wx:if="{{item.drug_code}}" class="popup-btn-revise" bindtap="toView">产看说明书</button>
-            <button class="popup-btn-revise" bindtap="reviseBtnClick">修改一下</button>
-            <button class="popup-btn-notake" bindtap="noTakeBtnClick">不再服用</button>
+            <button wx:if="{{item.drug_code}}" class="popup-btn-revise" bindtap="toView">查看说明书</button>
+            <button class="popup-btn-revise" bindtap="reviseBtnClick">修改服药设置</button>
+            <button class="popup-btn-notake" bindtap="noTakeBtnClick">不再服用该药</button>
         </view>
     </view>
 </template>

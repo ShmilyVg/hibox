@@ -19,9 +19,10 @@
             <view wx:if="{{index}}" class="content-line"></view>
             <view class="flex-row" style="height: 140rpx">
                 <view class="content-num">{{index+1}}</view>
-                <view class="content-text">{{item}}</view>
+                <view class="content-text">{{item}}</view><view wx:if="{{index==1}}" bindtap="Showmorepopup"><image style="width: 33rpx;height: 33rpx;margin-left: 10rpx" src="../../images/device-more.png"></image></view>
             </view>
         </block>
+
     </view>
 
     <view class="flex-column">
