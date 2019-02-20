@@ -43,7 +43,7 @@ export default class DrugRuler {
     }
 
     static convertServerListToLocalList({items}) {
-        return items.map(item => ({...this.getFinalItemExpectPiece(item.remind_time), piece: item.number}));
+        return items.map(item => ({...this.getFinalItemExpectPiece(item.remind_time), piece: item.number * 2 - 1}));//result = 0.5*index+0.5
     }
 
     static getDayPart(hour) {
@@ -67,6 +67,7 @@ export default class DrugRuler {
     static setDiviceNumber(divideNumber) {
         _divideNumber = divideNumber;
     }
+
     static getFinalItemExpectPiece(hourAndMinute) {
         const hour = parseInt(hourAndMinute.slice(0, 2));
         const minute = parseInt(hourAndMinute.slice(-2));
