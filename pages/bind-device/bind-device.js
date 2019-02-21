@@ -21,17 +21,16 @@ Page({
     },
 
     onGotUserInfo(e) {
-
         wx.getNetworkType({
             success(res) {
-                if(res.networkType == 'none'){
+                if (res.networkType == 'none') {
                     wx.showModal({
                         title: '',
                         content: '网络异常，请重试',
                         showCancel: false,
                         confirmText: '确定',
                     })
-                }else{
+                } else {
                     const {
                         detail: {
                             userInfo,
@@ -61,7 +60,6 @@ Page({
                 }
             }
         })
-
 
     },
 

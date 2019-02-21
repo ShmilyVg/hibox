@@ -9,8 +9,6 @@
 <view style="color: #698B89;margin-top: 40rpx;font-size: 36rpx;width: 100%;text-align: center">说明书</view>
 
 <view class="table">
-    <view class="table-cell">
-    </view>
     <block wx:for="{{data.items}}">
         <view class="table-cell">
             <block wx:if="{{index==0}}">

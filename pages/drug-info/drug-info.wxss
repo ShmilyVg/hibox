@@ -46,7 +46,7 @@
 .table-title-title {
     width:203rpx;
     background:rgba(159,195,195,1);
-    border-radius:15rpx 0 0 0;
+    border-top-left-radius: 15rpx;
     font-size:28rpx;
     font-weight:500;
     color:rgba(255,255,255,1);
@@ -57,7 +57,7 @@
 .table-title-content{
     width:482rpx;
     background:rgba(159,195,195,1);
-    border-radius:0 15rpx 0 0;
+    border-top-right-radius:15rpx;
     font-size:28rpx;
     font-weight:500;
     color:rgba(255,255,255,1);
@@ -75,6 +75,8 @@
     font-size: 28rpx;
     font-weight: 500;
     padding: 25rpx 0rpx;
+    display: flex;
+    align-items: center;
 }
 
 .table-item-content {

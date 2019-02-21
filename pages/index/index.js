@@ -25,10 +25,6 @@ Page({
 
     onLoad: function () {
         let that = this;
-        // wx.setStorage({
-        //     key: 'verySixScanFunction',
-        //     data: false
-        // })
         wx.getStorage({
             key: 'userInfo',
             success(res) {
@@ -147,9 +143,9 @@ Page({
     },
 
     clickTopAdd(e) {
-        if (!this.data.isConnect) {
-            return;
-        }
+        // if (!this.data.isConnect) {
+        //     return;
+        // }
 
         let index = this.getIndexNum(e);
         if (this.data.box[index]) {
@@ -292,7 +288,13 @@ Page({
         this.hidePopupView();
         let item = this.data.box[this.data.choseIndex];
         if (item.drug_code) {
-            getApp().globalData.addOrEditDrugObj = {deviceId:'', compartment:item.compartment, classify:'scan', drugName:item.drug_name, items:item.items};
+            getApp().globalData.addOrEditDrugObj = {
+                deviceId: '',
+                compartment: item.compartment,
+                classify: 'scan',
+                drugName: item.drug_name,
+                items: item.items
+            };
             HiNavigator.navigateToDrugNumberPage({
                 drugName: item.drug_name,
                 step: 2,
@@ -315,10 +317,16 @@ Page({
     toView() {
         let item = this.data.box[this.data.choseIndex];
 
-        if (item.items){
-            getApp().globalData.addOrEditDrugObj = {deviceId:'', compartment:item.compartment, classify:'scan', drugName:item.drug_name, items:item.items};
+        if (item.items) {
+            getApp().globalData.addOrEditDrugObj = {
+                deviceId: '',
+                compartment: item.compartment,
+                classify: 'scan',
+                drugName: item.drug_name,
+                items: item.items
+            };
         } else {
-            getApp().globalData.addOrEditDrugObj = {deviceId, compartment:item.compartment};
+            getApp().globalData.addOrEditDrugObj = {deviceId, compartment: item.compartment};
         }
 
         Protocol.getDrugCode({code: item.drug_code}).then(data => {
