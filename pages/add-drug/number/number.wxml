@@ -16,7 +16,7 @@
         <picker bindchange="pieceAllChooseEvent" value="{{piece-1}}" range-key="value" range="{{pieceArray}}">
             <view class="flex-column add-drug-number-input-border-style add-drug-number-input-style">{{pieceArray[piece-1].value}}</view>
         </picker>
-        <text class="add-drug-number-text-style">片</text>
+        <text class="add-drug-number-text-style">个</text>
     </view>
 
     <view wx:for="{{list}}" wx:key="index" class="flex-row add-drug-number-item-super-style" bindtap="clickItemEvent" data-index="{{index}}">
@@ -34,5 +34,5 @@
         </picker>
     </view>
 
-    <button class="bottom-btn" hover-class="press-style" bindtap="nextStep" loading="{{loading}}">完成</button>
+    <view class="bottom-btn" hover-class="press-style" bindtap="nextStep" loading="{{loading}}">完成</view>
 </view>

@@ -9,7 +9,7 @@
     <image wx:else src="../../images/device-whole.png" style="width: 346rpx;height: 746rpx;margin-top: 70rpx;position: relative;">
         <image wx:if="{{isFlicker}}" src="../../images/device-flicker.png" class="flicker"></image>
     </image>
-    <view class="text-bottom">HiPee Intelligent Medicine Box</view>
+    <view class="text-bottom">HiPee Smart Pillbox</view>
 </view>
 
 <block wx:else>
@@ -22,7 +22,6 @@
                 <view class="content-text">{{item}}</view><view wx:if="{{index==1}}" bindtap="Showmorepopup"><image style="width: 33rpx;height: 33rpx;margin-left: 10rpx" src="../../images/device-more.png"></image></view>
             </view>
         </block>
-
     </view>
 
     <view class="flex-column">
