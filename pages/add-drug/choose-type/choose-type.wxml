@@ -8,5 +8,5 @@
 
     </view>
 
-    <button class="bottom-btn" hover-class="press-style" bindtap="nextStep">下一步</button>
+    <view class="bottom-btn" hover-class="press-style" bindtap="nextStep">下一步</view>
 </view>
