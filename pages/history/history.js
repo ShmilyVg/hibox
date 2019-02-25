@@ -58,12 +58,12 @@ Page({
 
     queryFinish() {
         if (!app.isQuery) {
-            Toast.success('上传成功', 3000);
+            !getApp().isQueryEmptySuccess && Toast.success('上传成功', 3000);
             this.setData({
                 isConnect: true
             });
             setTimeout(() => {
-                this.getMedicalRecordList({page: 1, recorded: true});
+                !getApp().isQueryEmptySuccess && this.getMedicalRecordList({page: 1, recorded: true});
                 this.setData({
                     isConnect: true
                 });
