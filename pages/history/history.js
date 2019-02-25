@@ -38,10 +38,7 @@ Page({
                 } else {
                     switch (state.protocolState) {
                         case ProtocolState.QUERY_DATA_ING:
-                            this.setData({
-                                connectState: {'text': '药盒正在上传服药记录...', color: '#65FF0A'},
-                                isConnect: false
-                            });
+                            this.queryStart();
                             break;
                         case ProtocolState.QUERY_DATA_FINISH:
                             this.queryFinish();
@@ -103,6 +100,9 @@ Page({
                 })
             } else {
                 this.data.page--;
+                this.setData({
+                    isConnect: false
+                });
             }
         }).finally(() => {
             Toast.hiddenLoading();
