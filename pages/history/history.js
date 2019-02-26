@@ -100,9 +100,6 @@ Page({
                 })
             } else {
                 this.data.page--;
-                this.setData({
-                    isConnect: false
-                });
             }
         }).finally(() => {
             Toast.hiddenLoading();
