@@ -35,14 +35,17 @@ Page({
     },
 
     drugRemind() {
-        let times = this.data.ruler[this.data.data.cycle];
 
-        let value = [];
-        for (let i = 0; i < times.length; i++){
-            value[i] = {number:this.data.data.dosage,remind_time:times[i]}
+        if(this.data.data.cycle != null){
+            let times  = this.data.ruler[this.data.data.cycle];
+            let value = [];
+            for (let i = 0; i < times.length; i++){
+                value[i] = {number:this.data.data.dosage,remind_time:times[i]}
+            }
+
+            getApp().globalData.addOrEditDrugObj.items = value;
         }
 
-        getApp().globalData.addOrEditDrugObj.items = value;
 
         HiNavigator.navigateToDrugNumberPage({drugName: this.data.data.drugName, step: 2, count: 3,code:this.data.data.code});
     }
