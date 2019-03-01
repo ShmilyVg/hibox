@@ -115,9 +115,9 @@ Page({
                 isFlicker: !this.data.isFlicker
             });
             ++num;
-            if (num === 30) {
-                clearTimeout(timer);
-            }
+            // if (num === 30) {
+            //     clearTimeout(timer);
+            // }
         }, 1000);
     },
 
