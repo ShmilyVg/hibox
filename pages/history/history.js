@@ -119,14 +119,16 @@ Page({
         list.map(item => {
             if (time === item.time) {
                 ids.push(item.id);
-                if (state === 0) {
+                /*if (state == 0) {
                     state = 1;
-                } else if (state === 1) {
+                } else if (state == 1) {
                     state = 0;
-                }
-                item.state = state;
+                }*/
+                item.state = (item.state === 1 ? 0 : 1);
             }
         });
+
+        state = (state === 1 ? 0 : 1);
 
         Protocol.MedicalRecordUpdate({ids, state}).then(data => {
             if (data.code === 1) {
@@ -134,6 +136,7 @@ Page({
                     allList: list
                 });
             }
+            console.log('record state : '+state)
         })
     },
 
