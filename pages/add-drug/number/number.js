@@ -33,7 +33,7 @@ Page({
 
     onLoad(options) {
         DrugRuler.setDiviceNumber(this.divideNumber);
-        let number = 3, piece = 1, list;
+        let number = 3, piece = 2, list;
         const {items, compartment, deviceId = ''} = getApp().globalData.addOrEditDrugObj;
         const pieceArray = this.getPieceArray(99);
         if (!!items && !!items.length) {
