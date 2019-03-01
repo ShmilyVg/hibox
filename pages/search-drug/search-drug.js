@@ -54,7 +54,11 @@ Page({
     },
 
     clickConfirm() {
-        this.backPage(this.data.inputContent);
+        if (this.data.inputName) {
+            this.backPage(this.data.inputName)
+        } else {
+            this.backPage(this.data.inputContent);
+        }
     },
 
     clickCell(e) {
@@ -63,7 +67,7 @@ Page({
         this.backPage(name);
     },
 
-    backPage(name){
+    backPage(name) {
         console.log(name);
         getApp().globalData.addOrEditDrugObj.drugName = name;
         wx.navigateBack({
