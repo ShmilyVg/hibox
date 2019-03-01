@@ -22,8 +22,11 @@ Page({
     },
 
     onShow: function () {
+        this.setData({
+            isConnect: true
+        });
         if (!!app.isAppOnHide) {
-            this.queryStart();
+            //this.queryStart();
             app.isAppOnHide = false;
         }
         console.log('记录同步是否完成', app.isQueryDataFinish, app.isQuery);
