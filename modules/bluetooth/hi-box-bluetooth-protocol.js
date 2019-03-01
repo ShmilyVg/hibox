@@ -9,7 +9,7 @@ export default class HiBoxBlueToothProtocol extends HiBlueToothProtocol {
             ...this.action,
             //由手机发出的定时设置请求
             '0x30': ({singleAlertData}) => {
-                super.sendData({command: '0x30', data: singleAlertData});
+                return super.sendData({command: '0x30', data: singleAlertData});
             },
             //设备反馈定时设置结果
             '0x31': ({dataArray}) => {
@@ -40,7 +40,9 @@ export default class HiBoxBlueToothProtocol extends HiBlueToothProtocol {
      */
     sendAlertTime({singleAlertData}) {
         if (this.getDeviceIsBind()) {
-            this.action['0x30']({singleAlertData: [...singleAlertData]});
+           return this.action['0x30']({singleAlertData: [...singleAlertData]});
+        }else{
+            return Promise.reject();
         }
     }
 };
