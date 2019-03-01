@@ -179,7 +179,7 @@ Page({
     sendDataToBLE() {
         const singleAlertData = this.dataForBLE.pop();
         DrugRuler.sendAlertTimeDataToBLE({singleAlertData}).catch(() => {
-
+            Toast.warn('写入失败');
         });
     }
 });
