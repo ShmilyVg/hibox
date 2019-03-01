@@ -39,7 +39,7 @@
 .flicker{
     position: absolute;
     width: 346rpx;
-    height: 103rpx;
+    height: 91rpx;
     top: 0;
     left: 0;
 }
