@@ -24,7 +24,7 @@ export default class DrugRuler {
     }
 
     static sendAlertTimeDataToBLE({singleAlertData}) {
-        !!singleAlertData && getApp().getBLEManager().sendAlertTimeOperationProtocol({singleAlertData});
+        return getApp().getBLEManager().sendAlertTimeOperationProtocol({singleAlertData});
     }
 
     static getConvertToBLEEmptyList({compartment}) {
