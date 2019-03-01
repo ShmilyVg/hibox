@@ -33,7 +33,7 @@ Page({
 
     onLoad(options) {
         DrugRuler.setDiviceNumber(this.divideNumber);
-        let number = 3, piece = 1, list;
+        let number = 3, piece = 2, list;
         const {items, compartment, deviceId = ''} = getApp().globalData.addOrEditDrugObj;
         const pieceArray = this.getPieceArray(99);
         if (!!items && !!items.length) {
@@ -83,8 +83,8 @@ Page({
                             Protocol.postMedicalRemindConfig({...DrugRuler.getConvertToServerData({...this.data})})
                                 .then(() =>
                                     setTimeout(() => {
-                                        Toast.success(`${this.data.compartment || 1}号仓设置成功`);
-                                        setTimeout(() => HiNavigator.switchToIndexPage({refresh: true}), 2500);
+                                        Toast.success(`${this.data.compartment || 1}号仓设置成功`,1500);
+                                        setTimeout(() => HiNavigator.switchToIndexPage({refresh: true}), 2000);
                                     })
                                 )
                                 .catch(() => setTimeout(Toast.warn, 0, '设置失败请重试'))

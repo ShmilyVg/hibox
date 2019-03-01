@@ -143,9 +143,9 @@ Page({
     },
 
     clickTopAdd(e) {
-        // if (!this.data.isConnect) {
-        //     return;
-        // }
+        if (!this.data.isConnect) {
+            return;
+        }
 
         let index = this.getIndexNum(e);
         if (this.data.box[index]) {

@@ -22,8 +22,11 @@ Page({
     },
 
     onShow: function () {
+        this.setData({
+            isConnect: true
+        });
         if (!!app.isAppOnHide) {
-            this.queryStart();
+            //this.queryStart();
             app.isAppOnHide = false;
         }
         console.log('记录同步是否完成', app.isQueryDataFinish, app.isQuery);
@@ -38,10 +41,7 @@ Page({
                 } else {
                     switch (state.protocolState) {
                         case ProtocolState.QUERY_DATA_ING:
-                            this.setData({
-                                connectState: {'text': '药盒正在上传服药记录...', color: '#65FF0A'},
-                                isConnect: false
-                            });
+                            this.queryStart();
                             break;
                         case ProtocolState.QUERY_DATA_FINISH:
                             this.queryFinish();
@@ -61,12 +61,12 @@ Page({
 
     queryFinish() {
         if (!app.isQuery) {
-            Toast.success('上传成功', 3000);
+            !getApp().isQueryEmptySuccess && Toast.success('上传成功', 3000);
             this.setData({
                 isConnect: true
             });
             setTimeout(() => {
-                this.getMedicalRecordList({page: 1, recorded: true});
+                !getApp().isQueryEmptySuccess && this.getMedicalRecordList({page: 1, recorded: true});
                 this.setData({
                     isConnect: true
                 });

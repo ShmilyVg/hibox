@@ -34,6 +34,7 @@ App({
                         }
                         console.log('同步数据的数组', records);
                     } else if (!length) {
+                        this.isQueryEmptySuccess = true;
                         this.bLEManager.sendQueryDataSuccessProtocol({isSuccess: true});
                     } else {
                         console.log('同步数据溢出', records);
@@ -97,6 +98,7 @@ App({
     onHide() {
         this.commonOnHide();
         this.isAppOnHide = true;
+        this.isQueryEmptySuccess = false;
     },
     globalData: {
         refreshIndexPage: false,
