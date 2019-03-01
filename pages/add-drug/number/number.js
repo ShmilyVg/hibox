@@ -83,7 +83,7 @@ Page({
                             Protocol.postMedicalRemindConfig({...DrugRuler.getConvertToServerData({...this.data})})
                                 .then(() =>
                                     setTimeout(() => {
-                                        Toast.success(`${this.data.compartment || 1}号仓设置成功`,1500);
+                                        Toast.success(`${this.data.compartment || 1}号仓设置成功`, 1500);
                                         setTimeout(() => HiNavigator.switchToIndexPage({refresh: true}), 2000);
                                     })
                                 )
@@ -178,6 +178,8 @@ Page({
 
     sendDataToBLE() {
         const singleAlertData = this.dataForBLE.pop();
-        DrugRuler.sendAlertTimeDataToBLE({singleAlertData});
+        DrugRuler.sendAlertTimeDataToBLE({singleAlertData}).catch(() => {
+            Toast.warn('写入失败');
+        });
     }
 });

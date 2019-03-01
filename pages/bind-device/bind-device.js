@@ -21,6 +21,7 @@ Page({
     },
 
     onGotUserInfo(e) {
+        const that = this;
         wx.getNetworkType({
             success(res) {
                 if (res.networkType == 'none') {
@@ -48,7 +49,7 @@ Page({
                             .then(() => UserInfo.get())
                             .then(({
                                        userInfo
-                                   }) => !this.setData({
+                                   }) => !that.setData({
                                 userInfo
                             }))
                             .catch(() => setTimeout(Toast.warn, 0, '获取信息失败')).finally(function () {
