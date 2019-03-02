@@ -24,6 +24,7 @@ Page({
     },
 
     onLoad: function () {
+        wx.showNavigationBarLoading();
         let that = this;
         wx.getStorage({
             key: 'userInfo',
@@ -139,6 +140,7 @@ Page({
             this.setData({
                 list: data.result
             })
+            wx.hideNavigationBarLoading();
         })
     },
 
