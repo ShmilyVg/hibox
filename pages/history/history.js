@@ -61,8 +61,7 @@ Page({
 
     queryFinish() {
         if (!app.isQuery) {
-            // !getApp().isQueryEmptySuccess && Toast.success('上传成功', 3000);
-            Toast.success('上传成功', 3000);
+            !getApp().isQueryEmptySuccess && Toast.success('上传成功', 3000);
             this.setData({
                 isConnect: true
             });
