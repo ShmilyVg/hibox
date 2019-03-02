@@ -261,6 +261,8 @@ Page({
                         })
                     },
                     fail: function (e) {
+                        toast.hiddenLoading();
+                        toast.warn('上传失败');
                     },
                     complete: function (e) {
                     }
