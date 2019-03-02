@@ -173,6 +173,7 @@ Page({
                                         if (data.result.drugName) {
                                             // 是可用一维码
                                             console.log('是可用一维码');
+                                            getApp().globalData.addOrEditDrugObj.compartment = index + 1;
                                             HiNavigator.navigateToDrugInfo({
                                                 compartment: index + 1,
                                                 drugInfo: data
