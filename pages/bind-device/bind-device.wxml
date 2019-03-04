@@ -1,6 +1,6 @@
 <!--pages/bind-device/bind-device.wxml-->
 <view class="flex-column">
     <image class="device-image" src="../../images/device-image.png"></image>
-    <view class="device-text">HiPee Intelligent Medicine Box</view>
+    <!--<view class="device-text">HiPee Intelligent Medicine Box</view>-->
     <button class="bottom-btn btn" hover-class="press-style" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo">点击绑定设备</button>
 </view>
