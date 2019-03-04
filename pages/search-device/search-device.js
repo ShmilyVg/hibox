@@ -49,9 +49,7 @@ Page({
         } else {
             this.showDeleteModel('药盒未连接，继续删除可能会丢失未同步的服药记录，并且药盒提醒无法删除');
         }
-
     },
-
 
     showDeleteModel(content) {
         wx.showModal({
@@ -60,8 +58,10 @@ Page({
             showCancel: true,
             cancelText: '取消',
             confirmText: '确定删除',
-            success: () => {
-                this.postDeleteDevice();
+            success(res) {
+                if (res.confirm) {
+                    this.postDeleteDevice();
+                }
             },
             fail: () => {
             },
