@@ -11,6 +11,10 @@ Page({
         isSearching: false
     },
     onLoad: function (options) {
+        let state = getApp().getLatestBLEState();
+        this.setData({
+            latestBLEState: state
+        })
     },
 
     startSearch() {
@@ -18,9 +22,7 @@ Page({
             return;
         }
 
-        let state = getApp().getLatestBLEState();
-        if (state.connectState === ConnectState.CONNECTED) {
-
+        if (this.data.latestBLEState.connectState === ConnectState.CONNECTED) {
             this.setData({
                 isSearching: true
             });
@@ -43,6 +45,34 @@ Page({
     },
 
     deleteDevice() {
+        if (this.data.latestBLEState.connectState === ConnectState.CONNECTED) {
+            this.showDeleteModel('删除药盒后，药盒和手机都不再提醒');
+        } else {
+            this.showDeleteModel('药盒未连接，继续删除可能会丢失未同步的服药记录，并且药盒提醒无法删除');
+        }
+    },
+
+    showDeleteModel(content) {
+        wx.showModal({
+            title: '小贴士',
+            content: content,
+            showCancel: true,
+            cancelText: '取消',
+            confirmText: '确定删除',
+            confirmColor: '#64D6B5',
+            success: (res) => {
+                if (res.confirm) {
+                    this.postDeleteDevice();
+                }
+            },
+            fail: () => {
+            },
+            complete: () => {
+            }
+        })
+    },
+
+    postDeleteDevice() {
         Toast.showLoading();
         Protocol.postDeviceUnbind().then(data => {
             Toast.hiddenLoading();
