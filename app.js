@@ -11,33 +11,34 @@ App({
     onDeviceBindInfoListener: null,
     onBatteryInfoListener: null,
     onLaunch(options) {
-        let records = [];
+        let records = [], count = 0;
         this.setCommonBLEListener({
             commonAppReceiveDataListener: ({finalResult, state}) => {
                 if (ProtocolState.QUERY_DATA_ING === state.protocolState) {
                     const {length, isEat, timestamp} = finalResult;
                     if (records.length < length) {
                         records.push({state: isEat ? 1 : 0, timestamp});
+                        count++;
                         if (records.length === length) {
                             Protocol.postMedicalRecordSave({records}).then(data => {
                                 console.log('同步数据成功');
                                 this.bLEManager.sendQueryDataSuccessProtocol({isSuccess: true});
                             }).catch(res => {
-                                this._updateBLEState({
-                                    state: {
-                                        connectState: CommonConnectState.CONNECTED,
-                                        protocolState: CommonProtocolState.QUERY_DATA_FINISH
-                                    }
-                                });
+                                this.queryDataFinish();
                                 console.log(res, '同步数据失败');
                             }).finally(() => records = []);
                         }
                         console.log('同步数据的数组', records);
                     } else if (!length) {
-                        this.isQueryEmptySuccess = true;
-                        this.bLEManager.sendQueryDataSuccessProtocol({isSuccess: true});
+                        if (count === 0) {
+                            this.isQueryEmptySuccess = true;
+                        }
+                        count = 0;
+                        this.queryDataFinish();
+                        // this.bLEManager.sendQueryDataSuccessProtocol({isSuccess: true});
                     } else {
                         console.log('同步数据溢出', records);
+                        count = 0;
                     }
 
                 } else if (ProtocolState.TIMESTAMP === state.protocolState) {
@@ -79,7 +80,14 @@ App({
             }
         };
     },
-
+    queryDataFinish() {
+        this._updateBLEState({
+            state: {
+                connectState: CommonConnectState.CONNECTED,
+                protocolState: CommonProtocolState.QUERY_DATA_FINISH
+            }
+        });
+    },
     onShow(options) {
         this.commonOnShow({options});
         Protocol.getDeviceBindInfo().then(data => {
