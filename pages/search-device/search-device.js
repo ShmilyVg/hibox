@@ -10,12 +10,12 @@ Page({
         num: 10,
         isSearching: false
     },
+    isFind: false,
     onLoad: function (options) {
         let state = getApp().getLatestBLEState();
         this.setData({
             latestBLEState: state
         });
-        this.isFind = false;
         getApp().setBLEListener({
             bleStateListener: ({state}) => {
                 if (state.protocolState === ProtocolState.FIND_DEVICE) {
