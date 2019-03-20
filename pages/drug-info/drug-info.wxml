@@ -20,7 +20,7 @@
                 <image class="box-image" src="{{item.imgUrl}}"></image>
                 <view class="box-title">{{item.title}}</view>
             </view>
-            <image wx:if="{{item.showArr}}" style="width: 40rpx;height: 40rpx" src="../../images/drug-info/arr-nor.png"
+            <image wx:if="{{item.showArr}}" style="width: 40rpx;height: 40rpx" src="../../images/drug-info/{{item.arrIsNor?'arr-nor':'arr-click'}}.png"
                    bindtap="clickTopArr" data-index="{{index}}"></image>
         </view>
         <view class="box-content">{{item.content}}</view>
@@ -32,8 +32,7 @@
                     <view class="box-point"></view>
                     <view class="box-title">{{item.title}}</view>
                 </view>
-                <image wx:if="{{item.showArr}}" style="width: 40rpx;height: 40rpx"
-                       src="../../images/drug-info/arr-nor.png" bindtap="clickBottomArr" data-index="{{index}}"></image>
+                <image wx:if="{{item.showArr}}" style="width: 40rpx;height: 40rpx" src="../../images/drug-info/{{item.arrIsNor?'arr-nor':'arr-click'}}.png" bindtap="clickBottomArr" data-index="{{index}}"></image>
             </view>
             <view class="box-content">{{item.content}}</view>
             <view class="line"></view>
