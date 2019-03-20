@@ -56,11 +56,7 @@ Page({
     },
 
     deleteDevice() {
-        if (this.data.latestBLEState.connectState === ConnectState.CONNECTED) {
-            this.showDeleteModel('删除药盒后，药盒和手机都不再提醒');
-        } else {
-            this.showDeleteModel('药盒未连接，继续删除可能会丢失未同步的服药记录，并且药盒提醒无法删除');
-        }
+        this.showDeleteModel('删除药盒后，药盒和手机都不再提醒');
     },
 
     showDeleteModel(content) {
@@ -96,21 +92,27 @@ Page({
 
                 if (i >= compartmentCount) {
                     Protocol.postDeviceUnbind().then(data => {
-                        Toast.hiddenLoading();
                         if (data.code === 1) {
                             getApp().getBLEManager().clearConnectedBLE().finally(function () {
+                                Toast.hiddenLoading();
                                 HiNavigator.reLaunchToBindDevicePage({});
                             });
                         }
-                    });
+                    }).catch(Toast.hiddenLoading);
                     break;
                 }
             } else {
-                Toast.warn('请先连接药盒');
+                Protocol.postDeviceUnbind().then(data => {
+                    if (data.code === 1) {
+                        getApp().getBLEManager().clearConnectedBLE().finally(function () {
+                            Toast.hiddenLoading();
+                            HiNavigator.reLaunchToBindDevicePage({});
+                        });
+                    }
+                }).catch(Toast.hiddenLoading);
                 break;
             }
         }
-
 
 
     }
