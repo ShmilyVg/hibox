@@ -19,6 +19,18 @@
     left: 317rpx;
 }
 
+.top-view-image-empty{
+    width:116rpx;
+    height:116rpx;
+    background:rgba(255,255,255,1);
+    margin-top: 20rpx;
+    border-radius: 50%;
+    z-index: 200;
+    position: absolute;
+    top: 24rpx;
+    left: 317rpx;
+}
+
 .box{
     width:601rpx;
     background-color: white;
