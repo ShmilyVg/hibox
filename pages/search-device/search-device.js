@@ -3,6 +3,7 @@ import Protocol from "../../modules/network/protocol";
 import HiNavigator from "../../navigator/hi-navigator";
 import {ConnectState, ProtocolState} from "../../modules/bluetooth/bluetooth-state";
 import Toast from "../../view/toast";
+import DrugRuler from "../add-drug/number/drug-ruler";
 
 Page({
 
@@ -84,13 +85,33 @@ Page({
 
     postDeleteDevice() {
         Toast.showLoading();
-        Protocol.postDeviceUnbind().then(data => {
-            Toast.hiddenLoading();
-            if (data.code === 1) {
-                getApp().getBLEManager().clearConnectedBLE().finally(function () {
-                    HiNavigator.reLaunchToBindDevicePage({});
+        const compartmentCount = 4;
+        for (let i = 1; i <= compartmentCount; i++) {
+            if (getApp().getLatestBLEState().connectState === ConnectState.CONNECTED) {
+                DrugRuler.sendAlertTimeDataToBLE({
+                    singleAlertData: DrugRuler.getConvertToBLEEmptyList({
+                        compartment: i
+                    })
                 });
+
+                if (i >= compartmentCount) {
+                    Protocol.postDeviceUnbind().then(data => {
+                        Toast.hiddenLoading();
+                        if (data.code === 1) {
+                            getApp().getBLEManager().clearConnectedBLE().finally(function () {
+                                HiNavigator.reLaunchToBindDevicePage({});
+                            });
+                        }
+                    });
+                    break;
+                }
+            } else {
+                Toast.warn('请先连接药盒');
+                break;
             }
-        })
+        }
+
+
+
     }
 })

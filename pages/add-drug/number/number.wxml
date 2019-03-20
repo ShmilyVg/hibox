@@ -2,8 +2,8 @@
 <import src="../title-layout.wxml"></import>
 <view class="flex-column" style="width: 100%;">
     <template is="title-layout" data="{{title:'次数和用量',step:step+'/'+count}}"></template>
-    <view style="margin-top: 20rpx;font-size: 30rpx;color: #698b89;left: 30rpx;position: absolute;top: 90rpx;">请遵照医嘱进行设置</view>
-    <view class="flex-row" style="margin-top: 137rpx;margin-bottom: 153rpx;">
+    <view style="margin-top: 10rpx;font-size: 30rpx;color: #698b89;align-self: flex-start;margin-left: 40rpx;">请遵照医嘱进行设置</view>
+    <view class="flex-row" style="margin-top: 59rpx;margin-bottom: 102rpx;align-items: flex-end">
         <text class="add-drug-number-text-style">每天</text>
         <picker bindchange="numberAllChooseEvent" value="{{number-1}}" range="{{numberArray}}">
             <!--<view class="picker"> 当前选择：{{array[index]}} </view>-->
@@ -16,7 +16,7 @@
         <picker bindchange="pieceAllChooseEvent" value="{{piece-1}}" range-key="value" range="{{pieceArray}}">
             <view class="flex-column add-drug-number-input-border-style add-drug-number-input-style">{{pieceArray[piece-1].value}}</view>
         </picker>
-        <text class="add-drug-number-text-style">个</text>
+        <text class="add-drug-number-text-style">粒</text>
     </view>
 
     <view wx:for="{{list}}" wx:key="index" class="flex-row add-drug-number-item-super-style" bindtap="clickItemEvent" data-index="{{index}}">
@@ -28,11 +28,11 @@
         </picker>
         <picker bindchange="pieceItemChooseEvent" value="{{item.piece-1}}" range-key="value" range="{{pieceArray}}">
             <view class="flex-row add-drug-number-item-right-style">
-                <text class="add-drug-number-item-right-x-style">x</text>
                 <text class="add-drug-number-item-right-piece-style">{{pieceArray[item.piece-1].value}}</text>
+                <text class="add-drug-number-item-right-x-style">粒</text>
             </view>
         </picker>
     </view>
-
-    <view class="bottom-btn" hover-class="press-style" bindtap="nextStep" loading="{{loading}}">完成</view>
+    <view style="margin-bottom: 150rpx"></view>
+    <view class="bottom-fixed-btn" hover-class="press-style" bindtap="nextStep" loading="{{loading}}">完成</view>
 </view>

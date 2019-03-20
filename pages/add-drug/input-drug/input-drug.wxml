@@ -13,5 +13,5 @@
         </view>
     </view>
 
-    <view class="bottom-btn" hover-class="press-style" bindtap="nextStep">下一步</view>
+    <view class="bottom-fixed-btn" hover-class="press-style" bindtap="nextStep">下一步</view>
 </view>
