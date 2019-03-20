@@ -37,7 +37,6 @@ Page({
         // })
 
         let drugInfo = getApp().globalData.drugInfo;
-        console.log('drugInfo====>',drugInfo);
         let items = drugInfo.result.items;
         let itemsTop = [], itemsBottom = [];
         items.map(item => {
@@ -53,10 +52,6 @@ Page({
             itemsBottom: itemsBottom
         });
 
-        this.setData({
-            data: drugInfo.result
-        });
-
         console.log('addOrEditDrugObj=', getApp().globalData.addOrEditDrugObj);
     },
 
@@ -70,6 +65,7 @@ Page({
         } else {
             item.showArr = false;
         }
+        item.arrIsNor = true;
         return item;
     },
 
@@ -116,6 +112,7 @@ Page({
         } else {
             item.content = item.contentShort;
         }
+        item.arrIsNor = !item.arrIsNor;
         return item;
     }
 
