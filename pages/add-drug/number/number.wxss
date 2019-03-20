@@ -15,64 +15,78 @@ input{
 }
 
 .add-drug-number-input-border-style{
-    width: 92rpx;
-    height: 92rpx;
-    border: 4rpx solid #E3F4F4;
+    width: 110rpx;
+    height: 110rpx;
     border-radius: 20rpx;
+    opacity:0.9953;
+    border: 5rpx solid rgba(232,244,244,1);
     justify-content: center;
     align-items: center;
-    margin: 0 19rpx;
+    margin: 0 20rpx;
 }
 .add-drug-number-text-style{
-    font-size: 40rpx;
-    font-weight: 500;
-    color: rgba(138,180,178,1);
-    line-height: 47rpx;
+    font-size: 36rpx;
+    font-weight: 400;
+    color: #698B89;
+    line-height: 50rpx;
+    margin-bottom: 5rpx;
 }
 
 .add-drug-number-item-super-style{
-    margin: 4rpx 0;
+    margin: 5rpx 0;
 }
 .add-drug-number-icon-style{
-    width: 96rpx;
-    height: 96rpx;
-    margin-left: 20rpx;
+    width: 46rpx;
+    height: 46rpx;
+    margin-left: 35rpx;
+    margin-right: 33rpx;
 }
 
 .add-drug-number-item-left-style{
-    width: 526rpx;
-    height: 96rpx;
-    background: rgba(227,244,244,1);
-    border-radius: 20rpx 0 0 20rpx;
+    width: 470rpx;
+    height: 110rpx;
+    background: rgba(255,255,255,1);
+    border-radius: 21rpx;
+    border: 1rpx solid rgba(230,230,230,1);
 }
 
 .add-drug-number-item-text-style{
-    margin-left: 11rpx;
-    font-size:44rpx;
-    font-weight:bold;
-    color:rgba(104,213,184,1);
-    line-height:47rpx;
+    margin-top: 13rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56rpx;
+    font-family: DINCondensed-Bold;
+    font-weight: bold;
+    color: rgba(105,139,137,1);
+    line-height: 67rpx;
 }
 
 .add-drug-number-item-right-style{
-    width:155rpx;
-    height:96rpx;
-    background:rgba(227,244,244,1);
-    border-radius:0 20rpx 20rpx 0;
-    margin-left: 8rpx;
+    width: 190rpx;
+    height: 110rpx;
+    background: rgba(255,255,255,1);
+    border-radius: 21rpx;
+    border: 1rpx solid rgba(230,230,230,1);
+    margin-left: 10rpx;
     justify-content: center;
     font-weight:bold;
-    color:rgba(104,213,184,1);
+    color: #698B89;
     line-height:47rpx;
 }
 
 .add-drug-number-item-right-x-style{
     font-size:30rpx;
-    margin-right: 10rpx;
+    margin-left: 6rpx;
+    margin-top: 13rpx;
 }
 
-.add-drug-number-item-right-piece-style{
-    font-size:44rpx;
+.add-drug-number-item-right-piece-style {
+    margin-top: 13rpx;
+    font-size: 56rpx;
+    font-family:DINCondensed-Bold;
+    font-weight: bold;
+    line-height: 67rpx;
 }
 
 .bottom-btn{

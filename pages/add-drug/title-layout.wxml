@@ -1,5 +1,5 @@
 <template name="title-layout">
-    <view class="flex-row" style="width: 100%;justify-content: space-between;box-sizing: border-box;padding: 29rpx;">
+    <view class="flex-row" style="width: 100%;justify-content: space-between;box-sizing: border-box;padding: 70rpx 40rpx 0 40rpx;">
         <text class="add-drug-title">{{title}}</text>
         <view class="flex-column add-drug-circle">{{step}}</view>
     </view>

@@ -1,6 +1,6 @@
 /* pages/add-drug/choose-type/choose-type.wxss */
 .add-drug-title{
-    font-size:50rpx;
+    font-size:48rpx;
     font-weight:bold;
     color:rgba(105,139,137,1);
     line-height:47rpx;

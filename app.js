@@ -74,10 +74,10 @@ App({
         this.commonOnLaunch({options, bLEManager: new HiBoxBlueToothManager()});
 
         this.appLoginListener = ({loginState}) => {
-            if (loginState === this.NOT_REGISTER) {
-                this.bLEManager.clearConnectedBLE();
-                HiNavigator.reLaunchToBindDevicePage();
-            }
+            // if (loginState === this.NOT_REGISTER) {
+            //     this.bLEManager.clearConnectedBLE();
+            //     HiNavigator.reLaunchToBindDevicePage();
+            // }
         };
     },
     queryDataFinish() {
@@ -90,17 +90,17 @@ App({
     },
     onShow(options) {
         this.commonOnShow({options});
-        Protocol.getDeviceBindInfo().then(data => {
-            if (data.result) {
-                const {device_id: deviceId, mac} = data.result;
-                this.bLEManager.setBindMarkStorage();
-                this.bLEManager.connect({macId: mac});
-                this.onDeviceBindInfoListener && this.onDeviceBindInfoListener({deviceId});
-            } else {
-                this.bLEManager.clearConnectedBLE();
-                HiNavigator.reLaunchToBindDevicePage();
-            }
-        })
+        // Protocol.getDeviceBindInfo().then(data => {
+        //     if (data.result) {
+        //         const {device_id: deviceId, mac} = data.result;
+        //         this.bLEManager.setBindMarkStorage();
+        //         this.bLEManager.connect({macId: mac});
+        //         this.onDeviceBindInfoListener && this.onDeviceBindInfoListener({deviceId});
+        //     } else {
+        //         this.bLEManager.clearConnectedBLE();
+        //         HiNavigator.reLaunchToBindDevicePage();
+        //     }
+        // })
     },
 
     onHide() {
