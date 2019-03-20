@@ -10,7 +10,7 @@
     width:116rpx;
     height:116rpx;
     background:rgba(255,255,255,1);
-    border:8rpx solid rgba(255,255,255,0.35);
+    border:5rpx solid #AEFDE8;
     margin-top: 20rpx;
     border-radius: 50%;
     z-index: 200;
