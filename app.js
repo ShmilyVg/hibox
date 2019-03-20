@@ -74,10 +74,10 @@ App({
         this.commonOnLaunch({options, bLEManager: new HiBoxBlueToothManager()});
 
         this.appLoginListener = ({loginState}) => {
-            // if (loginState === this.NOT_REGISTER) {
-            //     this.bLEManager.clearConnectedBLE();
-            //     HiNavigator.reLaunchToBindDevicePage();
-            // }
+            if (loginState === this.NOT_REGISTER) {
+                this.bLEManager.clearConnectedBLE();
+                HiNavigator.reLaunchToBindDevicePage();
+            }
         };
     },
     queryDataFinish() {
