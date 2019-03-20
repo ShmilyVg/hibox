@@ -1,27 +1,47 @@
 <!--pages/drug-info/drug-info.wxml-->
-<view class="top-view flex-row">
-    <image class="top-view-image" src="{{data.imgUrl.length?data.imgUrl:'../../images/scan/default-image.png'}}"></image>
-    <view class="flex-column" style="margin-left: 30rpx;align-items: self-start;align-self: self-start">
-        <view class="top-view-title">{{data.drugName}}</view>
-        <view class="top-view-content">{{data.manuName}}</view>
+<view class="flex-column">
+    <view class="top-view flex-column" style="background-image: url('../../images/drug-info/top.png') ">
+        <image class="top-view-image" src="{{data.imgUrl}}"></image>
+    </view>
+    <view class="box flex-column">
+        <view style="font-size:50rpx;font-weight:500;color:rgba(65,86,85,1)">{{data.drugName}}</view>
+        <view style="font-size:26rpx;font-weight:400;color:rgba(105,139,137,1)">{{data.manuName}}
+        </view>
+        <view wx:if="{{data.otc}}" class="tag">{{data.otc==1?'OTC非处方药':'处方药'}}</view>
+        <view class="line"></view>
+        <view class="flex-row">
+            <image style="width: 28rpx;height: 28rpx" src="../../images/drug-info/warn.png"></image>
+            <view style="font-size:24rpx;font-weight:400;color:rgba(254,112,97,1);margin-left: 8rpx">内容仅供参考，请遵照医嘱服用</view>
+        </view>
+    </view>
+    <view class="box" wx:for="{{itemsTop}}">
+        <view class="flex-row" style="justify-content: space-between">
+            <view class="flex-row">
+                <image class="box-image" src="{{item.imgUrl}}"></image>
+                <view class="box-title">{{item.title}}</view>
+            </view>
+            <image wx:if="{{item.showArr}}" style="width: 40rpx;height: 40rpx" src="../../images/drug-info/arr-nor.png"
+                   bindtap="clickTopArr" data-index="{{index}}"></image>
+        </view>
+        <view class="box-content">{{item.content}}</view>
+    </view>
+    <view class="box">
+        <view wx:for="{{itemsBottom}}">
+            <view class="flex-row" style="justify-content: space-between">
+                <view class="flex-row">
+                    <view class="box-point"></view>
+                    <view class="box-title">{{item.title}}</view>
+                </view>
+                <image wx:if="{{item.showArr}}" style="width: 40rpx;height: 40rpx"
+                       src="../../images/drug-info/arr-nor.png" bindtap="clickBottomArr" data-index="{{index}}"></image>
+            </view>
+            <view class="box-content">{{item.content}}</view>
+            <view class="line"></view>
+        </view>
     </view>
 </view>
-<view style="color: #698B89;margin-top: 40rpx;font-size: 36rpx;width: 100%;text-align: center">说明书</view>
 
-<view class="table">
-    <block wx:for="{{data.items}}">
-        <view class="table-cell">
-            <block wx:if="{{index==0}}">
-                <view class="table-title-title">{{item.title}}</view>
-                <view class="table-title-content">{{item.content}}</view>
-            </block>
-            <block wx:else>
-                <view class="table-item-title">{{item.title}}</view>
-                <view class="table-item-content">{{item.content}}</view>
-            </block>
-        </view>
-    </block>
-</view>
-<view style="height: 150rpx"></view>
+
+<view style="height: 50rpx"></view>
 
 <view class="bottom-button" bindtap="drugRemind">设定该药品的服药提醒</view>
