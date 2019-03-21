@@ -10,9 +10,25 @@
     width:116rpx;
     height:116rpx;
     background:rgba(255,255,255,1);
-    border:8rpx solid rgba(255,255,255,0.35);
+    border:5rpx solid #AEFDE8;
     margin-top: 20rpx;
     border-radius: 50%;
+    z-index: 200;
+    position: absolute;
+    top: 24rpx;
+    left: 317rpx;
+}
+
+.top-view-image-empty{
+    width:116rpx;
+    height:116rpx;
+    background:rgba(255,255,255,1);
+    margin-top: 20rpx;
+    border-radius: 50%;
+    z-index: 200;
+    position: absolute;
+    top: 24rpx;
+    left: 317rpx;
 }
 
 .box{
@@ -23,6 +39,7 @@
     top: -93rpx;
     position: relative;
     padding: 35rpx 52rpx 50rpx 36rpx;
+    z-index: 300;
 }
 
 .box-image {
@@ -91,6 +108,7 @@
     bottom: 0;
     left: 0;
     line-height: 111rpx;
+    z-index: 500;
 }
 
 page {
