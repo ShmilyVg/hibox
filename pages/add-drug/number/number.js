@@ -124,8 +124,9 @@ Page({
 
     pieceAllChooseEvent(e) {
         const piece = this.getChooseNumberTypeValue(e);
-        console.log(piece);
-        this.setData({list: DrugRuler.getList({...this.data, piece}), piece});
+        const {list} = this.data;
+        list.forEach(item => item.piece = piece);
+        this.setData({list, piece});
     },
     getPieceValue({pieceIndex}) {
         return this.data.pieceArray[pieceIndex - 1].value;
