@@ -56,7 +56,11 @@ Page({
     },
 
     deleteDevice() {
-        this.showDeleteModel('删除药盒后，药盒和手机都不再提醒');
+        if (this.data.latestBLEState.connectState === ConnectState.CONNECTED) {
+            this.showDeleteModel('删除药盒后，药盒和手机都不再提醒');
+        } else {
+            this.showDeleteModel('药盒未连接，继续删除可能会丢失未同步的服药记录，并且药盒提醒无法删除');
+        }
     },
 
     showDeleteModel(content) {

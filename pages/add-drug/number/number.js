@@ -6,7 +6,7 @@ import {ConnectState, ProtocolState} from "../../../modules/bluetooth/bluetooth-
 import WXDialog from "../../../view/dialog";
 
 Page({
-    divideNumber: 30,
+    divideNumber: 1,
     data: {
         number: 3,
         piece: 1,
