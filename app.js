@@ -15,9 +15,9 @@ App({
         this.setCommonBLEListener({
             commonAppReceiveDataListener: ({finalResult, state}) => {
                 if (ProtocolState.QUERY_DATA_ING === state.protocolState) {
-                    const {length, isEat, timestamp} = finalResult;
+                    const {length, isEat, timestamp, compartment} = finalResult;
                     if (records.length < length) {
-                        records.push({state: isEat ? 1 : 0, timestamp});
+                        records.push({state: isEat ? 1 : 0, timestamp, compartment});
                         count++;
                         if (records.length === length) {
                             Protocol.postMedicalRecordSave({records}).then(data => {
