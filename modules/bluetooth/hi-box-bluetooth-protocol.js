@@ -23,8 +23,9 @@ export default class HiBoxBlueToothProtocol extends HiBlueToothProtocol {
             '0x32': ({dataArray}) => {
                 const length = HexTools.hexArrayToNum(dataArray.slice(0, 1));
                 const isEat = HexTools.hexArrayToNum(dataArray.slice(1, 2)) === 1;
-                const timestamp = HexTools.hexArrayToNum(dataArray.slice(2));
-                return {state: ProtocolState.QUERY_DATA_ING, dataAfterProtocol: {length, isEat, timestamp}};
+                const timestamp = HexTools.hexArrayToNum(dataArray.slice(2, 6));
+                const compartment = HexTools.hexArrayToNum(dataArray.slice(6));
+                return {state: ProtocolState.QUERY_DATA_ING, dataAfterProtocol: {length, isEat, timestamp, compartment}};
             },
         }
     }
@@ -40,8 +41,8 @@ export default class HiBoxBlueToothProtocol extends HiBlueToothProtocol {
      */
     sendAlertTime({singleAlertData}) {
         if (this.getDeviceIsBind()) {
-           return this.action['0x30']({singleAlertData: [...singleAlertData]});
-        }else{
+            return this.action['0x30']({singleAlertData: [...singleAlertData]});
+        } else {
             return Promise.reject();
         }
     }
