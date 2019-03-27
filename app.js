@@ -21,7 +21,7 @@ App({
                         count++;
                         if (records.length === length) {
                             Protocol.postMedicalRecordSave({records}).then(data => {
-                                console.log('同步数据成功');
+                                console.log('同步数据成功2');
                                 this.bLEManager.sendQueryDataSuccessProtocol({isSuccess: true});
                             }).catch(res => {
                                 this.queryDataFinish();
