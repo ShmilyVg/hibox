@@ -3,14 +3,13 @@ import Protocol from "../../modules/network/protocol";
 import HiNavigator from "../../navigator/hi-navigator";
 import * as tools from "../../utils/tools";
 
-let pageDebug = false;
+let _pageDebug = true;
 
 Page({
     data: {
     },
     onLoad() {
-        this.data.ruler = tools.getRulerTime();
-        if (pageDebug) {
+        if (_pageDebug) {
             Protocol.getDrugCode({code: '6920312611029'}).then(data => {
                 let items = data.result.items;
                 let itemsTop = [], itemsBottom = [];
@@ -64,7 +63,8 @@ Page({
 
     drugRemind() {
         if (this.data.data.cycle != null) {
-            let times = this.data.ruler[this.data.data.cycle];
+            let ruler = tools.getRulerTime();
+            let times = ruler[this.data.data.cycle];
             let value = [];
             for (let i = 0; i < times.length; i++) {
                 value[i] = {number: this.data.data.dosage, remind_time: times[i]}

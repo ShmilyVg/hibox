@@ -1,0 +1,28 @@
+/* pages/upload-paper/upload-paper.wxss */
+
+.box{
+    flex-wrap: wrap;
+    width: 630rpx;
+}
+
+.item{
+    width: 200rpx;
+    height: 200rpx;
+    background-color: lightblue;
+    margin: 5rpx;
+    position: relative;
+}
+
+.item-pic{
+    width: 200rpx;
+    height: 200rpx;
+}
+
+.item-delete {
+    position: absolute;
+    top: 10rpx;
+    right: 10rpx;
+    background-color: green;
+    width: 50rpx;
+    height: 50rpx;
+}
