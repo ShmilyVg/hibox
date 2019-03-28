@@ -10,5 +10,5 @@
     </view>
 </view>
 
-<view class="bottom-button">提交</view>
+<view class="bottom-button" bindtap="toSend">提交</view>
 

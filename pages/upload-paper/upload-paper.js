@@ -20,9 +20,7 @@ Page({
             sourceType: ['album', 'camera'],
             success(res) {
                 toast.showLoading();
-                let paths = res.tempFilePaths;
-                let arr = that.data.picArr;
-                let count = 0;
+                let paths = res.tempFilePaths, arr = that.data.picArr, count = 0;
                 for (let i in paths) {
                     let path = paths[i];
                     wx.uploadFile({
@@ -30,9 +28,7 @@ Page({
                         filePath: path,
                         name: path,
                         success: function (res) {
-                            let data = JSON.parse(res.data);
-                            let image = data.result.img_url;
-                            arr.push(image);
+                            arr.push(JSON.parse(res.data).result.img_url);
                             count++;
                             if (count === paths.length) {
                                 that.setData({
@@ -54,10 +50,13 @@ Page({
     },
 
     deletePic(e) {
-        let index = e.currentTarget.dataset.index;
-        this.data.picArr.splice(index, 1);
+        this.data.picArr.splice(e.currentTarget.dataset.index, 1);
         this.setData({
             picArr: this.data.picArr
         })
+    },
+
+    toSend() {
+        toast.success('已收到您的反馈');
     }
 })

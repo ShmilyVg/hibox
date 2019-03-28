@@ -8,7 +8,7 @@
 .item{
     width: 200rpx;
     height: 200rpx;
-    background-color: lightblue;
+    background-color: lightgray;
     margin: 5rpx;
     position: relative;
 }
