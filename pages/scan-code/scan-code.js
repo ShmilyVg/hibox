@@ -36,7 +36,8 @@ Page({
                         // 非可用一维码
                         console.log('非可用一维码');
                         HiNavigator.navigateToScanErr({
-                            index: getApp().globalData.addOrEditDrugObj.compartment
+                            index: getApp().globalData.addOrEditDrugObj.compartment,
+                            code: res.result
                         })
                     }
                 })

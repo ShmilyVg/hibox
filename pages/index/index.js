@@ -184,7 +184,8 @@ Page({
                                             // 非可用一维码
                                             console.log('非可用一维码');
                                             HiNavigator.navigateToScanErr({
-                                                index: index + 1
+                                                index: index + 1,
+                                                code:res.result
                                             })
                                         }
                                     })

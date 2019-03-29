@@ -17,9 +17,9 @@ export default class HiNavigator extends CommonNavigator {
         this.navigateTo({url: '/pages/drug-info/drug-info'});
     }
 
-    static navigateToScanErr({index}){
+    static navigateToScanErr({index,code}){
         this.navigateTo({
-            url:`/pages/scan-err/scan-err?index=${index}`
+            url:`/pages/scan-err/scan-err?index=${index}&code=${code}`
         })
     }
 
