@@ -7,11 +7,11 @@ input{
     align-items: center;
 }
 .add-drug-number-input-style{
-    font-size:60rpx;
+    font-size:70rpx;
+    font-family:DINCondensed-Bold;
     font-weight:bold;
     color:rgba(104,213,184,1);
-    line-height:47rpx;
-    text-align: center;
+    line-height:84rpx;
 }
 
 .add-drug-number-input-border-style{

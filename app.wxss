@@ -54,7 +54,7 @@ text,div{
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 111rpx;
+  height: 110rpx;
   background: rgba(103,213,184,1);
   color: white;
   font-size: 32rpx;
