@@ -38,7 +38,7 @@
     margin-top: 20rpx;
     top: -93rpx;
     position: relative;
-    padding: 35rpx 52rpx 50rpx 36rpx;
+    padding: 40rpx 52rpx 50rpx 36rpx;
     z-index: 300;
 }
 
@@ -79,7 +79,7 @@
     background:rgba(211,255,243,1);
     border-radius:29rpx;
     opacity:0.5621;
-    border:1rpx solid rgba(103,213,184,1);
+    /*border:1rpx solid rgba(103,213,184,1);*/
     text-align: center;
     font-size:24rpx;
     font-weight:400;
@@ -91,7 +91,7 @@
 .line {
     background-color: #E1E1E1;
     width:590rpx;
-    height:2rpx;
+    height:1rpx;
     margin-top: 28rpx;
     margin-bottom: 25rpx;
 }

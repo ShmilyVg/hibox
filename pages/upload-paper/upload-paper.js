@@ -65,7 +65,7 @@ Page({
                         wx.navigateBack({
                             delta: 1
                         })
-                    }, 3000);
+                    }, 2222);
                 }
             });
         }
