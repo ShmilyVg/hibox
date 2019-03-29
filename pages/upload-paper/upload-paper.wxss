@@ -1,28 +1,37 @@
 /* pages/upload-paper/upload-paper.wxss */
 
+.title{
+    font-size:36rpx;
+    font-weight:400;
+    color:rgba(105,139,137,1);
+    line-height:50px;
+    margin-top: 86rpx;
+    margin-left: 41rpx;
+}
+
 .box{
     flex-wrap: wrap;
-    width: 630rpx;
+    width: 678rpx;
+    margin-top: 72rpx;
 }
 
 .item{
-    width: 200rpx;
-    height: 200rpx;
-    background-color: lightgray;
-    margin: 5rpx;
+    width: 218rpx;
+    height: 218rpx;
+    background-color: #F0F0F0;
+    margin: 4rpx;
     position: relative;
 }
 
 .item-pic{
-    width: 200rpx;
-    height: 200rpx;
+    width: 218rpx;
+    height: 218rpx;
 }
 
 .item-delete {
     position: absolute;
-    top: 10rpx;
-    right: 10rpx;
-    background-color: green;
-    width: 50rpx;
-    height: 50rpx;
+    top: 12rpx;
+    right: 13rpx;
+    width:52rpx;
+    height:52rpx;
 }

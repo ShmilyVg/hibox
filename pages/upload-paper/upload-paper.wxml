@@ -1,14 +1,14 @@
 <!--pages/upload-paper/upload-paper.wxml-->
-<view>准确清晰的拍下药品说明书</view>
+<view class="title">准确清晰的拍下药品说明书</view>
 <view class="flex-column">
     <view class="flex-row box">
-        <view wx:for="{{picArr}}" class="item" bindtap="deletePic" data-index="{{index}}">
+        <view wx:for="{{picArr}}" class="item">
             <image class="item-pic" src="{{item}}" mode="aspectFill"></image>
-            <view class="item-delete"></view>
+            <image class="item-delete" src="../../images/upload-page/delete.png" bindtap="deletePic" data-index="{{index}}"></image>
         </view>
-        <view wx:if="{{picArr.length<6}}" class="item" bindtap="clickPic" data-index="{{index}}"></view>
+        <image wx:if="{{picArr.length<6}}" class="item" bindtap="clickPic" data-index="{{index}}" src="../../images/upload-page/add-pic.png"></image>
     </view>
 </view>
 
-<view class="bottom-button" bindtap="toSend">提交</view>
+<view class="bottom-btn" style="background-color: {{picArr.length?'#67D5B8':'#D8E6E5'}}" bindtap="toSend">提交</view>
 

@@ -8,7 +8,7 @@ Page({
         picArr: []
     },
     onLoad(options) {
-
+        this.data.code = options.code;
     },
 
     clickPic() {
@@ -57,6 +57,17 @@ Page({
     },
 
     toSend() {
-        toast.success('已收到您的反馈');
-    }
+        if (this.data.picArr.length) {
+            Protocol.getdrugCreateDrugIntia({code: this.data.code, imageArr: this.data.picArr}).then(data => {
+                if (data.code === 1) {
+                    toast.success('已收到您的反馈');
+                    setTimeout(() => {
+                        wx.navigateBack({
+                            delta: 1
+                        })
+                    }, 3000);
+                }
+            });
+        }
+    },
 })
