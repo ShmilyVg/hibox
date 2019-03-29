@@ -1,4 +1,4 @@
-<!--pages/upload-paper/upload-paper.wxml-->
+<!--pages/upload-instruction/upload-instruction.wxml-->
 <view class="title">准确清晰的拍下药品说明书</view>
 <view class="flex-column">
     <view class="flex-row box">

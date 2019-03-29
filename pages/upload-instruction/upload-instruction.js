@@ -1,4 +1,4 @@
-// pages/upload-paper/upload-paper.js
+// pages/upload-instruction/upload-instruction.js
 import * as config from "../../utils/config";
 import Protocol from "../../modules/network/protocol";
 import Toast from "../../view/toast";
@@ -57,7 +57,7 @@ Page({
 
     toSend() {
         if (this.data.picArr.length) {
-            Protocol.getdrugCreateDrugIntia({
+            Protocol.getDrugCreateDrugInstruction({
                 code: this.data.code,
                 imageArr: this.data.picArr
             }).then(data => {

@@ -1,4 +1,4 @@
-/* pages/upload-paper/upload-paper.wxss */
+/* pages/upload-instruction/upload-instruction.wxss */
 
 .title{
     font-size:36rpx;

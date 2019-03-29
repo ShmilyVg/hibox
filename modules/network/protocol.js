@@ -77,7 +77,7 @@ export default class Protocol {
         })
     }
 
-    static getdrugCreateDrugIntia({code, imageArr}) {
+    static getDrugCreateDrugInstruction({code, imageArr}) {
         let str = imageArr.join(',');
         return Network.request({
             url: 'drug/createDrugIntia',

@@ -13,7 +13,7 @@
     "pages/scan-code/scan-code",
     "pages/scan-err/scan-err",
     "pages/drug-info/drug-info",
-    "pages/upload-paper/upload-paper"
+    "pages/upload-instruction/upload-instruction"
   ],
   "tabBar": {
     "selectedColor": "#66DABF",
