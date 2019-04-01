@@ -15,7 +15,7 @@ Page({
         let that = this;
         wx.chooseImage({
             count: 6 - this.data.picArr.length,
-            sizeType: ['original', 'compressed'],
+            sizeType: ['compressed'],
             sourceType: ['album', 'camera'],
             success(res) {
                 Toast.showLoading();
