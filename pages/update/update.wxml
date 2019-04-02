@@ -1,13 +1,13 @@
 <!--pages/update/update.wxml-->
 <view class="flex-column">
     <image style="width:277rpx;height:597rpx;margin:110rpx 0 55rpx" src="../../images/update/item.png"></image>
-    <image wx:if="{{isUpDate}}" class="small-pic ani" src="../../images/update/update.png"></image>
+    <image wx:if="{{isUpdate}}" class="small-pic ani" src="../../images/update/update.png"></image>
     <image wx:else class="small-pic" src="../../images/update/finish.png"></image>
 
-    <text style="font-size: 50rpx;color: #AAAAAA">{{isUpDate?'设备正在升级':'升级成功'}}</text>
-    <view wx:if="{{isUpDate}}" style="margin-top: 40rpx">
+    <text style="font-size: 50rpx;color: #AAAAAA">{{isUpdate?'设备正在升级':'升级成功'}}</text>
+    <view wx:if="{{isUpdate}}" style="margin-top: 40rpx">
         <text style="font-size: 28rpx;color: #979797">1. 请勿将设备远离手机\n2. 请勿关闭小程序\n3. 请勿关闭手机蓝牙\n4. 请勿熄灭屏幕</text>
     </view>
-    <view wx:if="{{!isUpDate}}" class="to-use" hover-class="press-style" bindtap="toUse">立即使用</view>
+    <view wx:if="{{!isUpdate}}" class="to-use" hover-class="press-style" bindtap="toUse">立即使用</view>
 </view>
 

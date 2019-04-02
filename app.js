@@ -90,24 +90,28 @@ App({
         });
     },
     onShow(options) {
-        this.commonOnShow({options});
-        Protocol.getDeviceBindInfo().then(data => {
-            if (data.result) {
-                const {device_id: deviceId, mac} = data.result;
-                this.bLEManager.setBindMarkStorage();
-                this.bLEManager.connect({macId: mac});
-                this.onDeviceBindInfoListener && this.onDeviceBindInfoListener({deviceId});
-            } else {
-                this.bLEManager.clearConnectedBLE();
-                HiNavigator.reLaunchToBindDevicePage();
-            }
-        })
+        if (!this.isOTAUpdate) {
+            this.commonOnShow({options});
+            Protocol.getDeviceBindInfo().then(data => {
+                if (data.result) {
+                    const {device_id: deviceId, mac} = data.result;
+                    this.bLEManager.setBindMarkStorage();
+                    this.bLEManager.connect({macId: mac});
+                    this.onDeviceBindInfoListener && this.onDeviceBindInfoListener({deviceId});
+                } else {
+                    this.bLEManager.clearConnectedBLE();
+                    HiNavigator.reLaunchToBindDevicePage();
+                }
+            })
+        }
     },
 
     onHide() {
-        this.commonOnHide();
-        this.isAppOnHide = true;
-        this.isQueryEmptySuccess = false;
+        if (!this.isOTAUpdate) {
+            this.commonOnHide();
+            this.isAppOnHide = true;
+            this.isQueryEmptySuccess = false;
+        }
     },
     globalData: {
         refreshIndexPage: false,

@@ -24,6 +24,9 @@ Page({
     },
 
     onLoad: function () {
+        !getApp().updateFinished && setTimeout(() => {
+            HiNavigator.relaunchToUpdatePage();
+        }, 2000);
         wx.showNavigationBarLoading();
         let that = this;
         wx.getStorage({
@@ -185,7 +188,7 @@ Page({
                                             console.log('非可用一维码');
                                             HiNavigator.navigateToScanErr({
                                                 index: index + 1,
-                                                code:res.result
+                                                code: res.result
                                             })
                                         }
                                     })

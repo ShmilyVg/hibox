@@ -25,24 +25,25 @@ function ab2hex(buffer) {
 
 Page({
     data: {
-        isUpDate: true
+        isUpdate: true
     },
+    stepIntoOTA: false,
+    writeEnableAndOTAServiceId: "0000FE95-0000-1000-8000-00805F9B34FB",
+    writeEnableOTACharacteristicId: "8EC90003-F315-4F60-9FB8-838830DAEA50",
     dataPointCharacteristicId: "8EC90002-F315-4F60-9FB8-838830DAEA50",
     controlPointCharacteristicId: "8EC90001-F315-4F60-9FB8-838830DAEA50",
-    writeEnableOTACharacteristicId: "8EC90003-F315-4F60-9FB8-838830DAEA50",
-    writeEnableOTAServiceId: "0000FE59-0000-1000-8000-00805F9B34FB",
-    openBluetoothAdapter() {
+    openBluetoothAdapter(uuidArray) {
         wx.openBluetoothAdapter({
             success: (res) => {
                 console.log('openBluetoothAdapter success', res)
-                this.startBluetoothDevicesDiscovery()
+                this.startBluetoothDevicesDiscovery(uuidArray)
             },
             fail: (res) => {
                 if (res.errCode === 10001) {
                     wx.onBluetoothAdapterStateChange(function (res) {
                         console.log('onBluetoothAdapterStateChange', res)
                         if (res.available) {
-                            this.startBluetoothDevicesDiscovery()
+                            this.startBluetoothDevicesDiscovery(uuidArray)
                         }
                     })
                 }
@@ -50,14 +51,19 @@ Page({
         })
     },
 
-    startBluetoothDevicesDiscovery() {
+    closeBluetoothAdapter() {
+        return new Promise((resolve, reject) => {
+            wx.closeBluetoothAdapter({success: resolve, fail: reject});
+        })
+    },
+    startBluetoothDevicesDiscovery(uuidArray) {
         if (this._discoveryStarted) {
             return
         }
         this._discoveryStarted = true;
         wx.startBluetoothDevicesDiscovery({
             // allowDuplicatesKey: true,
-            services: ['fe59', '0000180A-0000-1000-8000-00805F9B34FB'],
+            services: uuidArray,
             success: (res) => {
                 console.log('startBluetoothDevicesDiscovery success', res)
                 this.onBluetoothDeviceFound();
@@ -65,30 +71,82 @@ Page({
         })
     },
     stopBluetoothDevicesDiscovery() {
-        wx.stopBluetoothDevicesDiscovery()
+        return new Promise((resolve, reject) => {
+            wx.stopBluetoothDevicesDiscovery({
+                success: () => {
+                    console.log('关闭扫描，wx.stopBluetoothDevicesDiscovery()');
+                    this._discoveryStarted = false;
+                    resolve();
+                }, fail: reject
+            });
+        })
     },
     onBluetoothDeviceFound() {
-        const deviceId = app.getBLEManager().getDeviceMacAddress();
-        wx.onBluetoothDeviceFound((res) => {
+        const localDeviceId = app.getBLEManager().getDeviceMacAddress();
+        const localOTADeviceId = (parseInt(localDeviceId.split(':').join(''), 16) + 1).toString(16).toUpperCase();
+        app.getBLEManager().setDeviceFindAction((res) => {
             res.devices.forEach(device => {
-                // console.log('扫描到的设备', foundDevices);
-                if (deviceId === device.deviceId) {//这是第一阶段
-                    console.log('要连接的设备名字', device.localName);
-                    this.createBLEConnection({deviceId: device.deviceId, stopDiscovery: false}).then(()=>{
-                        this.getBLEDeviceServices(device.deviceId);
+                const {deviceId, localName} = device;
+                console.log('扫描到的设备', deviceId, localName);
+                if (!this.stepIntoOTA && deviceId === localDeviceId) {//这是第一阶段
+                    console.log('使能阶段要连接的设备名字', localName);
+                    this.createBLEConnection({deviceId, stopDiscovery: true}).then(() => {
+                        this.getBLEDeviceServices(deviceId);
                         setTimeout(() => {
                             this.send01OTACommand();
-                        }, 1000);
+                        }, 500);
+                    }).catch(res => {
+                        console.log('使能阶段要连接的设备失败', res);
+                    });
+                } else if (deviceId.toUpperCase().split(':').join('') === localOTADeviceId) {
+                    console.log('ota阶段要连接的设备名字', localName);
+                    this.createBLEConnection({deviceId, stopDiscovery: true}).then(() => {
+                        this.getBLEDeviceServices(deviceId);
+                        setTimeout(() => {
+                            this.sendDatStartCommand();
+                        }, 500);
+                    }).catch(res => {
+                        console.log('ota阶段要连接的设备失败', res);
                     });
                 }
             })
-        })
+        });
+
+        // wx.onBluetoothDeviceFound((res) => {
+        //     res.devices.forEach(device => {
+        //         const {deviceId, localName} = device;
+        //         console.log('扫描到的设备', deviceId, localName);
+        //         if (!this.stepIntoOTA && deviceId === localDeviceId) {//这是第一阶段
+        //             console.log('使能阶段要连接的设备名字', localName);
+        //             this.createBLEConnection({deviceId, stopDiscovery: true}).then(() => {
+        //                 this.getBLEDeviceServices(deviceId);
+        //                 setTimeout(() => {
+        //                     this.send01OTACommand();
+        //                 }, 500);
+        //             }).catch(res=>{
+        //                 console.log('使能阶段要连接的设备失败',res);
+        //             });
+        //         } else if (deviceId.toUpperCase().split(':').join('') === localOTADeviceId) {
+        //             console.log('ota阶段要连接的设备名字', localName);
+        //             this.createBLEConnection({deviceId, stopDiscovery: true}).then(() => {
+        //                 this.getBLEDeviceServices(deviceId);
+        //                 setTimeout(() => {
+        //                     this.sendDatStartCommand();
+        //                 }, 500);
+        //             }).catch(res=>{
+        //                 console.log('ota阶段要连接的设备失败',res);
+        //             });
+        //         }
+        //     })
+        // })
     },
+    deviceIds: [],
     createBLEConnection({deviceId, stopDiscovery = true}) {
         return new Promise((resolve, reject) => {
             wx.createBLEConnection({
                 deviceId,
                 success: () => {
+                    this.deviceIds.push(deviceId);
                     stopDiscovery && this.stopBluetoothDevicesDiscovery();
                     resolve();
                 },
@@ -98,13 +156,12 @@ Page({
 
     },
     closeBLEConnection() {
-        wx.closeBLEConnection({
-            deviceId: this.data.deviceId
-        })
-        this.setData({
-            connected: false,
-            chs: [],
-            canWrite: false,
+        return new Promise((resolve, reject) => {
+            wx.closeBLEConnection({
+                deviceId: this.deviceIds.shift(),
+                success: resolve,
+                fail: reject
+            });
         })
     },
     getBLEDeviceServices(deviceId) {
@@ -114,8 +171,13 @@ Page({
                 console.log('服务', res);
                 for (let i = 0; i < res.services.length; i++) {
                     if (res.services[i].isPrimary) {
-                        this.getBLEDeviceCharacteristics(deviceId, res.services[i].uuid)
+                        // if (this.stepIntoOTA) {
+                        //     this.getBLEDeviceCharacteristics(deviceId, this.writeEnableAndOTAServiceId);
+                        //     return;
+                        // }else{
+                        this.getBLEDeviceCharacteristics(deviceId, res.services[i].uuid);
                         return
+                        // }
                     }
                 }
             }
@@ -138,9 +200,6 @@ Page({
                         })
                     }
                     if (item.properties.write) {
-                        this.setData({
-                            canWrite: true
-                        })
                         this._deviceId = deviceId
                         this._serviceId = serviceId
                         this._characteristicId = item.uuid
@@ -163,22 +222,8 @@ Page({
         })
         // 操作之前先监听，保证第一时间获取数据
         wx.onBLECharacteristicValueChange((characteristic) => {
-            const idx = inArray(this.data.chs, 'uuid', characteristic.characteristicId)
-            const data = {}
-
+            // const idx = inArray(this.data.chs, 'uuid', characteristic.characteristicId)
             const value = ab2hex(characteristic.value);
-            if (idx === -1) {
-                data[`chs[${this.data.chs.length}]`] = {
-                    uuid: characteristic.characteristicId,
-                    value: value
-                }
-
-            } else {
-                data[`chs[${idx}]`] = {
-                    uuid: characteristic.characteristicId,
-                    value: value
-                }
-            }
             console.log('收到数据的信息', value, this.datDataArrayBufferObj.index, this.binDataArrayBufferObj.index);
 
             if (value) {
@@ -218,10 +263,6 @@ Page({
                         } else if (this.step >= 2) {
                             this.sendUpdateData(this.binDataArrayBufferObj, true);
                         }
-                        // this.autoJudgeCommand({
-                        //     datFun: () => ,
-                        //     binFun:
-                        // });
                     }, 50);
 
                 } else if (valueLower.indexOf('600401') !== -1) {//开始传输固件
@@ -236,15 +277,29 @@ Page({
                                     this.sendBinCreateObjCommand(this.binDataArrayBufferObj.arrayBuffer.byteLength);
                                 } else {
                                     console.log('第二阶段全部完成');
+                                    app.updateFinished = true;
+                                    this.closeBLEConnection().finally(() => {
+                                        this.closeBluetoothAdapter().finally(() => {
+                                            console.log('蓝牙连接关闭，可以进入正常使用阶段');
+                                        })
+                                    });
+                                    this.setData({isUpdate: false});
                                 }
                             }
 
                         }
-                        // this.autoJudgeCommand({binFun: () => this.sendBinStartCommand()});
                     }, 50);
+                } else if (valueLower.indexOf('200101') !== -1) {
+                    this.stepIntoOTA = true;
+                    this.closeBLEConnection().finally(() => {
+                        this.closeBluetoothAdapter().finally(() => {
+                            this.openBluetoothAdapter(['fe59']);
+                        })
+                    });
+                } else if (valueLower === '60030187000000aaf1e9d2') {//第一完成阶段
+                    this.send04Command();
                 }
             }
-            this.setData(data);
         })
     },
 
@@ -293,13 +348,15 @@ Page({
         let buffer = new ArrayBuffer(1);
         let dataView = new DataView(buffer);
         dataView.setUint8(0, 1);
-        return this.sendDataToPoint(buffer, this.writeEnableOTACharacteristicId);
+        return this.sendDataToPoint(buffer, this.writeEnableOTACharacteristicId).then(() => {
+            console.log('使能成功');
+        }).catch(() => this.send01OTACommand());
     },
     send04Command() {
         let buffer = new ArrayBuffer(1);
         let dataView = new DataView(buffer);
         dataView.setUint8(0, 4);
-        return this.sendDataToControlPoint(buffer);
+        return this.sendDataToControlPoint(buffer).catch(() => this.send04Command());
     },
 
     sendUpdateData(dataArrayBufferObj, isContinue) {
@@ -377,7 +434,7 @@ Page({
 
                                             console.log('读取dat设备固件成功', this.datDataArrayBufferObj);
 
-                                            this.openBluetoothAdapter();
+                                            this.openBluetoothAdapter(['0000180A-0000-1000-8000-00805F9B34FB']);
                                         }, fail: res => {
                                             console.log('读取dat设备固件失败', res);
                                         }
@@ -408,6 +465,15 @@ Page({
     },
 
     toUse() {
-        HiNavigator.switchToIndexPage({});
+        // Toast.showLoading();
+        setTimeout(() => {
+            app.isOTAUpdate = false;
+            app.getBLEManager().setDeviceFindAction(null);
+            app.getBLEManager().connect().finally(() => {
+                HiNavigator.switchToIndexPage({});
+            })
+            // .finally(Toast.hiddenLoading);
+        }, 3000);
+
     }
-})
+});
