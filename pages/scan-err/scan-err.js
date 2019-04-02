@@ -17,7 +17,7 @@ Page({
 
     toUpload() {
         wx.navigateTo({
-            url: '../upload-paper/upload-paper' + '?code=' + this.data.code,
+            url: '../upload-instruction/upload-instruction' + '?code=' + this.data.code,
         })
     }
 })

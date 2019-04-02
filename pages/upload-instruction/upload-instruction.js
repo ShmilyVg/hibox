@@ -1,7 +1,7 @@
-// pages/upload-paper/upload-paper.js
+// pages/upload-instruction/upload-instruction.js
 import * as config from "../../utils/config";
 import Protocol from "../../modules/network/protocol";
-import toast from "../../view/toast";
+import Toast from "../../view/toast";
 
 Page({
     data: {
@@ -13,13 +13,12 @@ Page({
 
     clickPic() {
         let that = this;
-        let num = 6 - this.data.picArr.length;
         wx.chooseImage({
-            count: num,
-            sizeType: ['original', 'compressed'],
+            count: 6 - this.data.picArr.length,
+            sizeType: ['compressed'],
             sourceType: ['album', 'camera'],
             success(res) {
-                toast.showLoading();
+                Toast.showLoading();
                 let paths = res.tempFilePaths, arr = that.data.picArr, count = 0;
                 for (let i in paths) {
                     let path = paths[i];
@@ -34,12 +33,12 @@ Page({
                                 that.setData({
                                     picArr: arr
                                 });
-                                toast.hiddenLoading();
+                                Toast.hiddenLoading();
                             }
                         },
                         fail: function (e) {
-                            toast.hiddenLoading();
-                            toast.warn(`第${i}个图片上传失败`);
+                            Toast.hiddenLoading();
+                            Toast.warn(`第${i}个图片上传失败`);
                         },
                         complete: function (e) {
                         }
@@ -58,9 +57,12 @@ Page({
 
     toSend() {
         if (this.data.picArr.length) {
-            Protocol.getdrugCreateDrugIntia({code: this.data.code, imageArr: this.data.picArr}).then(data => {
+            Protocol.getDrugCreateDrugInstruction({
+                code: this.data.code,
+                imageArr: this.data.picArr
+            }).then(data => {
                 if (data.code === 1) {
-                    toast.success('已收到您的反馈');
+                    Toast.success('已收到您的反馈');
                     setTimeout(() => {
                         wx.navigateBack({
                             delta: 1
