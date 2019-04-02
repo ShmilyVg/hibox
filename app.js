@@ -10,6 +10,7 @@ import {CommonConnectState, CommonProtocolState} from "heheda-bluetooth-state";
 App({
     onDeviceBindInfoListener: null,
     onBatteryInfoListener: null,
+    isOTAUpdate: false,
     onLaunch(options) {
         let records = [], count = 0;
         this.setCommonBLEListener({

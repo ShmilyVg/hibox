@@ -62,7 +62,7 @@ export default class HiNavigator extends CommonNavigator {
         this.reLaunch({url: '/pages/bind-device/bind-device'})
     }
 
-    static reLaunchToUpdate(){
-        this.reLaunch({url:'pages/update/update'})
+    static relaunchToUpdatePage() {
+        this.reLaunch({url: '/pages/update/update'});
     }
 }
