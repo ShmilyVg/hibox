@@ -210,16 +210,16 @@ Page({
                             dataView02.setUint8(2, 0);
                             this.sendDataToControlPoint(buffer02).then(() => {
                                 console.log("发送包020100成功");
-                                this.sendDfuCreateObjCommand(1, this.datDataArrayBufferObj.arrayBuffer.byteLength).then(() => {
-                                    console.log("发送包0601的大小成功");
+                                this.sendDfuCreateObjCommand(1, this.datDataArrayBufferObj.arrayBuffer.byteLength).then(({buffer}) => {
+                                    console.log("发送包0601的大小成功，发送的数据", ab2hex(buffer));
                                 });
                             });
 
                         } else if (this.step === 2) {
                             console.log('预备开始发送第二阶段的0102');
                             setTimeout(() => {
-                                this.sendDfuCreateObjCommand(2, this.binDataArrayBufferObj.arrayBuffer.byteLength).then(() => {
-                                    console.log("发送包0102的大小成功,发送的数据：", ab2hex(buffer), '第二阶段第几次发包：', this.step - 1);
+                                this.sendDfuCreateObjCommand(2, this.binDataArrayBufferObj.arrayBuffer.byteLength).then(({buffer}) => {
+                                    console.log("发送包0102的大小成功，发送的数据：", ab2hex(buffer), '第二阶段第几次发包：', this.step - 1);
                                 });
                             }, 50);
                         }
@@ -242,8 +242,8 @@ Page({
                             } else {
                                 this.putNewSendBinData(this.binDataArrayBufferObj);
                                 if (this.binDataArrayBufferObj.arrayBuffer && this.binDataArrayBufferObj.arrayBuffer.byteLength) {
-                                    this.sendDfuCreateObjCommand(2, this.binDataArrayBufferObj.arrayBuffer.byteLength).then(() => {
-                                        console.log("发送包0102的大小成功,发送的数据：", ab2hex(buffer), '第二阶段第几次发包：', this.step - 1);
+                                    this.sendDfuCreateObjCommand(2, this.binDataArrayBufferObj.arrayBuffer.byteLength).then(({buffer}) => {
+                                        console.log("发送包0102的大小成功，发送的数据：", ab2hex(buffer), '第二阶段第几次发包：', this.step - 1);
                                     });
                                 } else {
                                     console.log('第二阶段全部完成');
@@ -302,8 +302,6 @@ Page({
         dataView.setUint8(3, high);
         dataView.setUint8(4, 0);
         dataView.setUint8(5, 0);
-
-        console.log(ab2hex(buffer), 'dat包');
         return this.sendDataToControlPoint(buffer);
     },
     sendStartCommand({command}) {
@@ -401,9 +399,6 @@ Page({
                                             this.datDataArrayBufferObj.index = 0;
 
                                             console.log('读取dat设备固件成功', this.datDataArrayBufferObj);
-                                            this.sendDfuCreateObjCommand(1, this.datDataArrayBufferObj.arrayBuffer.byteLength).then(() => {
-                                                console.log("发送包0601的大小成功");
-                                            });
                                             this.openBluetoothAdapter(['0000180A-0000-1000-8000-00805F9B34FB']);
 
                                         }, fail: res => {
@@ -431,7 +426,9 @@ Page({
                 serviceId: this._serviceId,
                 characteristicId,
                 value: buffer,
-                success: resolve,
+                success: () => {
+                    resolve({buffer});
+                },
                 fail: (res) => {
                     if (res.errCode === 10008) {
                         reject();
