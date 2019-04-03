@@ -76,11 +76,11 @@ Page({
         })
     },
 
-    getDfuDeviceFoundTag({deviceId, localOTADeviceId}) {
+    getDfuDeviceFoundTag({deviceId, localOTADeviceId, localName}) {
         if (this.platform === 'android') {
             return deviceId.toUpperCase().split(':').join('') === localOTADeviceId;
         } else {
-            return deviceId.localName === this.dfuDeviceLocalName;
+            return localName === this.dfuDeviceLocalName;
         }
     },
 
@@ -103,7 +103,7 @@ Page({
                         }).catch(res => {
                             console.log('使能阶段要连接的设备失败', res);
                         });
-                    } else if (this.getDfuDeviceFoundTag({deviceId, localOTADeviceId})) {
+                    } else if (this.getDfuDeviceFoundTag({deviceId, localOTADeviceId, localName})) {
                         console.log('ota阶段要连接的设备名字', localName);
                         this.createBLEConnection({deviceId, stopDiscovery: true}).then(() => {
                             this.getBLEDeviceServices(deviceId);
