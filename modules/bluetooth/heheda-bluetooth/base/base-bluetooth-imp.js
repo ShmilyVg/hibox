@@ -91,20 +91,15 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
                 }
             }
         });
-        this.deviceFindListener = null;
         wx.onBluetoothDeviceFound((res) => {
-            if (!this.deviceFindListener) {
-                this.baseDeviceFindAction();
-            }else{
-                this.deviceFindListener(res);
-            }
+            this.baseDeviceFindAction(res);
         });
     }
 
-    baseDeviceFindAction() {
+    baseDeviceFindAction(res) {
         console.log('开始扫描');
         if (!!this._scanBLDListener) {
-            super.getBlueToothDevices().then(res => this._scanBLDListener({devices: res.devices})).catch();
+            this._scanBLDListener(res);
         } else {
             clearTimeout(this.deviceFindTimeoutIndex);
             this.deviceFindTimeoutIndex = setTimeout(() => {
@@ -136,7 +131,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
     }
 
     setDeviceFindAction(listener) {
-        this.deviceFindListener = listener;
+        this._scanBLDListener = listener;
     }
 
 

@@ -194,6 +194,10 @@ Page({
 
             if (value) {
                 const valueLower = value.toLowerCase();
+                if (valueLower.slice(4, 6) !== '01') {//第三组不是01的话，意为升级失败
+                    this.updateFailAction();
+                    return;
+                }
                 if (valueLower.indexOf('600601') !== -1) {//接收到数据回复
                     setTimeout(() => {
                         if (this.step === 1) {
@@ -431,8 +435,8 @@ Page({
         }, 3));
     },
 
-    toUse() {
-        Toast.showLoading('正在应用...');
+    toUse(text = '正在应用...') {
+        Toast.showLoading(text);
         app.isOTAUpdate = false;
         const bleManager = app.getBLEManager();
         bleManager.setDeviceFindAction(null);
@@ -442,10 +446,13 @@ Page({
         setTimeout(() => {
             Toast.hiddenLoading();
             HiNavigator.switchToIndexPage({});
-        }, 4000);
+        }, 3000);
 
     },
 
+    updateFailAction() {
+        this.toUse('升级失败，回退');
+    },
     onUnload() {
         wx.setKeepScreenOn({
             keepScreenOn: false
