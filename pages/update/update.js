@@ -19,7 +19,7 @@ Page({
     data: {
         isUpdate: true
     },
-    isAndroid: true,
+    platform: '',
     dfuDeviceLocalName: 'HiBoxDfuTarg',
     stepIntoOTA: false,
     writeEnableAndOTAServiceId: "0000FE95-0000-1000-8000-00805F9B34FB",
@@ -77,7 +77,7 @@ Page({
     },
 
     getDfuDeviceFoundTag({deviceId, localOTADeviceId}) {
-        if (this.isAndroid) {
+        if (this.platform === 'android') {
             return deviceId.toUpperCase().split(':').join('') === localOTADeviceId;
         } else {
             return deviceId.localName === this.dfuDeviceLocalName;
@@ -87,7 +87,7 @@ Page({
     onBluetoothDeviceFound() {
         const localDeviceId = app.getBLEManager().getDeviceMacAddress();
         const localOTADeviceId = (parseInt(localDeviceId.split(':').join(''), 16) + 1).toString(16).toUpperCase();
-        console.log('平台是否是Android：', this.isAndroid);
+        console.log('平台是否是Android：', this.platform);
         app.getBLEManager().setBLEUpdateListener({
             scanBLEListener: (res) => {
                 res.devices.forEach(device => {
@@ -379,7 +379,7 @@ Page({
             const {binUrl, datUrl} = getApp().otaUrl;
             wx.getSystemInfo({
                 success: (res) => {
-                    this.isAndroid = res.platform;
+                    this.platform = res.platform.toLowerCase();
                 }
             });
             wx.downloadFile({
