@@ -6,13 +6,16 @@ import Protocol from "./modules/network/protocol";
 import HiBoxBlueToothManager from "./modules/bluetooth/hi-box-bluetooth-manager";
 import HiNavigator from "./navigator/hi-navigator";
 import {CommonConnectState, CommonProtocolState} from "heheda-bluetooth-state";
+import {Protocol as CommonProtocol} from "heheda-network";
 
 App({
     onDeviceBindInfoListener: null,
     onBatteryInfoListener: null,
     isOTAUpdate: false,
+    otaUrl: {},
+    isGreen: true,
     onLaunch(options) {
-        let records = [], count = 0;
+        let records = [], count = 0, otaVersion = 0;
         this.setCommonBLEListener({
             commonAppReceiveDataListener: ({finalResult, state}) => {
                 if (ProtocolState.QUERY_DATA_ING === state.protocolState) {
@@ -36,6 +39,27 @@ App({
                         }
                         count = 0;
                         this.queryDataFinish();
+                        setTimeout(() => {
+                            if (otaVersion) {
+                                CommonProtocol.postBlueToothUpdate({
+                                    deviceId: this.bLEManager.getDeviceMacAddress(),
+                                    version: otaVersion
+                                }).then(data => {
+                                    const {update: isUpdate, url: fileUrl, hash, version: newVersion} = data.result;
+                                    if (isUpdate) {
+                                        HiNavigator.relaunchToUpdatePage({
+                                            binUrl: this.isGreen ? 'https://backend.stage.hipee.cn/hipee-resource/public/f1a07a5d2d8c43b49d59711e4439c35b.bin' ://green.bin
+                                                'https://backend.stage.hipee.cn/hipee-resource/public/b6830a279b4d434aae2474a4219172eb.bin',//yellow.bin,
+                                            datUrl: this.isGreen ? 'https://backend.stage.hipee.cn/hipee-resource/public/cf7cb6959fe641119317ee030dcc8edd.dat' ://green.dat
+                                                'https://backend.stage.hipee.cn/hipee-resource/public/629cf2aa3860471a8a896c142a401c92.dat',//yellow.dat
+                                        });
+                                    } else {
+                                        console.log('无需升级');
+                                    }
+                                })
+
+                            }
+                        })
                         // this.bLEManager.sendQueryDataSuccessProtocol({isSuccess: true});
                     } else {
                         console.log('同步数据溢出', records);
@@ -43,6 +67,7 @@ App({
                     }
 
                 } else if (ProtocolState.TIMESTAMP === state.protocolState) {
+                    otaVersion = finalResult.version;
                     if (finalResult.battery < 21) {
                         this.onBatteryInfoListener && this.onBatteryInfoListener({battery: true});
                         this.globalData.globalBattery = 2

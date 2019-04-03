@@ -43,13 +43,9 @@ export default class HiBlueToothProtocol {
                 const deviceId = HexTools.hexArrayToNum(dataArray.slice(3, 11));
                 this._syncCount = HexTools.hexArrayToNum(dataArray.slice(11, 13)) || 0;
                 const now = Date.now() / 1000;
-                this.updateDeviceSoftwareManager.execute({deviceId, version}).then(arrayBuffer => {
-                    this._updateTool = new UpdateTool({arrayBuffer});
-                    this.sendData({command: '0x05', data: [now, 1, ...this._updateTool.countArray]});
-                }).catch(() => {
-                    this.sendData({command: '0x05', data: [now, 2]});
-                }).finally(() => this.sendQueryDataRequiredProtocol());
-
+                this.sendData({command: '0x05', data: [now]}).then(() => {
+                    this.sendQueryDataRequiredProtocol();
+                });
                 return {state: CommonProtocolState.TIMESTAMP, dataAfterProtocol: {battery, version, deviceId}};
             },
             //设备发出待机状态通知

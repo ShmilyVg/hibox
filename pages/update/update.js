@@ -297,7 +297,7 @@ Page({
         dataView.setUint8(4, 0);
         dataView.setUint8(5, 0);
 
-        console.log(ab2hex(buffer),'dat包');
+        console.log(ab2hex(buffer), 'dat包');
         return this.sendDataToControlPoint(buffer);
     },
     sendStartCommand({command}) {
@@ -362,11 +362,10 @@ Page({
                 keepScreenOn: true
             });
             this.fileSystemManager = wx.getFileSystemManager();
-
+            const {binUrl, datUrl} = getApp().otaUrl;
             wx.downloadFile({
                 // 示例 url，并非真实存在
-                url: this.isGreen ? 'https://backend.stage.hipee.cn/hipee-resource/public/f1a07a5d2d8c43b49d59711e4439c35b.bin' ://green.bin
-                    'https://backend.stage.hipee.cn/hipee-resource/public/b6830a279b4d434aae2474a4219172eb.bin',//yellow.bin
+                url: binUrl,
                 success: (res) => {
                     const filePath = res.tempFilePath;
                     console.log('文件bin下载成功', res);
@@ -385,8 +384,7 @@ Page({
 
                             wx.downloadFile({
                                 // 示例 url，并非真实存在
-                                url: this.isGreen ? 'https://backend.stage.hipee.cn/hipee-resource/public/cf7cb6959fe641119317ee030dcc8edd.dat' ://green.dat
-                                    'https://backend.stage.hipee.cn/hipee-resource/public/629cf2aa3860471a8a896c142a401c92.dat',//yellow.dat
+                                url: datUrl,
                                 success: (res) => {
                                     const filePath = res.tempFilePath;
                                     console.log('文件dat下载成功', res);

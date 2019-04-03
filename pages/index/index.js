@@ -24,9 +24,6 @@ Page({
     },
 
     onLoad: function () {
-        !getApp().updateFinished && setTimeout(() => {
-            HiNavigator.relaunchToUpdatePage();
-        }, 2000);
         wx.showNavigationBarLoading();
         let that = this;
         wx.getStorage({
