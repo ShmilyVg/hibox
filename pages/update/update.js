@@ -105,34 +105,6 @@ Page({
                 }
             })
         });
-
-        // wx.onBluetoothDeviceFound((res) => {
-        //     res.devices.forEach(device => {
-        //         const {deviceId, localName} = device;
-        //         console.log('扫描到的设备', deviceId, localName);
-        //         if (!this.stepIntoOTA && deviceId === localDeviceId) {//这是第一阶段
-        //             console.log('使能阶段要连接的设备名字', localName);
-        //             this.createBLEConnection({deviceId, stopDiscovery: true}).then(() => {
-        //                 this.getBLEDeviceServices(deviceId);
-        //                 setTimeout(() => {
-        //                     this.send01OTACommand();
-        //                 }, 500);
-        //             }).catch(res=>{
-        //                 console.log('使能阶段要连接的设备失败',res);
-        //             });
-        //         } else if (deviceId.toUpperCase().split(':').join('') === localOTADeviceId) {
-        //             console.log('ota阶段要连接的设备名字', localName);
-        //             this.createBLEConnection({deviceId, stopDiscovery: true}).then(() => {
-        //                 this.getBLEDeviceServices(deviceId);
-        //                 setTimeout(() => {
-        //                     this.sendDatStartCommand();
-        //                 }, 500);
-        //             }).catch(res=>{
-        //                 console.log('ota阶段要连接的设备失败',res);
-        //             });
-        //         }
-        //     })
-        // })
     },
     deviceIds: [],
     createBLEConnection({deviceId, stopDiscovery = true}) {
@@ -232,21 +204,17 @@ Page({
                             dataView02.setUint8(2, 0);
                             this.sendDataToControlPoint(buffer02).then(() => {
                                 console.log("发送包020100成功");
-                                let buffer = new ArrayBuffer(6);
-                                let dataView = new DataView(buffer);
-                                dataView.setUint8(0, 1);
-                                dataView.setUint8(1, 1);
-                                dataView.setUint8(2, 135);
-                                dataView.setUint8(3, 0);
-                                dataView.setUint8(4, 0);
-                                dataView.setUint8(5, 0);
-                                this.sendDataToControlPoint(buffer).then(() => console.log("发送包0601的大小成功"));
+                                this.sendDfuCreateObjCommand(1, this.datDataArrayBufferObj.arrayBuffer.byteLength).then(() => {
+                                    console.log("发送包0601的大小成功");
+                                });
                             });
 
                         } else if (this.step === 2) {
                             console.log('预备开始发送第二阶段的0102');
                             setTimeout(() => {
-                                this.sendBinCreateObjCommand(this.binDataArrayBufferObj.arrayBuffer.byteLength);
+                                this.sendDfuCreateObjCommand(2, this.binDataArrayBufferObj.arrayBuffer.byteLength).then(() => {
+                                    console.log("发送包0102的大小成功,发送的数据：", ab2hex(buffer), '第二阶段第几次发包：', this.step - 1);
+                                });
                             }, 50);
                         }
                     }, 50);
@@ -268,7 +236,9 @@ Page({
                             } else {
                                 this.putNewSendBinData(this.binDataArrayBufferObj);
                                 if (this.binDataArrayBufferObj.arrayBuffer && this.binDataArrayBufferObj.arrayBuffer.byteLength) {
-                                    this.sendBinCreateObjCommand(this.binDataArrayBufferObj.arrayBuffer.byteLength);
+                                    this.sendDfuCreateObjCommand(2, this.binDataArrayBufferObj.arrayBuffer.byteLength).then(() => {
+                                        console.log("发送包0102的大小成功,发送的数据：", ab2hex(buffer), '第二阶段第几次发包：', this.step - 1);
+                                    });
                                 } else {
                                     console.log('第二阶段全部完成');
                                     app.updateFinished = true;
@@ -315,20 +285,20 @@ Page({
         });
     },
 
-    sendBinCreateObjCommand(byteLength) {
+    sendDfuCreateObjCommand(command, byteLength) {
         let buffer = new ArrayBuffer(6);
         let dataView = new DataView(buffer);
         const high = byteLength / 256;
         const low = byteLength % 256;
         dataView.setUint8(0, 1);
-        dataView.setUint8(1, 2);
+        dataView.setUint8(1, command);
         dataView.setUint8(2, low);
         dataView.setUint8(3, high);
         dataView.setUint8(4, 0);
         dataView.setUint8(5, 0);
-        this.sendDataToControlPoint(buffer).then(() => {
-            console.log("发送包0102的大小成功,发送的数据：", ab2hex(buffer), '第二阶段第几次发包：', this.step - 1);
-        });
+
+        console.log(ab2hex(buffer),'dat包');
+        return this.sendDataToControlPoint(buffer);
     },
     sendStartCommand({command}) {
         let buffer = new ArrayBuffer(2);
@@ -427,8 +397,11 @@ Page({
                                             this.datDataArrayBufferObj.index = 0;
 
                                             console.log('读取dat设备固件成功', this.datDataArrayBufferObj);
-
+                                            this.sendDfuCreateObjCommand(1, this.datDataArrayBufferObj.arrayBuffer.byteLength).then(() => {
+                                                console.log("发送包0601的大小成功");
+                                            });
                                             this.openBluetoothAdapter(['0000180A-0000-1000-8000-00805F9B34FB']);
+
                                         }, fail: res => {
                                             console.log('读取dat设备固件失败', res);
                                         }
@@ -465,7 +438,7 @@ Page({
         app.isOTAUpdate = false;
         const bleManager = app.getBLEManager();
         bleManager.setDeviceFindAction(null);
-        bleManager.closeAll().finally(()=>{
+        bleManager.closeAll().finally(() => {
             bleManager.connect();
         });
         setTimeout(() => {
