@@ -253,7 +253,7 @@ Page({
                                             console.log('蓝牙连接关闭，可以进入正常使用阶段');
                                         })
                                     });
-                                    this.setData({isUpdate: false});
+                                    this.updateSuccessAction();
                                 }
                             }
 
@@ -440,7 +440,16 @@ Page({
         }, 3));
     },
 
-    toUse(text = '正在应用...') {
+    toUse() {
+        this.backToIndexPage('正在应用...');
+    },
+    updateSuccessAction() {
+        this.setData({isUpdate: false});
+    },
+    updateFailAction() {
+        this.backToIndexPage('升级失败，回退');
+    },
+    backToIndexPage(text) {
         Toast.showLoading(text);
         app.isOTAUpdate = false;
         const bleManager = app.getBLEManager();
@@ -452,11 +461,6 @@ Page({
             Toast.hiddenLoading();
             HiNavigator.switchToIndexPage({});
         }, 3000);
-
-    },
-
-    updateFailAction() {
-        this.toUse('升级失败，回退');
     },
     onUnload() {
         wx.setKeepScreenOn({
