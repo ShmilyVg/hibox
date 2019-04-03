@@ -17,10 +17,14 @@
 .small-pic {
     width: 100rpx;
     height: 100rpx;
+}
+.update-image-center{
+    width: 100%;
     position: fixed;
     top: 415rpx;
+    left: 0;
+    justify-content: center;
 }
-
 .ani{
     animation-name: breath;
     animation-duration: 5s;                         /* 动画时长3秒 */

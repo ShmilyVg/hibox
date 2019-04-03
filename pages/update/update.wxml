@@ -1,8 +1,10 @@
 <!--pages/update/update.wxml-->
 <view class="flex-column">
     <image style="width:277rpx;height:597rpx;margin:110rpx 0 55rpx" src="../../images/update/item.png"></image>
-    <image wx:if="{{isUpdate}}" class="small-pic ani" src="../../images/update/update.png"></image>
-    <image wx:else class="small-pic" src="../../images/update/finish.png"></image>
+    <view class="flex-row update-image-center">
+        <image wx:if="{{isUpdate}}" class="small-pic ani" src="../../images/update/update.png"></image>
+        <image wx:else class="small-pic" src="../../images/update/finish.png"></image>
+    </view>
 
     <text style="font-size: 50rpx;color: #AAAAAA">{{isUpdate?'设备正在升级':'升级成功'}}</text>
     <view wx:if="{{isUpdate}}" style="margin-top: 40rpx">
