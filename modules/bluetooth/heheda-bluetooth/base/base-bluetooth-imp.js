@@ -132,10 +132,11 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
         }
     }
 
-    setBLEUpdateListener({scanBLEListener, connectionStateListener, adapterStateListener}) {
+    setBLEUpdateListener({scanBLEListener, connectionStateListener, adapterStateListener,receiveDataListener}) {
         this._scanBLDListener = scanBLEListener;
         this._connectionStateListener = connectionStateListener;
         this._adapterStateListener = adapterStateListener;
+        this._receiveDataOutsideistener = receiveDataListener;
     }
     /**
      * 设置蓝牙行为的监听

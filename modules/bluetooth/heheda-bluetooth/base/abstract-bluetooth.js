@@ -20,6 +20,7 @@ export default class AbstractBlueTooth {
         this._receiveDataListener = null;
         this._startDiscoveryTimeoutIndex = 0;
         this.UUIDs = [];
+        this._receiveDataOutsideistener = null;
         this._receiveDataInsideListener = ({receiveBuffer}) => {
             if (!!this._receiveDataListener) {
                 const {finalResult, state, filter} = this.dealReceiveData({receiveBuffer});
@@ -298,7 +299,11 @@ export default class AbstractBlueTooth {
                     console.log('自己的服务', serverItem);
                     // 操作之前先监听，保证第一时间获取数据
                     wx.onBLECharacteristicValueChange((res) => {
-                        this._receiveDataInsideListener({receiveBuffer: res.value});
+                        if (!this._receiveDataOutsideistener) {
+                            this._receiveDataInsideListener({receiveBuffer: res.value});
+                        } else {
+                            this._receiveDataOutsideistener(res);
+                        }
                     });
                     return this._getBLEDeviceCharacteristics({deviceId, serviceId: serverItem.uuid});
                 }

@@ -115,6 +115,88 @@ Page({
                         });
                     }
                 })
+            },
+            receiveDataListener: (characteristic) => {
+                // const idx = inArray(this.data.chs, 'uuid', characteristic.characteristicId)
+                const value = ab2hex(characteristic.value);
+                console.log('收到数据的信息', value, this.datDataArrayBufferObj.index, this.binDataArrayBufferObj.index);
+
+                if (value) {
+                    const valueLower = value.toLowerCase();
+                    if (valueLower.slice(4, 6) !== '01') {//第三组不是01的话，意为升级失败
+                        this.updateFailAction();
+                        return;
+                    }
+                    if (valueLower.indexOf('600601') !== -1) {//接收到数据回复
+                        setTimeout(() => {
+                            if (this.step === 1) {
+                                let buffer02 = new ArrayBuffer(3);
+                                let dataView02 = new DataView(buffer02);
+                                dataView02.setUint8(0, 2);
+                                dataView02.setUint8(1, 7);
+                                dataView02.setUint8(2, 0);
+                                this.sendDataToControlPoint(buffer02).then(() => {
+                                    console.log("发送包020100成功");
+                                    this.sendDfuCreateObjCommand(1, this.datDataArrayBufferObj.arrayBuffer.byteLength).then(({buffer}) => {
+                                        console.log("发送包0601的大小成功，发送的数据", ab2hex(buffer));
+                                    });
+                                });
+
+                            } else if (this.step === 2) {
+                                console.log('预备开始发送第二阶段的0102');
+                                setTimeout(() => {
+                                    this.sendDfuCreateObjCommand(2, this.binDataArrayBufferObj.arrayBuffer.byteLength).then(({buffer}) => {
+                                        console.log("发送包0102的大小成功，发送的数据：", ab2hex(buffer), '第二阶段第几次发包：', this.step - 1);
+                                    });
+                                }, 50);
+                            }
+                        }, 50);
+                    } else if (valueLower.indexOf('600101') !== -1) {
+                        setTimeout(() => {
+                            if (this.step === 1) {
+                                this.sendUpdateData(this.datDataArrayBufferObj)
+                            } else if (this.step >= 2) {
+                                this.sendUpdateData(this.binDataArrayBufferObj, true);
+                            }
+                        }, 50);
+
+                    } else if (valueLower.indexOf('600401') !== -1) {//开始传输固件
+                        setTimeout(() => {
+                            this.step++;
+                            if (this.step >= 2) {
+                                if (this.step === 2) {
+                                    this.sendBinStartCommand();
+                                } else {
+                                    this.putNewSendBinData(this.binDataArrayBufferObj);
+                                    if (this.binDataArrayBufferObj.arrayBuffer && this.binDataArrayBufferObj.arrayBuffer.byteLength) {
+                                        this.sendDfuCreateObjCommand(2, this.binDataArrayBufferObj.arrayBuffer.byteLength).then(({buffer}) => {
+                                            console.log("发送包0102的大小成功，发送的数据：", ab2hex(buffer), '第二阶段第几次发包：', this.step - 1);
+                                        });
+                                    } else {
+                                        console.log('第二阶段全部完成');
+                                        app.updateFinished = true;
+                                        this.closeBLEConnection().finally(() => {
+                                            this.closeBluetoothAdapter().finally(() => {
+                                                console.log('蓝牙连接关闭，可以进入正常使用阶段');
+                                            })
+                                        });
+                                        this.updateSuccessAction();
+                                    }
+                                }
+
+                            }
+                        }, 50);
+                    } else if (valueLower.indexOf('200101') !== -1) {
+                        this.stepIntoOTA = true;
+                        this.closeBLEConnection().finally(() => {
+                            this.closeBluetoothAdapter().finally(() => {
+                                this.openBluetoothAdapter(['fe59']);
+                            })
+                        });
+                    } else if (valueLower.indexOf('60030187000000') !== -1) {//第一完成阶段
+                        this.send04Command();
+                    }
+                }
             }
         });
     },
@@ -196,89 +278,6 @@ Page({
             },
             fail(res) {
                 console.error('getBLEDeviceCharacteristics', res)
-            }
-        })
-        // 操作之前先监听，保证第一时间获取数据
-        wx.onBLECharacteristicValueChange((characteristic) => {
-            // const idx = inArray(this.data.chs, 'uuid', characteristic.characteristicId)
-            const value = ab2hex(characteristic.value);
-            console.log('收到数据的信息', value, this.datDataArrayBufferObj.index, this.binDataArrayBufferObj.index);
-
-            if (value) {
-                const valueLower = value.toLowerCase();
-                if (valueLower.slice(4, 6) !== '01') {//第三组不是01的话，意为升级失败
-                    this.updateFailAction();
-                    return;
-                }
-                if (valueLower.indexOf('600601') !== -1) {//接收到数据回复
-                    setTimeout(() => {
-                        if (this.step === 1) {
-                            let buffer02 = new ArrayBuffer(3);
-                            let dataView02 = new DataView(buffer02);
-                            dataView02.setUint8(0, 2);
-                            dataView02.setUint8(1, 7);
-                            dataView02.setUint8(2, 0);
-                            this.sendDataToControlPoint(buffer02).then(() => {
-                                console.log("发送包020100成功");
-                                this.sendDfuCreateObjCommand(1, this.datDataArrayBufferObj.arrayBuffer.byteLength).then(({buffer}) => {
-                                    console.log("发送包0601的大小成功，发送的数据", ab2hex(buffer));
-                                });
-                            });
-
-                        } else if (this.step === 2) {
-                            console.log('预备开始发送第二阶段的0102');
-                            setTimeout(() => {
-                                this.sendDfuCreateObjCommand(2, this.binDataArrayBufferObj.arrayBuffer.byteLength).then(({buffer}) => {
-                                    console.log("发送包0102的大小成功，发送的数据：", ab2hex(buffer), '第二阶段第几次发包：', this.step - 1);
-                                });
-                            }, 50);
-                        }
-                    }, 50);
-                } else if (valueLower.indexOf('600101') !== -1) {
-                    setTimeout(() => {
-                        if (this.step === 1) {
-                            this.sendUpdateData(this.datDataArrayBufferObj)
-                        } else if (this.step >= 2) {
-                            this.sendUpdateData(this.binDataArrayBufferObj, true);
-                        }
-                    }, 50);
-
-                } else if (valueLower.indexOf('600401') !== -1) {//开始传输固件
-                    setTimeout(() => {
-                        this.step++;
-                        if (this.step >= 2) {
-                            if (this.step === 2) {
-                                this.sendBinStartCommand();
-                            } else {
-                                this.putNewSendBinData(this.binDataArrayBufferObj);
-                                if (this.binDataArrayBufferObj.arrayBuffer && this.binDataArrayBufferObj.arrayBuffer.byteLength) {
-                                    this.sendDfuCreateObjCommand(2, this.binDataArrayBufferObj.arrayBuffer.byteLength).then(({buffer}) => {
-                                        console.log("发送包0102的大小成功，发送的数据：", ab2hex(buffer), '第二阶段第几次发包：', this.step - 1);
-                                    });
-                                } else {
-                                    console.log('第二阶段全部完成');
-                                    app.updateFinished = true;
-                                    this.closeBLEConnection().finally(() => {
-                                        this.closeBluetoothAdapter().finally(() => {
-                                            console.log('蓝牙连接关闭，可以进入正常使用阶段');
-                                        })
-                                    });
-                                    this.updateSuccessAction();
-                                }
-                            }
-
-                        }
-                    }, 50);
-                } else if (valueLower.indexOf('200101') !== -1) {
-                    this.stepIntoOTA = true;
-                    this.closeBLEConnection().finally(() => {
-                        this.closeBluetoothAdapter().finally(() => {
-                            this.openBluetoothAdapter(['fe59']);
-                        })
-                    });
-                } else if (valueLower.indexOf('60030187000000') !== -1) {//第一完成阶段
-                    this.send04Command();
-                }
             }
         })
     },
@@ -468,7 +467,7 @@ Page({
         Toast.showLoading(text);
         app.isOTAUpdate = false;
         const bleManager = app.getBLEManager();
-        bleManager.setBLEUpdateListener({scanBLEListener: null});
+        bleManager.setBLEUpdateListener({scanBLEListener: null, receiveDataListener: null});
         bleManager.closeAll().finally(() => {
             bleManager.connect();
         });
