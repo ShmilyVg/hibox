@@ -78,32 +78,34 @@ Page({
     onBluetoothDeviceFound() {
         const localDeviceId = app.getBLEManager().getDeviceMacAddress();
         const localOTADeviceId = (parseInt(localDeviceId.split(':').join(''), 16) + 1).toString(16).toUpperCase();
-        app.getBLEManager().setDeviceFindAction((res) => {
-            res.devices.forEach(device => {
-                const {deviceId, localName} = device;
-                console.log('扫描到的设备', deviceId, localName);
-                if (!this.stepIntoOTA && deviceId === localDeviceId) {//这是第一阶段
-                    console.log('使能阶段要连接的设备名字', localName);
-                    this.createBLEConnection({deviceId, stopDiscovery: true}).then(() => {
-                        this.getBLEDeviceServices(deviceId);
-                        setTimeout(() => {
-                            this.send01OTACommand();
-                        }, 500);
-                    }).catch(res => {
-                        console.log('使能阶段要连接的设备失败', res);
-                    });
-                } else if (deviceId.toUpperCase().split(':').join('') === localOTADeviceId) {
-                    console.log('ota阶段要连接的设备名字', localName);
-                    this.createBLEConnection({deviceId, stopDiscovery: true}).then(() => {
-                        this.getBLEDeviceServices(deviceId);
-                        setTimeout(() => {
-                            this.sendDatStartCommand();
-                        }, 500);
-                    }).catch(res => {
-                        console.log('ota阶段要连接的设备失败', res);
-                    });
-                }
-            })
+        app.getBLEManager().setBLEUpdateListener({
+            scanBLEListener: (res) => {
+                res.devices.forEach(device => {
+                    const {deviceId, localName} = device;
+                    console.log('扫描到的设备', deviceId, localName);
+                    if (!this.stepIntoOTA && deviceId === localDeviceId) {//这是第一阶段
+                        console.log('使能阶段要连接的设备名字', localName);
+                        this.createBLEConnection({deviceId, stopDiscovery: true}).then(() => {
+                            this.getBLEDeviceServices(deviceId);
+                            setTimeout(() => {
+                                this.send01OTACommand();
+                            }, 500);
+                        }).catch(res => {
+                            console.log('使能阶段要连接的设备失败', res);
+                        });
+                    } else if (deviceId.toUpperCase().split(':').join('') === localOTADeviceId) {
+                        console.log('ota阶段要连接的设备名字', localName);
+                        this.createBLEConnection({deviceId, stopDiscovery: true}).then(() => {
+                            this.getBLEDeviceServices(deviceId);
+                            setTimeout(() => {
+                                this.sendDatStartCommand();
+                            }, 500);
+                        }).catch(res => {
+                            console.log('ota阶段要连接的设备失败', res);
+                        });
+                    }
+                })
+            }
         });
     },
     deviceIds: [],
@@ -430,7 +432,13 @@ Page({
                 characteristicId,
                 value: buffer,
                 success: resolve,
-                fail: reject
+                fail: (res) => {
+                    if (res.errCode === 10008) {
+                        reject();
+                    } else {
+                        this.updateFailAction();
+                    }
+                }
             })
         }, 3));
     },
@@ -439,7 +447,7 @@ Page({
         Toast.showLoading(text);
         app.isOTAUpdate = false;
         const bleManager = app.getBLEManager();
-        bleManager.setDeviceFindAction(null);
+        bleManager.setBLEUpdateListener({scanBLEListener: null});
         bleManager.closeAll().finally(() => {
             bleManager.connect();
         });

@@ -63,6 +63,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
         wx.onBluetoothAdapterStateChange((res) => {
             console.log('适配器状态changed, now is', res, '是否处于升级状态', getApp().isOTAUpdate);
             if (getApp().isOTAUpdate) {
+                this._adapterStateListener && this._adapterStateListener(res);
                 return;
             }
             if (!res.available) {
@@ -79,6 +80,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
             // 该方法回调中可以用于处理连接意外断开等异常情况
             console.log(`device ${res.deviceId} state has changed, connected: ${res.connected}, _isConnected: ${this._isConnected}, _isActiveCloseBLE: ${this._isActiveCloseBLE} 是否处于OTA升级：${getApp().isOTAUpdate}`);
             if (getApp().isOTAUpdate) {
+                this._connectionStateListener && this._connectionStateListener(res);
                 return;
             }
             this._isConnected = res.connected;
@@ -130,11 +132,11 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
         }
     }
 
-    setDeviceFindAction(listener) {
-        this._scanBLDListener = listener;
+    setBLEUpdateListener({scanBLEListener, connectionStateListener, adapterStateListener}) {
+        this._scanBLDListener = scanBLEListener;
+        this._connectionStateListener = connectionStateListener;
+        this._adapterStateListener = adapterStateListener;
     }
-
-
     /**
      * 设置蓝牙行为的监听
      * @param receiveDataListener 必须设置

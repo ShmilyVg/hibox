@@ -27,9 +27,11 @@ export default class SimpleBlueToothImp {
     getDeviceMacAddress() {
         return this.bluetoothManager.getDeviceMacAddress();
     }
-    setDeviceFindAction(listener) {
-        this.bluetoothManager.setDeviceFindAction(listener);
+
+    setBLEUpdateListener({scanBLEListener, connectionStateListener, adapterStateListener}) {
+        this.bluetoothManager.setBLEUpdateListener({scanBLEListener, connectionStateListener, adapterStateListener});
     }
+
     /**
      * 连接蓝牙
      * @returns {*}
