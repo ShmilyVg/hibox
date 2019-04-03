@@ -10,6 +10,8 @@
     <view wx:if="{{isUpdate}}" style="margin-top: 40rpx">
         <text style="font-size: 28rpx;color: #979797">1. 请勿将设备远离手机\n2. 请勿关闭小程序\n3. 请勿关闭手机蓝牙\n4. 请勿熄灭屏幕</text>
     </view>
-    <view wx:if="{{!isUpdate}}" class="to-use" hover-class="press-style" bindtap="toUse">立即使用</view>
+    <view wx:if="{{!isUpdate}}" class="update-bottom-btn flex-row">
+        <view  class="to-use" hover-class="press-style" bindtap="toUse">立即使用</view>
+    </view>
 </view>
 

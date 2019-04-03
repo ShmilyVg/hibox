@@ -1,5 +1,11 @@
 /* pages/update/update.wxss */
-
+.update-bottom-btn{
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 50rpx;
+    justify-content: center;
+}
 .to-use {
     width:610rpx;
     height:100rpx;
@@ -10,8 +16,6 @@
     color:rgba(255,255,255,1);
     line-height:100rpx;
     text-align: center;
-    position: fixed;
-    bottom: 50rpx;
 }
 
 .small-pic {
