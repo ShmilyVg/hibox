@@ -41,7 +41,7 @@ export default class AbstractBlueTooth {
     }
 
     getDeviceMacAddress() {
-        return wx.getStorageSync('deviceId');
+        return this._deviceId || wx.getStorageSync('deviceId');
     }
 
     setDeviceMacAddress({macId}) {
@@ -295,7 +295,7 @@ export default class AbstractBlueTooth {
             for (let i = 0, length = services.length; i < length; i++) {
                 let serverItem = services[i];
                 if (serverItem.isPrimary && serverItem.uuid.toUpperCase() === '6E400001-B5A3-F393-E0A9-E50E24DCCA9F') {
-                    console.log('自己的服务',serverItem);
+                    console.log('自己的服务', serverItem);
                     // 操作之前先监听，保证第一时间获取数据
                     wx.onBLECharacteristicValueChange((res) => {
                         this._receiveDataInsideListener({receiveBuffer: res.value});
