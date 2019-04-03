@@ -174,13 +174,7 @@ Page({
                                         });
                                     } else {
                                         console.log('第二阶段全部完成');
-                                        app.updateFinished = true;
-                                        this.closeBLEConnection().finally(() => {
-                                            this.closeBluetoothAdapter().finally(() => {
-                                                console.log('蓝牙连接关闭，可以进入正常使用阶段');
-                                            })
-                                        });
-                                        this.updateSuccessAction();
+                                        this.whenUpdateFinished().then(() => this.updateSuccessAction());
                                     }
                                 }
 
@@ -188,11 +182,13 @@ Page({
                         }, 50);
                     } else if (valueLower.indexOf('200101') !== -1) {
                         this.stepIntoOTA = true;
-                        this.closeBLEConnection().finally(() => {
-                            this.closeBluetoothAdapter().finally(() => {
-                                this.openBluetoothAdapter(['fe59']);
-                            })
-                        });
+                        setTimeout(() => {
+                            this.closeBLEConnection().finally(() => {
+                                this.closeBluetoothAdapter().finally(() => {
+                                    this.openBluetoothAdapter(['fe59']);
+                                })
+                            });
+                        }, 500);
                     } else if (valueLower.indexOf('60030187000000') !== -1) {//第一完成阶段
                         this.send04Command();
                     }
@@ -371,6 +367,7 @@ Page({
     onLoad() {
         !app.isOTAUpdate && app.getBLEManager().closeAll().finally(() => {
             app.isOTAUpdate = true;
+            app.appIsConnected = false;
             wx.setKeepScreenOn({
                 keepScreenOn: true
             });
@@ -460,6 +457,16 @@ Page({
     updateSuccessAction() {
         this.setData({isUpdate: false});
     },
+    whenUpdateFinished() {
+        return new Promise((resolve) => {
+            this.closeBLEConnection().finally(() => {
+                this.closeBluetoothAdapter().finally(() => {
+                    console.log('蓝牙连接关闭，可以进入正常使用阶段');
+                    resolve();
+                })
+            })
+        });
+    },
     updateFailAction() {
         this.backToIndexPage('升级失败，回退');
     },
@@ -475,6 +482,17 @@ Page({
             Toast.hiddenLoading();
             HiNavigator.switchToIndexPage({});
         }, 3000);
+    },
+    onHide() {
+        this.isWhenUpdateHidden = true;
+    },
+
+    onShow() {
+        if (this.isWhenUpdateHidden) {
+            this.whenUpdateFinished().finally(() => {
+                this.updateFailAction();
+            });
+        }
     },
     onUnload() {
         wx.setKeepScreenOn({
