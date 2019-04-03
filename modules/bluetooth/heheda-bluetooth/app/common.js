@@ -11,7 +11,7 @@ const obj = {
     commonOnLaunch({options, bLEManager, needNetwork = true}) {
         needNetwork && this.doLogin();
         this.bLEManager = bLEManager;
-        let isConnected = false;
+        this.appIsConnected = false;
         this.bLEManager.setBLEListener({
             receiveDataListener: ({finalResult, state}) => {
                 if (CommonProtocolState.GET_CONNECTED_RESULT_SUCCESS === state.protocolState) {
@@ -32,7 +32,7 @@ const obj = {
                                 console.log('绑定协议报错', res);
                                 this._updateBLEState({state: {connectState: CommonConnectState.UNBIND}});
                             });
-                        }else{
+                        } else {
                             console.log('绑定成功，不需发送协议情况下');
                             this.bLEManager.setBindMarkStorage();
                             this.commonAppReceiveDataListener && this.commonAppReceiveDataListener({
@@ -48,18 +48,18 @@ const obj = {
                 }
             }, bleStateListener: ({state}) => {
                 this.bLEManager.latestState = state;
-                console.log('状态更新', state);
+                console.log('状态更新', state, 'isConnected:', this.appIsConnected);
                 switch (state.connectState) {
                     case CommonConnectState.CONNECTED:
-                        if (!isConnected) {
+                        if (!this.appIsConnected) {
                             this.bLEManager.startProtocol();
-                            isConnected = true;
+                            this.appIsConnected = true;
                         }
                         break;
                     case CommonConnectState.UNBIND:
                     case CommonConnectState.DISCONNECT:
                     case CommonConnectState.UNAVAILABLE:
-                        isConnected = false;
+                        this.appIsConnected = false;
                         break;
 
                 }
