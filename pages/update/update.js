@@ -19,8 +19,8 @@ Page({
     data: {
         isUpdate: true
     },
-    isGreen: false,
-
+    isAndroid: true,
+    dfuDeviceLocalName: 'HiBoxDfuTarg',
     stepIntoOTA: false,
     writeEnableAndOTAServiceId: "0000FE95-0000-1000-8000-00805F9B34FB",
     writeEnableOTACharacteristicId: "8EC90003-F315-4F60-9FB8-838830DAEA50",
@@ -75,9 +75,19 @@ Page({
             });
         })
     },
+
+    getDfuDeviceFoundTag({deviceId, localOTADeviceId}) {
+        if (this.isAndroid) {
+            return deviceId.toUpperCase().split(':').join('') === localOTADeviceId;
+        } else {
+            return deviceId.localName === this.dfuDeviceLocalName;
+        }
+    },
+
     onBluetoothDeviceFound() {
         const localDeviceId = app.getBLEManager().getDeviceMacAddress();
         const localOTADeviceId = (parseInt(localDeviceId.split(':').join(''), 16) + 1).toString(16).toUpperCase();
+        console.log('平台是否是Android：', this.isAndroid);
         app.getBLEManager().setBLEUpdateListener({
             scanBLEListener: (res) => {
                 res.devices.forEach(device => {
@@ -93,7 +103,7 @@ Page({
                         }).catch(res => {
                             console.log('使能阶段要连接的设备失败', res);
                         });
-                    } else if (deviceId.toUpperCase().split(':').join('') === localOTADeviceId) {
+                    } else if (this.getDfuDeviceFoundTag({deviceId, localOTADeviceId})) {
                         console.log('ota阶段要连接的设备名字', localName);
                         this.createBLEConnection({deviceId, stopDiscovery: true}).then(() => {
                             this.getBLEDeviceServices(deviceId);
@@ -367,6 +377,11 @@ Page({
             });
             this.fileSystemManager = wx.getFileSystemManager();
             const {binUrl, datUrl} = getApp().otaUrl;
+            wx.getSystemInfo({
+                success: (res) => {
+                    this.isAndroid = res.platform;
+                }
+            });
             wx.downloadFile({
                 // 示例 url，并非真实存在
                 url: binUrl,
