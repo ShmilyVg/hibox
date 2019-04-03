@@ -1,16 +1,8 @@
 // pages/update/update.js
 import HiNavigator from "../../navigator/hi-navigator";
+import {Toast} from "heheda-common-view";
 
 const app = getApp();
-
-function inArray(arr, key, val) {
-    for (let i = 0; i < arr.length; i++) {
-        if (arr[i][key] === val) {
-            return i;
-        }
-    }
-    return -1;
-}
 
 // ArrayBuffer转16进度字符串示例
 function ab2hex(buffer) {
@@ -27,6 +19,8 @@ Page({
     data: {
         isUpdate: true
     },
+    isGreen: false,
+
     stepIntoOTA: false,
     writeEnableAndOTAServiceId: "0000FE95-0000-1000-8000-00805F9B34FB",
     writeEnableOTACharacteristicId: "8EC90003-F315-4F60-9FB8-838830DAEA50",
@@ -296,7 +290,7 @@ Page({
                             this.openBluetoothAdapter(['fe59']);
                         })
                     });
-                } else if (valueLower === '60030187000000aaf1e9d2') {//第一完成阶段
+                } else if (valueLower.indexOf('60030187000000') !== -1) {//第一完成阶段
                     this.send04Command();
                 }
             }
@@ -401,8 +395,8 @@ Page({
 
             wx.downloadFile({
                 // 示例 url，并非真实存在
-                url: 'https://backend.stage.hipee.cn/hipee-resource/public/f1a07a5d2d8c43b49d59711e4439c35b.bin',//green.bin
-                // url: 'https://backend.stage.hipee.cn/hipee-resource/public/5ca3d519a93040568b2126a7cf6932b7.bin',//2.bin
+                url: this.isGreen ? 'https://backend.stage.hipee.cn/hipee-resource/public/f1a07a5d2d8c43b49d59711e4439c35b.bin' ://green.bin
+                    'https://backend.stage.hipee.cn/hipee-resource/public/b6830a279b4d434aae2474a4219172eb.bin',//yellow.bin
                 success: (res) => {
                     const filePath = res.tempFilePath;
                     console.log('文件bin下载成功', res);
@@ -421,8 +415,8 @@ Page({
 
                             wx.downloadFile({
                                 // 示例 url，并非真实存在
-                                url: 'https://backend.stage.hipee.cn/hipee-resource/public/cf7cb6959fe641119317ee030dcc8edd.dat',//green.dat
-                                // url: 'https://backend.stage.hipee.cn/hipee-resource/public/7fc5db3402c548bfae8e1de9b39e8c46.dat',//2.dat
+                                url: this.isGreen ? 'https://backend.stage.hipee.cn/hipee-resource/public/cf7cb6959fe641119317ee030dcc8edd.dat' ://green.dat
+                                    'https://backend.stage.hipee.cn/hipee-resource/public/629cf2aa3860471a8a896c142a401c92.dat',//yellow.dat
                                 success: (res) => {
                                     const filePath = res.tempFilePath;
                                     console.log('文件dat下载成功', res);
@@ -454,26 +448,36 @@ Page({
     },
 
     sendDataToPoint(buffer, characteristicId) {
-        return new Promise((resolve, reject) => wx.writeBLECharacteristicValue({
-            deviceId: this._deviceId,
-            serviceId: this._serviceId,
-            characteristicId,
-            value: buffer,
-            success: resolve,
-            fail: reject
-        }));
+        return new Promise((resolve, reject) => setTimeout(() => {
+            wx.writeBLECharacteristicValue({
+                deviceId: this._deviceId,
+                serviceId: this._serviceId,
+                characteristicId,
+                value: buffer,
+                success: resolve,
+                fail: reject
+            })
+        }, 3));
     },
 
     toUse() {
-        // Toast.showLoading();
+        Toast.showLoading('正在应用...');
+        app.isOTAUpdate = false;
+        const bleManager = app.getBLEManager();
+        bleManager.setDeviceFindAction(null);
+        bleManager.closeAll().finally(()=>{
+            bleManager.connect();
+        });
         setTimeout(() => {
-            app.isOTAUpdate = false;
-            app.getBLEManager().setDeviceFindAction(null);
-            app.getBLEManager().connect().finally(() => {
-                HiNavigator.switchToIndexPage({});
-            })
-            // .finally(Toast.hiddenLoading);
-        }, 3000);
+            Toast.hiddenLoading();
+            HiNavigator.switchToIndexPage({});
+        }, 4000);
 
+    },
+
+    onUnload() {
+        wx.setKeepScreenOn({
+            keepScreenOn: false
+        });
     }
 });
