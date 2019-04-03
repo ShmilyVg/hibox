@@ -3,7 +3,7 @@ import Protocol from "../../modules/network/protocol";
 import HiNavigator from "../../navigator/hi-navigator";
 import * as tools from "../../utils/tools";
 
-let _pageDebug = true;
+let _pageDebug = false;
 
 Page({
     data: {
