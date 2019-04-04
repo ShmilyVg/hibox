@@ -485,16 +485,16 @@ Page({
     },
     onHide() {
         this.isWhenUpdateHidden = true;
+        this.whenUpdateFinished();
     },
 
     onShow() {
         if (this.isWhenUpdateHidden) {
-            this.whenUpdateFinished().finally(() => {
-                this.updateFailAction();
-            });
+            this.updateFailAction();
         }
     },
     onUnload() {
+        this.isWhenUpdateHidden = false;
         wx.setKeepScreenOn({
             keepScreenOn: false
         });
