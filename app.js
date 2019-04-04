@@ -40,6 +40,7 @@ App({
                         count = 0;
                         this.queryDataFinish();
                         setTimeout(() => {
+                            console.log('硬件传来的固件版本号', otaVersion);
                             if (otaVersion !== -1) {
                                 // HiNavigator.relaunchToUpdatePage({
                                 //     binUrl: this.isGreen ? 'https://backend.stage.hipee.cn/hipee-resource/public/f1a07a5d2d8c43b49d59711e4439c35b.bin' ://green.bin
@@ -47,7 +48,6 @@ App({
                                 //     datUrl: this.isGreen ? 'https://backend.stage.hipee.cn/hipee-resource/public/cf7cb6959fe641119317ee030dcc8edd.dat' ://green.dat
                                 //         'https://backend.stage.hipee.cn/hipee-resource/public/629cf2aa3860471a8a896c142a401c92.dat',//yellow.dat
                                 // });
-                                console.log('硬件传来的固件版本号', otaVersion);
                                 CommonProtocol.postBlueToothUpdate({
                                     deviceId: this.bLEManager.getDeviceMacAddress(),
                                     version: otaVersion
