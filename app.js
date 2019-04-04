@@ -41,28 +41,26 @@ App({
                         this.queryDataFinish();
                         setTimeout(() => {
                             if (otaVersion) {
-                                HiNavigator.relaunchToUpdatePage({
-                                    binUrl: this.isGreen ? 'https://backend.stage.hipee.cn/hipee-resource/public/f1a07a5d2d8c43b49d59711e4439c35b.bin' ://green.bin
-                                        'https://backend.stage.hipee.cn/hipee-resource/public/b6830a279b4d434aae2474a4219172eb.bin',//yellow.bin,
-                                    datUrl: this.isGreen ? 'https://backend.stage.hipee.cn/hipee-resource/public/cf7cb6959fe641119317ee030dcc8edd.dat' ://green.dat
-                                        'https://backend.stage.hipee.cn/hipee-resource/public/629cf2aa3860471a8a896c142a401c92.dat',//yellow.dat
-                                });
-                                // CommonProtocol.postBlueToothUpdate({
-                                //     deviceId: this.bLEManager.getDeviceMacAddress(),
-                                //     version: otaVersion
-                                // }).then(data => {
-                                //     const {update: isUpdate, url: fileUrl, hash, version: newVersion} = data.result;
-                                //     if (isUpdate) {
-                                //         HiNavigator.relaunchToUpdatePage({
-                                //             binUrl: this.isGreen ? 'https://backend.stage.hipee.cn/hipee-resource/public/f1a07a5d2d8c43b49d59711e4439c35b.bin' ://green.bin
-                                //                 'https://backend.stage.hipee.cn/hipee-resource/public/b6830a279b4d434aae2474a4219172eb.bin',//yellow.bin,
-                                //             datUrl: this.isGreen ? 'https://backend.stage.hipee.cn/hipee-resource/public/cf7cb6959fe641119317ee030dcc8edd.dat' ://green.dat
-                                //                 'https://backend.stage.hipee.cn/hipee-resource/public/629cf2aa3860471a8a896c142a401c92.dat',//yellow.dat
-                                //         });
-                                //     } else {
-                                //         console.log('无需升级');
-                                //     }
-                                // })
+                                // HiNavigator.relaunchToUpdatePage({
+                                //     binUrl: this.isGreen ? 'https://backend.stage.hipee.cn/hipee-resource/public/f1a07a5d2d8c43b49d59711e4439c35b.bin' ://green.bin
+                                //         'https://backend.stage.hipee.cn/hipee-resource/public/b6830a279b4d434aae2474a4219172eb.bin',//yellow.bin,
+                                //     datUrl: this.isGreen ? 'https://backend.stage.hipee.cn/hipee-resource/public/cf7cb6959fe641119317ee030dcc8edd.dat' ://green.dat
+                                //         'https://backend.stage.hipee.cn/hipee-resource/public/629cf2aa3860471a8a896c142a401c92.dat',//yellow.dat
+                                // });
+                                CommonProtocol.postBlueToothUpdate({
+                                    deviceId: this.bLEManager.getDeviceMacAddress(),
+                                    version: 0
+                                }).then(data => {
+                                    const {update: isUpdate, zip: {bin: binArray, dat: datArray}} = data.result;
+                                    if (isUpdate && binArray && binArray.length && datArray && datArray.length) {
+
+                                        const {url: binUrl, md5: binMd5} = binArray[0];
+                                        const {url: datUrl, md5: datMd5} = datArray[0];
+                                        HiNavigator.relaunchToUpdatePage({binUrl, datUrl});
+                                    } else {
+                                        console.log('无需升级');
+                                    }
+                                })
 
                             }
                         })
