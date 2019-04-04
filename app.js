@@ -125,10 +125,10 @@ App({
             this.commonOnShow({options});
             Protocol.getDeviceBindInfo().then(data => {
                 if (data.result) {
-                    const {device_id: deviceId, mac} = data.result;
+                    const {mac} = data.result;
                     this.bLEManager.setBindMarkStorage();
                     this.bLEManager.connect({macId: mac});
-                    this.onDeviceBindInfoListener && this.onDeviceBindInfoListener({deviceId});
+                    this.onDeviceBindInfoListener && this.onDeviceBindInfoListener({deviceId: mac});
                 } else {
                     this.bLEManager.clearConnectedBLE();
                     HiNavigator.reLaunchToBindDevicePage();
