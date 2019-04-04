@@ -49,7 +49,7 @@ App({
                                 // });
                                 CommonProtocol.postBlueToothUpdate({
                                     deviceId: this.bLEManager.getDeviceMacAddress(),
-                                    version: 0
+                                    version: otaVersion
                                 }).then(data => {
                                     const {update: isUpdate, zip: {bin: binArray, dat: datArray}} = data.result;
                                     if (isUpdate && binArray && binArray.length && datArray && datArray.length) {
