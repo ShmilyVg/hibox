@@ -474,14 +474,13 @@ Page({
         Toast.showLoading(text);
         app.isOTAUpdate = false;
         const bleManager = app.getBLEManager();
-        app.globalData.refreshIndexPage = true;
         bleManager.setBLEUpdateListener({scanBLEListener: null, receiveDataListener: null});
         bleManager.closeAll().finally(() => {
             bleManager.connect();
         });
         setTimeout(() => {
             Toast.hiddenLoading();
-            HiNavigator.switchToIndexPage({});
+            HiNavigator.switchToIndexPage({refresh: true});
         }, 3000);
     },
     onHide() {
