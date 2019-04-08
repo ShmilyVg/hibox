@@ -474,6 +474,7 @@ Page({
         Toast.showLoading(text);
         app.isOTAUpdate = false;
         const bleManager = app.getBLEManager();
+        app.globalData.refreshIndexPage = true;
         bleManager.setBLEUpdateListener({scanBLEListener: null, receiveDataListener: null});
         bleManager.closeAll().finally(() => {
             bleManager.connect();
