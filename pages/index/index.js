@@ -144,12 +144,38 @@ Page({
         })
     },
 
+    showOpenTip() {
+        wx.showModal({
+            title: 'TIPS',
+            content: '请开机手机蓝牙及网络后再进行设置',
+            confirmColor: '#67D5B8',
+            confirmText: '我知道了',
+            showCancel: false
+        });
+    },
+
     clickTopAdd(e) {
+        let that = this;
+        let index = this.getIndexNum(e);
         if (!this.data.isConnect) {
+            that.showOpenTip();
             return;
         }
+        wx.getNetworkType({
+            success(res) {
+                const networkType = res.networkType;
+                if (networkType === 'none') {
+                    that.showOpenTip();
+                } else {
+                    that.clickTopAddHandle(index);
+                }
+            }
+        });
 
-        let index = this.getIndexNum(e);
+
+    },
+
+    clickTopAddHandle(index) {
         if (this.data.box[index]) {
             this.setData({
                 choseIndex: index,
@@ -207,6 +233,7 @@ Page({
 
         }
     },
+
 
     clickPhoto(e) {
         let index = this.getIndexNum(e);
