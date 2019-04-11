@@ -66,7 +66,7 @@ Page({
             let ruler = tools.getRulerTime();
             let times = ruler[this.data.data.cycle];
             let value = [];
-            for (let i = 0; i < times.length; i++) {
+            for (let i in times) {
                 value[i] = {number: this.data.data.dosage, remind_time: times[i]}
             }
 
