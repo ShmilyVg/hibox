@@ -17,9 +17,9 @@ export default class HiNavigator extends CommonNavigator {
         this.navigateTo({url: '/pages/drug-info/drug-info'});
     }
 
-    static navigateToScanErr({index}){
+    static navigateToScanErr({index, code}) {
         this.navigateTo({
-            url:`/pages/scan-err/scan-err?index=${index}`
+            url: `/pages/scan-err/scan-err?index=${index}&code=${code}`
         })
     }
 
@@ -35,7 +35,7 @@ export default class HiNavigator extends CommonNavigator {
      * @param step 当前是第几步
      * @param count 当前总共的步数
      */
-    static navigateToDrugNumberPage({classify='scan', drugName, step, count, code = 0}) {
+    static navigateToDrugNumberPage({classify = 'scan', drugName, step, count, code = 0}) {
         this.navigateTo({url: `/pages/add-drug/number/number?classify=${classify}&drugName=${drugName}&step=${parseInt(step) + 1}&count=${count}&code=${code}`})
     }
 
@@ -62,7 +62,8 @@ export default class HiNavigator extends CommonNavigator {
         this.reLaunch({url: '/pages/bind-device/bind-device'})
     }
 
-    static reLaunchToUpdate(){
-        this.reLaunch({url:'pages/update/update'})
+    static relaunchToUpdatePage({binUrl, datUrl}) {
+        getApp().otaUrl = arguments[0];
+        this.reLaunch({url: '/pages/update/update'});
     }
 }

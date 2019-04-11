@@ -12,7 +12,8 @@
     "pages/update/update",
     "pages/scan-code/scan-code",
     "pages/scan-err/scan-err",
-    "pages/drug-info/drug-info"
+    "pages/drug-info/drug-info",
+    "pages/upload-instruction/upload-instruction"
   ],
   "tabBar": {
     "selectedColor": "#66DABF",

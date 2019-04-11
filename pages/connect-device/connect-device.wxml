@@ -9,7 +9,7 @@
     <image wx:else src="../../images/device-whole.png" style="width: 346rpx;height: 746rpx;margin-top: 70rpx;position: relative;">
         <image wx:if="{{isFlicker}}" src="../../images/device-flicker.png" class="flicker"></image>
     </image>
-    <view class="text-bottom">HiPee Smart Pillbox</view>
+    <view class="text-bottom"> </view>
 </view>
 
 <block wx:else>

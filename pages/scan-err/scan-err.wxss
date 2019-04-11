@@ -1,1 +1,26 @@
 /* pages/scan-err/scan-err.wxss */
+
+.line {
+    width:100%;
+    height:2rpx;
+    background-color: #E8E8E8;
+    margin-top: 25rpx;
+    margin-bottom: 25rpx;
+}
+
+.tip{
+    font-size:32rpx;
+    font-weight:400;
+    color:rgba(103,213,184,1);
+    line-height:45rpx;
+    color: #ADADAD;
+}
+
+.info {
+    font-size:34rpx;
+    font-weight:500;
+    color:rgba(103,213,184,1);
+    line-height:48rpx;
+    position: absolute;
+    bottom: 50rpx;
+}

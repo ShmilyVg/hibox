@@ -24,6 +24,7 @@ Page({
     },
 
     onLoad: function () {
+        wx.showNavigationBarLoading();
         let that = this;
         wx.getStorage({
             key: 'userInfo',
@@ -139,15 +140,42 @@ Page({
             this.setData({
                 list: data.result
             })
+            wx.hideNavigationBarLoading();
         })
     },
 
+    showOpenTip() {
+        wx.showModal({
+            title: 'TIPS',
+            content: '请开机手机蓝牙及网络后再进行设置',
+            confirmColor: '#67D5B8',
+            confirmText: '我知道了',
+            showCancel: false
+        });
+    },
+
     clickTopAdd(e) {
+        let that = this;
+        let index = this.getIndexNum(e);
         if (!this.data.isConnect) {
+            that.showOpenTip();
             return;
         }
+        wx.getNetworkType({
+            success(res) {
+                const networkType = res.networkType;
+                if (networkType === 'none') {
+                    that.showOpenTip();
+                } else {
+                    that.clickTopAddHandle(index);
+                }
+            }
+        });
 
-        let index = this.getIndexNum(e);
+
+    },
+
+    clickTopAddHandle(index) {
         if (this.data.box[index]) {
             this.setData({
                 choseIndex: index,
@@ -173,6 +201,7 @@ Page({
                                         if (data.result.drugName) {
                                             // 是可用一维码
                                             console.log('是可用一维码');
+                                            getApp().globalData.addOrEditDrugObj.compartment = index + 1;
                                             HiNavigator.navigateToDrugInfo({
                                                 compartment: index + 1,
                                                 drugInfo: data
@@ -181,7 +210,8 @@ Page({
                                             // 非可用一维码
                                             console.log('非可用一维码');
                                             HiNavigator.navigateToScanErr({
-                                                index: index + 1
+                                                index: index + 1,
+                                                code: res.result
                                             })
                                         }
                                     })
@@ -203,6 +233,7 @@ Page({
 
         }
     },
+
 
     clickPhoto(e) {
         let index = this.getIndexNum(e);
@@ -258,6 +289,8 @@ Page({
                         })
                     },
                     fail: function (e) {
+                        toast.hiddenLoading();
+                        toast.warn('上传失败');
                     },
                     complete: function (e) {
                     }

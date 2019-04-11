@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "navigationBarBackgroundColor": "#67D5B8",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#67D5B8",
+  "navigationBarTitleText": "说明书"
 }
