@@ -56,6 +56,7 @@ Page({
 
         getApp().setBLEListener({
             bleStateListener: ({state}) => {
+                console.log('设置时间，state=', state);
                 switch (state.connectState) {
                     case ConnectState.UNAVAILABLE:
                     case ConnectState.UNBIND:
@@ -173,18 +174,22 @@ Page({
             delete (this.data['code']);
         }
         const {connectState, protocolState} = getApp().getLatestBLEState();
+        console.log('设置时间，点击nextStep:protocolState类型', typeof protocolState);
         switch (connectState) {
             case ConnectState.CONNECTED:
-                if (protocolState !== ProtocolState.UNKNOWN) {
-                    Toast.showLoading('正在设置...');
+                if (!!protocolState && protocolState !== ProtocolState.UNKNOWN) {
+                    Toast.showLoading('正在设置2...');
                     this.dataForBLE = DrugRuler.getConvertToBLEList({...this.data});
                     this.sendDataToBLE();
+                } else if (!this.bleConnectingAction) {
+                    this.bleConnectingAction = true;
+                    Toast.showLoading('正在设置3...');
                 }
                 break;
             default :
                 if (!this.bleConnectingAction) {
                     this.bleConnectingAction = true;
-                    Toast.showLoading('正在设置...');
+                    Toast.showLoading('正在设置1...');
                 }
                 break;
         }
