@@ -31,6 +31,7 @@ Page({
         const obj = this.getAfterClearSelectedObj();
         obj[`drugs[${index}].selected`] = true;
         obj['drugName'] = this.data.drugs[index].name;
+        getApp().globalData.addOrEditDrugObj.drugName = this.data.drugs[index].name;
         this.setData(obj);
     },
 

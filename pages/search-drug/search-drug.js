@@ -41,7 +41,8 @@ Page({
         let content = e.detail.value;
         this.postDrugName(content);
         this.setData({
-            inputContent: content
+            inputContent: content,
+            inputName:content
         })
     },
 
@@ -54,7 +55,11 @@ Page({
     },
 
     clickConfirm() {
-        this.backPage(this.data.inputContent);
+        if (this.data.inputName) {
+            this.backPage(this.data.inputName)
+        } else {
+            this.backPage(this.data.inputContent);
+        }
     },
 
     clickCell(e) {
