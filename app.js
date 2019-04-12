@@ -15,7 +15,8 @@ App({
     otaUrl: {},
     isGreen: false,
     onLaunch(options) {
-        let records = [], count = 0, otaVersion = -1;
+        let records = [], count = 0;
+        this.otaVersion = -1;
         this.setCommonBLEListener({
             commonAppReceiveDataListener: ({finalResult, state}) => {
                 if (ProtocolState.QUERY_DATA_ING === state.protocolState) {
@@ -40,8 +41,8 @@ App({
                         count = 0;
                         this.queryDataFinish();
                         setTimeout(() => {
-                            console.log('硬件传来的固件版本号', otaVersion);
-                            if (otaVersion !== -1) {
+                            console.log('硬件传来的固件版本号', this.otaVersion);
+                            if (this.otaVersion !== -1) {
                                 // HiNavigator.relaunchToUpdatePage({
                                 //     binUrl: this.isGreen ? 'https://backend.stage.hipee.cn/hipee-resource/public/f1a07a5d2d8c43b49d59711e4439c35b.bin' ://green.bin
                                 //         'https://backend.stage.hipee.cn/hipee-resource/public/b6830a279b4d434aae2474a4219172eb.bin',//yellow.bin,
@@ -50,16 +51,18 @@ App({
                                 // });
                                 CommonProtocol.postBlueToothUpdate({
                                     deviceId: this.bLEManager.getDeviceMacAddress(),
-                                    version: otaVersion
+                                    version: this.otaVersion
                                 }).then(data => {
-                                    const {update: isUpdate, zip: {bin: binArray, dat: datArray}} = data.result;
-                                    if (isUpdate && binArray && binArray.length && datArray && datArray.length) {
-
-                                        const {url: binUrl, md5: binMd5} = binArray[0];
-                                        const {url: datUrl, md5: datMd5} = datArray[0];
-                                        HiNavigator.relaunchToUpdatePage({binUrl, datUrl});
-                                    } else {
-                                        console.log('无需升级');
+                                    const {update: isUpdate, zip} = data.result;
+                                    if (zip) {
+                                        const {bin: binArray, dat: datArray} = zip;
+                                        if (isUpdate && binArray && binArray.length && datArray && datArray.length) {
+                                            const {url: binUrl, md5: binMd5} = binArray[0];
+                                            const {url: datUrl, md5: datMd5} = datArray[0];
+                                            HiNavigator.relaunchToUpdatePage({binUrl, datUrl});
+                                        } else {
+                                            console.log('无需升级');
+                                        }
                                     }
                                 })
 
@@ -72,7 +75,7 @@ App({
                     }
 
                 } else if (ProtocolState.TIMESTAMP === state.protocolState) {
-                    otaVersion = finalResult.version;
+                    this.otaVersion = finalResult.version;
                     if (finalResult.battery < 21) {
                         this.onBatteryInfoListener && this.onBatteryInfoListener({battery: true});
                         this.globalData.globalBattery = 2

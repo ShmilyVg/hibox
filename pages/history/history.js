@@ -83,15 +83,22 @@ Page({
 
             if (list.length) {
                 let allList = list.sort(function (item1, item2) {
-                    return item2.time - item1.time;
+                    const divideTime = item2.time - item1.time;
+                    if (divideTime !== 0) {
+                        return divideTime;
+                    }else{
+                        return item1.compartment - item2.compartment;
+                    }
+
                 }).map(item => {
-                    const {id, device_id: deviceId, drug_name: drug_name, number, compartment, state, image_url} = item;
-                    const {date, time} = tools.createDateAndTime(item.time);
-                    const isShowTime = !(frontItemTime.date === date && frontItemTime.time === time);
-                    frontItemTime.date = date;
-                    frontItemTime.time = time;
-                    return {date, time, isShowTime, id, deviceId, drug_name, number, compartment, state, image_url};
+                     const {id, device_id: deviceId, drug_name: drug_name, number, compartment, state, image_url} = item;
+                     const {date, time} = tools.createDateAndTime(item.time);
+                     const isShowTime = !(frontItemTime.date === date && frontItemTime.time === time);
+                     frontItemTime.date = date;
+                     frontItemTime.time = time;
+                     return {date, time, isShowTime, id, deviceId, drug_name, number, compartment, state, image_url};
                 });
+                console.log(allList);
 
                 if (!recorded) {
                     allList = this.data.allList.concat(allList);

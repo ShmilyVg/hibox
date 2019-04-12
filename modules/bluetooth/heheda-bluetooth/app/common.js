@@ -56,6 +56,7 @@ const obj = {
                             this.appIsConnected = true;
                         }
                         break;
+                    case CommonConnectState.CONNECTING:
                     case CommonConnectState.UNBIND:
                     case CommonConnectState.DISCONNECT:
                     case CommonConnectState.UNAVAILABLE:

@@ -20,6 +20,7 @@ export default class AbstractBlueTooth {
         this._receiveDataListener = null;
         this._startDiscoveryTimeoutIndex = 0;
         this.UUIDs = [];
+        this.hiServiceUUID = '';
         this._receiveDataOutsideistener = null;
         this._receiveDataInsideListener = ({receiveBuffer}) => {
             if (!!this._receiveDataListener) {
@@ -181,8 +182,10 @@ export default class AbstractBlueTooth {
      * 设置UUID数组
      * 这会让你在扫描蓝牙设备时，只保留该UUID数组的蓝牙设备，过滤掉其他的所有设备，提高扫描效率
      * @param services
+     * @param hiServiceUUID
      */
-    setUUIDs({services}) {
+    setUUIDs({services, hiServiceUUID}) {
+        this._hiServiceUUID = hiServiceUUID;
         if (Array.isArray(services)) {
             this.UUIDs = services;
         } else {
@@ -295,7 +298,7 @@ export default class AbstractBlueTooth {
 
             for (let i = 0, length = services.length; i < length; i++) {
                 let serverItem = services[i];
-                if (serverItem.isPrimary && serverItem.uuid.toUpperCase() === '6E400001-B5A3-F393-E0A9-E50E24DCCA9F') {
+                if (serverItem.isPrimary && serverItem.uuid.toUpperCase() === this._hiServiceUUID) {
                     console.log('自己的服务', serverItem);
                     // 操作之前先监听，保证第一时间获取数据
                     wx.onBLECharacteristicValueChange((res) => {

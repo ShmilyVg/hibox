@@ -14,8 +14,10 @@ Page({
     isFind: false,
     onLoad: function (options) {
         let state = getApp().getLatestBLEState();
+        const otaVersion = getApp().otaVersion;
         this.setData({
-            latestBLEState: state
+            latestBLEState: state,
+            otaVersion: `固件版本：2019.04.${otaVersion}`
         });
         getApp().setBLEListener({
             bleStateListener: ({state}) => {

@@ -19,7 +19,7 @@ export default class Protocol {
     }
 
     static medicalRemindRemove({compartment}) {
-        return Network.request({url: '/medical/remind/remove', data: {compartment: compartment}});
+        return Network.request({url: 'medical/remind/remove', data: {compartment: compartment}});
     }
 
     static getMedicalRemindInfo() {
@@ -27,11 +27,11 @@ export default class Protocol {
     }
 
     static MedicalRecordList({page, page_size = 15}) {
-        return Network.request({url: "/medical/record/list", data: {page, page_size}});
+        return Network.request({url: "medical/record/list", data: {page, page_size}});
     }
 
     static MedicalRecordUpdate({ids, state}) {
-        return Network.request({url: "/medical/record/update", data: {ids: ids, state: state}});
+        return Network.request({url: "medical/record/update", data: {ids: ids, state: state}});
     }
 
     static getMedicalRemindImage({id, image_url}) {
