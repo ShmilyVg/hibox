@@ -32,7 +32,7 @@
     font-family: DIN Condensed;
     font-size: 90rpx;
     line-height:90rpx;
-    margin-top: 25rpx;
+    margin-top: 18rpx;
 }
 .popup-num-unit{
     color: #fff;
