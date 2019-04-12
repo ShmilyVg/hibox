@@ -53,14 +53,16 @@ App({
                                     deviceId: this.bLEManager.getDeviceMacAddress(),
                                     version: this.otaVersion
                                 }).then(data => {
-                                    const {update: isUpdate, zip: {bin: binArray, dat: datArray}} = data.result;
-                                    if (isUpdate && binArray && binArray.length && datArray && datArray.length) {
-
-                                        const {url: binUrl, md5: binMd5} = binArray[0];
-                                        const {url: datUrl, md5: datMd5} = datArray[0];
-                                        HiNavigator.relaunchToUpdatePage({binUrl, datUrl});
-                                    } else {
-                                        console.log('无需升级');
+                                    const {update: isUpdate, zip} = data.result;
+                                    if (zip) {
+                                        const {bin: binArray, dat: datArray} = zip;
+                                        if (isUpdate && binArray && binArray.length && datArray && datArray.length) {
+                                            const {url: binUrl, md5: binMd5} = binArray[0];
+                                            const {url: datUrl, md5: datMd5} = datArray[0];
+                                            HiNavigator.relaunchToUpdatePage({binUrl, datUrl});
+                                        } else {
+                                            console.log('无需升级');
+                                        }
                                     }
                                 })
 
