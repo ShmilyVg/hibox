@@ -64,7 +64,7 @@ Page({
                         setTimeout(Toast.warn, 0, '药盒断连请重试');
                         break;
                     case ConnectState.CONNECTED:
-                        if (state.protocolState !== ProtocolState.UNKNOWN) {
+                        if (state.protocolState === ProtocolState.TIMESTAMP) {
                             if (this.bleConnectingAction) {
                                 this.bleConnectingAction = false;
                                 this.nextStep();
@@ -176,7 +176,7 @@ Page({
         switch (connectState) {
             case ConnectState.CONNECTED:
                 if (protocolState !== ProtocolState.UNKNOWN) {
-                    // Toast.showLoading('正在设置...');
+                    Toast.showLoading('正在设置...');
                     this.dataForBLE = DrugRuler.getConvertToBLEList({...this.data});
                     this.sendDataToBLE();
                 }
