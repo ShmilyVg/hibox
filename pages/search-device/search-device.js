@@ -13,10 +13,8 @@ Page({
     },
     isFind: false,
     onLoad: function (options) {
-        let state = getApp().getLatestBLEState();
         const otaVersion = getApp().otaVersion;
         this.setData({
-            latestBLEState: state,
             otaVersion: `固件版本：2019.04.${otaVersion}`
         });
         getApp().setBLEListener({
@@ -34,7 +32,7 @@ Page({
             return;
         }
 
-        if (this.data.latestBLEState.connectState === ConnectState.CONNECTED) {
+        if (getApp().getLatestBLEState().connectState === ConnectState.CONNECTED) {
             this.setData({
                 isSearching: true
             });
@@ -58,7 +56,7 @@ Page({
     },
 
     deleteDevice() {
-        if (this.data.latestBLEState.connectState === ConnectState.CONNECTED) {
+        if (getApp().getLatestBLEState().connectState === ConnectState.CONNECTED) {
             this.showDeleteModel('删除药盒后，药盒和手机都不再提醒');
         } else {
             this.showDeleteModel('药盒未连接，继续删除可能会丢失未同步的服药记录，并且药盒提醒无法删除');
