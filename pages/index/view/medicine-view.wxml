@@ -12,7 +12,7 @@
         <view class="flex-row" style="color: {{num?'#8AB4B2':'white'}}" bindtap="{{showImage?'clickPhoto':''}}" data-index="{{[num,index]}}">
             <view style="display: flex;align-items: flex-end;margin:20rpx 20rpx 0;">
                 <view style="font-size: 70rpx;font-family: DIN Condensed;line-height: 34rpx;margin-right: 5rpx">{{item.number}}</view>
-                <view style="font-size: 30rpx;line-height: 30rpx;">颗</view>
+                <view style="font-size: 30rpx;line-height: 30rpx;">粒</view>
             </view>
             <block wx:if="{{showImage}}">
                 <image wx:if="{{item.image_url}}" mode="aspectFill" src="{{item.image_url}}" style="width: 70rpx;height: 70rpx;border-radius: 50%;background-color: white"></image>
