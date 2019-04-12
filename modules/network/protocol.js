@@ -48,7 +48,6 @@ export default class Protocol {
     }
 
     static postMedicalRemindConfig({deviceId, compartment, drugName, drugClassify, items, code}) {
-        console.log('=================================>',code);
         return Network.request({
             url: 'medical/remind/config',
             data: {device_id: deviceId, compartment, drug_name: drugName, drug_classify: drugClassify, items, drug_code:code}
