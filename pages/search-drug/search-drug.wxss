@@ -1,9 +1,9 @@
 /* pages/search-drug/search-drug.wxss */
 
-.top-view {
+.top-bg-view {
     background-color: #68D5B8;
-    width: 690rpx;
-    padding: 18rpx 30rpx
+    width: 750rpx;
+    padding: 18rpx 0
 }
 
 .search-drug {
@@ -12,6 +12,7 @@
     width: 530rpx;
     border-radius: 40rpx;
     padding-left: 35rpx;
+    margin-left: 30rpx;
     font-size: 36rpx;
     color: #698B89;
 }
