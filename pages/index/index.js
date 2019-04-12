@@ -171,8 +171,6 @@ Page({
                 }
             }
         });
-
-
     },
 
     clickTopAddHandle(index) {
@@ -230,10 +228,8 @@ Page({
                     }
                 }
             });
-
         }
     },
-
 
     clickPhoto(e) {
         let index = this.getIndexNum(e);

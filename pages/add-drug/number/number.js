@@ -63,7 +63,6 @@ Page({
                         Toast.hiddenLoading();
                         setTimeout(Toast.warn, 0, '药盒断连请重试');
                         break;
-
                     case ConnectState.CONNECTED:
                         if (this.bleConnectingAction) {
                             this.bleConnectingAction = false;
@@ -173,16 +172,16 @@ Page({
         }
         this.dataForBLE = DrugRuler.getConvertToBLEList({...this.data});
         switch (getApp().getLatestBLEState().connectState) {
-            case ConnectState.CONNECTING:
-                Toast.showLoading('正在设置...');
-                this.bleConnectingAction = true;
-                break;
             case ConnectState.CONNECTED:
-                Toast.showLoading('正在设置...');
+                // Toast.showLoading('正在设置...');
                 this.sendDataToBLE();
                 break;
             default :
-                Toast.warn('药盒断连请重试');
+                if (!this.bleConnectingAction) {
+                    this.bleConnectingAction = true;
+                    // Toast.showLoading('正在设置...');
+                    getApp().getBLEManager().connect();
+                }
                 break;
         }
     },

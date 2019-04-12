@@ -9,7 +9,7 @@ Page({
 
     onLoad: function (options) {
         let name = getApp().globalData.addOrEditDrugObj.drugName;
-        if (name.length > 0) {
+        if (name && name.length && name.length > 0) {
             this.setData({
                 inputName: name
             });
@@ -18,7 +18,7 @@ Page({
     },
 
     postDrugName(name) {
-        if (name.length > 0) {
+        if (name && name.length && name.length > 0) {
             Protocol.getDrugSearch({
                 name: name
             }).then(data => {
@@ -54,11 +54,7 @@ Page({
     },
 
     clickConfirm() {
-        if (this.data.inputName) {
-            this.backPage(this.data.inputName)
-        } else {
-            this.backPage(this.data.inputContent);
-        }
+        this.backPage(this.data.inputContent);
     },
 
     clickCell(e) {
