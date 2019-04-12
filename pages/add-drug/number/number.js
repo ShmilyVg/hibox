@@ -16,7 +16,7 @@ Page({
         selectedItemIndex: 0,
         ruler: tools.getRulerTime()
     },
-
+    bleConnectingAction: false,//点击设置按钮时，蓝牙正在重连阶段
     getHiMinutes(divideNumber) {
         let minuteOriginLength = 60;
         return new Array(minuteOriginLength / divideNumber).fill(0).map((item, index) => `0${index * divideNumber}`.slice(-2));
@@ -62,6 +62,13 @@ Page({
                     case ConnectState.DISCONNECT:
                         Toast.hiddenLoading();
                         setTimeout(Toast.warn, 0, '药盒断连请重试');
+                        break;
+
+                    case ConnectState.CONNECTED:
+                        if (this.bleConnectingAction) {
+                            this.bleConnectingAction = false;
+                            this.nextStep();
+                        }
                         break;
                 }
             },
@@ -160,11 +167,24 @@ Page({
     },
     nextStep() {
         // Toast.showLoading();
+        Toast.hiddenLoading();
         if (this.data.code == 0) {
             delete (this.data['code']);
         }
         this.dataForBLE = DrugRuler.getConvertToBLEList({...this.data});
-        this.sendDataToBLE();
+        switch (getApp().getLatestBLEState().connectState) {
+            case ConnectState.CONNECTING:
+                Toast.showLoading('正在设置...');
+                this.bleConnectingAction = true;
+                break;
+            case ConnectState.CONNECTED:
+                Toast.showLoading('正在设置...');
+                this.sendDataToBLE();
+                break;
+            default :
+                Toast.warn('药盒断连请重试');
+                break;
+        }
     },
 
     sendDataToBLE() {
