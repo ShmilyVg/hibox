@@ -64,9 +64,11 @@ Page({
                         setTimeout(Toast.warn, 0, '药盒断连请重试');
                         break;
                     case ConnectState.CONNECTED:
-                        if (this.bleConnectingAction) {
-                            this.bleConnectingAction = false;
-                            this.nextStep();
+                        if (state.protocolState !== ProtocolState.UNKNOWN) {
+                            if (this.bleConnectingAction) {
+                                this.bleConnectingAction = false;
+                                this.nextStep();
+                            }
                         }
                         break;
                 }
@@ -170,17 +172,19 @@ Page({
         if (this.data.code == 0) {
             delete (this.data['code']);
         }
-        this.dataForBLE = DrugRuler.getConvertToBLEList({...this.data});
-        switch (getApp().getLatestBLEState().connectState) {
+        const {connectState, protocolState} = getApp().getLatestBLEState();
+        switch (connectState) {
             case ConnectState.CONNECTED:
-                // Toast.showLoading('正在设置...');
-                this.sendDataToBLE();
+                if (protocolState !== ProtocolState.UNKNOWN) {
+                    // Toast.showLoading('正在设置...');
+                    this.dataForBLE = DrugRuler.getConvertToBLEList({...this.data});
+                    this.sendDataToBLE();
+                }
                 break;
             default :
                 if (!this.bleConnectingAction) {
                     this.bleConnectingAction = true;
-                    // Toast.showLoading('正在设置...');
-                    getApp().getBLEManager().connect();
+                    Toast.showLoading('正在设置...');
                 }
                 break;
         }
