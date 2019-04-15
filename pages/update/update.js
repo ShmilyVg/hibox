@@ -96,20 +96,14 @@ Page({
                     if (!this.stepIntoOTA && deviceId === localDeviceId) {//这是第一阶段
                         console.log('使能阶段要连接的设备名字', localName);
                         this.createBLEConnection({deviceId, stopDiscovery: true}).then(() => {
-                            this.getBLEDeviceServices(deviceId);
-                            setTimeout(() => {
-                                this.send01OTACommand();
-                            }, 500);
+                            return this.getBLEDeviceServices(deviceId).then(this.send01OTACommand);
                         }).catch(res => {
                             console.log('使能阶段要连接的设备失败', res);
                         });
                     } else if (this.getDfuDeviceFoundTag({deviceId, localOTADeviceId, localName})) {
                         console.log('ota阶段要连接的设备名字', localName);
                         this.createBLEConnection({deviceId, stopDiscovery: true}).then(() => {
-                            this.getBLEDeviceServices(deviceId);
-                            setTimeout(() => {
-                                this.sendDatStartCommand();
-                            }, 500);
+                            return this.getBLEDeviceServices(deviceId).then(this.sendDatStartCommand);
                         }).catch(res => {
                             console.log('ota阶段要连接的设备失败', res);
                         });
@@ -224,61 +218,65 @@ Page({
         })
     },
     getBLEDeviceServices(deviceId) {
-        wx.getBLEDeviceServices({
-            deviceId,
-            success: (res) => {
-                console.log('服务', res);
-                for (let i = 0; i < res.services.length; i++) {
-                    if (res.services[i].isPrimary) {
-                        // if (this.stepIntoOTA) {
-                        //     this.getBLEDeviceCharacteristics(deviceId, this.writeEnableAndOTAServiceId);
-                        //     return;
-                        // }else{
-                        this.getBLEDeviceCharacteristics(deviceId, res.services[i].uuid);
-                        return
-                        // }
+        return new Promise((resolve, reject) => {
+            wx.getBLEDeviceServices({
+                deviceId,
+                success: (res) => {
+                    console.log('getBLEDeviceServices success', res);
+                    for (let i = 0; i < res.services.length; i++) {
+                        const service = res.services[i];
+                        if (service.isPrimary && service.uuid.toLowerCase().indexOf('0000fe59') !== -1) {
+                            return this.getBLEDeviceCharacteristics(deviceId, service.uuid).then(resolve).catch(reject);
+                        }
                     }
+                }, fail: (res) => {
+                    console.log('getBLEDeviceServices fail', res);
+                    reject(res);
                 }
-            }
-        })
+            })
+        });
     },
 
     getBLEDeviceCharacteristics(deviceId, serviceId) {
-        wx.getBLEDeviceCharacteristics({
-            deviceId,
-            serviceId,
-            success: (res) => {
-                console.log('getBLEDeviceCharacteristics success', res.characteristics)
-                for (let i = 0; i < res.characteristics.length; i++) {
-                    let item = res.characteristics[i]
-                    if (item.properties.read) {
-                        wx.readBLECharacteristicValue({
-                            deviceId,
-                            serviceId,
-                            characteristicId: item.uuid,
-                        })
+        return new Promise((resolve, reject) => {
+            wx.getBLEDeviceCharacteristics({
+                deviceId,
+                serviceId,
+                success: (res) => {
+                    console.log('getBLEDeviceCharacteristics success', res.characteristics)
+                    for (let i = 0; i < res.characteristics.length; i++) {
+                        let item = res.characteristics[i]
+                        if (item.properties.read) {
+                            wx.readBLECharacteristicValue({
+                                deviceId,
+                                serviceId,
+                                characteristicId: item.uuid,
+                            })
+                        }
+                        if (item.properties.write) {
+                            this._deviceId = deviceId
+                            this._serviceId = serviceId
+                            this._characteristicId = item.uuid
+                            console.log('写次数', this._characteristicId);
+                            // this.writeBLECharacteristicValue()
+                        }
+                        if (item.properties.notify || item.properties.indicate) {
+                            wx.notifyBLECharacteristicValueChange({
+                                deviceId,
+                                serviceId,
+                                characteristicId: item.uuid,
+                                state: true,
+                            })
+                        }
                     }
-                    if (item.properties.write) {
-                        this._deviceId = deviceId
-                        this._serviceId = serviceId
-                        this._characteristicId = item.uuid
-                        console.log('写次数', this._characteristicId);
-                        // this.writeBLECharacteristicValue()
-                    }
-                    if (item.properties.notify || item.properties.indicate) {
-                        wx.notifyBLECharacteristicValueChange({
-                            deviceId,
-                            serviceId,
-                            characteristicId: item.uuid,
-                            state: true,
-                        })
-                    }
+                    resolve();
+                },
+                fail(res) {
+                    console.error('getBLEDeviceCharacteristics', res)
+                    reject();
                 }
-            },
-            fail(res) {
-                console.error('getBLEDeviceCharacteristics', res)
-            }
-        })
+            });
+        });
     },
 
     sendDatStartCommand() {
