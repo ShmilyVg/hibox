@@ -194,6 +194,11 @@ Page({
                                 scanType: ['barCode'],
                                 success(res) {
                                     console.log('一维码数字', res.result);
+                                    let codeStart = res.result.indexOf("8");
+                                    if (codeStart === 0) {
+                                        toast.none('暂不支持药品电子监管码\n您可以扫描“69”开头的条形码试试');
+                                        return;
+                                    }
                                     Protocol.getDrugCode({code: res.result}).then(data => {
                                         console.log('一维码返回：', data);
                                         if (data.result.drugName) {
