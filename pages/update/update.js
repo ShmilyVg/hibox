@@ -193,24 +193,45 @@ Page({
         });
     },
     deviceIds: [],
-    createBLEConnection({deviceId, stopDiscovery = true}) {
+    createBLEConnectionBase({deviceId, stopDiscovery = true}) {
         return new Promise((resolve, reject) => {
-            wx.createBLEConnection({
-                deviceId,
-                timeout: 30000,
-                success: () => {
-                    this.deviceIds.push(deviceId);
-                    stopDiscovery && this.stopBluetoothDevicesDiscovery();
-                    resolve();
-                },
-                fail: reject
-            });
+            this.closeBLEConnection({deviceId}).finally(() => {
+                wx.createBLEConnection({
+                    deviceId,
+                    timeout: 30000,
+                    success: () => {
+                        this.deviceIds.push(deviceId);
+                        stopDiscovery && this.stopBluetoothDevicesDiscovery();
+                        resolve();
+                    },
+                    fail: reject
+                });
+            })
         });
     },
-    closeBLEConnection() {
+    connectIndex: 0,
+    connectCount: 5,
+    createBLEConnection({deviceId, stopDiscovery = true}) {
+        return this.createBLEConnectionBase({deviceId, stopDiscovery}).then(() => {
+            this.connectIndex = 0;
+        }).catch((res) => {
+            console.log('开始重连，次数=', this.connectIndex + 1, res);
+            switch (res.errCode) {
+                case 10003:
+                case 10004:
+                case 10008:
+                case 10012:
+                    return this.connectIndex++ < this.connectCount ? this.createBLEConnection({
+                        deviceId,
+                        stopDiscovery
+                    }) : Promise.reject(res);
+            }
+        });
+    },
+    closeBLEConnection({deviceId} = {}) {
         return new Promise((resolve, reject) => {
             wx.closeBLEConnection({
-                deviceId: this.deviceIds.shift(),
+                deviceId: deviceId || this.deviceIds.shift(),
                 success: resolve,
                 fail: reject
             });
@@ -265,7 +286,9 @@ Page({
                             })
                         }
                     }
-                    resolve();
+                    setTimeout(() => {
+                        resolve();
+                    }, 1000);
                 },
                 fail(res) {
                     console.error('getBLEDeviceCharacteristics fail', res, deviceId, serviceId);
@@ -329,16 +352,19 @@ Page({
         return this.sendDataToControlPoint(buffer).catch(() => this.send04Command());
     },
 
+    sendDataIndex: 0,
+    sendDataCount: 10,
     sendUpdateData(dataArrayBufferObj, isContinue) {
         const {arrayBuffer: updateArrayBuffer, arrayBuffer: {byteLength}, index} = dataArrayBufferObj;
         if (updateArrayBuffer && byteLength > index) {
             const currentBuffer = updateArrayBuffer.slice(index, index + 20);
             this.sendDataToDataPoint(currentBuffer).then(() => {
+                this.sendDataIndex = 0;
                 dataArrayBufferObj.index += currentBuffer.byteLength;
                 this.sendUpdateData(dataArrayBufferObj, isContinue);
             }).catch((res) => {
                 console.log('升级发生错误 index=', index, res);
-                this.sendUpdateData(dataArrayBufferObj, isContinue);
+                this.sendDataIndex++ < this.sendDataCount ? this.sendUpdateData(dataArrayBufferObj, isContinue) : this.updateFailAction();
             });
         } else {
             console.log('升级包发送完成 index=', index);
