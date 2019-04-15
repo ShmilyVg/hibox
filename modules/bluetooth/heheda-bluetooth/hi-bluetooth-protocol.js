@@ -1,7 +1,6 @@
 import {CommonProtocolState} from "heheda-bluetooth-state";
 import {HexTools} from "./utils/tools";
 import {ProtocolBody} from "./utils/protocol";
-import UpdateTool from "./utils/update";
 import {BlueToothUpdate} from "heheda-network";
 
 const commandIndex = 2, dataStartIndex = 3;
@@ -139,17 +138,26 @@ export default class HiBlueToothProtocol {
     }
 
     getDeviceIsBind() {
-        const isBind = !!wx.getStorageSync('isBindDevice');
-        console.log('获取设备是否被绑定', isBind);
-        return isBind;
+        this._isBindMark = this._isBindMark || wx.getStorageSync('isBindDevice');
+        console.log('获取设备是否被绑定', this._isBindMark);
+        return this._isBindMark;
     }
 
     setBindMarkStorage() {
-        wx.setStorageSync('isBindDevice', 1);
+        try {
+            wx.setStorageSync('isBindDevice', true);
+            this._isBindMark = true;
+        } catch (e) {
+            console.log('setBindMarkStorage()出现错误');
+            wx.setStorageSync('isBindDevice', true);
+            this._isBindMark = true;
+            console.log('setBindMarkStorage()重新存储成功');
+        }
     }
 
     clearBindMarkStorage() {
         wx.removeStorageSync('isBindDevice');
+        this._isBindMark = false;
     }
 
     clearSendProtocol() {
