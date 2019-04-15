@@ -87,6 +87,10 @@ export default class HiBlueToothManager extends SimpleBlueToothImp {
         }, 2000);
     }
 
+    sendQueryDataRequiredProtocol() {
+        this.bluetoothProtocol.sendQueryDataRequiredProtocol();
+    }
+
     /**
      * 处理从蓝牙设备接收到的数据的具体实现
      * 这里会将处理后的数据，作为参数传递给setBLEListener的receiveDataListener监听函数。

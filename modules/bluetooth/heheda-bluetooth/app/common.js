@@ -24,6 +24,7 @@ const obj = {
                             }).then(() => {
                                 console.log('绑定协议发送成功');
                                 this.bLEManager.setBindMarkStorage();
+                                this.bLEManager.sendQueryDataRequiredProtocol();
                                 this.commonAppReceiveDataListener && this.commonAppReceiveDataListener({
                                     finalResult,
                                     state
@@ -35,6 +36,7 @@ const obj = {
                         } else {
                             console.log('绑定成功，不需发送协议情况下');
                             this.bLEManager.setBindMarkStorage();
+                            this.bLEManager.sendQueryDataRequiredProtocol();
                             this.commonAppReceiveDataListener && this.commonAppReceiveDataListener({
                                 finalResult,
                                 state
