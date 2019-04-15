@@ -47,7 +47,13 @@ export default class AbstractBlueTooth {
     }
 
     setDeviceMacAddress({macId}) {
-        wx.setStorageSync('deviceId', this._deviceId = macId);
+        try {
+            wx.setStorageSync('deviceId', this._deviceId = macId);
+        } catch (e) {
+            console.log('setDeviceMacAddress()出现错误 deviceId=', this._deviceId);
+            wx.setStorageSync('deviceId', this._deviceId = macId);
+            console.log('setDeviceMacAddress()重新存储成功');
+        }
     }
 
     /**
