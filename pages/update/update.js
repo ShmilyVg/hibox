@@ -201,6 +201,7 @@ Page({
         return new Promise((resolve, reject) => {
             wx.createBLEConnection({
                 deviceId,
+                timeout: 30000,
                 success: () => {
                     this.deviceIds.push(deviceId);
                     stopDiscovery && this.stopBluetoothDevicesDiscovery();
@@ -212,7 +213,6 @@ Page({
                 }
             })
         });
-
     },
     closeBLEConnection() {
         return new Promise((resolve, reject) => {
