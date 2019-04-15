@@ -206,7 +206,10 @@ Page({
                     stopDiscovery && this.stopBluetoothDevicesDiscovery();
                     resolve();
                 },
-                fail: reject
+                fail: (res) => {
+                    this.updateFailAction();
+                    reject();
+                }
             })
         });
 
