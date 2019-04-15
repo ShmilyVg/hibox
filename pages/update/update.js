@@ -99,6 +99,7 @@ Page({
                             return this.getBLEDeviceServices(deviceId).then(this.send01OTACommand);
                         }).catch(res => {
                             console.log('使能阶段要连接的设备失败', res);
+                            this.updateFailAction();
                         });
                     } else if (this.getDfuDeviceFoundTag({deviceId, localOTADeviceId, localName})) {
                         console.log('ota阶段要连接的设备名字', localName);
@@ -106,9 +107,10 @@ Page({
                             return this.getBLEDeviceServices(deviceId).then(this.sendDatStartCommand);
                         }).catch(res => {
                             console.log('ota阶段要连接的设备失败', res);
+                            this.updateFailAction();
                         });
                     }
-                })
+                });
             },
             receiveDataListener: (characteristic) => {
                 // const idx = inArray(this.data.chs, 'uuid', characteristic.characteristicId)
@@ -201,11 +203,8 @@ Page({
                     stopDiscovery && this.stopBluetoothDevicesDiscovery();
                     resolve();
                 },
-                fail: (res) => {
-                    this.updateFailAction();
-                    reject();
-                }
-            })
+                fail: reject
+            });
         });
     },
     closeBLEConnection() {
@@ -230,7 +229,7 @@ Page({
                         }
                     }
                 }, fail: (res) => {
-                    console.log('getBLEDeviceServices fail', res);
+                    console.log('getBLEDeviceServices fail', res, deviceId);
                     reject(res);
                 }
             })
@@ -243,22 +242,19 @@ Page({
                 deviceId,
                 serviceId,
                 success: (res) => {
-                    console.log('getBLEDeviceCharacteristics success', res.characteristics)
+                    console.log('getBLEDeviceCharacteristics success', res.characteristics);
                     for (let i = 0; i < res.characteristics.length; i++) {
-                        let item = res.characteristics[i]
+                        let item = res.characteristics[i];
                         if (item.properties.read) {
                             wx.readBLECharacteristicValue({
                                 deviceId,
                                 serviceId,
                                 characteristicId: item.uuid,
-                            })
+                            });
                         }
                         if (item.properties.write) {
-                            this._deviceId = deviceId
-                            this._serviceId = serviceId
-                            this._characteristicId = item.uuid
-                            console.log('写次数', this._characteristicId);
-                            // this.writeBLECharacteristicValue()
+                            this._deviceId = deviceId;
+                            this._serviceId = serviceId;
                         }
                         if (item.properties.notify || item.properties.indicate) {
                             wx.notifyBLECharacteristicValueChange({
@@ -272,7 +268,7 @@ Page({
                     resolve();
                 },
                 fail(res) {
-                    console.error('getBLEDeviceCharacteristics', res)
+                    console.error('getBLEDeviceCharacteristics fail', res, deviceId, serviceId);
                     reject();
                 }
             });
