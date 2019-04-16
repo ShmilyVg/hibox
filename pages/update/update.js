@@ -353,7 +353,7 @@ Page({
     },
 
     sendDataIndex: 0,
-    sendDataCount: 20,
+    sendDataCount: 50,
     sendUpdateData(dataArrayBufferObj, isContinue) {
         const {arrayBuffer: updateArrayBuffer, arrayBuffer: {byteLength}, index} = dataArrayBufferObj;
         if (updateArrayBuffer && byteLength > index) {
