@@ -15,13 +15,13 @@ input{
 
 .add-drug-number-input-border-style{
     width: 110rpx;
-    height: 95rpx;
+    height: 90rpx;
     border-radius: 20rpx;
     opacity:0.9953;
     border: 5rpx solid rgba(232,244,244,1);
     justify-content: center;
     align-items: center;
-    padding-top: 15rpx;
+    padding-top: 20rpx;
     margin: 0 20rpx;
 }
 .add-drug-number-text-style{
