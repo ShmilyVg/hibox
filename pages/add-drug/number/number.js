@@ -34,7 +34,13 @@ Page({
         let minuteOriginLength = 60;
         return new Array(minuteOriginLength / divideNumber).fill(0).map((item, index) => `0${index * divideNumber}`.slice(-2));
     },
-
+    onFoodSelectedEvent(e) {
+        console.log(e);
+        const {currentTarget: {dataset: {id}}} = e;
+        this.setData({
+            foodRuler: this.data.foodRuler.map(item => ({...item, selected: item.id === id}))
+        })
+    },
     onLoad(options) {
         DrugRuler.setDiviceNumber(this.divideNumber);
         let number = 3, piece = 2, list;

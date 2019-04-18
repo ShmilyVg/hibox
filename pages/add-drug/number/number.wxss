@@ -20,6 +20,7 @@ input{
     justify-content: center;
     font-size: 26rpx;
     font-weight: 500;
+    margin-left: 10rpx;
 }
 .add-drug-number-food-item-selected{
     background-color:rgba(103,213,184,1);
