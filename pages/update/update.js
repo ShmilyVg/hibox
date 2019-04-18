@@ -353,7 +353,7 @@ Page({
     },
 
     sendDataIndex: 0,
-    sendDataCount: 10,
+    sendDataCount: 50,
     sendUpdateData(dataArrayBufferObj, isContinue) {
         const {arrayBuffer: updateArrayBuffer, arrayBuffer: {byteLength}, index} = dataArrayBufferObj;
         if (updateArrayBuffer && byteLength > index) {
@@ -465,7 +465,7 @@ Page({
                 },
                 fail: (res) => {
                     if (res.errCode === 10008) {
-                        reject();
+                        reject(res);
                     } else {
                         this.updateFailAction();
                     }

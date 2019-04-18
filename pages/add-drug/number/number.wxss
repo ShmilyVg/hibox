@@ -8,20 +8,20 @@ input{
 }
 .add-drug-number-input-style{
     font-size:70rpx;
-    font-family:DINCondensed-Bold;
+    font-family: DIN Condensed;
     font-weight:bold;
     color:rgba(104,213,184,1);
-    line-height:84rpx;
 }
 
 .add-drug-number-input-border-style{
     width: 110rpx;
-    height: 110rpx;
+    height: 95rpx;
     border-radius: 20rpx;
     opacity:0.9953;
     border: 5rpx solid rgba(232,244,244,1);
     justify-content: center;
     align-items: center;
+    padding-top: 15rpx;
     margin: 0 20rpx;
 }
 .add-drug-number-text-style{
@@ -56,7 +56,7 @@ input{
     align-items: center;
     justify-content: center;
     font-size: 56rpx;
-    font-family: DINCondensed-Bold;
+    font-family: DIN Condensed;
     font-weight: bold;
     color: rgba(105,139,137,1);
     line-height: 67rpx;
@@ -84,7 +84,7 @@ input{
 .add-drug-number-item-right-piece-style {
     margin-top: 13rpx;
     font-size: 56rpx;
-    font-family:DINCondensed-Bold;
+    font-family: DIN Condensed;
     font-weight: bold;
     line-height: 67rpx;
 }
