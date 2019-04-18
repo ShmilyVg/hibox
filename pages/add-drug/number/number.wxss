@@ -6,6 +6,43 @@ input{
     justify-content: center;
     align-items: center;
 }
+.add-drug-number-food-layout{
+    width:550rpx;
+    height:100rpx;
+    background:rgba(242,242,242,1);
+    border-radius:55rpx;
+    margin: 0 20rpx 0 40rpx;
+}
+.add-drug-number-food-common-item-style{
+    width: 166rpx;
+    height: 80rpx;
+    border-radius: 40rpx;
+    justify-content: center;
+    font-size: 26rpx;
+    font-weight: 500;
+}
+.add-drug-number-food-item-selected{
+    background-color:rgba(103,213,184,1);
+    color:rgba(255,255,255,1);
+}
+.add-drug-number-food-item-not-selected{
+    color:rgba(157,157,157,1);
+    background-color: transparent;
+}
+.add-drug-number-food-description-style{
+    width:100rpx;
+    height:100rpx;
+    background:rgba(242,242,242,1);
+    justify-content: center;
+    border-radius: 50%;
+}
+.add-drug-number-food-description-item-style{
+    width:10rpx;
+    height:10rpx;
+    border-radius: 50%;
+    margin: 6rpx;
+    background:rgba(103,213,184,1);
+}
 .add-drug-number-input-style{
     font-size:70rpx;
     font-family: DIN Condensed;

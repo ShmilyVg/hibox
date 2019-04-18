@@ -14,7 +14,20 @@ Page({
         list: [],
         numberArray: [],
         selectedItemIndex: 0,
-        ruler: tools.getRulerTime()
+        ruler: tools.getRulerTime(),
+        foodRuler: [{
+            content: '饭前服用',
+            selected: true,
+            id: 'before',
+        }, {
+            content: '饭中服用',
+            selected: false,
+            id: 'middle',
+        }, {
+            content: '饭后服用',
+            selected: false,
+            id: 'after',
+        },]
     },
     bleConnectingAction: false,//点击设置按钮时，蓝牙正在重连阶段
     getHiMinutes(divideNumber) {
