@@ -99,7 +99,11 @@ Page({
                         if (!!this.dataForBLE.length) {
                             this.sendDataToBLE();
                         } else {
-                            Protocol.postMedicalRemindConfig({...DrugRuler.getConvertToServerData({...this.data})})
+                            const temp = this.data.foodRuler.filter(item => item.selected);
+                            Protocol.postMedicalRemindConfig({
+                                ...DrugRuler.getConvertToServerData({...this.data}),
+                                useType: temp.pop().id
+                            })
                                 .then(() =>
                                     setTimeout(() => {
                                         Toast.success(`${this.data.compartment || 1}号仓设置成功`, 1500);

@@ -47,10 +47,18 @@ export default class Protocol {
         return Network.request({url: 'medical/record/save', data: {records}});
     }
 
-    static postMedicalRemindConfig({deviceId, compartment, drugName, drugClassify, items, code}) {
+    static postMedicalRemindConfig({deviceId, compartment, drugName, drugClassify, items, code, useType}) {
         return Network.request({
             url: 'medical/remind/config',
-            data: {device_id: deviceId, compartment, drug_name: drugName, drug_classify: drugClassify, items, drug_code:code}
+            data: {
+                device_id: deviceId,
+                compartment,
+                drug_name: drugName,
+                drug_classify: drugClassify,
+                items,
+                drug_code: code,
+                use_type: useType
+            }
         });
     }
 
@@ -85,13 +93,13 @@ export default class Protocol {
     }
 
     static getDrugSearch({
-        name,
-        page = 1,
-        page_size = 30
-    }) {
+                             name,
+                             page = 1,
+                             page_size = 30
+                         }) {
         return Network.request({
             url: 'drug/search',
-            data:{name,page,page_size}
+            data: {name, page, page_size}
         })
     }
 }
