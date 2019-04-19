@@ -3,7 +3,7 @@
 <view class="flex-column" style="width: 100%;">
     <template is="title-layout" data="{{title:'次数和用量',step:step+'/'+count}}"></template>
     <view style="margin-top: 10rpx;font-size: 30rpx;color: #698b89;align-self: flex-start;margin-left: 40rpx;">请遵照医嘱进行设置</view>
-    <view class="flex-row" style="margin-top: 20rpx;margin-bottom: 140rpx;align-self: flex-start;">
+    <view class="flex-row" style="margin-top: 20rpx;align-self: flex-start;">
         <view class="flex-row add-drug-number-food-layout">
             <view bindtap="onFoodSelectedEvent" data-id="{{item.id}}" class="flex-row add-drug-number-food-common-item-style {{item.selected?'add-drug-number-food-item-selected':'add-drug-number-food-item-not-selected'}}" wx:for="{{foodRuler}}" wx:key="id">{{item.content}}</view>
         </view>
@@ -12,7 +12,8 @@
         </view>
     </view>
 
-    <view class="flex-row" style="margin-top: 59rpx;margin-bottom: 102rpx;align-items: flex-end">
+    <view style="width:672rpx;height:1rpx;background-color: #e8e8e8;margin: 67rpx 0 90rpx;"></view>
+    <view class="flex-row" style="margin-bottom: 102rpx;align-items: flex-end">
         <text class="add-drug-number-text-style">每天</text>
         <picker bindchange="numberAllChooseEvent" value="{{number-1}}" range="{{numberArray}}">
             <!--<view class="picker"> 当前选择：{{array[index]}} </view>-->
