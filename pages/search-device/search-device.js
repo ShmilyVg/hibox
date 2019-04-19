@@ -4,6 +4,7 @@ import HiNavigator from "../../navigator/hi-navigator";
 import {ConnectState, ProtocolState} from "../../modules/bluetooth/bluetooth-state";
 import Toast from "../../view/toast";
 import DrugRuler from "../add-drug/number/drug-ruler";
+import {WXDialog} from "heheda-common-view";
 
 Page({
 
@@ -86,25 +87,31 @@ Page({
     postDeleteDevice() {
         Toast.showLoading();
         const compartmentCount = 4;
+        let error = false;
         for (let i = 1; i <= compartmentCount; i++) {
             if (getApp().getLatestBLEState().connectState === ConnectState.CONNECTED) {
                 DrugRuler.sendAlertTimeDataToBLE({
                     singleAlertData: DrugRuler.getConvertToBLEEmptyList({
                         compartment: i
                     })
+                }).then(() => {
+                    if (i >= compartmentCount) {
+                        Protocol.postDeviceUnbind().then(data => {
+                            if (data.code === 1) {
+                                getApp().getBLEManager().clearConnectedBLE().finally(function () {
+                                    Toast.hiddenLoading();
+                                    HiNavigator.reLaunchToBindDevicePage({});
+                                });
+                            }
+                        }).catch(Toast.hiddenLoading);
+                    }
+                }).catch(() => {
+                    if (!error) {
+                        error = true;
+                        Toast.hiddenLoading();
+                        WXDialog.showDialog({content: '解绑失败，请重试'});
+                    }
                 });
-
-                if (i >= compartmentCount) {
-                    Protocol.postDeviceUnbind().then(data => {
-                        if (data.code === 1) {
-                            getApp().getBLEManager().clearConnectedBLE().finally(function () {
-                                Toast.hiddenLoading();
-                                HiNavigator.reLaunchToBindDevicePage({});
-                            });
-                        }
-                    }).catch(Toast.hiddenLoading);
-                    break;
-                }
             } else {
                 Protocol.postDeviceUnbind().then(data => {
                     if (data.code === 1) {
