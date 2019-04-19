@@ -14,7 +14,7 @@ Page({
         queryState: '记录待同步',
         isConnect: true,
         connectState: {'text': '记录同步中...', color: '#65FF0A'},
-        page: 1,
+        page: 1
     },
 
     onLoad() {
@@ -75,28 +75,28 @@ Page({
         }
 
     },
+    frontItemTime: {date: '', time: ''},
     getMedicalRecordList({page = 1, recorded = false}) {
         Toast.showLoading();
         Protocol.MedicalRecordList({page}).then(data => {
             let list = data.result;
-            let frontItemTime = {date: '', time: ''};
 
             if (list.length) {
                 let allList = list.sort(function (item1, item2) {
                     const divideTime = item2.time - item1.time;
                     if (divideTime !== 0) {
                         return divideTime;
-                    }else{
+                    } else {
                         return item1.compartment - item2.compartment;
                     }
 
                 }).map(item => {
-                     const {id, device_id: deviceId, drug_name: drug_name, number, compartment, state, image_url} = item;
-                     const {date, time} = tools.createDateAndTime(item.time);
-                     const isShowTime = !(frontItemTime.date === date && frontItemTime.time === time);
-                     frontItemTime.date = date;
-                     frontItemTime.time = time;
-                     return {date, time, isShowTime, id, deviceId, drug_name, number, compartment, state, image_url};
+                    const {id, device_id: deviceId, drug_name: drug_name, number, compartment, state, image_url} = item;
+                    const {date, time} = tools.createDateAndTime(item.time);
+                    const isShowTime = !(this.frontItemTime.date === date && this.frontItemTime.time === time);
+                    this.frontItemTime.date = date;
+                    this.frontItemTime.time = time;
+                    return {date, time, isShowTime, id, deviceId, drug_name, number, compartment, state, image_url};
                 });
                 console.log(allList);
 
@@ -143,7 +143,7 @@ Page({
                     allList: list
                 });
             }
-            console.log('record state : '+state)
+            console.log('record state : ' + state)
         })
     },
 
