@@ -38,7 +38,7 @@
     margin-top: 20rpx;
     top: -93rpx;
     position: relative;
-    padding: 40rpx 52rpx 50rpx 36rpx;
+    padding: 40rpx 36rpx 50rpx;
     z-index: 300;
 }
 
@@ -109,6 +109,13 @@
     left: 0;
     line-height: 110rpx;
     z-index: 500;
+}
+
+.drug-title {
+    font-size:50rpx;
+    font-weight:500;
+    color:rgba(65,86,85,1);
+    text-align: center;
 }
 
 page {
