@@ -357,7 +357,8 @@ Page({
                 compartment: item.compartment,
                 classify: 'scan',
                 drugName: item.drug_name,
-                items: item.items
+                items: item.items,
+                useType: item.use_type
             };
         } else {
             getApp().globalData.addOrEditDrugObj = {deviceId, compartment: item.compartment};
