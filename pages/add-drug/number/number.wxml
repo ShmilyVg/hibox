@@ -7,7 +7,7 @@
         <view class="flex-row add-drug-number-food-layout">
             <view bindtap="onFoodSelectedEvent" data-id="{{item.id}}" class="flex-row add-drug-number-food-common-item-style {{item.selected?'add-drug-number-food-item-selected':'add-drug-number-food-item-not-selected'}}" wx:for="{{foodRuler}}" wx:key="id">{{item.content}}</view>
         </view>
-        <view class="flex-row add-drug-number-food-description-style">
+        <view class="flex-row add-drug-number-food-description-style" bindtap="threePoint">
             <view wx:for="{{3}}" class="add-drug-number-food-description-item-style"></view>
         </view>
     </view>

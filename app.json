@@ -1,5 +1,5 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
     "pages/bind-device/bind-device",
     "pages/connect-device/connect-device",
@@ -13,7 +13,8 @@
     "pages/scan-code/scan-code",
     "pages/scan-err/scan-err",
     "pages/drug-info/drug-info",
-    "pages/upload-instruction/upload-instruction"
+    "pages/upload-instruction/upload-instruction",
+    "pages/use-instructions/use-instructions"
   ],
   "tabBar": {
     "selectedColor": "#66DABF",
