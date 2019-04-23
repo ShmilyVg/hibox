@@ -44,7 +44,7 @@ Page({
     onLoad(options) {
         DrugRuler.setDiviceNumber(this.divideNumber);
         let number = 3, piece = 2, list;
-        const {items, compartment, deviceId = ''} = getApp().globalData.addOrEditDrugObj;
+        const {items, compartment, deviceId = '', useType} = getApp().globalData.addOrEditDrugObj;
         const pieceArray = this.getPieceArray(99);
         if (!!items && !!items.length) {
             number = items.length;
@@ -57,6 +57,7 @@ Page({
             }
             list = DrugRuler.convertServerListToLocalList({items});
         }
+        const id = useType || this.data.foodRuler[0].id;
         this.setData(
             {
                 ...options,
@@ -70,6 +71,7 @@ Page({
                 pieceArray: this.getPieceArray(99),
                 hourAndMinuteArray: [new Array(24).fill(0).map((item, index) => `0${index}`.slice(-2)),
                     this.getHiMinutes(this.divideNumber)],
+                foodRuler: this.data.foodRuler.map(item => ({...item, selected: item.id === id}))
             }
         );
 
