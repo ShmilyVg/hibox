@@ -1,0 +1,32 @@
+<!--pages/report/report.wxml-->
+<view class="flex-column">
+    <image class="green-image" src="../../images/report/green.png"></image>
+    <image class="green-image" src="../../images/report/green.png" style="top: 1054rpx"></image>
+    <view class="top-view">
+        <view class="top-view-avatar"></view>
+        <view class="top-view-text">{{text}}</view>
+        <view class="flex-row">
+            <view wx:for="{{num}}" style="margin-top: 70rpx">
+                <view class="flex-row">
+                    <view class="top-view-num" style="color: {{item.color}};">{{item.num}}</view>
+                    <view style="color: {{item.color}};font-size: 40rpx;margin-top: 30rpx;margin-left: 12rpx">次</view>
+                    <view style="width: 85rpx"></view>
+                </view>
+                <view style="color: #6E8C84;font-size: 30rpx;margin-top: -40rpx;opacity: 54.13%;">{{item.text}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="middle-view flex-row">
+       <view class="middle-view-circular-left"></view>
+       <view class="middle-view-line"></view>
+       <view class="middle-view-circular-right"></view>
+    </view>
+    <view class="bottom-view">
+        <view style="width:50rpx;height:7rpx;background:rgba(103,213,184,1);margin-top: 106rpx"></view>
+        <view style="font-size:31rpx;color: #30826C;margin-top: 14rpx"><text>2019年3月\n11-18日</text></view>
+    </view>
+    <view class="bottom-text">HiPee智能健康药盒</view>
+</view>
+
+<image class="top-image" src="../../images/report/top-image.png"></image>
+<image class="bottom-image" src="../../images/report/bottom-image.png"></image>

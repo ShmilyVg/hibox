@@ -14,7 +14,8 @@
     "pages/scan-err/scan-err",
     "pages/drug-info/drug-info",
     "pages/upload-instruction/upload-instruction",
-    "pages/use-instructions/use-instructions"
+    "pages/use-instructions/use-instructions",
+    "pages/report/report"
   ],
   "tabBar": {
     "selectedColor": "#66DABF",
@@ -38,6 +39,7 @@
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "HiPee智能药盒",
-    "navigationBarTextStyle":"black"
-  }
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json"
 }
