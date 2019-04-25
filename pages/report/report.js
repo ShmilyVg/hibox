@@ -14,6 +14,6 @@ Page({
             color: '#FF9252'
         }];
         data.num = num;
-        this.set({...data})
+        this.setData({...options});
     },
 })

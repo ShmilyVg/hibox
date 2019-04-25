@@ -23,7 +23,6 @@ page {
     margin-top: 104rpx;
     height: 130rpx;
     width: 130rpx;
-    background-color: red;
     border-radius: 50%;
 }
 
