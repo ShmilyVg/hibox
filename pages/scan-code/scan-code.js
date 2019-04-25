@@ -43,7 +43,7 @@ Page({
                     } else {
                         // 非可用一维码
                         console.log('非可用一维码');
-                        HiNavigator.navigateToScanCode({
+                        HiNavigator.navigateToScanErr({
                             index: getApp().globalData.addOrEditDrugObj.compartment,
                             code: res.result
                         })
