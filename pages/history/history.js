@@ -4,6 +4,7 @@ import * as tools from "../../utils/tools";
 import Toast from "../../view/toast";
 import * as config from "../../utils/config";
 import {ProtocolState, ConnectState} from "../../modules/bluetooth/bluetooth-state";
+import HiNavigator from "../../navigator/hi-navigator";
 
 const app = getApp();
 Page({
@@ -14,11 +15,40 @@ Page({
         queryState: '记录待同步',
         isConnect: true,
         connectState: {'text': '记录同步中...', color: '#65FF0A'},
-        page: 1
+        page: 1,
+        reportImage: '../../images/history/report-new.png'
     },
 
     onLoad() {
         this.getMedicalRecordList({});
+        this.initReport(this);
+    },
+
+    initReport(that) {
+        Protocol.getMedicalRecordWeekly().then(data => {
+            that.setData({
+                report: data.result
+            })
+        });
+
+        wx.getStorage({
+            key: 'report',
+            success(res) {
+                if (res.data) {
+                    that.setData({
+                        reportImage: '../../images/history/report.png'
+                    })
+                }
+            }
+        })
+    },
+
+    toReport() {
+        wx.setStorage({
+            key: 'report',
+            data: true
+        });
+        HiNavigator.navigateToReportPage(this.data.report);
     },
 
     onShow: function () {

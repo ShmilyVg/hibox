@@ -4,7 +4,7 @@
     <image class="green-image" src="../../images/report/green.png" style="top: 1054rpx"></image>
     <view class="top-view">
         <view class="top-view-avatar"></view>
-        <view class="top-view-text">{{text}}</view>
+        <!--<view class="top-view-text">{{text}}</view>-->
         <view class="flex-row">
             <view wx:for="{{num}}" style="margin-top: 50rpx">
                 <view class="flex-row">

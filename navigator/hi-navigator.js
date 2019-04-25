@@ -66,4 +66,8 @@ export default class HiNavigator extends CommonNavigator {
         getApp().otaUrl = arguments[0];
         this.reLaunch({url: '/pages/update/update'});
     }
+
+    static navigateToReportPage({actual, forget, avatar, year, day}) {
+        this.navigateTo({url: `/pages/report/report?actual=${actual}&forget=${forget}&avatar=${avatar}&year=${year}&day=${day}`});
+    }
 }
