@@ -102,4 +102,8 @@ export default class Protocol {
             data: {name, page, page_size}
         })
     }
+
+    static getMedicalRecordWeekly() {
+        return Network.request({url: 'medical/record/weekly'})
+    }
 }

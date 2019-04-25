@@ -6,13 +6,13 @@
         <view class="top-view-avatar"></view>
         <view class="top-view-text">{{text}}</view>
         <view class="flex-row">
-            <view wx:for="{{num}}" style="margin-top: 70rpx">
+            <view wx:for="{{num}}" style="margin-top: 50rpx">
                 <view class="flex-row">
                     <view class="top-view-num" style="color: {{item.color}};">{{item.num}}</view>
-                    <view style="color: {{item.color}};font-size: 40rpx;margin-top: 30rpx;margin-left: 12rpx">次</view>
+                    <view style="color: {{item.color}};font-size: 40rpx;margin-top: 50rpx;margin-left: 12rpx">次</view>
                     <view style="width: 85rpx"></view>
                 </view>
-                <view style="color: #6E8C84;font-size: 30rpx;margin-top: -40rpx;opacity: 54.13%;">{{item.text}}</view>
+                <view style="color: #6E8C84;font-size: 30rpx;margin-top: -45rpx;opacity: 54.13%;">{{item.text}}</view>
             </view>
         </view>
     </view>
