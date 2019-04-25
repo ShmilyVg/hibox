@@ -21,7 +21,6 @@ Page({
 
     onLoad() {
         this.getMedicalRecordList({});
-        this.initReport(this);
     },
 
     initReport(that) {
@@ -68,6 +67,7 @@ Page({
                     this.setData({
                         isConnect: true
                     });
+                    this.initReport(this);
                 } else {
                     switch (state.protocolState) {
                         case ProtocolState.QUERY_DATA_ING:
@@ -103,8 +103,9 @@ Page({
             }, 3000);
             app.isQuery = true;
         }
-
+        this.initReport(this);
     },
+
     frontItemTime: {date: '', time: ''},
     getMedicalRecordList({page = 1, recorded = false}) {
         Toast.showLoading();
