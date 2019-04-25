@@ -23,7 +23,10 @@
     </view>
     <view class="bottom-view">
         <view style="width:50rpx;height:7rpx;background:rgba(103,213,184,1);margin-top: 106rpx"></view>
-        <view style="font-size:31rpx;color: #30826C;margin-top: 14rpx"><text>{{year}}\n{{day}}</text></view>
+        <view style="margin-top: 14rpx">
+            <view class="bottom-view-text">{{year}}</view>
+            <view class="bottom-view-text" style="font-size:38rpx;line-height: 38rpx">{{day}}</view>
+        </view>
     </view>
     <view class="bottom-text">HiPee智能药盒</view>
 </view>

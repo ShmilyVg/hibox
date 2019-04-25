@@ -76,6 +76,12 @@ page {
     padding-left: 53rpx;
 }
 
+.bottom-view-text {
+    font-size:31rpx;
+    color: #30826C;
+    margin-top: 14rpx;line-height: 31rpx
+}
+
 .bottom-text{
     font-size:26rpx;
     font-weight:400;
