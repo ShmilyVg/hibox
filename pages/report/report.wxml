@@ -9,7 +9,7 @@
             <view wx:for="{{num}}" style="margin-top: 50rpx">
                 <view class="flex-row">
                     <view class="top-view-num" style="color: {{item.color}};">{{item.num}}</view>
-                    <view style="color: {{item.color}};font-size: 40rpx;margin-top: 50rpx;margin-left: 12rpx">次</view>
+                    <view style="color: {{item.color}};font-size: 40rpx;margin-top: 30rpx;margin-left: 12rpx">次</view>
                     <view style="width: 85rpx"></view>
                 </view>
                 <view style="color: #6E8C84;font-size: 30rpx;margin-top: -45rpx;opacity: 54.13%;">{{item.text}}</view>
@@ -17,9 +17,9 @@
         </view>
     </view>
     <view class="middle-view flex-row">
-       <view class="middle-view-circular-left"></view>
-       <view class="middle-view-line"></view>
-       <view class="middle-view-circular-right"></view>
+        <view class="middle-view-circular-left"></view>
+        <view class="middle-view-line"></view>
+        <view class="middle-view-circular-right"></view>
     </view>
     <view class="bottom-view">
         <view style="width:50rpx;height:7rpx;background:rgba(103,213,184,1);margin-top: 106rpx"></view>
