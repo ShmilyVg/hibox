@@ -102,4 +102,8 @@ export default class Protocol {
             data: {name, page, page_size}
         })
     }
+
+    static postDeviceElectricity({electricity}) {
+        return Network.request({url: 'device/electricity', data: {electricity}});
+    }
 }
