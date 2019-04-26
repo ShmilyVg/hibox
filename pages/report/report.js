@@ -1,8 +1,13 @@
 // pages/report/report.js
+import Protocol from "../../modules/network/protocol";
+
 Page({
 
     data: {},
     onLoad(options) {
+        if (!options.readStatus) {
+            Protocol.postMedicalRecordUpdataWeekly();
+        }
         options.num = [{
             num: options.actual,
             text: '实际服用',

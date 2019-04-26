@@ -106,4 +106,8 @@ export default class Protocol {
     static getMedicalRecordWeekly() {
         return Network.request({url: 'medical/record/weekly'})
     }
+
+    static postMedicalRecordUpdataWeekly() {
+        return Network.request({url: 'medical/record/updataWeekly'});
+    }
 }

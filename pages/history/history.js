@@ -21,32 +21,23 @@ Page({
 
     onLoad() {
         this.getMedicalRecordList({});
+        // this.initReport(this);
     },
 
     initReport(that) {
         Protocol.getMedicalRecordWeekly().then(data => {
+            let image = that.data.reportImage;
+            if (data.result.status == 1) {
+                image = '../../images/history/report.png'
+            }
             that.setData({
-                report: data.result
+                report: data.result,
+                reportImage: image
             })
         });
-
-        wx.getStorage({
-            key: 'report',
-            success(res) {
-                if (res.data) {
-                    that.setData({
-                        reportImage: '../../images/history/report.png'
-                    })
-                }
-            }
-        })
     },
 
     toReport() {
-        wx.setStorage({
-            key: 'report',
-            data: true
-        });
         HiNavigator.navigateToReportPage(this.data.report);
     },
 
