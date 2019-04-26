@@ -225,5 +225,11 @@ Page({
         DrugRuler.sendAlertTimeDataToBLE({singleAlertData}).catch(() => {
             Toast.warn('设置失败请重试');
         });
+    },
+
+    threePoint() {
+        wx.navigateTo({
+            url: '../../use-instructions/use-instructions'
+        })
     }
 });

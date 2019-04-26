@@ -1,0 +1,11 @@
+<!--pages/use-instructions/use-instructions.wxml-->
+<view class="flex-column" style="padding: 0 40rpx" wx:for="{{items}}">
+    <view class="line" wx:if="{{index}}"></view>
+    <view class="flex-row cell">
+        <view class="num">{{index+1}}</view>
+        <view class="title">{{item.title}}</view>
+    </view>
+    <image class="image" wx:if="{{item.image}}" src="../../images/use-instructions/{{item.image}}.jpg"></image>
+    <view class="content" wx:if="{{item.content}}"><text>{{item.content}}</text></view>
+</view>
+<view style="height: 100rpx"></view>

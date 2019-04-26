@@ -182,7 +182,6 @@ Page({
         } else {
             wx.showActionSheet({
                 itemList: ['扫码添加', '手动添加'],
-                itemColor: '#698B89',
                 success(res) {
                     if (res.tapIndex === 0) {
                         const value = wx.getStorageSync('verySixScanFunction');

@@ -31,7 +31,7 @@ page{
 .history-data{
     font-size: 30rpx;
     color: #fff;
-    margin-bottom: 10rpx;
+    margin-bottom: 4rpx;
 }
 .history-time{
     font-size: 60rpx;
@@ -45,7 +45,7 @@ page{
     width: 168rpx;
     height: 66rpx;
     background: #fff;
-    border-radius: 30rpx;
+    border-radius: 35rpx;
     margin-right: 15rpx;
     display: flex;
     justify-content: center;
@@ -74,4 +74,10 @@ page{
     position: absolute;
     top: 40%;
     left: 0;
+}
+
+.report-image{
+    width:690rpx;
+    height:130rpx;
+    margin: 30rpx 30rpx 0rpx;
 }

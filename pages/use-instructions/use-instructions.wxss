@@ -1,0 +1,48 @@
+/* pages/use-instructions/use-instructions.wxss */
+
+.cell {
+    margin-top: 50rpx;
+    align-items: self-start;
+    width: 100%;
+}
+
+.num {
+    width:54rpx;
+    height:31rpx;
+    background:rgba(103,213,184,1);
+    border-radius:18rpx;
+    font-size:26rpx;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:31rpx;
+    text-align: center;
+}
+
+.title {
+    font-size:30rpx;
+    font-weight:500;
+    color:rgba(95,95,95,1);
+    line-height:30rpx;
+    margin-left: 24rpx;
+}
+
+.line {
+    height:1rpx;
+    width: 100%;
+    background-color: #E8E8E8;
+    margin-top: 50rpx;
+}
+
+.image {
+    width:670rpx;
+    height:276rpx;
+    margin-top: 40rpx;
+}
+
+.content {
+    font-size:28rpx;
+    font-weight:400;
+    color:rgba(136,136,136,1);
+    line-height:40rpx;
+    margin-top: 50rpx;
+}

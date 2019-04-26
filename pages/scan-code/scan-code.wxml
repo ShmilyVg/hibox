@@ -1,7 +1,7 @@
 <!--pages/scan-code/scan-code.wxml-->
 
 <view class="flex-column">
-    <image style="width: 440rpx;height: 440rpx;margin-top: 95rpx" src="../../images/scan/logo.png"></image>
+    <image style="width: 380rpx;height: 380rpx;margin-top: 90rpx" src="../../images/scan/logo.png"></image>
     <view style="color: #698B89;font-size: 36rpx;text-align: center;margin-top: 24rpx">
         <text>请扫描药品包装上\n数字为“69”开头的条形码</text>
     </view>
