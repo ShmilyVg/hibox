@@ -27,7 +27,7 @@ Page({
     initReport(that) {
         Protocol.getMedicalRecordWeekly().then(data => {
             let image = that.data.reportImage;
-            if (data.result.status == 1) {
+            if (data.result && data.result.status == 1) {
                 image = '../../images/history/report.png'
             }
             that.setData({
@@ -38,6 +38,9 @@ Page({
     },
 
     toReport() {
+        this.setData({
+            reportImage: '../../images/history/report.png'
+        });
         HiNavigator.navigateToReportPage(this.data.report);
     },
 
@@ -140,6 +143,7 @@ Page({
     },
 
     stateBtnClick(e) {
+        let that = this;
         let list = this.data.allList;
         let index = e.target.dataset.index;
         let time = list[index].time;
@@ -165,7 +169,8 @@ Page({
                     allList: list
                 });
             }
-            console.log('record state : ' + state)
+            console.log('record state : ' + state);
+            that.initReport(that);
         })
     },
 
