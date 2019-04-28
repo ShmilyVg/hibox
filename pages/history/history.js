@@ -121,10 +121,11 @@ Page({
         let list = this.data.allList;
         let index = e.target.dataset.index;
         let time = list[index].time;
+        let date = list[index].date;
         let ids = [];
         let state = list[index].state;
         list.map(item => {
-            if (time === item.time) {
+            if (time === item.time && date === item.date) {
                 ids.push(item.id);
                 /*if (state == 0) {
                     state = 1;
