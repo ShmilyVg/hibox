@@ -23,8 +23,8 @@ export default class HiNavigator extends CommonNavigator {
         })
     }
 
-    static navigateToEditDrugPage({deviceId, compartment, classify, drugName, items, step, count,useType}) {
-        getApp().globalData.addOrEditDrugObj = {deviceId, compartment, classify, drugName, items,useType};
+    static navigateToEditDrugPage({deviceId, compartment, classify, drugName, items, step, count, useType}) {
+        getApp().globalData.addOrEditDrugObj = {deviceId, compartment, classify, drugName, items, useType};
         this.navigateTo({url: `/pages/add-drug/input-drug/input-drug?classify=${classify}&step=${step}&count=${count}`});
     }
 
@@ -65,5 +65,9 @@ export default class HiNavigator extends CommonNavigator {
     static relaunchToUpdatePage({binUrl, datUrl}) {
         getApp().otaUrl = arguments[0];
         this.reLaunch({url: '/pages/update/update'});
+    }
+
+    static navigateToReportPage({actual, forget, avatar, year, day, status}) {
+        this.navigateTo({url: `/pages/report/report?actual=${actual}&forget=${forget}&avatar=${avatar}&year=${year}&day=${day}&readStatus=${!!status}`});
     }
 }

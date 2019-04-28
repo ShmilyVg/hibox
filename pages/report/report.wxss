@@ -23,7 +23,6 @@ page {
     margin-top: 104rpx;
     height: 130rpx;
     width: 130rpx;
-    background-color: red;
     border-radius: 50%;
 }
 
@@ -75,6 +74,12 @@ page {
     width: 555rpx;
     background-color: white;
     padding-left: 53rpx;
+}
+
+.bottom-view-text {
+    font-size:31rpx;
+    color: #30826C;
+    margin-top: 14rpx;line-height: 31rpx
 }
 
 .bottom-text{

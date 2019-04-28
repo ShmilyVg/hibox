@@ -76,6 +76,7 @@ App({
 
                 } else if (ProtocolState.TIMESTAMP === state.protocolState) {
                     this.otaVersion = finalResult.version;
+                    Protocol.postDeviceElectricity({electricity: finalResult.battery / 100});
                     if (finalResult.battery < 21) {
                         this.onBatteryInfoListener && this.onBatteryInfoListener({battery: true});
                         this.globalData.globalBattery = 2

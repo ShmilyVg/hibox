@@ -1,14 +1,22 @@
 // pages/report/report.js
+import Protocol from "../../modules/network/protocol";
+
 Page({
 
     data: {},
     onLoad(options) {
-        let num = [];
-
-        num = [{num: 21, text: '实际服用', color: '#30826C'}, {num: 2, text: '忘记服用', color: '#FF9252'}];
-        this.setData({
-            num: num,
-            text:'xxxxxxxxxxxxxxxxx'
-        })
+        if (!options.readStatus) {
+            Protocol.postMedicalRecordUpdataWeekly();
+        }
+        options.num = [{
+            num: options.actual,
+            text: '实际服用',
+            color: '#30826C'
+        }, {
+            num: options.forget,
+            text: '忘记服用',
+            color: '#FF9252'
+        }];
+        this.setData({...options});
     },
 })

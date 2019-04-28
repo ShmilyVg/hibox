@@ -103,7 +103,15 @@ export default class Protocol {
         })
     }
 
+    static postDeviceElectricity({electricity}) {
+        return Network.request({url: 'device/electricity', data: {electricity}});
+    }
+
     static getMedicalRecordWeekly() {
         return Network.request({url: 'medical/record/weekly'})
+    }
+
+    static postMedicalRecordUpdataWeekly() {
+        return Network.request({url: 'medical/record/updataWeekly'});
     }
 }
