@@ -19,7 +19,10 @@ Page({
         reportImage: '../../images/history/report-new.png'
     },
 
-    onLoad() {
+    onLoad(options) {
+        if (options.haveReport && options.haveReport == 1){
+            getApp().globalData.refreshIndexPage = true
+        }
         this.getMedicalRecordList({});
         // this.initReport(this);
     },
