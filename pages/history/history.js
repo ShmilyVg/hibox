@@ -22,7 +22,7 @@ Page({
     onLoad(options) {
         console.log('history-onload:',options);
         if (options.haveReport && options.haveReport == 1) {
-            console.log(模板消息提示有新报告);
+            console.log('模板消息提示有新报告');
             getApp().globalData.refreshIndexPage = true
         }
         this.getMedicalRecordList({});
