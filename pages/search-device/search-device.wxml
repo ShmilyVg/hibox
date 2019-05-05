@@ -4,7 +4,7 @@
         <image src="../../images/device-top.gif" style="width: 346rpx;height: 317rpx"></image>
         <image src="../../images/device-bottom.gif" style="width: 346rpx;height: 430rpx"></image>
     </view>
-    <view class="device-text">{{otaVersion}}</view>
+<!--    <view class="device-text">{{otaVersion}}</view>-->
     <view class="flex-row" style="margin: 30px auto 0;">
         <button class="btn" style="background-color: {{isSearching?'#595959':'#67D5B8'}};color:  {{isSearching?'#8A8A8A':'white'}}; border-radius: 74rpx 6rpx 6rpx 74rpx" hover-class='press-style' bindtap="startSearch" disabled="{{isSearching}}">寻找药盒</button>
         <button class="btn" style="background-color: {{isSearching?'#595959':'#FD7474'}};color:  {{isSearching?'#8A8A8A':'white'}};border-radius: 6rpx 74rpx 74rpx 6rpx" hover-class='press-style' bindtap="deleteDevice" disabled="{{isSearching}}">删除药盒</button>
