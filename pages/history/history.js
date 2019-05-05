@@ -19,7 +19,12 @@ Page({
         reportImage: '../../images/history/report-new.png'
     },
 
-    onLoad() {
+    onLoad(options) {
+        console.log('history-onload:',options);
+        if (options.haveReport && options.haveReport == 1) {
+            console.log('模板消息提示有新报告');
+            getApp().globalData.refreshIndexPage = true
+        }
         this.getMedicalRecordList({});
         // this.initReport(this);
     },
@@ -27,7 +32,7 @@ Page({
     initReport(that) {
         Protocol.getMedicalRecordWeekly().then(data => {
             let image = that.data.reportImage;
-            if (data.result.status == 1) {
+            if (data.result && data.result.status == 1) {
                 image = '../../images/history/report.png'
             }
             that.setData({
@@ -38,6 +43,9 @@ Page({
     },
 
     toReport() {
+        this.setData({
+            reportImage: '../../images/history/report.png'
+        });
         HiNavigator.navigateToReportPage(this.data.report);
     },
 
@@ -140,13 +148,15 @@ Page({
     },
 
     stateBtnClick(e) {
+        let that = this;
         let list = this.data.allList;
         let index = e.target.dataset.index;
         let time = list[index].time;
+        let date = list[index].date;
         let ids = [];
         let state = list[index].state;
         list.map(item => {
-            if (time === item.time) {
+            if (time === item.time && date === item.date) {
                 ids.push(item.id);
                 /*if (state == 0) {
                     state = 1;
@@ -165,7 +175,8 @@ Page({
                     allList: list
                 });
             }
-            console.log('record state : ' + state)
+            console.log('record state : ' + state);
+            that.initReport(that);
         })
     },
 

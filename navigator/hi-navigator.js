@@ -68,6 +68,6 @@ export default class HiNavigator extends CommonNavigator {
     }
 
     static navigateToReportPage({actual, forget, avatar, year, day, status}) {
-        this.navigateTo({url: `/pages/report/report?actual=${actual}&forget=${forget}&avatar=${avatar}&year=${year}&day=${day}&readStatus=${!!status}`});
+        this.navigateTo({url: `/pages/report/report?actual=${actual}&forget=${forget}&avatar=${avatar}&year=${year}&day=${day}&readStatus=${status}`});
     }
 }

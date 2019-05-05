@@ -5,7 +5,7 @@ Page({
 
     data: {},
     onLoad(options) {
-        if (!options.readStatus) {
+        if (options.readStatus == 0) {
             Protocol.postMedicalRecordUpdataWeekly();
         }
         options.num = [{
