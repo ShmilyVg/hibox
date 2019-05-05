@@ -203,18 +203,18 @@ Page({
         switch (connectState) {
             case ConnectState.CONNECTED:
                 if (!!protocolState && protocolState !== ProtocolState.UNKNOWN) {
-                    Toast.showLoading('正在设置2...');
+                    Toast.showLoading('正在设置...');
                     this.dataForBLE = DrugRuler.getConvertToBLEList({...this.data});
                     this.sendDataToBLE();
                 } else if (!this.bleConnectingAction) {
                     this.bleConnectingAction = true;
-                    Toast.showLoading('正在设置3...');
+                    Toast.showLoading('正在设置...');
                 }
                 break;
             default :
                 if (!this.bleConnectingAction) {
                     this.bleConnectingAction = true;
-                    Toast.showLoading('正在设置1...');
+                    Toast.showLoading('正在设置...');
                 }
                 break;
         }
