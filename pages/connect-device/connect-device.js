@@ -31,10 +31,19 @@ Page({
             backgroundColor: this.data.state.navigationColor,
         });
         this.flickerHandle();
-        app.getBLEManager().connect();
+        this.reConnectEvent();
         app.setBLEListener({
             bleStateListener: ({state}) => {
-                this.showResult({state: state.connectState});
+                // this.state = state;
+                console.log('扫描时打印些信息 时间戳计算间隔', Date.now() - this.startScanTimestamp, this.startScanTimestamp);
+                const bet = Date.now() - this.startScanTimestamp < this.timeout;
+                console.log('扫描时打印些信息 状态', state.connectState, '是否在重连时间内', bet, 'isHide', this.isHide);
+                if (state.connectState === ConnectState.DISCONNECT && bet && !this.isHide) {
+                    console.log('扫描时打印些信息 执行重连');
+                    app.getBLEManager().connect();
+                } else {
+                    this.showResult({state: state.connectState});
+                }
             },
             receiveDataListener: ({finalResult, state}) => {
                 if (ProtocolState.GET_CONNECTED_RESULT_SUCCESS === state.protocolState) {
@@ -51,12 +60,31 @@ Page({
         });
     },
 
-    onUnload() {
-        !this.isBind && app.getBLEManager().clearConnectedBLE();
+    onShow() {
+        this.isHide = false;
+    },
+    onHide() {
+        this.isHide = true;
+        this.startScanTimestamp = 0;
+
     },
 
+    onUnload() {
+        !this.isBind && app.getBLEManager().clearConnectedBLE().finally(() => {
+            this.startScanTimestamp = Date.now();
+        });
+    },
+
+    timeout: 30000,
+    startScanTimestamp: 0,
+
     reConnectEvent() {
-        app.getBLEManager().connect();
+        const now = Date.now();
+        if (now - this.startScanTimestamp >= this.timeout) {
+            this.startScanTimestamp = now;
+            console.log('扫描时打印些信息 开始时间戳', this.startScanTimestamp);
+            app.getBLEManager().connect();
+        }
     },
 
     getResultState({state}) {
@@ -79,7 +107,10 @@ Page({
                     connectErr: true,
                     navigationColor: '#66DABF',
                     backgroundColor: 'linear-gradient(#66DABF, #008290)',
+                    delayTime: 3000
                 };
+            case ConnectState.CONNECTED:
+                this.startScanTimestamp = 0;
             default:
                 return {
                     title: '药盒找到啦！',
@@ -108,6 +139,20 @@ Page({
 
     },
 
+    showUnAvailableResult({state}) {
+        const resultState = this.getResultState({state});
+        setTimeout(() => {
+            this.setData({
+                state: resultState,
+                showReConnected: state === ConnectState.DISCONNECT || state === ConnectState.UNAVAILABLE
+            });
+            wx.setNavigationBarColor({
+                frontColor: '#ffffff',
+                backgroundColor: this.data.state.navigationColor,
+            });
+        }, resultState.delayTime || 0);
+
+    },
     flickerHandle() {
         let num = 0;
         let timer = setInterval(() => {
@@ -121,7 +166,7 @@ Page({
         }, 1000);
     },
 
-    Showmorepopup(){
+    Showmorepopup() {
         wx.showModal({
             title: '小贴士',
             content: '前往手机【设置】->找到【微信】应用\n' +
