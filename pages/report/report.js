@@ -2,21 +2,32 @@
 import Protocol from "../../modules/network/protocol";
 
 Page({
-
     data: {},
     onLoad(options) {
-        if (options.readStatus == 0) {
-            Protocol.postMedicalRecordUpdataWeekly();
+        if ('memberId' in options) {
+            Protocol.getMedicalRecordWeekly({memberId: options.memberId}).then(data => {
+                this.handleData(data.result);
+            });
+        } else {
+            if (!options.readStatus) {
+                Protocol.postMedicalRecordUpdataWeekly();
+            }
+            this.handleData(options);
         }
-        options.num = [{
-            num: options.actual,
+    },
+
+    handleData(obj) {
+        obj.num = [{
+            num: obj.actual,
             text: '实际服用',
             color: '#30826C'
         }, {
-            num: options.forget,
+            num: obj.forget,
             text: '忘记服用',
             color: '#FF9252'
         }];
-        this.setData({...options});
-    },
+        delete obj.actual;
+        delete obj.forget;
+        this.setData({...obj});
+    }
 })

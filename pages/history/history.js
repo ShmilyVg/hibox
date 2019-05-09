@@ -30,7 +30,7 @@ Page({
     },
 
     initReport(that) {
-        Protocol.getMedicalRecordWeekly().then(data => {
+        Protocol.getMedicalRecordWeekly({}).then(data => {
             let image = that.data.reportImage;
             if (data.result && data.result.status == 1) {
                 image = '../../images/history/report.png'
@@ -185,7 +185,7 @@ Page({
     },
 
     onReachBottom() {
-        console.log('getMedicalRecordList', this.data.page + 1)
+        console.log('getMedicalRecordList', this.data.page + 1);
         this.getMedicalRecordList({page: ++this.data.page});
     },
 

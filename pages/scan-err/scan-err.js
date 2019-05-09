@@ -1,5 +1,6 @@
 // pages/scan-err/scan-err.js
 import HiNavigator from "../../navigator/hi-navigator";
+import Protocol from "../../modules/network/protocol";
 
 Page({
 
@@ -8,6 +9,7 @@ Page({
     onLoad: function (options) {
         this.data.index = options.index;
         this.data.code = options.code;
+        Protocol.getDrugCreateDrugInstruction({code: options.code}).then();
     },
 
     handAdd() {

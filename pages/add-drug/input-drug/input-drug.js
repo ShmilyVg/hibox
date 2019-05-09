@@ -13,11 +13,13 @@ Page({
         const {classify, step, count} = options;
         this.setData({classify, step, count, drugName: getApp().globalData.addOrEditDrugObj.drugName || ''});
 
-        Protocol.getDrugItems({classify}).then(data => {
-            const {result: drugs} = data;
-            const drugName = this.data.drugName;
-            this.setData({drugs: drugs.map(item => ({...item, selected: item.name === drugName}))});
-        });
+        if (classify) {
+            Protocol.getDrugItems({classify}).then(data => {
+                const {result: drugs} = data;
+                const drugName = this.data.drugName;
+                this.setData({drugs: drugs.map(item => ({...item, selected: item.name === drugName}))});
+            });
+        }
     },
 
     onShow() {
