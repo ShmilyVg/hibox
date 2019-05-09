@@ -120,7 +120,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
                         } else {
                             const device = devices.reduce((prev, cur) => prev.RSSI > cur.RSSI ? prev : cur);
                             // console.log('要连接的设备', device);
-                            if (!this._deviceId) {
+                            if (!this._deviceId && device.localName && device.localName.toUpperCase().indexOf('PB1-') !== -1) {
                                 this._updateFinalState({
                                     promise: this.createBLEConnection({deviceId: device.deviceId})
                                 });
@@ -132,12 +132,13 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
         }
     }
 
-    setBLEUpdateListener({scanBLEListener, connectionStateListener, adapterStateListener,receiveDataListener}) {
+    setBLEUpdateListener({scanBLEListener, connectionStateListener, adapterStateListener, receiveDataListener}) {
         this._scanBLDListener = scanBLEListener;
         this._connectionStateListener = connectionStateListener;
         this._adapterStateListener = adapterStateListener;
         this._receiveDataOutsideistener = receiveDataListener;
     }
+
     /**
      * 设置蓝牙行为的监听
      * @param receiveDataListener 必须设置
