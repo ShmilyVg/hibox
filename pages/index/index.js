@@ -147,7 +147,7 @@ Page({
     showOpenTip() {
         wx.showModal({
             title: 'TIPS',
-            content: '请开机手机蓝牙及网络后再进行设置',
+            content: '请开启手机蓝牙及网络后\n再进行设置',
             confirmColor: '#67D5B8',
             confirmText: '我知道了',
             showCancel: false
