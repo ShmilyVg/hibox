@@ -85,10 +85,17 @@ export default class Protocol {
     }
 
     static getDrugCreateDrugInstruction({code, imageArr}) {
-        let str = imageArr.join(',');
+        let data = {};
+        if (imageArr) {
+            // 手动上传信息
+            let str = imageArr.join(',');
+            data = {code, imageUrl: str}
+        } else {
+            data = {code}
+        }
         return Network.request({
             url: 'drug/createDrugIntia',
-            data: {code: code, imageUrl: str}
+            data: data
         })
     }
 
@@ -107,8 +114,12 @@ export default class Protocol {
         return Network.request({url: 'device/electricity', data: {electricity}});
     }
 
-    static getMedicalRecordWeekly() {
-        return Network.request({url: 'medical/record/weekly'})
+    static getMedicalRecordWeekly({memberId}) {
+        if (memberId) {
+            return Network.request({url: 'medical/record/weekly', data: {memberId}})
+        } else {
+            return Network.request({url: 'medical/record/weekly'})
+        }
     }
 
     static postMedicalRecordUpdataWeekly() {
