@@ -23,7 +23,7 @@ Page({
     },
 
     getMoney() {
-        return this.commonRequest({url:''})
+        return this.commonRequest({url: 'test/money', data: {num: 99999}});
     },
     dealRequestFailed({url, data, resolve, reject}) {
         return this.request({url, data}).then(resolve).catch((res) => {
