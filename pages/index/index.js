@@ -43,7 +43,6 @@ Page({
             }
         };
 
-
         let globalBattery = getApp().globalData.globalBattery;
         console.log('全局电量：', globalBattery);
         if (globalBattery === 1) {
