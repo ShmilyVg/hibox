@@ -7,6 +7,7 @@ import HiNavigator from "./navigator/hi-navigator";
 import {CommonConnectState, CommonProtocolState} from "heheda-bluetooth-state";
 import {Protocol as CommonProtocol} from "heheda-network";
 import {common} from "./modules/bluetooth/heheda-bluetooth/app/common";
+import {initAnalysisOnApp} from "./modules/analysis/mta";
 
 App({
     onDeviceBindInfoListener: null,
@@ -17,6 +18,7 @@ App({
     onLaunch(options) {
         let records = [], count = 0;
         this.otaVersion = -1;
+        initAnalysisOnApp();
         this.setCommonBLEListener({
             commonAppReceiveDataListener: ({finalResult, state}) => {
                 if (ProtocolState.QUERY_DATA_ING === state.protocolState) {
