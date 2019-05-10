@@ -11,6 +11,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
         super();
         this._scanBLDListener = null;
         this._bleStateListener = null;
+        this._bleSignPowerListener = null;
         this._errorTimeoutIndex = 0;
         let that = this;
         const action = function () {
@@ -118,6 +119,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
                                 });
                             }
                         } else {
+                            this._bleSignPowerListener && this._bleSignPowerListener(devices.filter(item => item.localName.toUpperCase().indexOf('PB1-') !== -1));
                             const device = devices.reduce((prev, cur) => prev.RSSI > cur.RSSI ? prev : cur);
                             // console.log('要连接的设备', device);
                             if (!this._deviceId && device.localName && device.localName.toUpperCase().indexOf('PB1-') !== -1) {
@@ -145,10 +147,11 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
      * @param bleStateListener 必须设置
      * @param scanBLEListener 不必须设置 如果没有设置该监听，则在扫描蓝牙设备后，会自动连接距离手机最近的蓝牙设备；否则，会返回扫描到的所有设备
      */
-    setBLEListener({receiveDataListener, bleStateListener, scanBLEListener}) {
+    setBLEListener({receiveDataListener, bleStateListener, scanBLEListener, bleSignPowerListener}) {
         this._receiveDataListener = receiveDataListener;
         this._bleStateListener = bleStateListener;
         this._scanBLDListener = scanBLEListener;
+        this._bleSignPowerListener = bleSignPowerListener;
     }
 
     /**
