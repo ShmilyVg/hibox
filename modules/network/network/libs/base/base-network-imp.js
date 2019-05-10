@@ -49,7 +49,7 @@ export default class BaseNetworkImp {
         for (let key in _queue) {
             if (_queue.hasOwnProperty(key)) {
                 requestObj = _queue[key];
-                requestObj.header.Cookie = `JSESSIONID=${_token}`;
+                requestObj.header = {Authorization: '+sblel%wdtkhjlu', "Cookie": `JSESSIONID=${_token}`};
                 wx.request(requestObj);
             }
         }
