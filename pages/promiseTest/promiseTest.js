@@ -13,8 +13,8 @@ Page({
     onLoad(options) {
         this.getFriends().then((res) => {
             console.log('sendOneProtocol success', res);
-        }).catch(() => {
-            console.log('sendOneProtocol fail', this.index);
+        }).catch((res) => {
+            console.log('sendOneProtocol fail', res, this.index);
         })
     },
 
@@ -22,25 +22,29 @@ Page({
         return this.commonRequest({url: 'test/friends', data: {name: '我是呵呵哒', age: 12}});
     },
 
-    dealRequestFailed({url, data}) {
-        return this.request({url, data}).catch((res) => {
+    dealRequestFailed({url, data, resolve, reject}) {
+
+        return this.request({url, data}).then(resolve).catch((res) => {
             console.log('请求失败', res);
             if (res.code === 9) {
                 return this.doLogin().finally(() => {
                     return this.dealRequestFailed({url, data});
                 });
             } else {
-                return Promise.reject();
+                console.log('返回失败结果', res);
+                return reject(res);
             }
         })
+        // });
+
     },
 
     count: 5,
-    index: 1,
+    index: 0,
 
 
     commonRequest({url, data}) {
-        return this.dealRequestFailed({url, data});
+        return new Promise((resolve, reject) => this.dealRequestFailed({url, data, resolve, reject}));
     },
 
 
@@ -50,6 +54,7 @@ Page({
                 if (++this.index < 5) {
                     reject({code: 9, url, data});
                 } else {
+                    console.log('成功了啊');
                     resolve({result: {friends: [{name: '小伙子'}], count: this.count, index: this.index}});
                 }
             }, 500);
@@ -57,9 +62,13 @@ Page({
     },
     doLogin() {
         return new Promise((resolve, reject) => {
-            console.log('开始重新登录');
+            console.log('开始重新登录', this.index);
             setTimeout(() => {
-                reject();
+                if (this.index >= 4) {
+                    resolve();
+                } else {
+                    reject();
+                }
             }, 1000);
         });
     }
