@@ -16,7 +16,6 @@ export default class Login {
                 }
             ).then(data => {
                 this._setToken({data});
-                BaseNetworkImp.resendAll();
                 resolve();
             }).catch(res => {
                 console.log('login failed', res);
@@ -46,7 +45,6 @@ export default class Login {
                 })
             }).then(data => {
                 this._setToken({data});
-                BaseNetworkImp.resendAll();
                 resolve();
             }).catch(res => {
                 console.log('register failed:', res);

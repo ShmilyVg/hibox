@@ -15,7 +15,8 @@
     "pages/drug-info/drug-info",
     "pages/upload-instruction/upload-instruction",
     "pages/use-instructions/use-instructions",
-    "pages/report/report"
+    "pages/report/report",
+    "pages/promiseTest/promiseTest"
   ],
   "tabBar": {
     "selectedColor": "#66DABF",
