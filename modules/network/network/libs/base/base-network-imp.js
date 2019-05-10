@@ -21,7 +21,7 @@ export default class BaseNetworkImp {
                     if (!!data && 1 === data.code) {
                         resolve(data);
                     } else {
-                        reject(res, requestObj);
+                        reject(res);
                     }
                 },
                 fail: (res) => {
@@ -29,7 +29,7 @@ export default class BaseNetworkImp {
                     if (res.errMsg.indexOf("No address associated") !== -1 || res.errMsg.indexOf('已断开与互联网') !== -1 || res.errMsg.indexOf('request:fail timeout') !== -1) {
                         BaseNetworkImp._dealTimeout({url, requestObj});
                     }
-                    reject(res, requestObj);
+                    reject(res);
                 },
             };
             if (!!_token || requestWithoutLogin) {
