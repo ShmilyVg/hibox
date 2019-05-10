@@ -1,3 +1,3 @@
-import {Network as CommonNetwork} from "heheda-network";
+import {Network as CommonNetwork} from "./network/index";
 
 export default CommonNetwork;

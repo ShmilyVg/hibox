@@ -1,3 +1,3 @@
-import {UserInfo} from "heheda-network";
+import {UserInfo} from "./network/index";
 
 export default UserInfo;
