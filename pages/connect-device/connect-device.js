@@ -56,8 +56,30 @@ Page({
                     }));
                     setTimeout(() => isConnected && HiNavigator.switchToIndexPage({refresh: true}));
                 }
+            },
+            bleSignPowerListener: (hiDevice) => {
+                this.setData({
+                    devices:this.bubbleSort(hiDevice)
+                })
             }
-        });
+        })
+    },
+
+    bubbleSort(numbers) {
+        console.log('未排序的数组====》',numbers);
+        let temp = 0;
+        let size = numbers.length;
+        for (let i = 0; i < size - 1; i++) {
+            for (let j = 0; j < size - 1 - i; j++) {
+                if (numbers[j].RSSI < numbers[j + 1].RSSI) {  //交换两数位置
+                    temp = numbers[j].RSSI;
+                    numbers[j].RSSI = numbers[j + 1].RSSI;
+                    numbers[j + 1].RSSI = temp;
+                }
+            }
+        }
+        console.log('========================',numbers);
+        return numbers;
     },
 
     onShow() {
