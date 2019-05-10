@@ -20,6 +20,11 @@ App({
         this.otaVersion = -1;
         initAnalysisOnApp();
         this.setCommonBLEListener({
+            commonAppSignPowerListener: (hiDevices) => {
+                console.log(hiDevices);
+                const {localName, RSSI} = hiDevices[0];
+                this.appBLESignPowerListener && this.appBLESignPowerListener(hiDevices);
+            },
             commonAppReceiveDataListener: ({finalResult, state}) => {
                 if (ProtocolState.QUERY_DATA_ING === state.protocolState) {
                     const {length, isEat, timestamp, compartment} = finalResult;
@@ -131,7 +136,7 @@ App({
             Protocol.getDeviceBindInfo().then(data => {
                 if (data.result) {
                     const {mac} = data.result;
-                    console.log('getDeviceBindInfo?mac=',mac);
+                    console.log('getDeviceBindInfo?mac=', mac);
                     this.bLEManager.setBindMarkStorage();
                     this.bLEManager.connect({macId: mac});
                     this.onDeviceBindInfoListener && this.onDeviceBindInfoListener({deviceId: mac});
