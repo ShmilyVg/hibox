@@ -16,6 +16,8 @@ export default class Login {
                 }
             ).then(data => {
                 this._setToken({data});
+                console.log('开始重发啦');
+                BaseNetworkImp.resendAll();
                 resolve();
             }).catch(res => {
                 console.log('login failed', res);
@@ -45,6 +47,7 @@ export default class Login {
                 })
             }).then(data => {
                 this._setToken({data});
+                BaseNetworkImp.resendAll();
                 resolve();
             }).catch(res => {
                 console.log('register failed:', res);
@@ -55,15 +58,11 @@ export default class Login {
     }
 
     static _wxLogin() {
-        return new Promise((resolve) =>
-            wx.login({
-                success: resolve, fail: res => {
-                    WXDialog.showDialog({title: '糟糕', content: '抱歉，目前小程序无法登录，请稍后重试'});
-                    console.log('wx login failed', res);
-                }
-            })
+        return new Promise((resolve, reject) =>
+            wxReLogin(resolve, reject)
         );
     }
+
 
     static _setToken({data: {result: {jsessionid}}}) {
         BaseNetworkImp.setToken({token: jsessionid});
@@ -73,4 +72,17 @@ export default class Login {
         });
     }
 
+}
+
+function wxReLogin(resolve, reject) {
+    wx.login({
+        success: resolve, fail: res => {
+            WXDialog.showDialog({
+                title: '糟糕', content: '抱歉，目前小程序无法登录，请稍后重试', confirmEvent: () => {
+                    wxReLogin(resolve, reject);
+                }
+            });
+            console.log('wx login failed', res);
+        }
+    })
 }

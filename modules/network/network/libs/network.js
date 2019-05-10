@@ -5,10 +5,11 @@ const count = 3;
 let reLoginIndex = 0;
 
 function dealRequestFailed({url, data, requestWithoutLogin, resolve, reject}) {
-    return BaseNetworkImp.request({url, data, requestWithoutLogin}).then(resolve).catch((errorResult) => {
+    BaseNetworkImp.request({url, data, requestWithoutLogin}).then(resolve).catch((errorResult) => {
         console.log('请求失败', errorResult);
         const {data: resultData} = errorResult;
         if (!!resultData && resultData.code === 9) {
+            BaseNetworkImp.setToken({token: ''});
             if (reLoginIndex++ < count) {
                 return Login.doLogin().then(() => {
                     reLoginIndex = 0;
@@ -25,7 +26,7 @@ function dealRequestFailed({url, data, requestWithoutLogin, resolve, reject}) {
             console.log('返回失败结果', errorResult);
             return reject(errorResult);
         }
-    })
+    });
 }
 
 export default class Network {

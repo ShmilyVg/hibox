@@ -10,7 +10,6 @@
     "heheda-bluetooth-state": "^1.0.2",
     "heheda-common-view": "^1.0.0",
     "heheda-navigator": "^1.0.0",
-    "heheda-network": "^1.1.8",
     "heheda-update": "^1.0.0",
     "mta-wechat-analysis": "^1.3.7"
   }

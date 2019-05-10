@@ -5,7 +5,7 @@ import Protocol from "./modules/network/protocol";
 import HiBoxBlueToothManager from "./modules/bluetooth/hi-box-bluetooth-manager";
 import HiNavigator from "./navigator/hi-navigator";
 import {CommonConnectState, CommonProtocolState} from "heheda-bluetooth-state";
-import {Protocol as CommonProtocol} from "heheda-network";
+import {Protocol as CommonProtocol} from "modules/network/network/index";
 import {common} from "./modules/bluetooth/heheda-bluetooth/app/common";
 import {initAnalysisOnApp} from "./modules/analysis/mta";
 

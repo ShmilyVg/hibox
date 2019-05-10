@@ -25,20 +25,27 @@ Page({
     getMoney() {
         return this.commonRequest({url: 'test/money', data: {num: 99999}});
     },
+
+    _queue: {},
+
     dealRequestFailed({url, data, resolve, reject}) {
-        return this.request({url, data}).then(resolve).catch((res) => {
-            console.log('请求失败', res);
-            if (res.code === 9) {
-                return this.doLogin().catch(res => {
-                    console.log('登录失败', res);
-                }).finally(() => {
-                    return this.dealRequestFailed({url, data, resolve, reject});
-                });
-            } else {
-                console.log('返回失败结果', res);
-                return reject(res);
-            }
-        })
+        if (!this.isLogin) {
+            this._queue[url] = {data, resolve, reject};
+        } else {
+            return this.request({url, data}).then(resolve).catch((res) => {
+                console.log('请求失败', res);
+                if (res.code === 9) {
+                    return this.doLogin().catch(res => {
+                        console.log('登录失败', res);
+                    }).finally(() => {
+                        return this.dealRequestFailed({url, data, resolve, reject});
+                    });
+                } else {
+                    console.log('返回失败结果', res);
+                    return reject(res);
+                }
+            });
+        }
     },
 
     count: 5,
@@ -64,11 +71,13 @@ Page({
             }, 500);
         })
     },
+    isLogin: false,
     doLogin() {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 console.log('开始重新登录', this.index);
                 if (this.index >= 4) {
+                    this.isLogin = true;
                     resolve();
                 } else {
                     reject();

@@ -1,7 +1,7 @@
 import {WXDialog} from "heheda-common-view";
 import {NetworkConfig} from "../config";
 
-let _token, _queue = {}, divideTimestamp = 0;
+let _token = '', _queue = {}, divideTimestamp = 0;
 export default class BaseNetworkImp {
 
     static setToken({token}) {
@@ -35,6 +35,7 @@ export default class BaseNetworkImp {
             if (!!_token || requestWithoutLogin) {
                 wx.request(requestObj);
             } else {
+                console.log('被加到里面', url, requestObj);
                 BaseNetworkImp.addProtocol({url, requestObj});
             }
         });
@@ -46,6 +47,7 @@ export default class BaseNetworkImp {
 
     static resendAll() {
         let requestObj;
+        console.log('重发', _queue);
         for (let key in _queue) {
             if (_queue.hasOwnProperty(key)) {
                 requestObj = _queue[key];
