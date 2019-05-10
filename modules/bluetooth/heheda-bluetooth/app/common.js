@@ -13,6 +13,11 @@ const obj = {
         this.bLEManager = bLEManager;
         this.appIsConnected = false;
         this.bLEManager.setBLEListener({
+            bleSignPowerListener: (hiDevices) => {
+                const {localName, RSSI} = hiDevices[0];
+
+
+            },
             receiveDataListener: ({finalResult, state}) => {
                 if (CommonProtocolState.GET_CONNECTED_RESULT_SUCCESS === state.protocolState) {
                     const {isConnected, deviceId} = finalResult;
