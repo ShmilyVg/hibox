@@ -131,6 +131,7 @@ App({
             Protocol.getDeviceBindInfo().then(data => {
                 if (data.result) {
                     const {mac} = data.result;
+                    console.log('getDeviceBindInfo?mac=',mac);
                     this.bLEManager.setBindMarkStorage();
                     this.bLEManager.connect({macId: mac});
                     this.onDeviceBindInfoListener && this.onDeviceBindInfoListener({deviceId: mac});

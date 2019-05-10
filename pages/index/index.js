@@ -36,7 +36,11 @@ Page({
         });
 
         getApp().onDeviceBindInfoListener = ({deviceId}) => {
-            deviceId && this.getBaseInfo();
+            if (deviceId) {
+                this.getBaseInfo();
+            } else {
+                HiNavigator.reLaunchToBindDevicePage();
+            }
         };
 
 
