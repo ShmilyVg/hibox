@@ -1,7 +1,7 @@
 import "heheda-update";
 import "heheda-adapter";
 
-import {Login, UserInfo, Protocol} from "heheda-network";
+import {Login, Protocol, UserInfo} from "heheda-network";
 import {CommonConnectState, CommonProtocolState} from "heheda-bluetooth-state";
 import {listener} from "./listener";
 
@@ -14,9 +14,7 @@ const obj = {
         this.appIsConnected = false;
         this.bLEManager.setBLEListener({
             bleSignPowerListener: (hiDevices) => {
-                const {localName, RSSI} = hiDevices[0];
-
-
+                this.commonAppSignPowerListener && this.commonAppSignPowerListener(hiDevices);
             },
             receiveDataListener: ({finalResult, state}) => {
                 if (CommonProtocolState.GET_CONNECTED_RESULT_SUCCESS === state.protocolState) {
@@ -90,9 +88,10 @@ const obj = {
         return this.bLEManager;
     },
 
-    setCommonBLEListener({commonAppReceiveDataListener, commonAppBLEStateListener}) {
+    setCommonBLEListener({commonAppReceiveDataListener, commonAppBLEStateListener, commonAppSignPowerListener}) {
         this.commonAppReceiveDataListener = commonAppReceiveDataListener;
         this.commonAppBLEStateListener = commonAppBLEStateListener;
+        this.commonAppSignPowerListener = commonAppSignPowerListener;
     },
 
     getLatestBLEState() {

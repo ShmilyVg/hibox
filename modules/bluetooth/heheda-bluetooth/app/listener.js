@@ -3,9 +3,10 @@ const listener = {
     appBLEStateListener: null,
     appLoginListener: null,
 
-    setBLEListener({receiveDataListener, bleStateListener}) {
+    setBLEListener({receiveDataListener, bleStateListener, bleSignPowerListener}) {
         this.appReceiveDataListener = receiveDataListener;
         this.appBLEStateListener = bleStateListener;
+        this.appBLESignPowerListener = bleSignPowerListener;
     },
 };
 
