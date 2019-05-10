@@ -72,7 +72,7 @@ Page({
         for (let i = 0; i < size - 1; i++) {
             for (let j = 0; j < size - 1 - i; j++) {
                 if (numbers[j].RSSI < numbers[j + 1].RSSI) {  //交换两数位置
-                    temp = numbers[j];
+                    temp = numbers[j].RSSI;
                     numbers[j].RSSI = numbers[j + 1].RSSI;
                     numbers[j + 1].RSSI = temp;
                 }
