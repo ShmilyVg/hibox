@@ -1,6 +1,21 @@
 import BaseNetworkImp from "./base/base-network-imp";
 import Login from "./login";
 
+function dealRequestFailed({url, data, resolve, reject}) {
+    return BaseNetworkImp.request({url, data}).then(resolve).catch((res) => {
+        console.log('请求失败', res);
+        if (res.code === 9) {
+            return Login.doLogin().catch(res => {
+                console.log('登录失败', res);
+            }).finally(() => {
+                return this.dealRequestFailed({url, data, resolve, reject});
+            });
+        } else {
+            console.log('返回失败结果', res);
+            return reject(res);
+        }
+    })
+}
 
 export default class Network {
 
