@@ -22,21 +22,23 @@ Page({
         return this.commonRequest({url: 'test/friends', data: {name: '我是呵呵哒', age: 12}});
     },
 
+    getMoney() {
+        return this.commonRequest({url:''})
+    },
     dealRequestFailed({url, data, resolve, reject}) {
-
         return this.request({url, data}).then(resolve).catch((res) => {
             console.log('请求失败', res);
             if (res.code === 9) {
-                return this.doLogin().finally(() => {
-                    return this.dealRequestFailed({url, data});
+                return this.doLogin().catch(res => {
+                    console.log('登录失败', res);
+                }).finally(() => {
+                    return this.dealRequestFailed({url, data, resolve, reject});
                 });
             } else {
                 console.log('返回失败结果', res);
                 return reject(res);
             }
         })
-        // });
-
     },
 
     count: 5,
@@ -44,7 +46,9 @@ Page({
 
 
     commonRequest({url, data}) {
-        return new Promise((resolve, reject) => this.dealRequestFailed({url, data, resolve, reject}));
+        return new Promise((resolve, reject) => {
+            this.dealRequestFailed({url, data, resolve, reject});
+        });
     },
 
 
@@ -62,8 +66,8 @@ Page({
     },
     doLogin() {
         return new Promise((resolve, reject) => {
-            console.log('开始重新登录', this.index);
             setTimeout(() => {
+                console.log('开始重新登录', this.index);
                 if (this.index >= 4) {
                     resolve();
                 } else {

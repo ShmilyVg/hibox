@@ -1,6 +1,7 @@
 import BaseNetworkImp from "./base/base-network-imp";
 import Login from "./login";
 
+
 export default class Network {
 
     static request({url, data, requestWithoutLogin = false}) {
