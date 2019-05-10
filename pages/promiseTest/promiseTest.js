@@ -11,48 +11,46 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        this.sendOneProtocol().then((res) => {
+        this.getFriends().then((res) => {
             console.log('sendOneProtocol success', res);
         }).catch(() => {
-            console.log('sendOneProtocol fail');
+            console.log('sendOneProtocol fail', this.index);
         })
     },
 
-
-    sendOneProtocol() {
-        return this.request().catch((res) => {
-            console.log(res);
-            return this.doLogin().catch(() => {
-                return this.request().catch((res) => {
-                    return this.doLogin();
-                });
-            });
-        })
+    getFriends() {
+        return this.commonRequest({url: 'test/friends', data: {name: '我是呵呵哒', age: 12}});
     },
 
-    dealRequestFailed() {
-        return this.request().catch((res) => {
+    dealRequestFailed({url, data}) {
+        return this.request({url, data}).catch((res) => {
+            console.log('请求失败', res);
             if (res.code === 9) {
-                return this.doLogin().then(() => {
-                    return this.dealRequestFailed();
-                }).catch(() => {
-                    setTimeout();
+                return this.doLogin().finally(() => {
+                    return this.dealRequestFailed({url, data});
                 });
-            }else{
-                Promise.reject();
+            } else {
+                return Promise.reject();
             }
         })
     },
 
     count: 5,
     index: 1,
-    request() {
+
+
+    commonRequest({url, data}) {
+        return this.dealRequestFailed({url, data});
+    },
+
+
+    request({url, data}) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                if (++index < 5) {
-                    reject({error: {}, url: 'test/promise', args: {name: '我是呵呵哒', age: 12}});
+                if (++this.index < 5) {
+                    reject({code: 9, url, data});
                 } else {
-                    resolve({result: {isSuccess: true, count: this.count, index: this.index}});
+                    resolve({result: {friends: [{name: '小伙子'}], count: this.count, index: this.index}});
                 }
             }, 500);
         })
