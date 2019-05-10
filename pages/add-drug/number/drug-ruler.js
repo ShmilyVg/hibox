@@ -20,7 +20,7 @@ export default class DrugRuler {
             ({compartment: parseInt(compartment) || 1, length, timeIndex, timestamp: item.timestamp,})
         ).map(item =>
             [item.compartment, item.length, item.timeIndex + 1, ...this._getTimestampMayAddZero(item.timestamp)]
-        ).reverse();
+        ).reverse().concat(DrugRuler.getConvertToBLEEmptyList({compartment}));
     }
 
     static sendAlertTimeDataToBLE({singleAlertData}) {
