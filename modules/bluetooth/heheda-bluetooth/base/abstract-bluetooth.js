@@ -20,6 +20,7 @@ export default class AbstractBlueTooth {
         this._receiveDataListener = null;
         this._startDiscoveryTimeoutIndex = 0;
         this.UUIDs = [];
+        this._isConnectBindDevice = false;
         this.hiServiceUUID = '';
         this._receiveDataOutsideistener = null;
         this._receiveDataInsideListener = ({receiveBuffer}) => {
@@ -91,6 +92,7 @@ export default class AbstractBlueTooth {
      * @returns {Promise<any>}
      */
     closeAdapter() {
+        this._isConnectBindDevice = false;
         return new Promise((resolve, reject) => {
             if (this._isOpenAdapter) {
                 this.stopBlueToothDevicesDiscovery().finally(() => this.closeBLEConnection().finally(() => {
@@ -253,7 +255,7 @@ export default class AbstractBlueTooth {
                 wx.startBluetoothDevicesDiscovery({
                     services: this.UUIDs,
                     allowDuplicatesKey: true,
-                    interval: 100,
+                    interval: 50,
                     success: () => {
                         console.log('开始扫描蓝牙设备');
                         resolve({isStartDiscovery: this._isStartDiscovery = true});

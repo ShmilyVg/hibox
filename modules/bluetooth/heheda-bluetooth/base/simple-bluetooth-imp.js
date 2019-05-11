@@ -41,7 +41,7 @@ export default class SimpleBlueToothImp {
     }
 
     startScanAndConnectDevice() {
-        BaseBlueToothImp.resetDevices();
+        this.bluetoothManager.resetDevices();
         return this.bluetoothManager.openAdapterAndConnectLatestBLE();
     }
 
@@ -54,12 +54,12 @@ export default class SimpleBlueToothImp {
      * @returns {Promise<any>}
      */
     closeAll() {
-        BaseBlueToothImp.resetDevices();
+        this.bluetoothManager.resetDevices();
         return this.bluetoothManager.closeAdapter();
     }
 
     clearConnectedBLE() {
-        BaseBlueToothImp.resetDevices();
+        this.bluetoothManager.resetDevices();
         return this.bluetoothManager.clearConnectedBLE();
     }
 

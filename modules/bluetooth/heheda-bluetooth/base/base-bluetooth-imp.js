@@ -11,7 +11,7 @@ function inArray(arr, key, val) {
     return -1;
 }
 
-const MAX_FOUND_DEIVCE = 5, _devices = [];
+const MAX_FOUND_DEIVCE = 5;
 
 /**
  * 蓝牙核心业务的封装
@@ -38,6 +38,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
                 }, 500);
             }
         };
+        this._devices = [];
         this.errorType = {
             '-1': {
                 errMsg: 'createBLEConnection:fail:already connect', type: CommonConnectState.CONNECTED,
@@ -116,33 +117,46 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
         if (!!this._scanBLDListener) {//首页重连需要清devices，按deviceId连接时，需过滤其他设备
             this._scanBLDListener(res);
         } else {
-            const foundDevices = _devices;
+            const foundDevices = this._devices;
             let isFoundNewDevice = false;
             const myBindDeviceId = this._deviceId;
-            res.devices.forEach(device => {
-                if (!device.localName || device.localName.toUpperCase().indexOf('PB1-') === -1) {
-                    return;
-                }
-                const idx = inArray(foundDevices, 'deviceId', device.deviceId);
-                const foundDevicesLength = foundDevices.length;
-                // (myBindDeviceId && myBindDeviceId === device.deviceId)
-                if (idx === -1) {
-                    if (foundDevicesLength < MAX_FOUND_DEIVCE) {
-                        console.log('新增设备到列表', device);
-                        foundDevices[foundDevicesLength] = device;
-                        isFoundNewDevice = true;
-                    } else if (myBindDeviceId && myBindDeviceId === device.deviceId) {
-                        foundDevices[foundDevicesLength] = device;
-                        isFoundNewDevice = true;
+            if (myBindDeviceId && !this._isConnectBindDevice) {
+                const devices = res.devices;
+                for (let i = 0, len = res.devices.length; i < len; i++) {
+                    const deviceId = devices[i].deviceId;
+                    if (deviceId === myBindDeviceId) {
+                        this._isConnectBindDevice = true;
+                        console.log('找到设备并开始连接', myBindDeviceId, devices[i]);
+                        this._updateFinalState({
+                            promise: this.createBLEConnection({deviceId})
+                        });
+                        break;
                     }
-                } else {
-                    foundDevices[idx] = device;
                 }
-            });
-            if (!myBindDeviceId) {//如果是扫描绑定设备，则显示信号，否则不显示信号
-                this._bleSignPowerListener && this._bleSignPowerListener(foundDevices);
+            } else if (!myBindDeviceId) {
+                res.devices.forEach(device => {
+                    if (!device.localName || device.localName.toUpperCase().indexOf('PB1-') === -1) {
+                        return;
+                    }
+                    const idx = inArray(foundDevices, 'deviceId', device.deviceId);
+                    const foundDevicesLength = foundDevices.length;
+                    // (myBindDeviceId && myBindDeviceId === device.deviceId)
+                    if (idx === -1) {
+                        console.log('新增设备到列表', device);
+                        if (foundDevicesLength < MAX_FOUND_DEIVCE) {
+                            foundDevices[foundDevicesLength] = device;
+                            isFoundNewDevice = true;
+                        }
+                    } else {
+                        console.log('更新设备列表', device);
+                        foundDevices[idx] = device;
+                    }
+                });
+                if (!myBindDeviceId) {//如果是扫描绑定设备，则显示信号，否则不显示信号
+                    this._bleSignPowerListener && this._bleSignPowerListener(foundDevices);
+                }
+                console.log('是否发现新设备', isFoundNewDevice);
             }
-            console.log('是否发现新设备', isFoundNewDevice, '要连接的设备id', myBindDeviceId);
             if (isFoundNewDevice) {
                 clearTimeout(this.deviceFindTimeoutIndex);
                 this.deviceFindTimeoutIndex = setTimeout(() => {
@@ -192,8 +206,13 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
         this._bleSignPowerListener = bleSignPowerListener;
     }
 
-    static resetDevices() {
-        _devices.splice(0, _devices.length - 1);
+    resetDevices() {
+        this._devices.splice(0, this._devices.length);
+    }
+
+    clearConnectedBLE() {
+        this.resetDevices();
+        return super.clearConnectedBLE();
     }
 
     /**
@@ -204,6 +223,8 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
      * @returns {*}
      */
     openAdapterAndConnectLatestBLE({macId} = {}) {
+        this._isConnectBindDevice = false;
+        this.resetDevices();
         !!macId && this.setDeviceMacAddress({macId});
         console.log('deviceId', this._deviceId || 'undefined', '当前是否已连接', this._isConnected);
 
@@ -224,6 +245,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
     }
 
     openAdapterAndStartBlueToothDeviceDiscovery() {
+        this.resetDevices();
         return !this._bleStateListener(this.getState({connectState: CommonConnectState.CONNECTING}))
             && this._updateFinalState({
                 promise: this.openAdapter().then(() => this.startBlueToothDevicesDiscovery())

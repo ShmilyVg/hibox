@@ -396,7 +396,6 @@ Page({
     },
 
     reSend() {
-        BaseBlueToothImp.resetDevices();
         getApp().getBLEManager().connect();
         let state = getApp().getLatestBLEState();
         if (state.connectState === ConnectState.CONNECTED) {
