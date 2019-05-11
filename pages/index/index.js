@@ -7,6 +7,7 @@ import {
     ConnectState
 } from "../../modules/bluetooth/bluetooth-state";
 import DrugRuler from "../add-drug/number/drug-ruler";
+import BaseBlueToothImp from "../../modules/bluetooth/heheda-bluetooth/base/base-bluetooth-imp";
 
 Page({
     data: {
@@ -395,6 +396,7 @@ Page({
     },
 
     reSend() {
+        BaseBlueToothImp.resetDevices();
         getApp().getBLEManager().connect();
         let state = getApp().getLatestBLEState();
         if (state.connectState === ConnectState.CONNECTED) {

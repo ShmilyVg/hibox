@@ -133,7 +133,6 @@ export default class AbstractBlueTooth {
      * @returns {Promise<any>}
      */
     createBLEConnection({deviceId}) {
-        this._deviceId = deviceId;
         return new Promise((resolve, reject) => {
                 this.stopBlueToothDevicesDiscovery().finally(() => {
                     if (!this._isConnected) {
@@ -142,11 +141,13 @@ export default class AbstractBlueTooth {
                             // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
                             deviceId,
                             timeout: 20000,
-                            success: () => this._findThatCharacteristics({deviceId}).then(() => {
-                                console.log('连接的总时间', Date.now() - this.tempTime);
+                            success: (res) => this._findThatCharacteristics({deviceId}).then(() => {
+                                console.log('蓝牙连接成功1111111', res);
+                                this._deviceId = deviceId;
                                 resolve({isConnected: this._isConnected = true});
                             }).catch(reject),
                             fail: res => {
+                                console.log('蓝牙连接失败2222222', res);
                                 this._isConnected = false;
                                 reject(res);
                             }

@@ -59,14 +59,16 @@ Page({
             },
             bleSignPowerListener: (hiDevice) => {
                 this.setData({
-                    devices:this.bubbleSort(hiDevice)
+                    devices: hiDevice.map(item => ({name: item.name, RSSI: item.RSSI})).sort(function (item1, item2) {
+                        return item2.RSSI - item1.RSSI;
+                    })
                 })
             }
         })
     },
 
     bubbleSort(numbers) {
-        console.log('未排序的数组====》',numbers);
+        // console.log('未排序的数组====》',numbers);
         let temp = 0;
         let size = numbers.length;
         for (let i = 0; i < size - 1; i++) {
@@ -78,7 +80,7 @@ Page({
                 }
             }
         }
-        console.log('========================',numbers);
+        // console.log('========================',numbers);
         return numbers;
     },
 
@@ -88,7 +90,7 @@ Page({
     onHide() {
         this.isHide = true;
         this.startScanTimestamp = 0;
-
+        HiNavigator.reLaunchToBindDevicePage();
     },
 
     onUnload() {
@@ -105,7 +107,7 @@ Page({
         if (now - this.startScanTimestamp >= this.timeout) {
             this.startScanTimestamp = now;
             console.log('扫描时打印些信息 开始时间戳', this.startScanTimestamp);
-            app.getBLEManager().connect();
+            app.getBLEManager().startScanAndConnectDevice();
         }
     },
 
