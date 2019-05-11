@@ -253,6 +253,7 @@ export default class AbstractBlueTooth {
                 wx.startBluetoothDevicesDiscovery({
                     services: this.UUIDs,
                     allowDuplicatesKey: true,
+                    interval: 100,
                     success: () => {
                         console.log('开始扫描蓝牙设备');
                         resolve({isStartDiscovery: this._isStartDiscovery = true});

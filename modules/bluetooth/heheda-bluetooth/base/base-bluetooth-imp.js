@@ -125,9 +125,16 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
                 }
                 const idx = inArray(foundDevices, 'deviceId', device.deviceId);
                 const foundDevicesLength = foundDevices.length;
-                if (idx === -1 && foundDevicesLength < MAX_FOUND_DEIVCE) {
-                    foundDevices[foundDevicesLength] = device;
-                    isFoundNewDevice = true;
+                // (myBindDeviceId && myBindDeviceId === device.deviceId)
+                if (idx === -1) {
+                    if (foundDevicesLength < MAX_FOUND_DEIVCE) {
+                        console.log('新增设备到列表', device);
+                        foundDevices[foundDevicesLength] = device;
+                        isFoundNewDevice = true;
+                    } else if (myBindDeviceId && myBindDeviceId === device.deviceId) {
+                        foundDevices[foundDevicesLength] = device;
+                        isFoundNewDevice = true;
+                    }
                 } else {
                     foundDevices[idx] = device;
                 }
@@ -186,7 +193,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
     }
 
     static resetDevices() {
-        _devices.splice(0, _devices.length);
+        _devices.splice(0, _devices.length - 1);
     }
 
     /**
