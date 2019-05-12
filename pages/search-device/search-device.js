@@ -29,7 +29,11 @@ Page({
             }
         });
     },
-
+    onHide() {
+        clearInterval(this.timer);
+        this.isFind = false;
+    },
+    timer: 0,
     startSearch() {
         if (this.data.isSearching) {
             return;
@@ -40,7 +44,7 @@ Page({
                 isSearching: true
             });
             getApp().getBLEManager().sendFindDeviceProtocol()
-            let timer = setInterval(() => {
+            this.timer = setInterval(() => {
                 this.setData({
                     num: --this.data.num
                 });
@@ -49,7 +53,7 @@ Page({
                         num: 10,
                         isSearching: false
                     });
-                    clearInterval(timer);
+                    clearInterval(this.timer);
                     this.isFind = false;
                 }
             }, 1000);
