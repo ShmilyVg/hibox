@@ -30,6 +30,13 @@ Page({
         });
     },
     onHide() {
+        this.clearFindDevice();
+    },
+    clearFindDevice() {
+        this.setData({
+            num: 10,
+            isSearching: false
+        });
         clearInterval(this.timer);
         this.isFind = false;
     },
@@ -49,12 +56,7 @@ Page({
                     num: --this.data.num
                 });
                 if (this.data.num <= 0 || this.isFind) {
-                    this.setData({
-                        num: 10,
-                        isSearching: false
-                    });
-                    clearInterval(this.timer);
-                    this.isFind = false;
+                    this.clearFindDevice();
                 }
             }, 1000);
         } else {
