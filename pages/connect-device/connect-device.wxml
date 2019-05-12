@@ -11,6 +11,7 @@
     <image wx:else src="../../images/device-whole.png" style="width: 346rpx;height: 746rpx;margin-top: 70rpx;position: relative;margin-left: 200rpx">
         <image wx:if="{{isFlicker}}" src="../../images/device-flicker.png" class="flicker"></image>
     </image>
+    <view class="version-text" style="text-align: center;margin-top: 0;">Version {{SoftwareVersion}}</view>
     <view wx:if="{{devices.length && !state.findBox}}" class="flex-column" style="margin-left: 40rpx;width: 670rpx;align-items: flex-start">
         <view style="color: #AAAAAA;font-size:40rpx">附近的设备</view>
         <block wx:for="{{devices}}">

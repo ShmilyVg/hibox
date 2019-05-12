@@ -1,6 +1,7 @@
 // pages/connect-device/connect-device.js
 import HiNavigator from "../../navigator/hi-navigator";
 import {ConnectState, ProtocolState} from "../../modules/bluetooth/bluetooth-state";
+import {SoftwareVersion} from "../../utils/config";
 
 const app = getApp();
 
@@ -30,7 +31,8 @@ Page({
             '药盒离手机太远',
             '未在药盒上短按按键确认'
         ],
-        devices: []
+        devices: [],
+        SoftwareVersion
     },
 
     isBind: false,

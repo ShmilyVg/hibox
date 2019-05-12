@@ -5,12 +5,14 @@ import {ConnectState, ProtocolState} from "../../modules/bluetooth/bluetooth-sta
 import Toast from "../../view/toast";
 import DrugRuler from "../add-drug/number/drug-ruler";
 import {WXDialog} from "heheda-common-view";
+import {SoftwareVersion} from "../../utils/config";
 
 Page({
 
     data: {
         num: 10,
-        isSearching: false
+        isSearching: false,
+        SoftwareVersion: SoftwareVersion
     },
     isFind: false,
     onLoad: function (options) {
