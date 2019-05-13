@@ -111,7 +111,10 @@ Page({
                                     HiNavigator.reLaunchToBindDevicePage({});
                                 });
                             }
-                        }).catch(Toast.hiddenLoading);
+                        }).catch(()=>{
+                            Toast.hiddenLoading();
+                            WXDialog.showDialog({content: '解绑失败，请重试'});
+                        });
                     }
                 }).catch(() => {
                     if (!error) {
