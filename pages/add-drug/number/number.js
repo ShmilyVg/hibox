@@ -185,7 +185,9 @@ Page({
     getPieceArray(length) {
         const array = [];
         for (let i = 0; i < length; i++) {
+            array.push(i + 0.25);
             array.push(i + 0.5);
+            array.push(i + 0.75);
         }
         return array.concat(this.getArray(length)).sort((item1, item2) => item1 - item2).map((item, index) => ({
             key: index,

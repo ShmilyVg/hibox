@@ -1,7 +1,7 @@
 import "heheda-update";
 import "heheda-adapter";
 
-import {Login, Protocol, UserInfo} from "heheda-network";
+import {Login, Protocol, UserInfo} from "../../../network/network/index";
 import {CommonConnectState, CommonProtocolState} from "heheda-bluetooth-state";
 import {listener} from "./listener";
 

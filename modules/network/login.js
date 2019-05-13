@@ -1,3 +1,3 @@
-import {Login as CommonLogin} from "heheda-network";
+import {Login as CommonLogin} from "./network/index";
 
 export default CommonLogin;
