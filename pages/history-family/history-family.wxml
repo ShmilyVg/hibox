@@ -1,0 +1,22 @@
+<!--pages/history-family/history-family.wxml-->
+<import src="../index/view/medicine-view.wxml"></import>
+
+<view class="history-content" wx:if="{{allList.length}}">
+    <view class="history-box flex-column" wx:for="{{allList}}" wx:key="id">
+        <view class="history-headbox" wx:if="{{item.isShowTime}}">
+            <view>
+                <view class="history-data">{{item.date}}</view>
+                <view class="history-time">{{item.time}}</view>
+            </view>
+            <view class="history-state">
+                <view class="history-state-box {{item.state?'took':'notake'}}" data-index="{{index}}">
+                    <image src="{{item.state?'../../images/history/done.png':'../../images/history/nodone.png'}}"></image>{{item.state?'已服用':'未服用'}}
+                </view>
+            </view>
+        </view>
+        <template is="medicine-view" data="{{num:1,index,item,boxColor,backgroundColor:'#fff',showImage:false}}"></template>
+    </view>
+</view>
+
+<view wx:else class="history-none">暂无服药记录</view>
+

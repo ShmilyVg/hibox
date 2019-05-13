@@ -1,0 +1,84 @@
+/* pages/history-family/history-family.wxss */
+
+page{
+    background: #67D5B8;
+}
+.history-content{
+    width: 100%;
+    height: 100%;
+}
+.history-hint{
+    width: 710rpx;
+    height: 79rpx;
+    color: #fff;
+    font-size: 30rpx;
+    line-height: 79rpx;
+    padding-left: 40rpx;
+    background: rgba(0,0,0,0.3);
+}
+
+.history-box{
+    margin: 10rpx auto 0;
+}
+.history-headbox{
+    width:690rpx;
+    padding:0 30rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 26rpx;
+    margin-top:60rpx;
+}
+.history-data{
+    font-size: 30rpx;
+    color: #fff;
+    margin-bottom: 4rpx;
+}
+.history-time{
+    font-size: 60rpx;
+    color: #fff;
+    line-height: 60rpx;
+}
+.history-state{
+    display: flex;
+}
+.history-state-box{
+    width: 168rpx;
+    height: 66rpx;
+    background: #fff;
+    border-radius: 35rpx;
+    margin-right: 15rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28rpx;
+}
+.history-state-box image{
+    width: 36rpx;
+    height: 36rpx;
+    margin-right: 5rpx;
+}
+.took{
+    color: #66DABF;
+}
+.notake{
+    color: #FF8000;
+}
+
+
+.history-none{
+    font-size: 32rpx;
+    color: #fff;
+    width: 100%;
+    height: 35rpx;
+    text-align: center;
+    position: absolute;
+    top: 40%;
+    left: 0;
+}
+
+.report-image{
+    width:690rpx;
+    height:130rpx;
+    margin: 30rpx 30rpx 0rpx;
+}

@@ -1,7 +1,7 @@
 <!--pages/report/report.wxml-->
 <view class="flex-column">
     <image class="green-image" src="../../images/report/green.png"></image>
-    <image class="green-image" src="../../images/report/green.png" style="top: 1054rpx"></image>
+    <image class="green-image" src="../../images/report/green.png" style="top: {{memberId?1124:1054}}rpx"></image>
     <view class="top-view">
         <image class="top-view-avatar" src="{{avatar}}"></image>
         <!--<view class="top-view-text">{{text}}</view>-->
@@ -21,14 +21,14 @@
         <view class="middle-view-line"></view>
         <view class="middle-view-circular-right"></view>
     </view>
-    <view class="bottom-view">
-        <view style="width:50rpx;height:7rpx;background:rgba(103,213,184,1);margin-top: 106rpx"></view>
-        <view style="margin-top: 14rpx">
-            <view class="bottom-view-text">{{year}}</view>
-            <view class="bottom-view-text" style="font-size:38rpx;line-height: 38rpx">{{day}}</view>
+    <view class="bottom-view" style="height: {{memberId?429:359}}rpx">
+        <view style="width:50rpx;height:7rpx;background:rgba(103,213,184,1);margin-top: 50rpx"></view>
+        <view style="margin-top: 9rpx">
+            <!--<view class="bottom-view-text">{{year}}</view>-->
+            <view class="bottom-view-text" style="font-size:36rpx;line-height: 38rpx">{{day}}</view>
         </view>
+        <view wx:if="{{memberId}}" class="report" bindtap="toHistory">查看详细服药记录</view>
     </view>
-    <view class="bottom-text">HiPee智能药盒</view>
 </view>
 
 <image class="top-image" src="../../images/report/top-image.png"></image>

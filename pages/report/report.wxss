@@ -70,7 +70,7 @@ page {
 }
 
 .bottom-view{
-    height: 359rpx;
+    height: 429rpx;
     width: 555rpx;
     background-color: white;
     padding-left: 53rpx;
@@ -79,7 +79,9 @@ page {
 .bottom-view-text {
     font-size:31rpx;
     color: #30826C;
-    margin-top: 14rpx;line-height: 31rpx
+    margin-top: 14rpx;
+    line-height: 65rpx;
+    font-weight:600;
 }
 
 .bottom-text{
@@ -99,9 +101,21 @@ page {
 }
 
 .bottom-image {
-    width: 290rpx;
-    height: 300rpx;
+    width: 220rpx;
+    height: 252rpx;
     position: absolute;
     right: 0;
     top: 740rpx;
+}
+
+.report {
+    width:508rpx;
+    height:90rpx;
+    background:rgba(103,213,184,1);
+    border-radius:45rpx;
+    margin-top: 120rpx;
+    font-size: 28rpx;
+    color: white;
+    text-align: center;
+    line-height: 90rpx;
 }

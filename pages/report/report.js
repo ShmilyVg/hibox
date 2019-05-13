@@ -5,12 +5,15 @@ Page({
     data: {},
     onLoad(options) {
         if ('memberId' in options) {
+            this.setData({
+                memberId: options.memberId
+            })
             Protocol.getMedicalRecordWeekly({memberId: options.memberId}).then(data => {
                 this.handleData(data.result);
             });
         } else {
             // if (!options.readStatus) {
-                Protocol.postMedicalRecordUpdataWeekly();
+            Protocol.postMedicalRecordUpdataWeekly();
             // }
             this.handleData(options);
         }
@@ -29,5 +32,11 @@ Page({
         delete obj.actual;
         delete obj.forget;
         this.setData({...obj});
+    },
+
+    toHistory() {
+        wx.navigateTo({
+            url: '../history-family/history-family?memberId=' + this.data.memberId
+        })
     }
 })

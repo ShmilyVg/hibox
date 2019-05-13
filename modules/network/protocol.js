@@ -26,8 +26,12 @@ export default class Protocol {
         return Network.request({url: "medical/remind/info"});
     }
 
-    static MedicalRecordList({page, page_size = 15}) {
-        return Network.request({url: "medical/record/list", data: {page, page_size}});
+    static MedicalRecordList({page, page_size = 15, memberId}) {
+        if (memberId) {
+            return Network.request({url: "medical/record/list", data: {page, page_size, memberId}});
+        } else {
+            return Network.request({url: "medical/record/list", data: {page, page_size}});
+        }
     }
 
     static MedicalRecordUpdate({ids, state}) {
