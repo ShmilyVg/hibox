@@ -2,6 +2,17 @@ import AbstractBlueTooth from "./abstract-bluetooth";
 import {CommonConnectState} from "heheda-bluetooth-state";
 import {ErrorState} from "../utils/error-state";
 
+function inArray(arr, key, val) {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i][key] === val) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+const MAX_FOUND_DEIVCE = 5;
+
 /**
  * 蓝牙核心业务的封装
  */
@@ -27,6 +38,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
                 }, 500);
             }
         };
+        this._devices = [];
         this.errorType = {
             '-1': {
                 errMsg: 'createBLEConnection:fail:already connect', type: CommonConnectState.CONNECTED,
@@ -99,38 +111,78 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
         });
     }
 
+
     baseDeviceFindAction(res) {
-        console.log('开始扫描');
-        if (!!this._scanBLDListener) {
+        // console.log('开始扫描');
+        if (!!this._scanBLDListener) {//首页重连需要清devices，按deviceId连接时，需过滤其他设备
             this._scanBLDListener(res);
         } else {
-            clearTimeout(this.deviceFindTimeoutIndex);
-            this.deviceFindTimeoutIndex = setTimeout(() => {
-                super.getBlueToothDevices().then(res => {
-                    const {devices} = res;
-                    // console.log('发现新的蓝牙设备', devices);
+            const foundDevices = this._devices;
+            let isFoundNewDevice = false;
+            const myBindDeviceId = this._deviceId;
+            if (myBindDeviceId && !this._isConnectBindDevice) {
+                const devices = res.devices;
+                for (let i = 0, len = res.devices.length; i < len; i++) {
+                    const deviceId = devices[i].deviceId;
+                    if (deviceId === myBindDeviceId) {
+                        this._isConnectBindDevice = true;
+                        console.log('找到设备并开始连接', myBindDeviceId, devices[i]);
+                        this._updateFinalState({
+                            promise: this.createBLEConnection({deviceId})
+                        });
+                        break;
+                    }
+                }
+            } else if (!myBindDeviceId) {
+                res.devices.forEach(device => {
+                    if (!device.localName || device.localName.toUpperCase().indexOf('PB1-') === -1) {
+                        return;
+                    }
+                    const idx = inArray(foundDevices, 'deviceId', device.deviceId);
+                    const foundDevicesLength = foundDevices.length;
+                    // (myBindDeviceId && myBindDeviceId === device.deviceId)
+                    if (idx === -1) {
+                        console.log('新增设备到列表', device);
+                        if (foundDevicesLength < MAX_FOUND_DEIVCE) {
+                            foundDevices[foundDevicesLength] = device;
+                            isFoundNewDevice = true;
+                        }
+                    } else {
+                        console.log('更新设备列表', device);
+                        foundDevices[idx] = device;
+                    }
+                });
+                if (!myBindDeviceId) {//如果是扫描绑定设备，则显示信号，否则不显示信号
+                    this._bleSignPowerListener && this._bleSignPowerListener(foundDevices);
+                }
+                console.log('是否发现新设备', isFoundNewDevice);
+            }
+            if (isFoundNewDevice) {
+                clearTimeout(this.deviceFindTimeoutIndex);
+                this.deviceFindTimeoutIndex = setTimeout(() => {
+                    const devices = foundDevices;
+                    console.log('本次清算的蓝牙设备列表', devices);
                     if (devices.length > 0) {
-                        if (!!this._deviceId) {
-                            const deviceBind = devices.filter(item => this._deviceId === item.deviceId);
-                            console.log('找到设备', this._deviceId, deviceBind);
+                        if (!!myBindDeviceId) {
+                            const deviceBind = devices.filter(item => myBindDeviceId === item.deviceId);
+                            console.log('找到设备', myBindDeviceId, deviceBind);
                             if (!!deviceBind.length) {
                                 this._updateFinalState({
                                     promise: this.createBLEConnection({deviceId: deviceBind[0].deviceId})
                                 });
                             }
                         } else {
-                            this._bleSignPowerListener && this._bleSignPowerListener(devices.filter(item => item.localName.toUpperCase().indexOf('PB1-') !== -1));
                             const device = devices.reduce((prev, cur) => prev.RSSI > cur.RSSI ? prev : cur);
-                            // console.log('要连接的设备', device);
-                            if (!this._deviceId && device.localName && device.localName.toUpperCase().indexOf('PB1-') !== -1) {
+                            console.log('要连接的设备', device);
+                            if (!myBindDeviceId) {
                                 this._updateFinalState({
                                     promise: this.createBLEConnection({deviceId: device.deviceId})
                                 });
                             }
                         }
                     }
-                }).catch();
-            }, 200);
+                }, myBindDeviceId ? 200 : 1000);
+            }
         }
     }
 
@@ -154,6 +206,15 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
         this._bleSignPowerListener = bleSignPowerListener;
     }
 
+    resetDevices() {
+        this._devices.splice(0, this._devices.length);
+    }
+
+    clearConnectedBLE() {
+        this.resetDevices();
+        return super.clearConnectedBLE();
+    }
+
     /**
      * 打开蓝牙适配器并扫描蓝牙设备，或是试图连接上一次的蓝牙设备
      * 通过判断this._deviceId来确定是否为首次连接。
@@ -162,6 +223,8 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
      * @returns {*}
      */
     openAdapterAndConnectLatestBLE({macId} = {}) {
+        this._isConnectBindDevice = false;
+        this.resetDevices();
         !!macId && this.setDeviceMacAddress({macId});
         console.log('deviceId', this._deviceId || 'undefined', '当前是否已连接', this._isConnected);
 
@@ -182,6 +245,7 @@ export default class BaseBlueToothImp extends AbstractBlueTooth {
     }
 
     openAdapterAndStartBlueToothDeviceDiscovery() {
+        this.resetDevices();
         return !this._bleStateListener(this.getState({connectState: CommonConnectState.CONNECTING}))
             && this._updateFinalState({
                 promise: this.openAdapter().then(() => this.startBlueToothDevicesDiscovery())

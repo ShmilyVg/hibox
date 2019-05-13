@@ -1,8 +1,18 @@
 // pages/connect-device/connect-device.js
 import HiNavigator from "../../navigator/hi-navigator";
 import {ConnectState, ProtocolState} from "../../modules/bluetooth/bluetooth-state";
+import {SoftwareVersion} from "../../utils/config";
 
 const app = getApp();
+
+function inArray(arr, key, val) {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i][key] === val) {
+            return i;
+        }
+    }
+    return -1;
+}
 
 Page({
 
@@ -20,7 +30,9 @@ Page({
             '手机未授权微信获取定位权限',
             '药盒离手机太远',
             '未在药盒上短按按键确认'
-        ]
+        ],
+        devices: [],
+        SoftwareVersion
     },
 
     isBind: false,
@@ -32,6 +44,7 @@ Page({
         });
         this.flickerHandle();
         this.reConnectEvent();
+        const scanHiDevice = this.data.devices;
         app.setBLEListener({
             bleStateListener: ({state}) => {
                 // this.state = state;
@@ -40,7 +53,7 @@ Page({
                 console.log('扫描时打印些信息 状态', state.connectState, '是否在重连时间内', bet, 'isHide', this.isHide);
                 if (state.connectState === ConnectState.DISCONNECT && bet && !this.isHide) {
                     console.log('扫描时打印些信息 执行重连');
-                    app.getBLEManager().connect();
+                    app.getBLEManager().startScanAndConnectDevice();
                 } else {
                     this.showResult({state: state.connectState});
                 }
@@ -58,28 +71,22 @@ Page({
                 }
             },
             bleSignPowerListener: (hiDevice) => {
+                hiDevice.forEach(device => {
+                    const idx = inArray(scanHiDevice, 'deviceId', device.deviceId);
+                    if (idx === -1) {
+                        scanHiDevice[scanHiDevice.length] = device;
+                    } else {
+                        scanHiDevice[idx] = device;
+                    }
+                });
+
                 this.setData({
-                    devices:this.bubbleSort(hiDevice)
-                })
+                    devices: hiDevice.map(item => ({name: item.name, RSSI: item.RSSI})).sort(function (item1, item2) {
+                        return item2.RSSI - item1.RSSI;
+                    })
+                });
             }
         })
-    },
-
-    bubbleSort(numbers) {
-        console.log('未排序的数组====》',numbers);
-        let temp = 0;
-        let size = numbers.length;
-        for (let i = 0; i < size - 1; i++) {
-            for (let j = 0; j < size - 1 - i; j++) {
-                if (numbers[j].RSSI < numbers[j + 1].RSSI) {  //交换两数位置
-                    temp = numbers[j].RSSI;
-                    numbers[j].RSSI = numbers[j + 1].RSSI;
-                    numbers[j + 1].RSSI = temp;
-                }
-            }
-        }
-        console.log('========================',numbers);
-        return numbers;
     },
 
     onShow() {
@@ -88,7 +95,7 @@ Page({
     onHide() {
         this.isHide = true;
         this.startScanTimestamp = 0;
-
+        HiNavigator.reLaunchToBindDevicePage();
     },
 
     onUnload() {
@@ -105,7 +112,7 @@ Page({
         if (now - this.startScanTimestamp >= this.timeout) {
             this.startScanTimestamp = now;
             console.log('扫描时打印些信息 开始时间戳', this.startScanTimestamp);
-            app.getBLEManager().connect();
+            app.getBLEManager().startScanAndConnectDevice();
         }
     },
 

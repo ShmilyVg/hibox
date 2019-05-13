@@ -59,7 +59,12 @@ export default class HiNavigator extends CommonNavigator {
     }
 
     static reLaunchToBindDevicePage() {
-        this.reLaunch({url: '/pages/bind-device/bind-device'})
+        const pages = getCurrentPages();
+        let currentPagePath = '',len = pages.length;
+        if (len) {
+            currentPagePath = pages[len - 1].route;
+        }
+        currentPagePath !== 'pages/bind-device/bind-device' && this.reLaunch({url: '/pages/bind-device/bind-device'});
     }
 
     static relaunchToUpdatePage({binUrl, datUrl}) {

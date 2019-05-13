@@ -5,12 +5,14 @@ import {ConnectState, ProtocolState} from "../../modules/bluetooth/bluetooth-sta
 import Toast from "../../view/toast";
 import DrugRuler from "../add-drug/number/drug-ruler";
 import {WXDialog} from "heheda-common-view";
+import {SoftwareVersion} from "../../utils/config";
 
 Page({
 
     data: {
         num: 10,
-        isSearching: false
+        isSearching: false,
+        SoftwareVersion: SoftwareVersion
     },
     isFind: false,
     onLoad: function (options) {
@@ -27,7 +29,18 @@ Page({
             }
         });
     },
-
+    onHide() {
+        this.clearFindDevice();
+    },
+    clearFindDevice() {
+        this.setData({
+            num: 10,
+            isSearching: false
+        });
+        clearInterval(this.timer);
+        this.isFind = false;
+    },
+    timer: 0,
     startSearch() {
         if (this.data.isSearching) {
             return;
@@ -38,17 +51,12 @@ Page({
                 isSearching: true
             });
             getApp().getBLEManager().sendFindDeviceProtocol()
-            let timer = setInterval(() => {
+            this.timer = setInterval(() => {
                 this.setData({
                     num: --this.data.num
                 });
                 if (this.data.num <= 0 || this.isFind) {
-                    this.setData({
-                        num: 10,
-                        isSearching: false
-                    });
-                    clearInterval(timer);
-                    this.isFind = false;
+                    this.clearFindDevice();
                 }
             }, 1000);
         } else {

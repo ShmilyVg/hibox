@@ -21,8 +21,6 @@ App({
         initAnalysisOnApp();
         this.setCommonBLEListener({
             commonAppSignPowerListener: (hiDevices) => {
-                console.log(hiDevices);
-                const {localName, RSSI} = hiDevices[0];
                 this.appBLESignPowerListener && this.appBLESignPowerListener(hiDevices);
             },
             commonAppReceiveDataListener: ({finalResult, state}) => {

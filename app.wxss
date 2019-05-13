@@ -61,6 +61,15 @@ text,div{
   font-weight: 500;
   line-height: 45rpx;
 }
+
+.version-text{
+  font-size:30rpx;
+  font-weight:400;
+  color:rgba(255,255,255,1);
+  margin-top: 40rpx;
+  opacity: 0.4;
+}
+
 /*外部字体*/
 @font-face {
   font-family: 'DIN Condensed';

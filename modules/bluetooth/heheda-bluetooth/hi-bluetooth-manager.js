@@ -82,7 +82,6 @@ export default class HiBlueToothManager extends SimpleBlueToothImp {
         clearTimeout(this.startProtocolTimeoutIndex);
         console.log('startProtocol');
         this.startProtocolTimeoutIndex = setTimeout(() => {
-            console.log('startProtocol setTimeout');
             this.getBindMarkStorage() ? this.bluetoothProtocol.startCommunication() : this.bluetoothProtocol.requireDeviceBind();
         }, 2000);
     }
