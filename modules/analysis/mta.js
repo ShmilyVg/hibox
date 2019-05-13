@@ -1,4 +1,4 @@
-import mta from "./mta_analysis";
+import * as mta from "./mta_analysis";
 
 export function initAnalysisOnApp() {
     mta.App.init({
