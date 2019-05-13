@@ -6,14 +6,6 @@
     margin-top: 137rpx;
 }
 
-.device-text{
-    font-size:20rpx;
-    font-weight:400;
-    color:rgba(255,255,255,1);
-    margin-top: 40rpx;
-    opacity: 0.4;
-}
-
 .btn{
     position: fixed;
     bottom: 82rpx;
