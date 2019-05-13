@@ -1,7 +1,7 @@
 import {CommonProtocolState} from "heheda-bluetooth-state";
 import {HexTools} from "./utils/tools";
 import {ProtocolBody} from "./utils/protocol";
-import {BlueToothUpdate} from "heheda-network";
+import {BlueToothUpdate} from "../../network/network/index";
 
 const commandIndex = 2, dataStartIndex = 3;
 
