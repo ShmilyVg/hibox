@@ -1,4 +1,4 @@
-import * as mta from "mta-wechat-analysis";
+import * as mta from "./mta_analysis";
 
 export function initAnalysisOnApp() {
     mta.App.init({
@@ -12,4 +12,3 @@ export function initAnalysisOnApp() {
         "statReachBottom": true
     });
 }
-
