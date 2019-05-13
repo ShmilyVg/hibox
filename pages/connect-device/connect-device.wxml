@@ -20,7 +20,7 @@
                     <view style="width:14rpx;height:14rpx;background:rgba(103,213,184,1);border-radius: 50%;margin-left: 10rpx;margin-right: 20rpx"></view>
                     <view style="font-size:30rpx;color: #AAAAAA">{{item.name}}</view>
                 </view>
-                <view style="font-size:30rpx;color: #AAAAAA">{{item.RSSI}}(dbm)</view>
+                <view style="font-size:30rpx;color: #AAAAAA">信号强度 {{item.RSSI}}(dbm)</view>
             </view>
             <view style="width:100%;height:1rpx;background-color: #5F5F5F;margin-top: 20rpx;margin-bottom: 20rpx"></view>
         </block>
