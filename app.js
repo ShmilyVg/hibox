@@ -129,6 +129,7 @@ App({
         });
     },
     onShow(options) {
+        let showOtherPeopleReport =  options.path === "pages/report/report";
         if (!this.isOTAUpdate) {
             this.commonOnShow({options});
             Protocol.getDeviceBindInfo().then(data => {
@@ -140,7 +141,9 @@ App({
                     this.onDeviceBindInfoListener && this.onDeviceBindInfoListener({deviceId: mac});
                 } else {
                     this.bLEManager.clearConnectedBLE();
-                    HiNavigator.reLaunchToBindDevicePage();
+                    if (!showOtherPeopleReport) {
+                        HiNavigator.reLaunchToBindDevicePage();
+                    }
                 }
             })
         }

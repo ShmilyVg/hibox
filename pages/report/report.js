@@ -9,9 +9,9 @@ Page({
                 this.handleData(data.result);
             });
         } else {
-            if (!options.readStatus) {
+            // if (!options.readStatus) {
                 Protocol.postMedicalRecordUpdataWeekly();
-            }
+            // }
             this.handleData(options);
         }
     },
