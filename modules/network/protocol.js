@@ -127,6 +127,7 @@ export default class Protocol {
     }
 
     static postSystemInfo({systemInfo}) {
-        return Network.request({url: 'medical/system/info', data: {systemInfo}});
+        return Promise.resolve();
+        // return Network.request({url: 'medical/system/info', data: {systemInfo}});
     }
 }
