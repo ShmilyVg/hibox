@@ -114,6 +114,11 @@ App({
         this.commonOnLaunch({options, bLEManager: new HiBoxBlueToothManager()});
 
         this.appLoginListener = ({loginState}) => {
+            wx.getSystemInfo({
+                success: systemInfo => {
+                    Protocol.postSystemInfo({systemInfo});
+                }
+            });
             if (loginState === this.NOT_REGISTER) {
                 this.bLEManager.clearConnectedBLE();
                 HiNavigator.reLaunchToBindDevicePage();
